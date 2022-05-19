@@ -25,7 +25,7 @@ $(document).on('click', '.whatsapp-chat', function(e){
 
     QB.Phone.Functions.SetupChatMessages(ChatData);
 
-    $.post('https://5life-phone/ClearAlerts', JSON.stringify({
+    $.post('https://qb-phone/ClearAlerts', JSON.stringify({
         number: ChatData.number
     }));
 
@@ -55,7 +55,7 @@ $(document).on('click', '.whatsapp-chat', function(e){
 
 $(document).on('click', '#whatsapp-openedchat-back', function(e){
     e.preventDefault();
-    $.post('https://5life-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
+    $.post('https://qb-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
         QB.Phone.Functions.LoadWhatsappChats(chats);
     });
     OpenedChatData.number = null;
@@ -181,7 +181,7 @@ $(document).on('click', '#whatsapp-save-note-for-doc', function(e){
     var Number = $(".whatsapp-input-number").val();
 
     if ((Message &&Number ) != ""){
-        $.post('https://5life-phone/SendMessage', JSON.stringify({
+        $.post('https://qb-phone/SendMessage', JSON.stringify({
             ChatNumber: Number,
             ChatDate: GetCurrentDateKey(),
             ChatMessage: Message,
@@ -192,7 +192,7 @@ $(document).on('click', '#whatsapp-save-note-for-doc', function(e){
         $(".whatsapp-input-message").val("");
         $(".whatsapp-input-number").val("");
         $('#whatsapp-box-new-add-new').fadeOut(350);
-        $.post('https://5life-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
+        $.post('https://qb-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
             QB.Phone.Functions.LoadWhatsappChats(chats);
         });
     } else {
@@ -205,7 +205,7 @@ $(document).on('click', '#whatsapp-openedchat-send', function(e){
     var Message = $("#whatsapp-openedchat-message").val();
 
     if (Message !== null && Message !== undefined && Message !== "") {
-        $.post('https://5life-phone/SendMessage', JSON.stringify({
+        $.post('https://qb-phone/SendMessage', JSON.stringify({
             ChatNumber: OpenedChatData.number,
             ChatDate: GetCurrentDateKey(),
             ChatMessage: Message,
@@ -228,7 +228,7 @@ $(document).on('click', '#whatsapp-openedchat-call', function(e){
             number: InputNum,
             name: InputNum,
         }
-        $.post('https://5life-phone/CallContact', JSON.stringify({
+        $.post('https://qb-phone/CallContact', JSON.stringify({
             ContactData: cData,
             Anonymous: QB.Phone.Data.AnonymousCall,
         }), function(status){
@@ -275,7 +275,7 @@ $(document).on('click', '#whatsapp-openedchat-call', function(e){
 $(document).on('click', '#send-location', function(e){
     e.preventDefault();
     $('#whatsapp-openedchat-message-extras').click();
-    $.post('https://5life-phone/SendMessage', JSON.stringify({
+    $.post('https://qb-phone/SendMessage', JSON.stringify({
         ChatNumber: OpenedChatData.number,
         ChatDate: GetCurrentDateKey(),
         ChatMessage: "Shared location",
@@ -288,9 +288,9 @@ $(document).on('click', '#send-image', function(e){
     e.preventDefault();
     $('#whatsapp-openedchat-message-extras').click();
     let ChatNumber2 = OpenedChatData.number;
-    $.post('https://5life-phone/TakePhoto', JSON.stringify({}),function(url){
+    $.post('https://qb-phone/TakePhoto', JSON.stringify({}),function(url){
         if(url != "[]"){
-        $.post('https://5life-phone/SendMessage', JSON.stringify({
+        $.post('https://qb-phone/SendMessage', JSON.stringify({
         ChatNumber: ChatNumber2,
         ChatDate: GetCurrentDateKey(),
         ChatMessage: "Photo",
@@ -306,7 +306,7 @@ $(document).on('click', '#send-gallery-image', function(e){
     $(".whatsapp-gallery-box").html("");
     $('.whatsapp-gallery').fadeIn(350);
     $('#whatsapp-openedchat-message-extras').click();
-    $.post('https://5life-phone/GetGalleryData', JSON.stringify({}), function(data){
+    $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){
         setTimeout(()=>{
                 for (const [k, v] of Object.entries(data)) {
                     var Element = '<div data-url="'+v.image+'" class="whatsapp-image-body"><img src="'+v.image+'" class="whatsapp-image-image"></div>';
@@ -325,7 +325,7 @@ $(document).on('click', '.whatsapp-image-body', function(e){
     e.preventDefault();
     let ChatNumber2 = OpenedChatData.number;
     var galleryURL = $(this).data('url');
-    $.post('https://5life-phone/SendMessage', JSON.stringify({
+    $.post('https://qb-phone/SendMessage', JSON.stringify({
         ChatNumber: ChatNumber2,
         ChatDate: GetCurrentDateKey(),
         ChatMessage: "Photo",
@@ -341,7 +341,7 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
         OpenedChatData.number = cData.number;
 
         if (OpenedChatPicture == null) {
-            $.post('https://5life-phone/GetProfilePicture', JSON.stringify({
+            $.post('https://qb-phone/GetProfilePicture', JSON.stringify({
                 number: OpenedChatData.number,
             }), function(picture){
                 OpenedChatPicture = "./img/default.png";
@@ -387,7 +387,7 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
     } else {
         OpenedChatData.number = NewChatData.number;
         if (OpenedChatPicture == null) {
-            $.post('https://5life-phone/GetProfilePicture', JSON.stringify({
+            $.post('https://qb-phone/GetProfilePicture', JSON.stringify({
                 number: OpenedChatData.number,
             }), function(picture){
                 OpenedChatPicture = "./img/default.png";
@@ -419,7 +419,7 @@ $(document).on('click', '.whatsapp-shared-location', function(e){
     messageCoords.x = $(this).data('x');
     messageCoords.y = $(this).data('y');
 
-    $.post('https://5life-phone/SharedLocation', JSON.stringify({
+    $.post('https://qb-phone/SharedLocation', JSON.stringify({
         coords: messageCoords,
     }))
 });

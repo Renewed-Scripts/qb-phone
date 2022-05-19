@@ -2,7 +2,7 @@ $(document).on('click', '#ping-send', function(e){
     e.preventDefault();
     var IDPlayer = $("#channel").val();
     if (IDPlayer >= 1){
-        $.post('https://5life-phone/SendPingPlayer', JSON.stringify({
+        $.post('https://qb-phone/SendPingPlayer', JSON.stringify({
             id: IDPlayer
         }));
         $("#channel").val("");
@@ -11,12 +11,12 @@ $(document).on('click', '#ping-send', function(e){
 
 $(document).on('click', '#ping-accept', function(e){
     e.preventDefault();
-    $.post('https://5life-phone/AcceptPingPlayer', JSON.stringify({}));
+    $.post('https://qb-phone/AcceptPingPlayer', JSON.stringify({}));
 });
 
 $(document).on('click', '#ping-reject', function(e){
     e.preventDefault();
-    $.post('https://5life-phone/rejectPingPlayer', JSON.stringify({}));
+    $.post('https://qb-phone/rejectPingPlayer', JSON.stringify({}));
 });
 
 $(document).ready(function(){

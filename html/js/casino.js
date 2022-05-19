@@ -14,7 +14,7 @@ function LoadCasinoJob(){
 
     CheckStatus();
 
-    $.post('https://5life-phone/CheckHasBetTable', JSON.stringify({}), function(HasTable){
+    $.post('https://qb-phone/CheckHasBetTable', JSON.stringify({}), function(HasTable){
         if(JSON.stringify(HasTable) != "[]"){
             AddToChat(HasTable)
         }else{
@@ -44,12 +44,12 @@ $(document).on('click', '#casino_create_bet', function(e){
 
 $(document).on('click', '#casino_delete', function(e){
     e.preventDefault();
-    $.post('https://5life-phone/CasinoDeleteTable', JSON.stringify({}));
+    $.post('https://qb-phone/CasinoDeleteTable', JSON.stringify({}));
 });
 
 $(document).on('click', '#casino_status', function(e){
     e.preventDefault();
-    $.post('https://5life-phone/casino_status', JSON.stringify({}));
+    $.post('https://qb-phone/casino_status', JSON.stringify({}));
     CheckStatus();
 });
 
@@ -58,7 +58,7 @@ $(document).on('click', '#casino-submit-bet', function(e){
     var InName = $(".casino_input_name").val();
     var InChanse = $(".casino_input_Chanse").val();
     if (InName != "" && InChanse != "" && InChanse >= 1.0){
-        $.post('https://5life-phone/CasinoAddBet', JSON.stringify({
+        $.post('https://qb-phone/CasinoAddBet', JSON.stringify({
             name: InName,
             chanse: InChanse,
         }));
@@ -103,7 +103,7 @@ function AddToChat(data){
 }
 
 function CheckStatus(){
-    $.post('https://5life-phone/CheckHasBetStatus', JSON.stringify({}), function(HasStatus){
+    $.post('https://qb-phone/CheckHasBetStatus', JSON.stringify({}), function(HasStatus){
         if (HasStatus){
             $("#casino_status").html("Status: Betting Enabled");
         }else{
@@ -135,7 +135,7 @@ $(document).on('click', '#casino-end-task-accept', function(e){
     e.preventDefault();
     var Amount = $(".casino-amount-for-bet-player").val();
     if (Amount != "" && Amount >= 1.0){
-        $.post('https://5life-phone/BettingAddToTable', JSON.stringify({
+        $.post('https://qb-phone/BettingAddToTable', JSON.stringify({
             amount: Amount,
             chanse: PlayerChanseOf,
             player: PlayerNameOf,
@@ -149,7 +149,7 @@ $(document).on('click', '#casino-end-task-accept', function(e){
 
 $(document).on('click', '#casino-Winer-this', function(e){
     e.preventDefault();
-        $.post('https://5life-phone/WineridCasino', JSON.stringify({
+        $.post('https://qb-phone/WineridCasino', JSON.stringify({
             id: PlayerIDOf,
         }));
 });

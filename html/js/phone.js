@@ -21,9 +21,9 @@ $(document).on('click', '.phone-app-footer-button', function(e){
         $(".phone-"+PressedFooterTab).show();
 
         if (PressedFooterTab == "recent") {
-            $.post('https://5life-phone/ClearRecentAlerts');
+            $.post('https://qb-phone/ClearRecentAlerts');
         } else if (PressedFooterTab == "suggestedcontacts") {
-            $.post('https://5life-phone/ClearRecentAlerts');
+            $.post('https://qb-phone/ClearRecentAlerts');
         }
 
         CurrentFooterTab = PressedFooterTab;
@@ -91,7 +91,7 @@ $(document).on('click', '.phone-recent-call', function(e){
         name: RecentData.name
     }
 
-    $.post('https://5life-phone/CallContact', JSON.stringify({
+    $.post('https://qb-phone/CallContact', JSON.stringify({
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
     }), function(status){
@@ -151,7 +151,7 @@ $(document).on('click', "#phone-number-call-free-btn", function(e){
             name: InputNum,
         }
 
-        $.post('https://5life-phone/CallContact', JSON.stringify({
+        $.post('https://qb-phone/CallContact', JSON.stringify({
             ContactData: cData,
             Anonymous: QB.Phone.Data.AnonymousCall,
         }), function(status){
@@ -206,7 +206,7 @@ $(document).on('click', ".phone-keypad-key-call", function(e){
         name: InputNum,
     }
 
-    $.post('https://5life-phone/CallContact', JSON.stringify({
+    $.post('https://qb-phone/CallContact', JSON.stringify({
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
     }), function(status){
@@ -283,7 +283,7 @@ $(document).on('click', '#new-chat-phone', function(e){
     var ContactData = $("[data-contactid='"+ContactId+"']").data('contactData');
 
     if (ContactData.number !== QB.Phone.Data.PlayerData.charinfo.phone) {
-        $.post('https://5life-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
+        $.post('https://qb-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
             QB.Phone.Functions.LoadWhatsappChats(chats);
         });
 
@@ -300,7 +300,7 @@ $(document).on('click', '#new-chat-phone', function(e){
             QB.Phone.Functions.ToggleApp("whatsapp", "block");
             QB.Phone.Data.currentApplication = "whatsapp";
 
-            $.post('https://5life-phone/GetWhatsappChat', JSON.stringify({phone: ContactData.number}), function(chat){
+            $.post('https://qb-phone/GetWhatsappChat', JSON.stringify({phone: ContactData.number}), function(chat){
                 QB.Phone.Functions.SetupChatMessages(chat, {
                     name: ContactData.name,
                     number: ContactData.number
@@ -362,7 +362,7 @@ $(document).on('click', '#phone-number-savecontact-edit', function(e){
     var ContactIban = $(".phone-edit-contact-iban").val();
 
     if (ContactName != "" && ContactNumber != "") {
-        $.post('https://5life-phone/EditContact', JSON.stringify({
+        $.post('https://qb-phone/EditContact', JSON.stringify({
             CurrentContactName: ContactName,
             CurrentContactNumber: ContactNumber,
             CurrentContactIban: ContactIban,
@@ -393,7 +393,7 @@ $(document).on('click', '#delete-contact', function(e){
     var ContactNumber = ContactData.number;
     var ContactIban = ContactData.iban;
 
-    $.post('https://5life-phone/DeleteContact', JSON.stringify({
+    $.post('https://qb-phone/DeleteContact', JSON.stringify({
         CurrentContactName: ContactName,
         CurrentContactNumber: ContactNumber,
         CurrentContactIban: ContactIban,
@@ -497,7 +497,7 @@ $(document).on('click', '#phone-number-savecontact', function(e){
     var ContactIban = $(".phone-add-contact-iban").val();
 
     if (ContactName != "" && ContactNumber != "") {
-        $.post('https://5life-phone/AddNewContact', JSON.stringify({
+        $.post('https://qb-phone/AddNewContact', JSON.stringify({
             ContactName: ContactName,
             ContactNumber: ContactNumber,
             ContactIban: ContactIban,
@@ -512,7 +512,7 @@ $(document).on('click', '#phone-number-savecontact', function(e){
         }, 250)
 
         if (SelectedSuggestion !== null) {
-            $.post('https://5life-phone/RemoveSuggestion', JSON.stringify({
+            $.post('https://qb-phone/RemoveSuggestion', JSON.stringify({
                 data: $(SelectedSuggestion).data('SuggestionData')
             }));
             $(SelectedSuggestion).remove();
@@ -549,7 +549,7 @@ $(document).on('click', '#phone-start-call', function(e){
 
 SetupCall = function(cData) {
     var retval = false;
-    $.post('https://5life-phone/CallContact', JSON.stringify({
+    $.post('https://qb-phone/CallContact', JSON.stringify({
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
     }), function(status){
@@ -607,18 +607,18 @@ CancelOutgoingCall = function() {
 $(document).on('click', '#outgoing-cancel', function(e){
     e.preventDefault();
 
-    $.post('https://5life-phone/CancelOutgoingCall');
+    $.post('https://qb-phone/CancelOutgoingCall');
 });
 
 $(document).on('click', '#incoming-deny', function(e){
     e.preventDefault();
-    $.post('https://5life-phone/DenyIncomingCall');
+    $.post('https://qb-phone/DenyIncomingCall');
 });
 
 $(document).on('click', '#ongoing-cancel', function(e){
     e.preventDefault();
 
-    $.post('https://5life-phone/CancelOngoingCall');
+    $.post('https://qb-phone/CancelOngoingCall');
 });
 
 IncomingCallAlert = function(CallData, Canceled, AnonymousCall) {
@@ -697,7 +697,7 @@ QB.Phone.Functions.SetupCurrentCall = function(cData) {
 $(document).on('click', '#incoming-answer', function(e){
     e.preventDefault();
 
-    $.post('https://5life-phone/AnswerCall');
+    $.post('https://qb-phone/AnswerCall');
     $("#incoming-answer").css({"display":"none"});
 });
 

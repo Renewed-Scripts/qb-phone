@@ -4,18 +4,18 @@ $(function() {
             $('.publicphonebase').css('display', 'block');
         } else if (event.data.type == "publicphoneclose"){
             $('.publicphonebase').css('display', 'none');
-            $.post('https://5life-phone/publicphoneclose', JSON.stringify({}));
+            $.post('https://qb-phone/publicphoneclose', JSON.stringify({}));
         }
     });
 });
 
 $(".publicphoneclosebtn").click(function(){
-    $.post('https://5life-phone/publicphoneclose', JSON.stringify({}));
+    $.post('https://qb-phone/publicphoneclose', JSON.stringify({}));
     $('.publicphonebase').css('display', 'none');
     $("#publicphonechannelnumpad").val("");
 });
 $(".publicphonecallbtn").click(function(){
-    $.post('https://5life-phone/publicphoneclose', JSON.stringify({}));
+    $.post('https://qb-phone/publicphoneclose', JSON.stringify({}));
     $('.publicphonebase').css('display', 'none');
     setTimeout(function(){
         $("#publicphonechannelnumpad").val("");
@@ -35,7 +35,7 @@ $(document).on('click', ".publicphonecallbtn", function(e){
         name: publicphoneInputNum,
     }
 
-    $.post('https://5life-phone/CallContact', JSON.stringify({
+    $.post('https://qb-phone/CallContact', JSON.stringify({
         ContactData: cData,
         Anonymous: true,
     }), function(status){

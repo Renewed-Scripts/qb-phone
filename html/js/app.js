@@ -151,74 +151,74 @@ $(document).on('click', '.phone-application', function(e){
                 if (PressedApplication == "settings") {
                     $("#mySerialNumber").text("qb-" + QB.Phone.Data.PlayerData.metadata["phonedata"].SerialNumber);
                 } else if (PressedApplication == "twitter") {
-                    $.post('https://5life-phone/GetMentionedTweets', JSON.stringify({}), function(MentionedTweets){
+                    $.post('https://qb-phone/GetMentionedTweets', JSON.stringify({}), function(MentionedTweets){
                         QB.Phone.Notifications.LoadMentionedTweets(MentionedTweets)
                     })
-                    $.post('https://5life-phone/GetHashtags', JSON.stringify({}), function(Hashtags){
+                    $.post('https://qb-phone/GetHashtags', JSON.stringify({}), function(Hashtags){
                         QB.Phone.Notifications.LoadHashtags(Hashtags)
                     })
                     if (QB.Phone.Data.IsOpen) {
-                        $.post('https://5life-phone/GetTweets', JSON.stringify({}), function(Tweets){
+                        $.post('https://qb-phone/GetTweets', JSON.stringify({}), function(Tweets){
                             QB.Phone.Notifications.LoadTweets(Tweets);
                         });
                     }
                 } else if (PressedApplication == "bank") {
                     QB.Phone.Functions.DoBankOpen();
                     $('.bank-app-header-button').click();
-                    $.post('https://5life-phone/GetBankContacts', JSON.stringify({}), function(contacts){
+                    $.post('https://qb-phone/GetBankContacts', JSON.stringify({}), function(contacts){
                         QB.Phone.Functions.LoadContactsWithNumber(contacts);
                     });
-                    $.post('https://5life-phone/GetInvoices', JSON.stringify({}), function(invoices){
+                    $.post('https://qb-phone/GetInvoices', JSON.stringify({}), function(invoices){
                         QB.Phone.Functions.LoadBankInvoices(invoices);
                     });
                 } else if (PressedApplication == "whatsapp") {
-                    $.post('https://5life-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
+                    $.post('https://qb-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
                         QB.Phone.Functions.LoadWhatsappChats(chats);
                     });
                 } else if (PressedApplication == "phone") {
-                    $.post('https://5life-phone/GetMissedCalls', JSON.stringify({}), function(recent){
+                    $.post('https://qb-phone/GetMissedCalls', JSON.stringify({}), function(recent){
                         QB.Phone.Functions.SetupRecentCalls(recent);
                     });
-                    $.post('https://5life-phone/GetSuggestedContacts', JSON.stringify({}), function(suggested){
+                    $.post('https://qb-phone/GetSuggestedContacts', JSON.stringify({}), function(suggested){
                         QB.Phone.Functions.SetupSuggestedContacts(suggested);
                     });
-                    $.post('https://5life-phone/ClearGeneralAlerts', JSON.stringify({
+                    $.post('https://qb-phone/ClearGeneralAlerts', JSON.stringify({
                         app: "phone"
                     }));
                 } else if (PressedApplication == "mail") {
-                    $.post('https://5life-phone/GetMails', JSON.stringify({}), function(mails){
+                    $.post('https://qb-phone/GetMails', JSON.stringify({}), function(mails){
                         QB.Phone.Functions.SetupMails(mails);
                     });
-                    $.post('https://5life-phone/ClearGeneralAlerts', JSON.stringify({
+                    $.post('https://qb-phone/ClearGeneralAlerts', JSON.stringify({
                         app: "mail"
                     }));
                 } else if (PressedApplication == "advert") {
-                    $.post('https://5life-phone/LoadAdverts', JSON.stringify({}), function(Adverts){
+                    $.post('https://qb-phone/LoadAdverts', JSON.stringify({}), function(Adverts){
                         QB.Phone.Functions.RefreshAdverts(Adverts);
                     })
                 } else if (PressedApplication == "garage") {
-                    $.post('https://5life-phone/SetupGarageVehicles', JSON.stringify({}), function(Vehicles){
+                    $.post('https://qb-phone/SetupGarageVehicles', JSON.stringify({}), function(Vehicles){
                         SetupGarageVehicles(Vehicles);
                     })
                 } else if (PressedApplication == "crypto") {
-                    $.post('https://5life-phone/GetCryptoData', JSON.stringify({
+                    $.post('https://qb-phone/GetCryptoData', JSON.stringify({
                         crypto: "GNE",
                     }), function(CryptoData){
                         SetupCryptoData(CryptoData);
                     })
 
-                    $.post('https://5life-phone/GetCryptoTransactions', JSON.stringify({}), function(data){
+                    $.post('https://qb-phone/GetCryptoTransactions', JSON.stringify({}), function(data){
                         RefreshCryptoTransactions(data);
                     })
                 } else if (PressedApplication == "racing") {
-                    $.post('https://5life-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
+                    $.post('https://qb-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
                         SetupRaces(Races);
                     });
                 } else if (PressedApplication == "houses") {
-                    $.post('https://5life-phone/GetPlayerHouses', JSON.stringify({}), function(Houses){
+                    $.post('https://qb-phone/GetPlayerHouses', JSON.stringify({}), function(Houses){
                         SetupPlayerHouses(Houses);
                     });
-                    $.post('https://5life-phone/GetPlayerKeys', JSON.stringify({}), function(Keys){
+                    $.post('https://qb-phone/GetPlayerKeys', JSON.stringify({}), function(Keys){
                         $(".house-app-mykeys-container").html("");
                         if (Keys.length > 0) {
                             $.each(Keys, function(i, key){
@@ -231,20 +231,20 @@ $(document).on('click', '.phone-application', function(e){
                 } else if (PressedApplication == "meos") {
                     SetupMeosHome();
                 } else if (PressedApplication == "lawyers") {
-                    $.post('https://5life-phone/GetCurrentLawyers', JSON.stringify({}), function(data){
+                    $.post('https://qb-phone/GetCurrentLawyers', JSON.stringify({}), function(data){
                         SetupLawyers(data);
                     });
                 } else if (PressedApplication == "store") {
-                    $.post('https://5life-phone/SetupStoreApps', JSON.stringify({}), function(data){
+                    $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
                         SetupAppstore(data);
                     });
                 } else if (PressedApplication == "trucker") {
-                    $.post('https://5life-phone/GetTruckerData', JSON.stringify({}), function(data){
+                    $.post('https://qb-phone/GetTruckerData', JSON.stringify({}), function(data){
                         SetupTruckerInfo(data);
                     });
                 }
                 else if (PressedApplication == "gallery") {
-                    $.post('https://5life-phone/GetGalleryData', JSON.stringify({}), function(data){
+                    $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){
                         setUpGalleryData(data);
                     });
                 }
@@ -283,14 +283,14 @@ $(document).on('click', '.mykeys-key', function(e){
 
     var KeyData = $(this).data('KeyData');
 
-    $.post('https://5life-phone/SetHouseLocation', JSON.stringify({
+    $.post('https://qb-phone/SetHouseLocation', JSON.stringify({
         HouseData: KeyData
     }))
 });
 
 $(document).on('click', '.phone-take-camera-button', function(event){
     event.preventDefault();
-    $.post('https://5life-phone/TakePhoto', JSON.stringify({}),function(url){
+    $.post('https://qb-phone/TakePhoto', JSON.stringify({}),function(url){
         // setUpCameraApp(url)
     })
     QB.Phone.Functions.Close();
@@ -298,7 +298,7 @@ $(document).on('click', '.phone-take-camera-button', function(event){
 
 $(document).on('click', '.phone-silent-button', function(event){
     event.preventDefault();
-    $.post('https://5life-phone/phone-silent-button', JSON.stringify({}),function(Data){
+    $.post('https://qb-phone/phone-silent-button', JSON.stringify({}),function(Data){
         if(Data){
             $(".silent-mode-two").css({"display":"block"});
             $(".silent-mode-one").css({"display":"none"});
@@ -412,7 +412,7 @@ QB.Phone.Functions.Close = function() {
     }
     $('.publicphonebase').css('display', 'none')
     QB.Phone.Animations.BottomSlideDown('.container', 300, -70);
-    $.post('https://5life-phone/Close');
+    $.post('https://qb-phone/Close');
     QB.Phone.Data.IsOpen = false;
 }
 
@@ -449,7 +449,7 @@ QB.Phone.Animations.TopSlideUp = function(Object, Timeout, Percentage, cb) {
 }
 
 QB.Phone.Notifications.Custom.Add = function(icon, title, text, color, timeout, accept, deny) {
-    $.post('https://5life-phone/HasPhone', JSON.stringify({}), function(HasPhone){
+    $.post('https://qb-phone/HasPhone', JSON.stringify({}), function(HasPhone){
         if (HasPhone) {
             if (timeout == null && timeout == undefined) {
                 timeout = 1500;
@@ -510,7 +510,7 @@ QB.Phone.Notifications.Custom.Add = function(icon, title, text, color, timeout, 
 }
 
 QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
-    $.post('https://5life-phone/HasPhone', JSON.stringify({}), function(HasPhone){
+    $.post('https://qb-phone/HasPhone', JSON.stringify({}), function(HasPhone){
         if (HasPhone) {
             if (timeout == null && timeout == undefined) {
                 timeout = 1500;
@@ -581,7 +581,7 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
 }
 
 $(".notification-accept").click(function(e) {
-    $.post('https://5life-phone/AcceptNotification', JSON.stringify({})),
+    $.post('https://qb-phone/AcceptNotification', JSON.stringify({})),
 
     QB.Phone.Animations.TopSlideUp(".phone-notification-container-new", 150, -8);
         
@@ -591,7 +591,7 @@ $(".notification-accept").click(function(e) {
 })
 
 $(document).on('click', ".notification-deny", function() {
-    $.post('https://5life-phone/DenyNotification', JSON.stringify({})),
+    $.post('https://qb-phone/DenyNotification', JSON.stringify({})),
 
     QB.Phone.Animations.TopSlideUp(".phone-notification-container-new", 150, -8);
         
@@ -631,7 +631,7 @@ QB.Phone.Functions.UpdateTime = function(data) {
 var NotificationTimeout = null;
 
 QB.Screen.Notification = function(title, content, icon, timeout, color) {
-    $.post('https://5life-phone/HasPhone', JSON.stringify({}), function(HasPhone){
+    $.post('https://qb-phone/HasPhone', JSON.stringify({}), function(HasPhone){
         if (HasPhone) {
             if (color != null && color != undefined) {
                 $(".screen-notifications-container").css({"background-color":color});
@@ -743,14 +743,14 @@ $(document).ready(function(){
                 QB.Phone.Functions.ReloadWhatsappAlerts(event.data.Chats);
                 break;
             case "CancelOutgoingCall":
-                $.post('https://5life-phone/HasPhone', JSON.stringify({}), function(HasPhone){
+                $.post('https://qb-phone/HasPhone', JSON.stringify({}), function(HasPhone){
                     if (HasPhone) {
                         CancelOutgoingCall();
                     }
                 });
                 break;
             case "IncomingCallAlert":
-                $.post('https://5life-phone/HasPhone', JSON.stringify({}), function(HasPhone){
+                $.post('https://qb-phone/HasPhone', JSON.stringify({}), function(HasPhone){
                     if (HasPhone) {
                         IncomingCallAlert(event.data.CallData, event.data.Canceled, event.data.AnonymousCall);
                     }
@@ -828,7 +828,7 @@ $(document).ready(function(){
                 RefreshCryptoTransactions(event.data);
                 break;
             case "UpdateRacingApp":
-                $.post('https://5life-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
+                $.post('https://qb-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
                     SetupRaces(Races);
                 });
                 break;
@@ -841,7 +841,7 @@ $(document).ready(function(){
 
 $(document).on("click", ".triggerHelp", function(){
     $.ajax({
-        url: 'https://5life-phone/openHelp',
+        url: 'https://qb-phone/openHelp',
         method: 'POST',
     })
 })

@@ -10,7 +10,7 @@ $(document).on('click', '#wenmo-send-money-ended', function(e){
     var Amount = $(".wenmo-input-two").val();
     var Reason = $(".wenmo-input-three").val();
     if ((ID && Amount && Reason) != "" && (ID && Amount) >= 1){
-        $.post('https://5life-phone/wenmo_givemoney_toID', JSON.stringify({
+        $.post('https://qb-phone/wenmo_givemoney_toID', JSON.stringify({
             ID: ID,
             Amount: Amount,
             Reason: Reason,

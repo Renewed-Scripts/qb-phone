@@ -34,10 +34,10 @@ $(document).on('click', '#delete-button', function(e){
     let source = $('.image').attr('src')
 
     setTimeout(() => {
-        $.post('https://5life-phone/DeleteImage', JSON.stringify({image:source}), function(Hashtags){
+        $.post('https://qb-phone/DeleteImage', JSON.stringify({image:source}), function(Hashtags){
             setTimeout(()=>{
                 $('#return-button').click()
-                $.post('https://5life-phone/GetGalleryData', JSON.stringify({}), function(data){
+                $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){
                     setTimeout(()=>{
                             setUpGalleryData(data);
                         
@@ -120,7 +120,7 @@ $(document).on('click', '#tweet-button', function(e){
     var imageURL = postImageUrl
     if (TweetMessage != "") {
         var CurrentDate = new Date();
-        $.post('https://5life-phone/PostNewTweet', JSON.stringify({
+        $.post('https://qb-phone/PostNewTweet', JSON.stringify({
             Message: TweetMessage,
             Date: CurrentDate,
             Picture: QB.Phone.Data.MetaData.profilepicture,
@@ -129,7 +129,7 @@ $(document).on('click', '#tweet-button', function(e){
             QB.Phone.Notifications.LoadTweets(Tweets);
         });
         var TweetMessage = $("#new-textarea").val(' ');
-        $.post('https://5life-phone/GetHashtags', JSON.stringify({}), function(Hashtags){
+        $.post('https://qb-phone/GetHashtags', JSON.stringify({}), function(Hashtags){
             QB.Phone.Notifications.LoadHashtags(Hashtags)
         })
         returnDetail()
@@ -154,13 +154,13 @@ $(document).on('click', '#advert-button', function(e){
             left: -30+"vh"
         });
         if (!picture){
-            $.post('https://5life-phone/PostAdvert', JSON.stringify({
+            $.post('https://qb-phone/PostAdvert', JSON.stringify({
                 message: Advert,
                 url: null
             }));
             returnDetail()
         }else {
-            $.post('https://5life-phone/PostAdvert', JSON.stringify({
+            $.post('https://qb-phone/PostAdvert', JSON.stringify({
                 message: Advert,
                 url: picture
             }));

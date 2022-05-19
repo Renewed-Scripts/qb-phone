@@ -31,7 +31,7 @@ $(document).on('click', '.garage-vehicle', function(e){
 
 $(document).on('click', '#track-vehicle', function(e){
     e.preventDefault()
-    $.post("https://5life-phone/gps-vehicle-garage", JSON.stringify({
+    $.post("https://qb-phone/gps-vehicle-garage", JSON.stringify({
         veh: veh,
     }));
 });

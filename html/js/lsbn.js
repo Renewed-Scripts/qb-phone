@@ -8,7 +8,7 @@ LoadLSBNEvent = function() {
     }
 
     $(".lsbn-list").html("");
-    $.post('https://5life-phone/GetLSBNchats', JSON.stringify({}));
+    $.post('https://qb-phone/GetLSBNchats', JSON.stringify({}));
 }
 
 $(document).on('click', '.lsbn-send-news-for-chat', function(e){
@@ -26,7 +26,7 @@ $(document).on('click', '#lsbn-submit-to-send-text', function(e){
     var Times = date.getDay()+" "+MonthFormatting[date.getMonth()]+" "+date.getHours()+":"+date.getMinutes();
 
     if((Text && Image) != ""){
-        $.post('https://5life-phone/Send_lsbn_ToChat', JSON.stringify({
+        $.post('https://qb-phone/Send_lsbn_ToChat', JSON.stringify({
             Type: "Image",
             Text: Text,
             Image: Image,
@@ -35,7 +35,7 @@ $(document).on('click', '#lsbn-submit-to-send-text', function(e){
         ClearInputNew()
         $('#lsbn-box-new-add-text').fadeOut(350);
     }else if (Text != ""){
-        $.post('https://5life-phone/Send_lsbn_ToChat', JSON.stringify({
+        $.post('https://qb-phone/Send_lsbn_ToChat', JSON.stringify({
             Type: "Text",
             Text: Text,
             Time: Times,

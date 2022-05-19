@@ -20,7 +20,7 @@ function LoadDebtJob(){
     var AddOption = '<div class="casino-text-clear">Nothing Here!</div>'+
                     '<div class="casino-text-clear" style="font-size: 500%;color: #0d1218c0;"><i class="fas fa-frown"></i></div>'
     $('.debt-list').append(AddOption);
-    $.post('https://5life-phone/GetHasBills_debt', JSON.stringify({}), function(HasTable){
+    $.post('https://qb-phone/GetHasBills_debt', JSON.stringify({}), function(HasTable){
 
         if(HasTable){
             AddToDebitList(HasTable)
@@ -53,7 +53,7 @@ $(document).on('click', '#debt-create-bill-ended', function(e){
     var Amount = $(".debt-input-two").val();
     var Reason = $(".debt-input-three").val();
     if ((ID && Amount && Reason) != "" && (ID && Amount) >= 1){
-        $.post('https://5life-phone/SendBillForPlayer_debt', JSON.stringify({
+        $.post('https://qb-phone/SendBillForPlayer_debt', JSON.stringify({
             ID: ID,
             Amount: Amount,
             Reason: Reason,
@@ -89,7 +89,7 @@ $(document).on('click', '#debt-create-bill-accept', function(e){
     var PlyMoney = QB.Phone.Data.PlayerData.money.bank;
 
     if(PlyMoney >= ENDamount){
-        $.post('https://5life-phone/debit_AcceptBillForPay', JSON.stringify({
+        $.post('https://qb-phone/debit_AcceptBillForPay', JSON.stringify({
             id: ENDKey,
             Amount: ENDamount,
             CSN: ENDsenderCSN,

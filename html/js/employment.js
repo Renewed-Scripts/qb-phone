@@ -2,7 +2,7 @@ var JoinPass = null;
 var JoinID = null;
 
 function LoadEmploymentApp(){
-    $.post('https://5life-phone/GetGroupsApp', JSON.stringify({}), function(Data){
+    $.post('https://qb-phone/GetGroupsApp', JSON.stringify({}), function(Data){
         AddDIV(Data)
     });
 }
@@ -20,7 +20,7 @@ $(document).on('click', '#employment-sbmit-for-create-group', function(e){
     var pass2 = $(".employment-input-password2").val();
     if (Name != "" && pass != "" && pass2 != ""){
         if(pass == pass2){
-            $.post('https://5life-phone/employment_CreateJobGroup', JSON.stringify({
+            $.post('https://qb-phone/employment_CreateJobGroup', JSON.stringify({
                 name: Name,
                 pass: pass,
             }));
@@ -74,7 +74,7 @@ function AddDIV(data){
 $(document).on('click', '#employment-delete-group', function(e){
     e.preventDefault();
     var Delete = $(this).data('delete')
-    $.post('https://5life-phone/employment_DeleteGroup', JSON.stringify({
+    $.post('https://qb-phone/employment_DeleteGroup', JSON.stringify({
         delete: Delete,
     }));
 });
@@ -92,7 +92,7 @@ $(document).on('click', '#employment-sbmit-for-join-group', function(e){
     var EnterPass = $(".employment-input-join-password").val();
     if(EnterPass == JoinPass){
         var CSN = QB.Phone.Data.PlayerData.citizenid;
-        $.post('https://5life-phone/employment_JoinTheGroup', JSON.stringify({
+        $.post('https://qb-phone/employment_JoinTheGroup', JSON.stringify({
             PCSN: CSN,
             id: JoinID,
         }));
@@ -104,7 +104,7 @@ $(document).on('click', '#employment-sbmit-for-join-group', function(e){
 $(document).on('click', '#employment-list-group', function(e){
     e.preventDefault();
     var id = $(this).data('id')
-    $.post('https://5life-phone/employment_CheckPlayerNames', JSON.stringify({
+    $.post('https://qb-phone/employment_CheckPlayerNames', JSON.stringify({
         id: id,
         }), function(Data){
            ClearInputNew()
@@ -127,7 +127,7 @@ $(document).on('click', '#employment-leave-grouped', function(e){
     e.preventDefault();
     var CSN = QB.Phone.Data.PlayerData.citizenid;
     var id = $(this).data('id')
-    $.post('https://5life-phone/employment_leave_grouped', JSON.stringify({
+    $.post('https://qb-phone/employment_leave_grouped', JSON.stringify({
         id: id,
         csn: CSN,
     }));

@@ -172,7 +172,7 @@ $(document).on('click', '#buy-crypto', function(e){
 
     if ((Coins !== "") && (Price !== "")) {
         if (QB.Phone.Data.PlayerData.money.bank >= Price) {
-            $.post('https://5life-phone/BuyCrypto', JSON.stringify({
+            $.post('https://qb-phone/BuyCrypto', JSON.stringify({
                 Coins: Coins,
                 Price: Price,
             }), function(CryptoData){
@@ -205,7 +205,7 @@ $(document).on('click', '#sell-crypto', function(e){
 
     if ((Coins !== "") && (Price !== "")) {
         if (CryptoData.Portfolio >= parseInt(Coins)) {
-            $.post('https://5life-phone/SellCrypto', JSON.stringify({
+            $.post('https://qb-phone/SellCrypto', JSON.stringify({
                 Coins: Coins,
                 Price: Price,
             }), function(CryptoData){
@@ -238,7 +238,7 @@ $(document).on('click', '#transfer-crypto', function(e){
 
     if ((Coins !== "") && (StateID !== "")) {
         if (CryptoData.Portfolio >= Coins) {
-            $.post('https://5life-phone/TransferCrypto', JSON.stringify({
+            $.post('https://qb-phone/TransferCrypto', JSON.stringify({
                 Coins: Coins,
                 StateID: StateID,
             }), function(CryptoData){
