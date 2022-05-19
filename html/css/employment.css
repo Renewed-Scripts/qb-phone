@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+.employment-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: #242833;
+}
+
+.employment-header {
+    position: absolute;
+    width: 90%;
+    height: 10%;
+    top: 92%;
+    left: 27%;
+    right: 0;
+    color: white;
+    font-size: 1.8vh;
+}
+
+.employment-header > p {
+    line-height: 12vh;
+    text-indent: 2vh;
+    margin: 0 0 0 9vh;
+}
+
+.employment-header > span {
+    position: absolute;
+    top: 8vh;
+    left: 9vh;
+    font-size: 1.2vh;
+    height: 2vh;
+    color: white;
+}
+
+.employment-list {
+    position: absolute;
+    width: 87%;
+    height: 80%;
+    margin: 0 auto;
+    left: -1%;
+    right: 0;
+    bottom: 10%;
+    border-radius: .5vh;
+    overflow-y: scroll;
+}
+
+.employment-list::-webkit-scrollbar {
+    display: none;
+}
+
+.empolyment-btn-create-group{
+    display: inline;
+    background: #8ee074;
+    padding: 2%;
+    transition: 0.2s;
+    border-radius: 4px;
+    color: black;
+}
+.empolyment-btn-create-group:hover{
+    background: #6cac59;
+}
+
+.employment-div-job-group{
+    width: 98%;
+    margin-left: 1%;
+    margin-bottom: 2%;
+    padding-left: 5%;
+    background-color: #2c465f;
+    transition: 0.2s;
+    color: whitesmoke;
+    border-bottom: .1vh solid #f5f5f5ad;
+    border-radius: 2px;
+}
+.employment-div-job-group:hover{
+    background-color: #0d1218c0;
+}
+
+.employment-div-job-group-image{
+    font-size: 250%;
+    display: inline-block;
+}
+
+.employment-div-job-group-body-main{
+    display: inline-block;
+    position: absolute;
+    width: 70%;
+    max-width: 70%;
+    margin-top: 4%;
+    margin-left: 4%;
+}
+
+#employment-join-grouped{
+    display: block;
+    position: absolute;
+    font-size: 110%;
+}
+#employment-join-grouped:hover{
+    color: #8ee074;
+}
+
+#employment-leave-grouped{
+    display: block;
+    position: absolute;
+    font-size: 110%;
+    color: #f5a15b;
+}
+#employment-leave-grouped:hover{
+    color: #c27e47;
+}
+
+#employment-block-grouped{
+    display: block;
+    position: absolute;
+    font-size: 110%;
+    color: rgb(0, 0, 0);
+}
+
+.employment-option-class-body{
+    text-align: right;
+}
+
+#employment-delete-group:hover{
+    color: #f5a15b;
+}
+
+#employment-list-group:hover{
+    color: #8ee074;
+}

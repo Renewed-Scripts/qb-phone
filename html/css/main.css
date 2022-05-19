@@ -1,0 +1,599 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+@media all and (max-height: 812px) {
+    :root { font-size: 13px; }
+}
+@media all and (max-height: 750px) {
+    :root { font-size: 12px; }
+}
+@media all and (max-height: 700px) {
+    :root { font-size: 11px; }
+}
+@media all and (max-height: 650px) {
+    :root { font-size: 10px; }
+}
+@media all and (max-height: 600px) {
+    :root { font-size: 9px; }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.disableSelection{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
+}
+
+.container {
+    display: none;
+    position: absolute;
+    bottom: -70%;
+    right: -1.5vh;
+}
+
+.phone-currentcall-container {
+    display: none;
+    position: absolute;
+    height: 4.3vh;
+    width: 24.5vh;
+    background-color: #2a2a2aee;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 4vh;
+    border-radius: 0.9vh;
+    overflow: hidden;
+    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.11);
+    z-index: 140;
+    transition: background-color .1s linear;
+    animation: pulse 2s infinite;
+}
+
+.phone-currentcall-icon-square {
+    position: absolute;
+    width: 3.0vh;
+    text-align: center;
+    border-radius: 1.5vh;
+    color: #ffffff;
+    font-size: 1.6vh;
+}
+
+.phone-currentcall-icon {
+    position: absolute;
+    width: 3.0vh;
+    text-align: center;
+    border-radius: 1.5vh;
+    color: #0b7468;
+    font-size: 1.9vh;
+}
+@-webkit-keyframes pulse {
+    0% {
+      -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+  }
+  @keyframes pulse {
+    0% {
+      -moz-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+.phone-currentcall-title {
+    position: absolute;
+    top: 0.75vh;
+    left: 2.8vh;
+    font-size: 0.9vh;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    text-transform: capitalize;
+}
+
+.phone-currentcall-contact {
+    position: absolute;
+    top: 2.4vh;
+    left: 0.8vh;
+    font-size: 1vh;
+    font-family: 'Poppins', sans-serif;
+    color: rgb(255, 255, 255);
+    width: 22vh;
+    overflow: hidden;
+}
+
+.phone-frame {
+    position: absolute;
+    width: 32vh;
+    bottom: 0;
+    right: 0;
+    margin: 5vh;
+    z-index: 150;
+    pointer-events: none;
+}
+
+.phone-container {
+    height: 61.7vh;
+    width: 29vh;
+    bottom: 1vh;
+    border-radius: 3vh;
+    right: 0.5vh;
+    margin: 5vh;
+    overflow: hidden;
+    position: absolute;
+}
+
+.phone-background {
+    height: 61.7vh;
+    width: 30.5vh;
+    bottom: 1vh;
+    border-radius: 3vh;
+    right: 0.5vh;
+    margin: 5vh;
+    overflow: hidden;
+    position: absolute;
+    background-size: cover;
+    background-position-x: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-image: url('../img/backgrounds/default-qbcore.png');
+}
+
+.phone-header {
+    width: 100%;
+    height: 5vh;
+    z-index: 141;
+    position: absolute;
+    color: white;
+}
+
+#phone-time {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1vh;
+    padding: 2.1vh 0 0 2.1vh;
+    float: left;
+    color: white !important;
+}
+
+#player-id {
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.1vh;
+    padding: 2.1vh 0 0 1vh;
+    float: left;
+    color: white !important;
+}
+
+#phone-icons {
+    font-size: 1.1vh;
+    padding: 2vh 2.5vh 0 0vh;
+    float: right;
+    color: white !important;
+}
+
+#phone-arrow {
+    font-size: 1.5vh;
+    top: 0.25vh;
+    left: -8.25vh;
+    position: relative;
+}
+
+#phone-sun {
+    left: -1.2vh;
+    position: relative;
+}
+
+#phone-unlock {
+    left: -0.6vh;
+    position: relative;
+}
+
+#phone-battery {
+    top: 0vh;
+    position: relative;
+}
+
+.phone-application-container {
+    display: none;
+    position: absolute;
+    top: 8%;
+    height: 93%;
+    width: 100%;
+    background-color: rgb(65, 65, 65);
+    z-index: 100;
+}
+
+.phone-footer {
+    position: absolute;
+    bottom: -0.5vh;
+    height: 5vh;
+    width: 100%;
+    background: #00000029;
+    z-index: 140;
+    border-top: 0.1vh solid #0000003b;
+}
+
+.phone-home-container {
+    margin-top: 0.6vh;
+    position: relative;
+}
+
+.phone-home-button-class {
+    position: relative;
+    height: 100%;
+    width: 20%;
+    text-align: center;
+    float: left;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    transition: .3s;
+}
+
+.phone-home-button-class:hover{
+    color: rgb(165, 165, 165);
+}
+
+.ghasem {
+    position: relative;
+    height: 100%;
+    width: 25%;
+    text-align: center;
+    float: left;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    transition: .1s;
+}
+
+.phone-applications {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.phone-application {
+    position: relative;
+    height: 4.8vh;
+    width: 4.8vh;
+    left: 1vh;
+    float: left;
+    margin-left: 1.75vh;
+    margin-top: 1.5vh;
+    border-radius: 1.25vh;
+    text-align: center;
+    opacity: 0.9;
+    transition: .05s;
+}
+
+.phone-application:hover {
+    opacity: 1.0;
+}
+
+.phone-footer-applications {
+    position: absolute;
+    width: 100%;
+    bottom: 7vh;
+}
+
+.phone-home-applications {
+    position: absolute;
+    width: 100%;
+    bottom: 13vh;
+}
+
+.phone-application > i {
+    line-height: 4.6vh;
+    font-size: 2vh;
+}
+
+.ApplicationIcon {
+    color: white;
+}
+
+.phone-notification-container-new {
+    position: absolute;
+    height: 4.3vh;
+    width: 24.5vh;
+    background-color: #2a2a2aee;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -8%;
+    border-radius: 0.9vh;
+    overflow: hidden;
+    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.11);
+    z-index: 140;
+  }
+
+.notification-accept {
+    position: absolute;
+    top: 23px;
+    right: 15px;
+    font-size: 1.2vh;
+}    
+
+.notification-deny {
+    position: absolute;
+    top: 23px;
+    right: 35px;
+    font-size: 1.2vh;
+}
+
+.notification-icon-new {
+    position: absolute;
+    height: 50%;
+    width: 3.0vh;
+    text-align: center;
+    line-height: 2.8vh;
+    color: #ffffff;
+    font-size: 1.5vh;
+}
+
+.notification-title-new {
+    position: absolute;
+    top: 0.75vh;
+    left: 2.8vh;
+    font-size: 0.9vh;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+}
+
+.notification-text-new {
+    position: absolute;
+    top: 2.4vh;
+    left: 0.8vh;
+    font-size: 1vh;
+    font-family: 'Poppins', sans-serif;
+    color: rgb(255, 255, 255);
+    width: 22vh;
+    overflow: hidden;
+}
+
+.notification-time-new {
+    position: absolute;
+    top: 0.70vh;
+    left: 20.0vh;
+    font-size: 0.9vh;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(255, 255, 255);
+    width: 22vh;
+    overflow: hidden;
+}
+
+.phone-notification-container {
+    position: absolute;
+    height: 4.3vh;
+    width: 24.5vh;
+    background-color: #2a2a2aee;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -8%;
+    border-radius: 0.9vh;
+    overflow: hidden;
+    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.11);
+    z-index: 140;
+  }
+
+.notification-icon {
+    position: absolute;
+    height: 50%;
+    width: 3.0vh;
+    text-align: center;
+    line-height: 2.8vh;
+    color: #ffffff;
+    font-size: 1.5vh;
+}
+
+.notification-title {
+    position: absolute;
+    top: 0.75vh;
+    left: 2.8vh;
+    font-size: 0.9vh;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+}
+
+.notification-text {
+    position: absolute;
+    top: 2.4vh;
+    left: 0.8vh;
+    font-size: 1vh;
+    font-family: 'Poppins', sans-serif;
+    color: rgb(255, 255, 255);
+    width: 22vh;
+    overflow: hidden;
+}
+
+.notification-time {
+    position: absolute;
+    top: 0.70vh;
+    left: 20.0vh;
+    font-size: 0.9vh;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(255, 255, 255);
+    width: 22vh;
+    overflow: hidden;
+}
+
+.call-notifications {
+    display: none;
+    position: absolute;
+    background: #e67d22ea;
+    height: 9vh;
+    width: 34vh;
+    bottom: 16vh;
+    right: -35vh;
+    border-radius: 1.7vh;
+    z-index: -5;
+}
+.call-notifications-shake {
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.screen-notifications-container {
+    display: none;
+    position: absolute;
+    background: rgba(29, 160, 242, 0.9);
+    height: 9vh;
+    width: 34vh;
+    bottom: 5vh;
+    right: -35vh;
+    border-radius: 1.7vh;
+    z-index: -5;
+}
+
+.screen-notification-icon {
+    position: absolute;
+    line-height: 9.3vh;
+    left: 2vh;
+    font-size: 3.75vh;
+    color: white;
+}
+
+.screen-notification-title {
+    position: absolute;
+    line-height: 5.5vh;
+    left: 7.5vh;
+    font-size: 1.5vh;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+.screen-notification-content {
+    position: absolute;
+    top: 4.2vh;
+    left: 7.5vh;
+    font-size: 1.2vh;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    height: 3.5vh;
+    width: 26vh;
+    overflow: hidden;
+}
+
+.call-notifications-icon {
+    position: absolute;
+    line-height: 9.3vh;
+    left: 2vh;
+    font-size: 3.75vh;
+    color: white;
+    transform: rotate(90deg);
+}
+
+.call-notifications-title {
+    position: absolute;
+    top: 0.75vh;
+    left: 2.8vh;
+    font-size: 0.9vh;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    text-transform: capitalize;
+}
+
+.call-notifications-content {
+    position: absolute;
+    top: 4.2vh;
+    left: 7.5vh;
+    font-size: 1.2vh;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    height: 3.5vh;
+    width: 26vh;
+    overflow: hidden;
+}
+
+.app-unread-alerts {
+    position: absolute;
+    width: 2vh;
+    height: 2vh;
+    top: -.5vh;
+    left: -.5vh;
+    color: white;
+    text-align: center;
+    line-height: 2vh;
+    background: #d63031;
+    border-radius: 50%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1vh;
+}
+
+.emergency-button {
+    position: absolute;
+    right: 3vh;
+    top: 10vh;
+    width: 33vh;
+    height: 20vh;
+    background-color: #004682;
+    border-radius: 1vh;
+    overflow: hidden;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.199);
+}
+
+.emergency-button-header {
+    position: absolute;
+    background-color: #ffffff;
+    height: 3.5vh;
+    top: 0;
+    width: 100%;
+}
+
+.emergency-button-footer {
+    position: absolute;
+    background-color: #ffffff;
+    height: 2.5vh;
+    bottom: 0;
+    width: 100%;
+}
+
+.police-logo-2 {
+    position: absolute;
+    width: 6vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: .5vh;
+}
+
+.police-logo-3 {
+    position: absolute;
+    width: 15vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

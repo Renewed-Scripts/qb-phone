@@ -1,0 +1,111 @@
+.publicphonebase{
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+.publicphonebody{
+    width: 60vh;
+    height: 10vh;
+    border-radius: 0.4vh;
+    background-color: #212832;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    box-shadow: 1px 1px 6px rgba(5, 5, 5, 0.306);
+}
+
+.publicphonechannelnumpad {
+    position: absolute;
+    transform: translate(0, -50%);
+    top: 50%;
+    font-size: 2vh;
+    left: 6%;
+    background: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
+  
+  input[name="publicphonechannelnumpad"]::-webkit-input-placeholder {
+    color: rgb(174, 174, 174);
+  }
+  .publicphonechannelnumpad span {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.75);
+  }
+  
+  .publicphonechannelnumpad input {
+    text-align: center;
+    border: none;
+    border-bottom: 0.1vh solid rgba(245, 245, 245, 0.68);
+    background: none;
+    outline: none;
+    font-family: 'Fira Code', monospace;
+    width: 100%;
+    /* border-radius: 0.5vh; */
+    padding: 0.6vh 0.3vh;
+    color: rgb(255, 255, 255);
+  }
+
+.publicphonechannelnumpad input::-webkit-inner-spin-button,
+.publicphonechannelnumpad input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+
+.publicphonebasebtn{
+    width: 20%;
+    height: 11vh;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 65%;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Fira Code', monospace;
+    padding: 0.8vh;
+    color: black;
+}
+
+.publicphonecallbtn{
+    position: absolute;
+    padding: 0.8vh;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background-color: #8ee074;
+    width: 10vh;
+    border-radius: 4px;
+    box-shadow: 1px 1px 6px rgba(5, 5, 5, 0.306);
+    transition: all 0.15s linear;
+}
+.publicphonecallbtn:hover{
+    background-color: #6cac59;
+}
+
+.publicphoneclosebtn{
+    margin-left: 100%;
+    padding: 0.8vh;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    background-color: #f5a15b;
+    width: 10vh;
+    border-radius: 4px;
+    box-shadow: 1px 1px 6px rgba(5, 5, 5, 0.306);
+    transition: all 0.15s linear;
+}
+
+.publicphoneclosebtn:hover{
+    background-color: #c27e47;
+}

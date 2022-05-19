@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+.details-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: #242833;
+}
+
+.details-header {
+    position: absolute;
+    width: 90%;
+    height: 30%;
+    top: 8%;
+    left: 0;
+    right: 0;
+    color: white;
+    font-size: 1.8vh;
+    margin: 0 auto;
+}
+
+.details-header > p {
+    line-height: 12vh;
+    text-indent: 2vh;
+    margin: 0 0 0 9vh;
+}
+
+.details-header > span {
+    position: absolute;
+    top: 8vh;
+    left: 9vh;
+    font-size: 1.2vh;
+    height: 2vh;
+    color: white;
+}
+
+.details-list {
+    position: absolute;
+    width: 90%;
+    height: 57%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: 3%;
+    border-radius: .5vh;
+    overflow-y: scroll;
+}
+
+.details-list::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+
+
+
+
+.details-money-types{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    color: whitesmoke;
+    font-size: 2vh;
+}
+
+.details-moneys-body-main{
+    display: block;
+    width: 100%;
+    margin-left: 3%;
+    margin-bottom: 2%;
+}
+
+.details-icon-class{
+    display: inline-block;
+    text-align: center;
+    width: 10%;
+}
+.details-text-class{
+    display: inline;
+    width: 90%;
+}
+
+.details-license-body-main{
+    display: block;
+    width: 100%;
+    margin-left: 3%;
+    margin-bottom: 2%;
+    color: whitesmoke;
+}
+
+.details-license-icon-class{
+    display: inline;
+    text-align: right;
+    width: 10%;
+}
+.details-license-text-class{
+    display: inline-block;
+    width: 85%;
+}
+
+.details-text-license{
+    width: 100%;
+    color: whitesmoke;
+    text-align: center;
+}
