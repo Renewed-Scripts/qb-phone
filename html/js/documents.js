@@ -97,21 +97,39 @@ $(document).on('click', '#documents-vehicle', function(e) {
     $.post('https://qb-phone/SetupGarageVehicles', JSON.stringify({}), function(Vehicles){
         if(Vehicles != null){
             $.each(Vehicles, function(i, vehicle){
-
-                DocEndtitle = null
-                DocEndtext = null
-                DocEndid = null
-                DocEndcitizenid = null
-
-                var firstLetter = vehicle.fullname.substring(0, 1);  
-                var Fulltext = firstLetter.toUpperCase()+(vehicle.fullname).replace(firstLetter,'')
+                if (vehicle.vinscratched != 'false'){
+                    if (vehicle.vinscratched == 0){
+                        DocEndtitle = null
+                        DocEndtext = null
+                        DocEndid = null
+                        DocEndcitizenid = null
         
-                var AddOption = '<div class="documents-test">' + 
-                    '<div class="documents-title-title">'+Fulltext+'</div>' +
-                    '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b><center>Official State Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
-                '</div>';
-        
-                $('.documents-list').append(AddOption);
+                        var firstLetter = vehicle.fullname.substring(0, 1);  
+                        var Fulltext = firstLetter.toUpperCase()+(vehicle.fullname).replace(firstLetter,'')
+                
+                        var AddOption = '<div class="documents-test">' + 
+                            '<div class="documents-title-title">'+Fulltext+'</div>' +
+                            '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b><center>Official State Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
+                        '</div>';
+                
+                        $('.documents-list').append(AddOption);
+                    }
+                } else {
+                    DocEndtitle = null
+                    DocEndtext = null
+                    DocEndid = null
+                    DocEndcitizenid = null
+    
+                    var firstLetter = vehicle.fullname.substring(0, 1);  
+                    var Fulltext = firstLetter.toUpperCase()+(vehicle.fullname).replace(firstLetter,'')
+            
+                    var AddOption = '<div class="documents-test">' + 
+                        '<div class="documents-title-title">'+Fulltext+'</div>' +
+                        '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b><center>Official State Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
+                    '</div>';
+            
+                    $('.documents-list').append(AddOption);
+                }
             });
         }
     });

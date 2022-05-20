@@ -618,7 +618,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     VehicleGarage = v.garage
                 end
             end
-
+            
             local VehicleState = "In"
             if v.state == 0 then
                 VehicleState = "Out"
@@ -627,6 +627,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
             end
 
             local vehdata = {}
+            if Config.Vinscratch then
+                vinscratched = v.vinscratched
+            else
+                vinscratched = 'false'
+            end
             if VehicleData["brand"] ~= nil then
                 if VehicleState == 'Out' then
                     state = 'Out'
@@ -637,6 +642,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     fullname = VehicleData["brand"] .. " " .. VehicleData["name"],
                     brand = VehicleData["brand"],
                     model = VehicleData["name"],
+                    vinscratched = vinscratched,
                     plate = v.plate,
                     garage = VehicleGarage,
                     state = state,
@@ -649,6 +655,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     fullname = VehicleData["name"],
                     brand = VehicleData["name"],
                     model = VehicleData["name"],
+                    vinscratched = vinscratched,
                     plate = v.plate,
                     garage = VehicleGarage,
                     state = state,
@@ -1395,8 +1402,8 @@ end)
 
 RegisterNetEvent("qb-phone:server:sendDocumentLocal", function(data, playerId)
     local src = source
-    local Ply = FLCore.Functions.GetPlayer(src)
-    local Receiver = FLCore.Functions.GetPlayer(playerId)
+    local Ply = QBCore.Functions.GetPlayer(src)
+    local Receiver = QBCore.Functions.GetPlayer(playerId)
     local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
 
     TriggerClientEvent("QBCore:Notify", src, 'Document Sent')

@@ -1,5 +1,7 @@
 Config = Config or {}
 
+-- If you have Lions Boosting System, enable this check to NOT produce any vehicle registration for vinscratched vehicles. Disable if you want to produce vehicle registration regardless
+Config.Vinscratch = true 
 
 -- How Long Does The Player Have To Accept The Ping - This Is In Seconds
 Config.Timeout = 30
