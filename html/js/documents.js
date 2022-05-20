@@ -29,14 +29,14 @@ $(document).on('click', '.documents-tupe-text-btn', function(e){
     $('#documents-box-new-add-new').fadeIn(350);
 });
 
-$(document).on('click', '#documents-save-stateid', function(e){
+$(document).on('click', '#documents-send-perm', function(e){
     e.preventDefault();
     var date = new Date();
     var Times = date.getDay()+" "+MonthFormatting[date.getMonth()]+" "+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
     var StateID = $(".documents-input-stateid").val();
     var NewText = $("#documents-textarea-new").val();
     if(NewText != ""){
-        $.post('https://qb-phone/documents_Save_Note_As', JSON.stringify({
+        $.post('https://qb-phone/document_Send_Note', JSON.stringify({
             Title: DocEndtitle,
             Text: NewText,
             Time: Times,

@@ -1510,21 +1510,36 @@ RegisterNetEvent('qb-phone:server:wenmo_givemoney_toID', function(data)
     end
 end)
 
-RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data)
+RegisterNetEvent("qb-phone:server:sendDocument", function(data)
     local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local Receiver = QBCore.Functions.GetPlayer(tonumber(data.StateID))
+    local Ply = FLCore.Functions.GetPlayer(src) -- Me
+    local Receiver = FLCore.Functions.GetPlayer(tonumber(data.StateID)) -- Shawn
     local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
-    local You = QBCore.Functions.GetPlayer(tonumber(src))
+    if Receiver ~= nil then
+        if Ply.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then
+            TriggerClientEvent("QBCore:Notify", src, 'Document Sent')
+            TriggerClientEvent("qb-phone:client:sendingDocumentRequest", data.StateID, data, Receiver, Ply, SenderName)
+        else
+            TriggerClientEvent("QBCore:Notify", src, 'You can\'t send a document to yourself!', 'error')
+        end
+    else
+        TriggerClientEvent("QBCore:Notify", src, 'This state id does not exists!', 'error')
+    end
+end)
+
+RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiver, Ply, SenderName)
+    local src = source
+    local Player = FLCore.Functions.GetPlayer(src)
+
     if data.Type == "New" then
-        exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Ply.PlayerData.citizenid, data.Title, data.Text, data.Time})
+        exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Player.PlayerData.citizenid, data.Title, data.Text, data.Time})
         TriggerClientEvent('QBCore:Notify', src, 'Note Saved')
     elseif data.Type == "Update" then
         local ID = tonumber(data.ID)
         local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE id = ?', {ID})
         if Note[1] ~= nil then
             exports.oxmysql:execute('DELETE FROM phone_note WHERE id = ?', {ID})
-            exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Ply.PlayerData.citizenid, data.Title, data.Text, data.Time})
+            exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Player.PlayerData.citizenid, data.Title, data.Text, data.Time})
             TriggerClientEvent('QBCore:Notify', src, 'Note Updated')
         end
     elseif data.Type == "Delete" then
@@ -1535,17 +1550,8 @@ RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data)
         local ID = tonumber(data.ID)
         local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE id = ?', {ID})
         if Note[1] ~= nil then
-            if Receiver ~= nil then
-                if You.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then
-                    exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Receiver.PlayerData.citizenid, data.Title, data.Text, data.Time})
-                    TriggerClientEvent('QBCore:Notify', src, 'Document Sent!')
-                    TriggerClientEvent('qb-phone:client:CustomNotification', tonumber(data.StateID), 'Documents', 'You received a document from '..SenderName, 'fas fa-file', '#d9d9d9', 5000)
-                else
-                    TriggerClientEvent("QBCore:Notify", src, 'You can\'t send a document to yourself!', 'error')
-                end
-            else
-                TriggerClientEvent("QBCore:Notify", src, 'This state id does not exists!', 'error')
-            end
+            exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Receiver.PlayerData.citizenid, data.Title, data.Text, data.Time})
+            TriggerClientEvent('qb-phone:client:CustomNotification', tonumber(data.StateID), 'DOCUMENTS', 'New Document', 'fas fa-folder', '#d9d9d9', 5000)
         end
     end
     Wait(100)
