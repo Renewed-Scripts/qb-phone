@@ -2276,41 +2276,6 @@ RegisterNUICallback('CasinoPhoneJobCenter', function(data)
     end
 end)
 
-RegisterNUICallback('employment_CreateJobGroup', function(data)
-    TriggerServerEvent('qb-phone:server:employment_CreateJobGroup', data)
-end)
-
-RegisterNetEvent('qb-phone:client:EveryoneGrupAddsForAll', function(data)
-    SendNUIMessage({
-        action = "GroupAddDIV",
-        datas = data,
-    })
-end)
-
-RegisterNUICallback('employment_DeleteGroup', function(data)
-    TriggerServerEvent('qb-phone:server:employment_DeleteGroup', data)
-end)
-
-RegisterNUICallback('GetGroupsApp', function(data, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupsApp', function(HasGroups)
-        cb(HasGroups)
-    end)
-end)
-
-RegisterNUICallback('employment_JoinTheGroup', function(data)
-    TriggerServerEvent('qb-phone:server:employment_JoinTheGroup', data)
-end)
-
-RegisterNUICallback('employment_leave_grouped', function(data)
-    TriggerServerEvent('qb-phone:server:employment_leave_grouped', data)
-end)
-
-RegisterNUICallback('employment_CheckPlayerNames', function(data, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:employment_CheckPlayerNames', function(HasName)
-        cb(HasName)
-    end, data.id)
-end)
-
 RegisterNUICallback('SendBillForPlayer_debt', function(data) -- BINGOOOOO
     TriggerServerEvent('qb-phone:server:SendBillForPlayer_debt', data)
 end)
@@ -2412,14 +2377,3 @@ end)
 RegisterNUICallback('openHelp', function()  
     TriggerEvent('qb-cityhall:client:PayTaxes2')
 end)
-
-local function GetGroupCSNs(Data)
-    local gData = {}
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupCSNs', function(HasGroup)
-        gData = HasGroup
-    end, Data)
-    Wait(100)
-    return gData
-end
-
-exports('GetGroupCSNs', GetGroupCSNs)

@@ -1156,49 +1156,6 @@ RegisterNetEvent('qb-phone:server:RemoveImageFromGallery', function(data)
     exports.oxmysql:execute('DELETE FROM phone_gallery WHERE citizenid = ? AND image = ?',{Player.PlayerData.citizenid,image})
 end)
 
--- Command
-
-QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if args[1] then
-        if args[1] == "trucker" then
-            if args[2] then
-                local newrep = Player.PlayerData.metadata["jobrep"]
-                newrep.trucker = tonumber(args[2])
-                Player.Functions.SetMetaData("jobrep", newrep)
-            end
-        end
-    end
-end, "god")
-
-QBCore.Commands.Add('bill', 'Bill A Player', {{name = 'id', help = 'Player ID'}, {name = 'amount', help = 'Fine Amount'}}, false, function(source, args)
-    local biller = QBCore.Functions.GetPlayer(source)
-    local billed = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    local amount = tonumber(args[2])
-    if biller.PlayerData.job.name == "police" or biller.PlayerData.job.name == 'ambulance' or biller.PlayerData.job.name == 'mechanic' then
-        if billed ~= nil then
-            if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
-                if amount and amount > 0 then
-                    exports.oxmysql:insert(
-                        'INSERT INTO phone_invoices (citizenid, amount, society, sender, sendercitizenid) VALUES (?, ?, ?, ?, ?)',
-                        {billed.PlayerData.citizenid, amount, biller.PlayerData.job.name,
-                         biller.PlayerData.charinfo.firstname, biller.PlayerData.citizenid})
-                    TriggerClientEvent('qb-phone:RefreshPhone', billed.PlayerData.source)
-                    TriggerClientEvent('QBCore:Notify', source, 'Invoice successfully sent')
-                    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Invoice Received')
-                else
-                    TriggerClientEvent('QBCore:Notify', source, 'Must be a valid amount above 0', 'error')
-                end
-            else
-                TriggerClientEvent('QBCore:Notify', source, 'You cannot bill yourself...', 'error')
-            end
-        else
-            TriggerClientEvent('QBCore:Notify', source, 'Player not Online', 'error')
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', source, 'No Access', 'error')
-    end
-end)
 
 RegisterNetEvent("qb-phone:server:sendPing", function(id)
     local src = source
@@ -1230,22 +1187,6 @@ end)
 ------------
 
 
-QBCore.Commands.Add("p#", "Provide Phone Number", {}, false, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(source)
-    local number = Player.PlayerData.charinfo.phone
-    local PlayerPed = GetPlayerPed(source)
-	local PlayerCoords = GetEntityCoords(PlayerPed)
-    for k, v in pairs(QBCore.Functions.GetPlayers()) do
-		local TargetPed = GetPlayerPed(v)
-		local dist = #(PlayerCoords - GetEntityCoords(TargetPed))
-		if dist < 3.0 then
-            TriggerClientEvent('chat:addMessage', v,  {
-                template = '<div class="chat-message" style="background-color: rgba(234, 135, 23, 0.50);">Number : <b>{0}</b></div>',
-                args = {number}
-            })
-        end
-    end
-end)
 
 local CasinoTable = {}
 local BetNumber = 0
@@ -1321,81 +1262,6 @@ RegisterNetEvent('qb-phone:server:SetJobJobCenter', function(data)
         TriggerClientEvent('QBCore:Notify', src, 'Changed your job to: '..data.label)
     else
         TriggerClientEvent('QBCore:Notify', src, 'Invalid Job...', 'error')
-    end
-end)
-
-local EmploymentGroup = {}
-RegisterNetEvent('qb-phone:server:employment_CreateJobGroup', function(data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local CSN = Player.PlayerData.citizenid
-    if Player then
-        if not EmploymentGroup[CSN] then
-            EmploymentGroup[CSN] = {['CSN'] = CSN, ['GName'] = data.name, ['GPass'] = data.pass, ['Users'] = 1, ['UserName'] = {CSN,}}
-            TriggerClientEvent('qb-phone:client:EveryoneGrupAddsForAll', -1, EmploymentGroup)
-            TriggerClientEvent('QBCore:Notify', src, "Group created!")
-        else
-            TriggerClientEvent('QBCore:Notify', src, "You have already created a group...", 'error')
-        end
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:employment_DeleteGroup', function(data)
-    EmploymentGroup[data.delete] = nil
-    TriggerClientEvent('qb-phone:client:EveryoneGrupAddsForAll', -1, EmploymentGroup)
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetGroupsApp', function(source, cb)
-    cb(EmploymentGroup)
-end)
-
-RegisterNetEvent('qb-phone:server:employment_JoinTheGroup', function(data)
-    local src = source
-    for k, v in pairs(EmploymentGroup) do
-        for ke, ve in pairs(v['UserName']) do
-            if ve == data.PCSN then
-                TriggerClientEvent('QBCore:Notify', src, "You have already joined a group!", 'error')
-                return
-            end
-        end
-        table.insert(EmploymentGroup[data.id]['UserName'], data.PCSN)
-        EmploymentGroup[data.id]['Users'] = v.Users + 1
-        TriggerClientEvent('QBCore:Notify', src, "You joined the group!")
-        TriggerClientEvent('qb-phone:client:EveryoneGrupAddsForAll', -1, EmploymentGroup)
-        return
-    end
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:employment_CheckPlayerNames', function(source, cb, csn)
-    local Names = {}
-    for k, v in pairs(EmploymentGroup[csn]['UserName']) do
-        local OtherPlayer = QBCore.Functions.GetPlayerByCitizenId(v)
-        if OtherPlayer then
-            local Name = OtherPlayer.PlayerData.charinfo.firstname.." "..OtherPlayer.PlayerData.charinfo.lastname
-            table.insert(Names, Name)
-        end
-    end
-    cb(Names)
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetGroupCSNs', function(source, cb, csn)
-    if EmploymentGroup[csn] then
-        cb(EmploymentGroup[csn]['UserName'])
-    else
-        cb(false)
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:employment_leave_grouped', function(data)
-    local src = source
-    for k, v in pairs(EmploymentGroup[data.id]['UserName']) do
-        if v == data.csn then
-            table.remove(EmploymentGroup[data.id]['UserName'], k)
-            EmploymentGroup[data.id]['Users'] = EmploymentGroup[data.id]['Users'] - 1
-            TriggerClientEvent('QBCore:Notify', src, "Done")
-            TriggerClientEvent('qb-phone:client:EveryoneGrupAddsForAll', -1, EmploymentGroup)
-            return
-        end
     end
 end)
 

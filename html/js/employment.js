@@ -2,8 +2,8 @@ var JoinPass = null;
 var JoinID = null;
 
 function LoadEmploymentApp(){
-    $.post('https://qb-phone/GetGroupsApp', JSON.stringify({}), function(Data){
-        AddDIV(Data)
+    $.post('https://qb-phone/GetGroupsApp', JSON.stringify({}), function(data){
+        AddDIV(data)
     });
 }
 
@@ -37,37 +37,115 @@ $(document).on('click', '#employment-sbmit-for-create-group', function(e){
 $(document).ready(function(){
     window.addEventListener('message', function(event) {
         switch(event.data.action) {
+            case "refreshApp":
+            AddDIV(event.data.data)
+            break;
+            case "addGroupStage":
+            AddGroupJobs(event.data.status)
+            break;
+        }
+    })
+});
+
+$(document).ready(function(){
+    window.addEventListener('message', function(event) {
+        switch(event.data.action) {
             case "GroupAddDIV":
-                AddDIV(event.data.datas)
+                if(event.data.showPage && event.data.job != "WAITING"){
+                    console.log(JSON.stringify(event.data.stage))
+                    AddGroupJobs(event.data.stage)
+                } else {
+                    AddDIV(event.data.data)
+                }
             break;
         }
     })
 });
 
 function AddDIV(data){
+    var AddOption;
     var CSN = QB.Phone.Data.PlayerData.citizenid;
     $(".employment-list").html("");
-    if(JSON.stringify(data) != "[]"){
-        for (const [k, v] of Object.entries(data)) {
-            var AddOption
-            if (v.CSN == CSN){
-                AddOption = '<div class="employment-div-job-group"><div class="employment-div-job-group-image"><i class="fas fa-users"></i></div><div class="employment-div-job-group-body-main">'+(v.GName).toUpperCase()+'<i id="employment-block-grouped" data-id="'+v.CSN+'" data-pass="'+v.GPass+'" class="fas fa-sign-in-alt"></i><div class="employment-option-class-body"><i id="employment-list-group" data-id="'+v.CSN+'" style="padding-right: 5%;" class="fas fa-list-ul"></i><i id="employment-delete-group" data-delete="'+v.CSN+'" class="fas fa-trash-alt"></i><i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends"> '+v.Users+'</i></div></div></div>'
-            }else{
-                AddOption = '<div class="employment-div-job-group"><div class="employment-div-job-group-image"><i class="fas fa-users"></i></div><div class="employment-div-job-group-body-main">'+(v.GName).toUpperCase()+'<i id="employment-join-grouped" data-id="'+v.CSN+'" data-pass="'+v.GPass+'" class="fas fa-sign-in-alt"></i><div class="employment-option-class-body"><i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends"> '+v.Users+'</i></div></div></div>'
-                for (const [ke, ve] of Object.entries(v.UserName)) {
-                    if(ve == CSN){
-                        AddOption = '<div class="employment-div-job-group"><div class="employment-div-job-group-image"><i class="fas fa-users"></i></div><div class="employment-div-job-group-body-main">'+(v.GName).toUpperCase()+'<i id="employment-leave-grouped" data-id="'+v.CSN+'" data-pass="'+v.GPass+'" class="fas fa-sign-out-alt" style="transform: rotate(180deg);"></i><div class="employment-option-class-body"><i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends"> '+v.Users+'</i></div></div></div>'
+    if(data) {
+        Object.keys(data).map(function(element,index){
+            if(data[element].leader == CSN) {
+                AddOption = 
+                `
+                <div class="employment-div-job-group">
+                <div class="employment-div-job-group-image">
+                <i class="fas fa-users"></i>
+                </div><div class="employment-div-job-group-body-main">
+                ${data[element].GName}<i id="employment-block-grouped"
+                data-id="${data[element].id}"
+                data-pass="${data[element].GPass}" 
+                class="fas fa-sign-in-alt">
+                </i>
+                <div class="employment-option-class-body">
+                <i id="employment-list-group" data-id="${data[element].id}" style="padding-right: 5%;" class="fas fa-list-ul">
+                </i><i id="employment-delete-group" data-delete="${data[element].id}" class="fas fa-trash-alt"></i>
+                <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends"> ${data[element].Users}</i></div></div></div>
+                `
+            } else {
+                AddOption = `
+                <div class="employment-div-job-group">
+                <div class="employment-div-job-group-image">
+                <i class="fas fa-users"></i></div>
+                <div class="employment-div-job-group-body-main">'+v.GName+'<i id="employment-join-grouped" data-id="${data[element].id}" data-pass="${data[element].GPass}" class="fas fa-sign-in-alt">
+                </i><div class="employment-option-class-body">
+                <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends">${data[element].Users}</i>
+                </div></div></div>`
+                Object.keys(data[element].members).map(function(element,index){
+                    if(data[element].members[element].CID == CSN) {
+                        AddOption = `
+                        <div class="employment-div-job-group">
+                        <div class="employment-div-job-group-image">
+                        <i class="fas fa-users"></i></div>
+                        <div class="employment-div-job-group-body-main">${data[element].GName}<i id="employment-leave-grouped"
+                         data-id="${data[element].id}" data-pass="${data[element].GPass}" class="fas fa-sign-out-alt" style="transform: rotate(180deg);">
+                         </i><div class="employment-option-class-body">
+                         <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends">${data[element].Users}</i></div></div></div>`
                     }
-                }
+                })
             }
-
             $('.employment-list').append(AddOption);
-        }
-    }else{
+        }) 
+    } else {
         $(".employment-list").html("");
         var AddOption = '<div class="casino-text-clear">No Group</div>'
-
         $('.employment-list').append(AddOption);
+    }
+}
+
+function AddGroupJobs(data){
+    var AddOption;
+    console.log(data)
+    $(".employment-Groupjob").html("");
+    $(".employment-list").html("");
+    if(data) {
+
+        for (const [k, v] of Object.entries(data)) {
+            console.log(JSON.stringify(data))
+            if (v.isDone) {
+                AddOption = 
+                `
+                <div class="employment-div-active-stagee isDone">
+                    <input type="checkbox" id="job${v.name}" checked disabled>
+                    <i  class="employment-div-active-stage${v.id}">${v.name}</i>
+                </div>
+                `
+            } else {
+                AddOption = 
+                `
+                <div class="employment-div-active-stagee">
+                    <input type="checkbox" id="job${v.name}" disabled>
+                    <i  class="employment-div-active-stage${v.id}">${v.name}</i>
+                </div>
+                `
+            }
+            $('.employment-Groupjob').append(AddOption);
+        }
+    } else {
+        console.log("Error")
     }
 }
 
@@ -111,7 +189,7 @@ $(document).on('click', '#employment-list-group', function(e){
            $('#employment-box-new-player-name').fadeIn(350);
            $("#phone-new-box-main-playername").html("");
             for (const [k, v] of Object.entries(Data)) {
-                var AddOption = '<div class="casino-text-clear">'+v+'</div>'
+                var AddOption = `<div class="casino-text-clear">${v}</div>`
 
                 $('#phone-new-box-main-playername').append(AddOption);
             }
