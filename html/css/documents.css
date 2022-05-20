@@ -139,7 +139,7 @@
 
 #documents-textarea-new {
     border: none;
-    height: 37vh;
+    height: 39vh;
     margin: 0 auto;
     left: 0;
     right: 0;
@@ -152,7 +152,6 @@
     width: 90%;
     margin-left: 5%;
     background: none;
-    border-bottom: .1vh solid #f5f5f5ad;
     color: #cacaca;
     font-size: 1.75vh;
 }
@@ -249,7 +248,7 @@
     color: #FFFFFF;
 }
 
-
+/* Main Drop Down for Documents/ Licenses/ & Registrations */
 
 .documents-dropdown {
     position: relative;
@@ -357,14 +356,14 @@
     color: #d9d9d9;
 }
 
-.documents-body-btn-four{
+.documents-extras-button{
     color: #ffffff;
     margin-top: 5.0vh;
     margin-left: 90%;
     font-size: 2.0vh;
     transition: 0.2s;
 }
-.documents-body-btn-four:hover{
+.documents-extras-button:hover{
     color: #d9d9d9;
 }
 
@@ -393,4 +392,39 @@
 }
 .documents-input-back:hover{
     color: #d9d9d9;
+}
+
+.documents-extra-buttons {
+    display: none;
+    position: absolute;
+    top: 3.6vh;
+    right: -10vh;
+}
+
+.documents-extra-button {
+    background: none;
+    border: none;
+    color: white;
+    width: 2.5vh;
+    height: 3.5vh;
+    border-radius: 1vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4vh;
+    z-index: 100;
+    top: 1.3vh;
+    left: .8vh;
+    float: left;
+    margin-right: 1vh;
+    position: relative;
+    text-align: center;
+    transition: .1s linear;
+}
+
+.documents-extra-button:hover {
+    color: #d9d9d9;
+}
+
+.documents-extra-button > i {
+    line-height: 3.5vh;
+    font-size: 1.5vh;
 }
