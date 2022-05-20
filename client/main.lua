@@ -2164,6 +2164,13 @@ RegisterNUICallback('DenyNotification', function()
     return Result
 end)
 
+RegisterNetEvent("qb-phone:client:sendNotificationPing", function(info)
+    local success = exports['qb-phone']:PhoneNotification("PING", info.Name..' Incoming Ping', 'fas fa-map-pin', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
+    if success then
+        TriggerServerEvent("qb-phone:server:sendingPing", info.Other, info.Player, info.Name, info.OtherName)
+    end
+end)
+
 RegisterNetEvent('qb-phone:refreshImages', function(images)
     PhoneData.Images = images
 end)
