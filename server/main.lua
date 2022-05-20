@@ -1378,8 +1378,8 @@ end)
 
 RegisterNetEvent("qb-phone:server:sendDocument", function(data)
     local src = source
-    local Ply = FLCore.Functions.GetPlayer(src) -- Me
-    local Receiver = FLCore.Functions.GetPlayer(tonumber(data.StateID)) -- Shawn
+    local Ply = QBCore.Functions.GetPlayer(src) -- Me
+    local Receiver = QBCore.Functions.GetPlayer(tonumber(data.StateID)) -- Shawn
     local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
     if Receiver ~= nil then
         if Ply.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then
@@ -1395,7 +1395,7 @@ end)
 
 RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiver, Ply, SenderName)
     local src = source
-    local Player = FLCore.Functions.GetPlayer(src)
+    local Player = QBCore.Functions.GetPlayer(src)
 
     if data.Type == "New" then
         exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Player.PlayerData.citizenid, data.Title, data.Text, data.Time})
