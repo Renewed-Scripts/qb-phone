@@ -2324,6 +2324,17 @@ RegisterNUICallback('documents_Save_Note_As', function(data)
     TriggerServerEvent('qb-phone:server:documents_Save_Note_As', data)
 end)
 
+RegisterNUICallback('document_Send_Note', function(data)
+    TriggerServerEvent('qb-phone:server:sendDocument', data)
+end)
+
+RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiver, Ply, SenderName)
+    local success = exports['qb-phone']:PhoneNotification("DOCUMENTS", SenderName..' Incoming Document', 'fas fa-folder', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
+    if success then
+        TriggerServerEvent("qb-phone:server:documents_Save_Note_As", data, Receiver, Ply, SenderName)
+    end
+end)
+
 RegisterNUICallback('GetNote_for_Documents_app', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetNote_for_Documents_app', function(Has)
         cb(Has)
