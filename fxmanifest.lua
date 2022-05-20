@@ -9,8 +9,8 @@ ui_page 'html/index.html'
 
 shared_scripts {
     'config.lua',
-    '@5life-apartments/config.lua',
-    '@5life-garages/SharedConfig.lua',
+    '@qb-apartments/config.lua',
+    '@qb-garages/config.lua',
 }
 
 client_scripts {

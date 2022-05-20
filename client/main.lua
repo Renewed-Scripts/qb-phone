@@ -155,7 +155,7 @@ local function PublicPhone()
         295857659,-78626473,
         -1559354806
     }
-        exports["5life-eye"]:AddTargetModel(PublicPhoneobject, {
+        exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
             options = {
                 {
                     type = "client",
@@ -1082,7 +1082,7 @@ RegisterNUICallback('HasCreatedRace', function(data, cb)
 end)
 
 RegisterNUICallback('IsInRace', function(data, cb)
-    local InRace = exports['5life-lapraces']:IsInRace()
+    local InRace = exports['qb-lapraces']:IsInRace()
     cb(InRace)
 end)
 
@@ -1090,7 +1090,7 @@ RegisterNUICallback('IsAuthorizedToCreateRaces', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:IsAuthorizedToCreateRaces', function(IsAuthorized, NameAvailable)
         local data = {
             IsAuthorized = IsAuthorized,
-            IsBusy = exports['5life-lapraces']:IsInEditor(),
+            IsBusy = exports['qb-lapraces']:IsInEditor(),
             IsNameAvailable = NameAvailable,
         }
         cb(data)
@@ -1128,9 +1128,9 @@ end)
 
 RegisterNUICallback('IsBusyCheck', function(data, cb)
     if data.check == "editor" then
-        cb(exports['5life-lapraces']:IsInEditor())
+        cb(exports['qb-lapraces']:IsInEditor())
     else
-        cb(exports['5life-lapraces']:IsInRace())
+        cb(exports['qb-lapraces']:IsInRace())
     end
 end)
 
@@ -2410,7 +2410,7 @@ RegisterNUICallback('publicphoneclose', function()
 end)
 
 RegisterNUICallback('openHelp', function()  
-    TriggerEvent('5life-cityhall:client:PayTaxes2')
+    TriggerEvent('qb-cityhall:client:PayTaxes2')
 end)
 
 local function GetGroupCSNs(Data)
