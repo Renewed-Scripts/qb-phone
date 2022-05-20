@@ -2111,7 +2111,7 @@ end)
 local Result = nil
 local test = false
 
--- ex. local success = exports['5life-phone']:PhoneNotification("PING", info.Name..' Incoming Ping', 'fas fa-map-pin', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
+-- ex. local success = exports['qb-phone']:PhoneNotification("PING", info.Name..' Incoming Ping', 'fas fa-map-pin', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
 
 RegisterNetEvent("qb-phone:client:CustomNotification2", function(title, text, icon, color, timeout, accept, deny) -- Send a PhoneNotification to the phone from anywhere
     SendNUIMessage({
@@ -2339,7 +2339,7 @@ RegisterNUICallback('document_Send_Note', function(data)
 end)
 
 RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiver, Ply, SenderName)
-    local success = exports['5life-phone']:PhoneNotification("DOCUMENTS", SenderName..' Incoming Document', 'fas fa-folder', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
+    local success = exports['qb-phone']:PhoneNotification("DOCUMENTS", SenderName..' Incoming Document', 'fas fa-folder', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
     if success then
         if data.Type == 'PermSend' then
             TriggerServerEvent("qb-phone:server:documents_Save_Note_As", data, Receiver, Ply, SenderName)
