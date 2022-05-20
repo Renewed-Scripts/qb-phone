@@ -2325,13 +2325,34 @@ RegisterNUICallback('documents_Save_Note_As', function(data)
 end)
 
 RegisterNUICallback('document_Send_Note', function(data)
-    TriggerServerEvent('qb-phone:server:sendDocument', data)
+    if data.Type == 'LocalSend' then
+        local player, distance = GetClosestPlayer()
+        if player ~= -1 and distance < 2.5 then
+            local playerId = GetPlayerServerId(player)
+            TriggerServerEvent("qb-phone:server:sendDocumentLocal", data, playerId)
+        else
+            TriggerEvent("DoShortHudText", "No one around!", 2)
+        end
+    elseif data.Type == 'PermSend' then
+        TriggerServerEvent('qb-phone:server:sendDocument', data)
+    end
 end)
 
 RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiver, Ply, SenderName)
-    local success = exports['qb-phone']:PhoneNotification("DOCUMENTS", SenderName..' Incoming Document', 'fas fa-folder', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
+    local success = exports['5life-phone']:PhoneNotification("DOCUMENTS", SenderName..' Incoming Document', 'fas fa-folder', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
     if success then
-        TriggerServerEvent("qb-phone:server:documents_Save_Note_As", data, Receiver, Ply, SenderName)
+        if data.Type == 'PermSend' then
+            TriggerServerEvent("qb-phone:server:documents_Save_Note_As", data, Receiver, Ply, SenderName)
+        elseif data.Type == 'LocalSend' then
+            TriggerEvent('qb-phone:client:CustomNotification', 'DOCUMENTS', 'New Document', 'fas fa-folder', '#d9d9d9', 5000)
+            SendNUIMessage({
+                action = "DocumentSent",
+                DocumentSend = {
+                    title = data.Title,
+                    text = data.Text,
+                },
+            })
+        end
     end
 end)
 

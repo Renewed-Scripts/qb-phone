@@ -1393,6 +1393,16 @@ RegisterNetEvent("qb-phone:server:sendDocument", function(data)
     end
 end)
 
+RegisterNetEvent("qb-phone:server:sendDocumentLocal", function(data, playerId)
+    local src = source
+    local Ply = FLCore.Functions.GetPlayer(src) 
+    local Receiver = FLCore.Functions.GetPlayer(playerId) 
+    local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
+
+    TriggerClientEvent("QBCore:Notify", src, 'Document Sent')
+    TriggerClientEvent("qb-phone:client:sendingDocumentRequest", playerId, data, Receiver, Ply, SenderName)
+end)
+
 RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiver, Ply, SenderName)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)

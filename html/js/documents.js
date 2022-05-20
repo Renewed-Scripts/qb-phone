@@ -23,6 +23,48 @@ $(document).ready(function(){
     })
 });
 
+$(document).ready(function(){
+    window.addEventListener('message', function(event) {
+        switch(event.data.action) {
+            case "DocumentSent":
+                SendDocument(event.data.DocumentSend.title, event.data.DocumentSend.text);
+                break;
+        }
+    })
+});
+
+SendDocument = function(title, text) {
+    MainMenu()
+    $(".documents-list").html("");
+
+    $('.documents-tupe-text-btn').fadeOut(50);
+    $('#documents-search-text').fadeOut(50);
+    $('#documents-search-icon').fadeOut(50);
+    $('#documents-search').fadeOut(50);
+    $('.documents-dropdown').fadeOut(50);
+    $('.documents-select').fadeOut(50);
+
+
+    DocEndtitle = title
+    DocEndtext = text
+    DocEndid = $(this).data('id')
+    DocEndcitizenid = $(this).data('csn')
+
+    var AddOption = '<div class="document-body-class-body-main">'+
+                        '<div id="documents-textarea-new" spellcheck="false" required placeholder="Text" maxlength="4000">'+DocEndtext+'</div>'+
+                    '</div>';
+
+    var AnotherOption = '<div class="document-body-class-body-main">'+
+                            '<div class="documents-input-title-list">Title</div>'+
+                            '<div class="documents-input-title-name">'+DocEndtitle+'</div>'+
+                            '<div class="documents-input-tags"><i class="fas fa-tags"></i></div>'+
+                            '<div class="documents-input-back"><i class="fas fa-chevron-left"></i></div>'+
+                        '</div>';
+
+    $('.documents-list').append(AddOption);
+    $('.documents-header').append(AnotherOption);
+}
+
 $(document).on('click', '.documents-tupe-text-btn', function(e){
     e.preventDefault();
     ClearInputNew()
@@ -36,14 +78,14 @@ $(document).on('click', '#documents-send-perm', function(e){
     var StateID = $(".documents-input-stateid").val();
     var NewText = $("#documents-textarea-new").val();
     if(NewText != ""){
-        $.post('https://qb-phone/document_Send_Note', JSON.stringify({
+        $.post('https://5life-phone/document_Send_Note', JSON.stringify({
             Title: DocEndtitle,
             Text: NewText,
             Time: Times,
             ID: DocEndid,
             CSN: DocEndcitizenid,
             StateID: StateID,
-            Type: "Send",
+            Type: "PermSend",
         }));
     }
     ClearInputNew()
@@ -58,7 +100,7 @@ $(document).on('click', '#documents-save-note-for-doc', function(e){
     var Times = date.getDay()+" "+MonthFormatting[date.getMonth()]+" "+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
 
     if ((Title &&Text ) != ""){
-        $.post('https://qb-phone/documents_Save_Note_As', JSON.stringify({
+        $.post('https://5life-phone/documents_Save_Note_As', JSON.stringify({
             Title: Title,
             Text: Text,
             Time: Times,
@@ -73,7 +115,7 @@ $(document).on('click', '#documents-save-note-for-doc', function(e){
 $(document).on('click', '#documents-docs', function(e) {
     $(this).parents('.documents-dropdown').find('span').text($(this).text());
     $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
-    $.post('https://qb-phone/GetNote_for_Documents_app', JSON.stringify({}), function(HasNote){
+    $.post('https://5life-phone/GetNote_for_Documents_app', JSON.stringify({}), function(HasNote){
         if(HasNote){
             AddDocuments(HasNote)
         }
@@ -158,13 +200,24 @@ $(document).on('click', '.documents-extras-button', function(e) {
     }
 });
 
+$(document).on('click', '#documents-share-local', function(e){
+    e.preventDefault();
+
+    $.post('https://5life-phone/document_Send_Note', JSON.stringify({
+        Title: DocEndtitle,
+        Text: DocEndtext,
+        ID: DocEndid,
+        Type: "LocalSend",
+    }));
+});
+
 $(document).on('click', '#documents-save', function(e){
     e.preventDefault();
     var date = new Date();
     var Times = date.getDay()+" "+MonthFormatting[date.getMonth()]+" "+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
     var NewText = $("#documents-textarea-new").val();
     if(NewText != ""){
-        $.post('https://qb-phone/documents_Save_Note_As', JSON.stringify({
+        $.post('https://5life-phone/documents_Save_Note_As', JSON.stringify({
             Title: DocEndtitle,
             Text: NewText,
             Time: Times,
@@ -178,7 +231,7 @@ $(document).on('click', '#documents-save', function(e){
 $(document).on('click', '#documents-delete', function(e){
     e.preventDefault();
 
-    $.post('https://qb-phone/documents_Save_Note_As', JSON.stringify({
+    $.post('https://5life-phone/documents_Save_Note_As', JSON.stringify({
         ID: DocEndid,
         Type: "Delete",
     }));
