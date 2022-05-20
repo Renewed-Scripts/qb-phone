@@ -162,7 +162,7 @@ $(document).on('click', '.documents-title-icon', function(e){
 
     var AnotherOption = '<div class="document-body-class-body-main">'+
                             '<div class="documents-body-btn-four"><i class="fas fa-ellipsis-v"></i></div>'+
-                            '<div class="documents-input-title">Title</div>'+
+                            '<div class="documents-input-title-list">Title</div>'+
                             '<div class="documents-input-title-name">'+DocEndtitle+'</div>'+
                             '<div class="documents-input-tags"><i class="fas fa-tags"></i></div>'+
                             '<div class="documents-input-back"><i class="fas fa-chevron-left"></i></div>'+
