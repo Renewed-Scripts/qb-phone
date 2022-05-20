@@ -32,7 +32,7 @@ local function CreateBlipForGroup(groupID, name, data)
     end
 end exports('CreateBlipForGroup', CreateBlipForGroup)
 
--- Removes the blip for everyone in the group when done being used 
+-- Removes the blip for everyone in the group when done being used
 local function RemoveBlipForGroup(groupID, name)
     if groupID == nil then return print("CreateBlipForGroup was sent an invalid groupID :"..groupID) end
 
@@ -46,7 +46,7 @@ end exports('RemoveBlipForGroup', RemoveBlipForGroup)
 
 -- gets the group by searching the player source use it like local group = exports["qb-phone"]:GetGroupByMembers(source)
 local function GetGroupByMembers(src)
-    if Players[src] then 
+    if Players[src] then
         for group, _ in pairs(EmploymentGroup) do
             for k, v in pairs (EmploymentGroup[group].members) do
                 if v.Player == src then
@@ -93,7 +93,7 @@ end
 -- Removes player from group can be used for some things I just use it for when they leave the server
 local function RemovePlayerFromGroup(src, groupID)
     local player = QBCore.Functions.GetPlayer(src)
-    if Players[src] then 
+    if Players[src] then
         if EmploymentGroup[groupID] then
             local g = EmploymentGroup[groupID].members
             for k,v in pairs(g) do
@@ -120,9 +120,9 @@ end
 local function ChangeGroupLeader(groupID)
     local m = EmploymentGroup[groupID].members
     local l = GetGroupLeader(groupID)
-    if #m > 1 then 
-        for i=1, #m do 
-            if m[i] ~= l then 
+    if #m > 1 then
+        for i=1, #m do
+            if m[i] ~= l then
                 EmploymentGroup[groupID].leader = m[i]
                 break
             end
@@ -194,7 +194,7 @@ end)
 
 -- ** Net Events ** --
 RegisterNetEvent("qb-phone:server:employment_checkJobStauts", function (data)
-    local src = source 
+    local src = source
     local checkStatus = GetGroupByMembers(src)
     if checkStatus ~= nil then
         TriggerClientEvent('qb-phone:client:showEmploymentPage', src)
@@ -206,7 +206,7 @@ end)
 RegisterNetEvent("qb-phone:server:employment_CreateJobGroup", function(data)
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
-    if not Players[src] then 
+    if not Players[src] then
         Players[src] = true
         EmploymentGroup[#EmploymentGroup+1] = {
             id = #EmploymentGroup+1,
@@ -269,16 +269,16 @@ AddEventHandler('playerDropped', function(reason)
 	local src = source
     local groupID = GetGroupByMembers(src)
     if groupID ~= 0 then
-        if isGroupLeader(src, groupID) then 
+        if isGroupLeader(src, groupID) then
             if ChangeGroupLeader(groupID) then
                 TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
-            else 
+            else
                 DestroyGroup(groupID)
                 TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
-            end 
-        else 
+            end
+        else
             RemovePlayerFromGroup(groupID, src)
-        end 
-    end	
+        end
+    end
 end)
 

@@ -539,26 +539,36 @@ end)
 
 -- NUI Callbacks
 
-RegisterNUICallback('CancelOutgoingCall', function()
+RegisterNUICallback('CancelOutgoingCall', function(_, cb)
     CancelCall()
+
+    cb('ok')
 end)
 
-RegisterNUICallback('DenyIncomingCall', function()
+RegisterNUICallback('DenyIncomingCall', function(_, cb)
     CancelCall()
+
+    cb('ok')
 end)
 
-RegisterNUICallback('CancelOngoingCall', function()
+RegisterNUICallback('CancelOngoingCall', function(_, cb)
     CancelCall()
+
+    cb('ok')
 end)
 
-RegisterNUICallback('AnswerCall', function()
+RegisterNUICallback('AnswerCall', function(_, cb)
     AnswerCall()
+
+    cb('ok')
 end)
 
-RegisterNUICallback('ClearRecentAlerts', function(data, cb)
+RegisterNUICallback('ClearRecentAlerts', function(_, cb)
     TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "phone", 0)
     Config.PhoneApplications["phone"].Alerts = 0
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
+
+    cb('ok')
 end)
 
 RegisterNUICallback('SetBackground', function(data)
@@ -567,21 +577,21 @@ RegisterNUICallback('SetBackground', function(data)
     TriggerServerEvent('qb-phone:server:SaveMetaData', PhoneData.MetaData)
 end)
 
-RegisterNUICallback('GetMissedCalls', function(data, cb)
+RegisterNUICallback('GetMissedCalls', function(_, cb)
     cb(PhoneData.RecentCalls)
 end)
 
-RegisterNUICallback('GetSuggestedContacts', function(data, cb)
+RegisterNUICallback('GetSuggestedContacts', function(_, cb)
     cb(PhoneData.SuggestedContacts)
 end)
 
-RegisterNUICallback('HasPhone', function(data, cb)
+RegisterNUICallback('HasPhone', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:HasPhone', function(HasPhone)
         cb(HasPhone)
     end)
 end)
 
-RegisterNUICallback('SetupGarageVehicles', function(data, cb)
+RegisterNUICallback('SetupGarageVehicles', function(_, cb)
     cb(PhoneData.GarageVehicles)
 end)
 
@@ -632,7 +642,7 @@ RegisterNUICallback('AddNewContact', function(data, cb)
     TriggerServerEvent('qb-phone:server:AddNewContact', data.ContactName, data.ContactNumber, data.ContactIban)
 end)
 
-RegisterNUICallback('GetMails', function(data, cb)
+RegisterNUICallback('GetMails', function(_, cb)
     cb(PhoneData.Mails)
 end)
 
@@ -651,7 +661,7 @@ RegisterNUICallback('GetProfilePicture', function(data, cb)
     end, number)
 end)
 
-RegisterNUICallback('GetBankContacts', function(data, cb)
+RegisterNUICallback('GetBankContacts', function(_, cb)
     cb(PhoneData.Contacts)
 end)
 
@@ -675,7 +685,7 @@ RegisterNetEvent("qb-phone:client:sendPing", function(Player, Other, Name)
     end)
 end)
 
-RegisterNUICallback('GetInvoices', function(data, cb)
+RegisterNUICallback('GetInvoices', function(_, cb)
     if PhoneData.Invoices ~= nil and next(PhoneData.Invoices) ~= nil then
         cb(PhoneData.Invoices)
     else
@@ -732,6 +742,8 @@ RegisterNUICallback('ClearAlerts', function(data, cb)
         })
         SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
     end
+
+    cb('ok')
 end)
 
 RegisterNUICallback('PayInvoice', function(data, cb)
@@ -792,14 +804,16 @@ RegisterNUICallback('GetHashtagMessages', function(data, cb)
     end
 end)
 
-RegisterNUICallback('GetTweets', function(data, cb)
+RegisterNUICallback('GetTweets', function(_, cb)
     cb(PhoneData.Tweets)
 end)
 
-RegisterNUICallback('UpdateProfilePicture', function(data)
+RegisterNUICallback('UpdateProfilePicture', function(data, cb)
     local pf = data.profilepicture
     PhoneData.MetaData.profilepicture = pf
     TriggerServerEvent('qb-phone:server:SaveMetaData', PhoneData.MetaData)
+
+    cb('ok')
 end)
 
 RegisterNUICallback('PostNewTweet', function(data, cb)
@@ -861,11 +875,11 @@ RegisterNUICallback('FlagTweet',function(data)
     QBCore.Functions.Notify(data.name..' was reported for saying '..data.message)
 end)
 
-RegisterNUICallback('GetMentionedTweets', function(data, cb)
+RegisterNUICallback('GetMentionedTweets', function(_, cb)
     cb(PhoneData.MentionedTweets)
 end)
 
-RegisterNUICallback('GetHashtags', function(data, cb)
+RegisterNUICallback('GetHashtags', function(_, cb)
     if PhoneData.Hashtags ~= nil and next(PhoneData.Hashtags) ~= nil then
         cb(PhoneData.Hashtags)
     else
@@ -903,15 +917,17 @@ end)
 
 RegisterNUICallback('RemoveApplication', function(data, cb)
     TriggerServerEvent('qb-phone:server:RemoveInstallation', data.app)
+
+    cb('ok')
 end)
 
-RegisterNUICallback('GetTruckerData', function(data, cb)
+RegisterNUICallback('GetTruckerData', function(_, cb)
     local TruckerMeta = QBCore.Functions.GetPlayerData().metadata["jobrep"]["trucker"]
     local TierData = exports['qb-trucker']:GetTier(TruckerMeta)
     cb(TierData)
 end)
 
-RegisterNUICallback('GetGalleryData', function(data, cb)
+RegisterNUICallback('GetGalleryData', function(_, cb)
     local data = PhoneData.Images
     cb(data)
 end)
@@ -924,12 +940,14 @@ RegisterNUICallback('DeleteImage', function(image,cb)
 end)
 
 RegisterNUICallback('gps-vehicle-garage', function(data, cb)
-local veh = data.veh
-if findVehFromPlateAndLocate(veh.plate) then
-    QBCore.Functions.Notify("Your vehicle has been marked")
-else
-    QBCore.Functions.Notify("This vehicle cannot be located", "error")
-end
+    local veh = data.veh
+    if findVehFromPlateAndLocate(veh.plate) then
+        QBCore.Functions.Notify("Your vehicle has been marked")
+    else
+        QBCore.Functions.Notify("This vehicle cannot be located", "error")
+    end
+
+    cb('ok')
 end)
 
 RegisterNUICallback('DeleteContact', function(data, cb)
@@ -985,14 +1003,14 @@ RegisterNUICallback('TransferCrypto', function(data, cb)
     end, data)
 end)
 
-RegisterNUICallback('GetCryptoTransactions', function(data, cb)
+RegisterNUICallback('GetCryptoTransactions', function(_, cb)
     local Data = {
         CryptoTransactions = PhoneData.CryptoTransactions
     }
     cb(Data)
 end)
 
-RegisterNUICallback('GetAvailableRaces', function(data, cb)
+RegisterNUICallback('GetAvailableRaces', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:GetRaces', function(Races)
         cb(Races)
     end)
@@ -1025,6 +1043,8 @@ RegisterNUICallback('RemoveSuggestion', function(data, cb)
             end
         end
     end
+
+    cb('ok')
 end)
 
 RegisterNUICallback('FetchVehicleResults', function(data, cb)
@@ -1041,7 +1061,7 @@ RegisterNUICallback('FetchVehicleResults', function(data, cb)
     end, data.input)
 end)
 
-RegisterNUICallback('FetchVehicleScan', function(data, cb)
+RegisterNUICallback('FetchVehicleScan', function(_, cb)
     local vehicle = QBCore.Functions.GetClosestVehicle()
     local plate = QBCore.Functions.GetPlate(vehicle)
     local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)):lower()
@@ -1058,7 +1078,7 @@ RegisterNUICallback('FetchVehicleScan', function(data, cb)
     end, plate)
 end)
 
-RegisterNUICallback('GetRaces', function(data, cb)
+RegisterNUICallback('GetRaces', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:GetListedRaces', function(Races)
         cb(Races)
     end)
@@ -1073,15 +1093,17 @@ end)
 
 RegisterNUICallback('SetupRace', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:SetupRace', data.RaceId, tonumber(data.AmountOfLaps))
+
+    cb('ok')
 end)
 
-RegisterNUICallback('HasCreatedRace', function(data, cb)
+RegisterNUICallback('HasCreatedRace', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:HasCreatedRace', function(HasCreated)
         cb(HasCreated)
     end)
 end)
 
-RegisterNUICallback('IsInRace', function(data, cb)
+RegisterNUICallback('IsInRace', function(_, cb)
     local InRace = exports['qb-lapraces']:IsInRace()
     cb(InRace)
 end)
@@ -1099,9 +1121,11 @@ end)
 
 RegisterNUICallback('StartTrackEditor', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:CreateLapRace', data.TrackName)
+
+    cb('ok')
 end)
 
-RegisterNUICallback('GetRacingLeaderboards', function(data, cb)
+RegisterNUICallback('GetRacingLeaderboards', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:GetRacingLeaderboards', function(Races)
         cb(Races)
     end)
@@ -1134,19 +1158,19 @@ RegisterNUICallback('IsBusyCheck', function(data, cb)
     end
 end)
 
-RegisterNUICallback('CanRaceSetup', function(data, cb)
+RegisterNUICallback('CanRaceSetup', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:CanRaceSetup', function(CanSetup)
         cb(CanSetup)
     end)
 end)
 
-RegisterNUICallback('GetPlayerHouses', function(data, cb)
+RegisterNUICallback('GetPlayerHouses', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPlayerHouses', function(Houses)
         cb(Houses)
     end)
 end)
 
-RegisterNUICallback('GetPlayerKeys', function(data, cb)
+RegisterNUICallback('GetPlayerKeys', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetHouseKeys', function(Keys)
         cb(Keys)
     end)
@@ -1155,14 +1179,18 @@ end)
 RegisterNUICallback('SetHouseLocation', function(data, cb)
     SetNewWaypoint(data.HouseData.HouseData.coords.enter.x, data.HouseData.HouseData.coords.enter.y)
     QBCore.Functions.Notify("GPS set to " .. data.HouseData.HouseData.adress .. "!")
+
+    cb('ok')
 end)
 
-RegisterNUICallback('RemoveKeyholder', function(data)
+RegisterNUICallback('RemoveKeyholder', function(data, cb)
     TriggerServerEvent('qb-houses:server:removeHouseKey', data.HouseData.name, {
         citizenid = data.HolderData.citizenid,
         firstname = data.HolderData.charinfo.firstname,
         lastname = data.HolderData.charinfo.lastname,
     })
+
+    cb('ok')
 end)
 
 RegisterNUICallback('TransferCid', function(data, cb)
@@ -1180,10 +1208,10 @@ RegisterNUICallback('FetchPlayerHouses', function(data, cb)
 end)
 
 RegisterNUICallback('SetGPSLocation', function(data, cb)
-    local ped = PlayerPedId()
-
     SetNewWaypoint(data.coords.x, data.coords.y)
     QBCore.Functions.Notify('GPS set!')
+
+    cb('ok')
 end)
 
 RegisterNUICallback('SetApartmentLocation', function(data, cb)
@@ -1192,15 +1220,17 @@ RegisterNUICallback('SetApartmentLocation', function(data, cb)
 
     SetNewWaypoint(TypeData.coords.enter.x, TypeData.coords.enter.y)
     QBCore.Functions.Notify('GPS set!')
+
+    cb('ok')
 end)
 
-RegisterNUICallback('GetCurrentLawyers', function(data, cb)
+RegisterNUICallback('GetCurrentLawyers', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetCurrentLawyers', function(lawyers)
         cb(lawyers)
     end)
 end)
 
-RegisterNUICallback('SetupStoreApps', function(data, cb)
+RegisterNUICallback('SetupStoreApps', function(_, cb)
     local PlayerData = QBCore.Functions.GetPlayerData()
     local data = {
         StoreApps = Config.StoreApps,
@@ -1209,7 +1239,7 @@ RegisterNUICallback('SetupStoreApps', function(data, cb)
     cb(data)
 end)
 
-RegisterNUICallback('ClearMentions', function()
+RegisterNUICallback('ClearMentions', function(_, cb)
     Config.PhoneApplications["twitter"].Alerts = 0
     SendNUIMessage({
         action = "RefreshAppAlerts",
@@ -1217,9 +1247,11 @@ RegisterNUICallback('ClearMentions', function()
     })
     TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "twitter", 0)
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
+
+    cb('ok')
 end)
 
-RegisterNUICallback('ClearGeneralAlerts', function(data)
+RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
     SetTimeout(400, function()
         Config.PhoneApplications[data.app].Alerts = 0
         SendNUIMessage({
@@ -1229,6 +1261,8 @@ RegisterNUICallback('ClearGeneralAlerts', function(data)
         TriggerServerEvent('qb-phone:server:SetPhoneAlerts', data.app, 0)
         SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
     end)
+
+    cb('ok')
 end)
 
 RegisterNUICallback('TransferMoney', function(data, cb)
@@ -1380,9 +1414,11 @@ RegisterNUICallback('SendMessage', function(data, cb)
     else
         TriggerEvent('qb-phone:client:CustomNotification', "MESSAGES", "Incorrect Phone Number!", 'fas fa-phone', '#FF0000', 7500)
     end
+
+    cb('ok')
 end)
 
-RegisterNUICallback("TakePhoto", function(data,cb)
+RegisterNUICallback("TakePhoto", function(_,cb)
     SetNuiFocus(false, false)
     CreateMobilePhone(1)
     CellCamActivate(true, true)
@@ -1480,7 +1516,7 @@ end)
 RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData, delete)
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
-    if not delete then 
+    if not delete then
         if src ~= MyPlayerId then
             SendNUIMessage({
                 action = "PhoneNotification",
@@ -1701,7 +1737,7 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
     end
 end)
 
-RegisterNUICallback('phone-silent-button', function(data,cb)
+RegisterNUICallback('phone-silent-button', function(_,cb)
     if CallVolume == tonumber("0.2") then
         CallVolume = 0
         QBCore.Functions.Notify("Silent Mode On")
@@ -2150,17 +2186,19 @@ function PhoneNotification(title, text, icon, color, timeout, accept, deny)
     return Result
 end
 
-RegisterNUICallback('AcceptNotification', function()
+RegisterNUICallback('AcceptNotification', function(_, cb)
     Result = true
     Wait(100)
     test = false
+    cb('ok')
     return Result
 end)
 
-RegisterNUICallback('DenyNotification', function()
+RegisterNUICallback('DenyNotification', function(_, cb)
     Result = false
     Wait(100)
     test = false
+    cb('ok')
     return Result
 end)
 
@@ -2216,23 +2254,30 @@ end)
 
 -- ping
 
-RegisterNUICallback('AcceptPingPlayer', function()
+RegisterNUICallback('AcceptPingPlayer', function(_, cb)
     TriggerServerEvent('qb-pings:server:acceptping')
     TriggerEvent("qb-phone:ping:client:UiUppers", false)
+
+    cb('ok')
 end)
 
-RegisterNUICallback('rejectPingPlayer', function()
+RegisterNUICallback('rejectPingPlayer', function(_, cb)
     TriggerServerEvent('qb-pings:server:denyping')
     TriggerEvent("qb-phone:ping:client:UiUppers", false)
+
+    cb('ok')
 end)
 
-RegisterNUICallback('SendPingPlayer', function(data)
+RegisterNUICallback('SendPingPlayer', function(data, cb)
     TriggerServerEvent('qb-phone:server:sendPing', data.id)
-    
+
+    cb('ok')
 end)
 
-RegisterNUICallback('CasinoAddBet', function(data)
+RegisterNUICallback('CasinoAddBet', function(data, cb)
     TriggerServerEvent('qb-phone:server:CasinoAddBet', data)
+
+    cb('ok')
 end)
 
 RegisterNetEvent('qb-phone:client:addbetForAll', function(data)
@@ -2242,12 +2287,15 @@ RegisterNetEvent('qb-phone:client:addbetForAll', function(data)
     })
 end)
 
-RegisterNUICallback('BettingAddToTable', function(data)
+RegisterNUICallback('BettingAddToTable', function(data, cb)
     TriggerServerEvent('qb-phone:server:BettingAddToTable', data)
+    cb('ok')
 end)
 
-RegisterNUICallback('CasinoDeleteTable', function(data)
+RegisterNUICallback('CasinoDeleteTable', function(_, cb)
     TriggerServerEvent('qb-phone:server:DeleteAndClearTable')
+
+    cb('ok')
 end)
 
 RegisterNUICallback('CheckHasBetTable', function(data, cb)
@@ -2256,35 +2304,42 @@ RegisterNUICallback('CheckHasBetTable', function(data, cb)
     end)
 end)
 
-RegisterNUICallback('casino_status', function(data)
+RegisterNUICallback('casino_status', function(_, cb)
     TriggerServerEvent('qb-phone:server:casino_status')
+
+    cb('ok')
 end)
 
-RegisterNUICallback('CheckHasBetStatus', function(data, cb)
+RegisterNUICallback('CheckHasBetStatus', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:CheckHasBetStatus', function(HasStatus)
         cb(HasStatus)
     end)
 end)
 
-RegisterNUICallback('WineridCasino', function(data)
+RegisterNUICallback('WineridCasino', function(data, cb)
     TriggerServerEvent('qb-phone:server:WineridCasino', data)
+    cb('ok')
 end)
 
-RegisterNUICallback('GetJobCentersJobs', function(data, cb)
+RegisterNUICallback('GetJobCentersJobs', function(_, cb)
     cb(Config.JobCenter)
 end)
 
-RegisterNUICallback('CasinoPhoneJobCenter', function(data)
+RegisterNUICallback('CasinoPhoneJobCenter', function(data, cb)
     if data.action == 1 then
         TriggerServerEvent('qb-phone:server:SetJobJobCenter', data)
     elseif data.action == 2 then
         SetNewWaypoint(data.x, data.y)
         QBCore.Functions.Notify('GPS set')
     end
+
+    cb('ok')
 end)
 
-RegisterNUICallback('SendBillForPlayer_debt', function(data) -- BINGOOOOO
+RegisterNUICallback('SendBillForPlayer_debt', function(data, cb) -- BINGOOOOO
     TriggerServerEvent('qb-phone:server:SendBillForPlayer_debt', data)
+
+    cb('ok')
 end)
 
 RegisterNUICallback('GetHasBills_debt', function(data, cb)
@@ -2293,8 +2348,10 @@ RegisterNUICallback('GetHasBills_debt', function(data, cb)
     end)
 end)
 
-RegisterNUICallback('debit_AcceptBillForPay', function(data)
+RegisterNUICallback('debit_AcceptBillForPay', function(data, cb)
     TriggerServerEvent('qb-phone:server:debit_AcceptBillForPay', data)
+
+    cb('ok')
 end)
 
 RegisterNetEvent('qb-phone:RefreshPhoneForDebt', function()
@@ -2303,8 +2360,9 @@ RegisterNetEvent('qb-phone:RefreshPhoneForDebt', function()
     })
 end)
 
-RegisterNUICallback('wenmo_givemoney_toID', function(data)
+RegisterNUICallback('wenmo_givemoney_toID', function(data, cb)
     TriggerServerEvent('qb-phone:server:wenmo_givemoney_toID', data)
+    cb('ok')
 end)
 
 RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus, reason)
@@ -2327,11 +2385,12 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus, rea
     end
 end)
 
-RegisterNUICallback('documents_Save_Note_As', function(data)
+RegisterNUICallback('documents_Save_Note_As', function(data, cb)
     TriggerServerEvent('qb-phone:server:documents_Save_Note_As', data)
+    cb("ok")
 end)
 
-RegisterNUICallback('document_Send_Note', function(data)
+RegisterNUICallback('document_Send_Note', function(data, cb)
     if data.Type == 'LocalSend' then
         local player, distance = GetClosestPlayer()
         if player ~= -1 and distance < 2.5 then
@@ -2343,6 +2402,8 @@ RegisterNUICallback('document_Send_Note', function(data)
     elseif data.Type == 'PermSend' then
         TriggerServerEvent('qb-phone:server:sendDocument', data)
     end
+
+    cb("ok")
 end)
 
 RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiver, Ply, SenderName)
@@ -2363,7 +2424,7 @@ RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiv
     end
 end)
 
-RegisterNUICallback('GetNote_for_Documents_app', function(data, cb)
+RegisterNUICallback('GetNote_for_Documents_app', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetNote_for_Documents_app', function(Has)
         cb(Has)
     end)
@@ -2376,8 +2437,9 @@ RegisterNetEvent('qb-phone:RefReshNotes_Free_Documents', function()
 end)
 
 
-RegisterNUICallback('Send_lsbn_ToChat', function(data)
+RegisterNUICallback('Send_lsbn_ToChat', function(data, cb)
     TriggerServerEvent('qb-phone:server:Send_lsbn_ToChat', data)
+    cb('ok')
 end)
 
 RegisterNetEvent('qb-phone:LSBN-reafy-for-add', function(data, toggle, text)
@@ -2400,19 +2462,23 @@ RegisterNetEvent('qb-phone:LSBN-reafy-for-add', function(data, toggle, text)
     })
 end)
 
-RegisterNUICallback('GetLSBNchats', function(data)
+RegisterNUICallback('GetLSBNchats', function(data, cb)
     TriggerServerEvent('qb-phone:server:GetLSBNchats', data)
+    cb('ok')
 end)
 
-RegisterNetEvent('stx-phone:client:publocphoneopen',function()
+RegisterNetEvent('stx-phone:client:publocphoneopen',function(_, cb)
     SetNuiFocus(true, true)
     SendNUIMessage({type = 'publicphoneopen'})
+    cb('ok')
 end)
 
-RegisterNUICallback('publicphoneclose', function()
+RegisterNUICallback('publicphoneclose', function(_, cb)
     SetNuiFocus(false, false)
+    cb('ok')
 end)
 
-RegisterNUICallback('openHelp', function()  
+RegisterNUICallback('openHelp', function(_, cb)
     TriggerEvent('qb-cityhall:client:PayTaxes2')
+    cb('ok')
 end)

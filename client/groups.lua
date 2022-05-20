@@ -48,7 +48,7 @@ RegisterNetEvent("groups:createBlip", function(name, data)
     local blip = nil
     if data.entity then
         blip = AddBlipForEntity(data.entity)
-    elseif data.netId then 
+    elseif data.netId then
         blip = AddBlipForEntity(NetworkGetEntityFromNetworkId(data.netId))
     elseif data.radius then
         blip = AddBlipForRadius(data.coords.x, data.coords.y, data.coords.z, data.radius)
@@ -70,11 +70,11 @@ RegisterNetEvent("groups:createBlip", function(name, data)
         AddTextComponentSubstringPlayerName(data.label)
         EndTextCommandSetBlipName(blip)
     end
-    
+
     SetBlipColour(blip, data.color)
     SetBlipAlpha(blip, data.alpha)
 
-    if data.route then 
+    if data.route then
         SetBlipRoute(blip, true)
         SetBlipRouteColour(blip, data.routeColor)
     end
@@ -103,7 +103,7 @@ end)
 
 RegisterCommand("testgroup", function()
     TriggerServerEvent('TestGroups')
-    
+
 end, false)
 
 RegisterNetEvent('qb-phone:client:AddGroupStage', function(status, stage)

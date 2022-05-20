@@ -618,7 +618,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     VehicleGarage = v.garage
                 end
             end
-            
+
             local VehicleState = "In"
             if v.state == 0 then
                 VehicleState = "Out"
@@ -686,7 +686,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
     end
     iban = newiban
     amount = tonumber(newAmount)
-    
+
     local Player = QBCore.Functions.GetPlayer(source)
     if (Player.PlayerData.money.bank - amount) >= 0 then
         local query = '%"account":"' .. iban .. '"%'
@@ -1312,7 +1312,7 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
     local Commission = tonumber(data.Amount) * 0.20
     if OtherPly then
         if Ply.PlayerData.money.bank then
-            if Ply.Functions.RemoveMoney('bank', Amount, "Remove Money For Debt") then -- Makes sure the money is removed! 
+            if Ply.Functions.RemoveMoney('bank', Amount, "Remove Money For Debt") then -- Makes sure the money is removed!
                 if OtherPly.PlayerData.job.name == "hayes" then
                     OtherPly.Functions.AddMoney('bank', Commission, "Hayes Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
                     exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
@@ -1395,8 +1395,8 @@ end)
 
 RegisterNetEvent("qb-phone:server:sendDocumentLocal", function(data, playerId)
     local src = source
-    local Ply = FLCore.Functions.GetPlayer(src) 
-    local Receiver = FLCore.Functions.GetPlayer(playerId) 
+    local Ply = FLCore.Functions.GetPlayer(src)
+    local Receiver = FLCore.Functions.GetPlayer(playerId)
     local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
 
     TriggerClientEvent("QBCore:Notify", src, 'Document Sent')
