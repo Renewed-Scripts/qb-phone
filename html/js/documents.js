@@ -78,7 +78,7 @@ $(document).on('click', '#documents-send-perm', function(e){
     var StateID = $(".documents-input-stateid").val();
     var NewText = $("#documents-textarea-new").val();
     if(NewText != ""){
-        $.post('https://5life-phone/document_Send_Note', JSON.stringify({
+        $.post('https://qb-phone/document_Send_Note', JSON.stringify({
             Title: DocEndtitle,
             Text: NewText,
             Time: Times,
@@ -100,7 +100,7 @@ $(document).on('click', '#documents-save-note-for-doc', function(e){
     var Times = date.getDay()+" "+MonthFormatting[date.getMonth()]+" "+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
 
     if ((Title &&Text ) != ""){
-        $.post('https://5life-phone/documents_Save_Note_As', JSON.stringify({
+        $.post('https://qb-phone/documents_Save_Note_As', JSON.stringify({
             Title: Title,
             Text: Text,
             Time: Times,
@@ -115,7 +115,7 @@ $(document).on('click', '#documents-save-note-for-doc', function(e){
 $(document).on('click', '#documents-docs', function(e) {
     $(this).parents('.documents-dropdown').find('span').text($(this).text());
     $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
-    $.post('https://5life-phone/GetNote_for_Documents_app', JSON.stringify({}), function(HasNote){
+    $.post('https://qb-phone/GetNote_for_Documents_app', JSON.stringify({}), function(HasNote){
         if(HasNote){
             AddDocuments(HasNote)
         }
@@ -203,7 +203,7 @@ $(document).on('click', '.documents-extras-button', function(e) {
 $(document).on('click', '#documents-share-local', function(e){
     e.preventDefault();
 
-    $.post('https://5life-phone/document_Send_Note', JSON.stringify({
+    $.post('https://qb-phone/document_Send_Note', JSON.stringify({
         Title: DocEndtitle,
         Text: DocEndtext,
         ID: DocEndid,
@@ -217,7 +217,7 @@ $(document).on('click', '#documents-save', function(e){
     var Times = date.getDay()+" "+MonthFormatting[date.getMonth()]+" "+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
     var NewText = $("#documents-textarea-new").val();
     if(NewText != ""){
-        $.post('https://5life-phone/documents_Save_Note_As', JSON.stringify({
+        $.post('https://qb-phone/documents_Save_Note_As', JSON.stringify({
             Title: DocEndtitle,
             Text: NewText,
             Time: Times,
@@ -231,7 +231,7 @@ $(document).on('click', '#documents-save', function(e){
 $(document).on('click', '#documents-delete', function(e){
     e.preventDefault();
 
-    $.post('https://5life-phone/documents_Save_Note_As', JSON.stringify({
+    $.post('https://qb-phone/documents_Save_Note_As', JSON.stringify({
         ID: DocEndid,
         Type: "Delete",
     }));
