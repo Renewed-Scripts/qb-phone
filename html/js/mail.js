@@ -9,6 +9,15 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function(){
+    $("#mail-search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $(".mail").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+});
+
 $(document).on('click', '.mail', function(e){
     e.preventDefault();
 
