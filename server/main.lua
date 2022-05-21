@@ -218,18 +218,14 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source,
     if Target ~= nil then
         if Calls[Target.PlayerData.citizenid] ~= nil then
             if Calls[Target.PlayerData.citizenid].inCall then
-                print("false, true")
                 cb(false, true)
             else
-                print("true, true")
                 cb(true, true)
             end
         else
-            print("true, true")
             cb(true, true)
         end
     else
-        print("false, false")
         cb(false, false)
     end
 end)
@@ -573,7 +569,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     VehicleGarage = v.garage
                 end
             end
-            
+
             local VehicleState = "In"
             if v.state == 0 then
                 VehicleState = "Out"
@@ -624,18 +620,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
         cb(Vehicles)
     else
         cb(nil)
-    end
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:HasPhone', function(source, cb)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local HasPhone = Player.Functions.GetItemByName("phone")
-        if HasPhone ~= nil then
-            cb(true)
-        else
-            cb(false)
-        end
     end
 end)
 
@@ -691,7 +675,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(so
 end)
 
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
-		cb(WebHook)
+	cb(WebHook)
 end)
 
 -- Events
