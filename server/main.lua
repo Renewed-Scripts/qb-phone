@@ -393,53 +393,8 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(source, cb, Chats)
     for k, v in pairs(Chats) do
         local Player = QBCore.Functions.GetPlayerByPhone(v.number)
-
-        local query = '%' .. v.number .. '%'
-        local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-        if result[1] ~= nil then
-            local MetaData = json.decode(result[1].metadata)
-
-            if MetaData.phone.profilepicture ~= nil then
-                v.picture = MetaData.phone.profilepicture
-            else
-                v.picture = "default"
-            end
-        end
     end
-    SetTimeout(0, function()
-        cb(Chats)
-    end)
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetContactPicture', function(source, cb, Chat)
-    local query = '%' .. Chat.number .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-    local MetaData = json.decode(result[1].metadata)
-    if MetaData.phone.profilepicture ~= nil then
-        Chat.picture = MetaData.phone.profilepicture
-    else
-        Chat.picture = "default"
-    end
-    SetTimeout(100, function()
-        cb(Chat)
-    end)
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetPicture', function(source, cb, number)
-    local Picture = nil
-    local query = '%' .. number .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-    if result[1] ~= nil then
-        local MetaData = json.decode(result[1].metadata)
-        if MetaData.phone.profilepicture ~= nil then
-            Picture = MetaData.phone.profilepicture
-        else
-            Picture = "default"
-        end
-        cb(Picture)
-    else
-        cb(nil)
-    end
+    cb(Chats)
 end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, cb, search)

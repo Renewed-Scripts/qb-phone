@@ -654,13 +654,6 @@ RegisterNUICallback('GetWhatsappChat', function(data, cb)
     end
 end)
 
-RegisterNUICallback('GetProfilePicture', function(data, cb)
-    local number = data.number
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetPicture', function(picture)
-        cb(picture)
-    end, number)
-end)
-
 RegisterNUICallback('GetBankContacts', function(_, cb)
     cb(PhoneData.Contacts)
 end)
