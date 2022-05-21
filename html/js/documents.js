@@ -125,7 +125,7 @@ $(document).on('click', '#documents-vehicle', function(e) {
             
                     var AddOption = '<div class="documents-test">' + 
                         '<div class="documents-title-title">'+Fulltext+'</div>' +
-                        '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b><center>Official State Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
+                        '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b><center>Official Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
                     '</div>';
             
                     $('.documents-list').append(AddOption);
@@ -133,6 +133,37 @@ $(document).on('click', '#documents-vehicle', function(e) {
             });
         }
     });
+});
+
+$(document).on('click', '#documents-licenses', function(e) {
+    var PlayerLicenses = QB.Phone.Data.PlayerData.metadata.licences;
+    var FirstName = QB.Phone.Data.PlayerData.charinfo.firstname;
+    var LastName = QB.Phone.Data.PlayerData.charinfo.lastname;
+    var StateId = QB.Phone.Data.PlayerData.citizenid;
+    var Sex = QB.Phone.Data.PlayerData.charinfo.gender;
+    $(this).parents('.documents-dropdown').find('span').text($(this).text());
+    $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
+    $(".documents-list").html("");
+
+    if (Sex == 0){
+        label = 'Male'
+    } else if (Sex == 1){
+        label = 'Female'
+    }
+
+    for (const [k, v] of Object.entries(PlayerLicenses)) {
+        if (v){
+            var firstLetter = k.substring(0, 1);  
+            var Fulltext = firstLetter.toUpperCase()+k.replace(firstLetter,'')+" License"
+    
+            var AddOption = '<div class="documents-test">' + 
+                '<div class="documents-title-title">'+Fulltext+'</div>' +
+                '<div class="documents-title-icon-registration" data-title="'+Fulltext+'" data-text="<b><u>Issued To</u></b><p><p><b>Name: </b>'+FirstName+' '+LastName+'</p></p></b><p><b>ID: </b>'+StateId+'</p></b><p><b>Sex: </b>'+label+'</p></b><p><b><u>Issued By</u></b></p><p><b>Name: </b>State Account</p><p><b><center>Official Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
+            '</div>';
+    
+            $('.documents-list').append(AddOption);
+        }
+    }
 });
 
 $(document).on('click', '.documents-title-icon-registration', function(e){
@@ -183,18 +214,6 @@ $(document).on('click', '.documents-extras-button-registration', function(e) {
             ExtraButtonsOpen = false;
         });
     }
-});
-
-$(document).on('click', '#documents-licenses', function(e) {
-    $(this).parents('.documents-dropdown').find('span').text($(this).text());
-    $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
-    console.log("LICENSES")
-});
-
-$(document).on('click', '#documents-vehicle', function(e) {
-    $(this).parents('.documents-dropdown').find('span').text($(this).text());
-    $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
-    console.log("VEHICLE")
 });
 
 $(document).on('click', '.documents-title-icon', function(e){
