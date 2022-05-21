@@ -1,5 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local PlayerJob = {}
+local PlayerData = {}
 local patt = "[?!@#]"
 local CallVolume = 0.2
 PhoneData = {
@@ -44,6 +45,19 @@ end
 
 local function escape_str(s)
 	return s
+end
+
+local function HaveItem(item)
+    local variable = false
+
+    for k, v in pairs(PlayerData.items) do
+        if v.name == item then
+            variable = true
+            break
+        end
+    end
+
+    return variable
 end
 
 local function GenerateTweetId()
@@ -193,8 +207,8 @@ end
 local function LoadPhone()
     Wait(100)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
-        PlayerJob = QBCore.Functions.GetPlayerData().job
-        PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
+        PlayerJob = PlayerData.job
+        PhoneData.PlayerData = PlayerData
         local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
         PhoneData.MetaData = PhoneMeta
 
@@ -290,43 +304,41 @@ local function LoadPhone()
 end
 
 local function OpenPhone()
-    QBCore.Functions.TriggerCallback('qb-phone:server:HasPhone', function(HasPhone)
-        if HasPhone then
-            PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
-    	    SetNuiFocus(true, true)
-            SendNUIMessage({
-                action = "open",
-                Tweets = PhoneData.Tweets,
-                AppData = Config.PhoneApplications,
-                CallData = PhoneData.CallData,
-                PlayerData = PhoneData.PlayerData,
-            })
-            PhoneData.isOpen = true
+    if HaveItem("phone") then
+        PhoneData.PlayerData = PlayerData
+        SetNuiFocus(true, true)
+        SendNUIMessage({
+            action = "open",
+            Tweets = PhoneData.Tweets,
+            AppData = Config.PhoneApplications,
+            CallData = PhoneData.CallData,
+            PlayerData = PhoneData.PlayerData,
+        })
+        PhoneData.isOpen = true
 
-            CreateThread(function()
-                while PhoneData.isOpen do
-                    DisableDisplayControlActions()
-                    Wait(1)
-                end
-            end)
-
-            if not PhoneData.CallData.InCall then
-                DoPhoneAnimation('cellphone_text_in')
-            else
-                DoPhoneAnimation('cellphone_call_to_text')
+        CreateThread(function()
+            while PhoneData.isOpen do
+                DisableDisplayControlActions()
+                Wait(1)
             end
+        end)
 
-            SetTimeout(250, function()
-                newPhoneProp()
-            end)
-
-            QBCore.Functions.TriggerCallback('qb-phone:server:GetGarageVehicles', function(vehicles)
-                PhoneData.GarageVehicles = vehicles
-            end)
+        if not PhoneData.CallData.InCall then
+            DoPhoneAnimation('cellphone_text_in')
         else
-            QBCore.Functions.Notify("You don't have a phone?", "error")
+            DoPhoneAnimation('cellphone_call_to_text')
         end
-    end)
+
+        SetTimeout(250, function()
+            newPhoneProp()
+        end)
+
+        QBCore.Functions.TriggerCallback('qb-phone:server:GetGarageVehicles', function(vehicles)
+            PhoneData.GarageVehicles = vehicles
+        end)
+    else
+        QBCore.Functions.Notify("You don't have a phone?", "error")
+    end
 end
 
 local function GenerateCallId(caller, target)
@@ -492,7 +504,6 @@ end
 -- Command
 
 RegisterCommand('phone', function()
-    PlayerData = QBCore.Functions.GetPlayerData()
     if not PhoneData.isOpen then
         if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() then
             OpenPhone()
@@ -504,7 +515,6 @@ end)
 RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'Y')
 
 RegisterCommand("+answer", function()
-    PlayerData = QBCore.Functions.GetPlayerData()
     if (PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing" and not PhoneData.CallData.CallType == "ongoing") then
         if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() then
             AnswerCall()
@@ -516,7 +526,6 @@ end)
 RegisterKeyMapping('+answer', 'Answer Phone Call', 'keyboard', '')
 
 RegisterCommand("+decline", function()
-    PlayerData = QBCore.Functions.GetPlayerData()
     if (PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing" or PhoneData.CallData.CallType == "ongoing") then
         if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() then
             CancelCall()
@@ -530,7 +539,6 @@ RegisterKeyMapping('+decline', 'Decline Phone Call', 'keyboard', '')
 CreateThread(function()
     while true do
         Wait(0)
-        PlayerData = QBCore.Functions.GetPlayerData()
         if PhoneData.CallData.CallType == "ongoing" and (PlayerData.metadata['isdead'] or PlayerData.metadata['ishandcuffed']) then
             CancelCall()
         end
@@ -586,9 +594,7 @@ RegisterNUICallback('GetSuggestedContacts', function(_, cb)
 end)
 
 RegisterNUICallback('HasPhone', function(_, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:HasPhone', function(HasPhone)
-        cb(HasPhone)
-    end)
+    cb(HaveItem("phone"))
 end)
 
 RegisterNUICallback('SetupGarageVehicles', function(_, cb)
@@ -1224,7 +1230,6 @@ RegisterNUICallback('GetCurrentLawyers', function(_, cb)
 end)
 
 RegisterNUICallback('SetupStoreApps', function(_, cb)
-    local PlayerData = QBCore.Functions.GetPlayerData()
     local data = {
         StoreApps = Config.StoreApps,
         PhoneData = PlayerData.metadata["phonedata"]
@@ -1280,7 +1285,6 @@ end)
 RegisterNUICallback('CanTransferMoney', function(data, cb)
     local amount = tonumber(data.amountOf)
     local iban = data.sendTo
-    local PlayerData = QBCore.Functions.GetPlayerData()
 
     if (PlayerData.money.bank - amount) >= 0 then
         QBCore.Functions.TriggerCallback('qb-phone:server:CanTransferMoney', function(Transferd)
@@ -1458,7 +1462,16 @@ end)
 
 -- Handler Events
 
+AddEventHandler('onResourceStart', function(resource)
+    if GetCurrentResourceName() == resource then
+      if LocalPlayer.state.isLoggedIn then
+        PlayerData = QBCore.Functions.GetPlayerData()
+      end
+    end
+end)
+
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    PlayerData = QBCore.Functions.GetPlayerData()
     LoadPhone()
 end)
 
@@ -1486,6 +1499,8 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
         SuggestedContacts = {},
         CryptoTransactions = {},
     }
+
+    PlayerData = {}
 end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
@@ -1496,6 +1511,12 @@ RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     })
 
     PlayerJob = JobInfo
+end)
+
+-- Handles state when PlayerData is changed. We're just looking for inventory updates.
+RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
+    print(val)
+    PlayerData = val
 end)
 
 -- Events
@@ -1771,21 +1792,19 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
         if not PhoneData.CallData.AnsweredCall then
             if RepeatCount + 1 ~= Config.CallRepeats + 1 then
                 if PhoneData.CallData.InCall then
-                    QBCore.Functions.TriggerCallback('qb-phone:server:HasPhone', function(HasPhone)
-                        if HasPhone then
-                            RepeatCount = RepeatCount + 1
-                            TriggerServerEvent("InteractSound_SV:PlayOnSource", "ringing", CallVolume)
+                    if HaveItem("phone") then
+                        RepeatCount = RepeatCount + 1
+                        TriggerServerEvent("InteractSound_SV:PlayOnSource", "ringing", CallVolume)
 
-                            if not PhoneData.isOpen then
-                                SendNUIMessage({
-                                    action = "IncomingCallAlert",
-                                    CallData = PhoneData.CallData.TargetData,
-                                    Canceled = false,
-                                    AnonymousCall = AnonymousCall,
-                                })
-                            end
+                        if not PhoneData.isOpen then
+                            SendNUIMessage({
+                                action = "IncomingCallAlert",
+                                CallData = PhoneData.CallData.TargetData,
+                                Canceled = false,
+                                AnonymousCall = AnonymousCall,
+                            })
                         end
-                    end)
+                    end
                 else
                     SendNUIMessage({
                         action = "IncomingCallAlert",
