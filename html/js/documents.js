@@ -83,6 +83,11 @@ $(document).on('click', '#documents-save-note-for-doc', function(e){
 $(document).on('click', '#documents-docs', function(e) {
     $(this).parents('.documents-dropdown').find('span').text($(this).text());
     $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
+    $(".documents-list").html(""); // Frown Face before loading any contents if any!
+        var AddOption = '<div class="casino-text-clear">Nothing Here!</div>'+
+        '<div class="casino-text-clear" style="font-size: 500%;color: #0d1218c0;"><i class="fas fa-frown"></i></div>'
+    $('.documents-list').append(AddOption);
+
     $.post('https://qb-phone/GetNote_for_Documents_app', JSON.stringify({}), function(HasNote){
         if(HasNote){
             AddDocuments(HasNote)
@@ -131,6 +136,10 @@ $(document).on('click', '#documents-vehicle', function(e) {
                     $('.documents-list').append(AddOption);
                 }
             });
+        } else {
+            var AddOption = '<div class="casino-text-clear">Nothing Here!</div>'+
+            '<div class="casino-text-clear" style="font-size: 500%;color: #0d1218c0;"><i class="fas fa-frown"></i></div>'
+        $('.documents-list').append(AddOption);
         }
     });
 });
@@ -151,18 +160,24 @@ $(document).on('click', '#documents-licenses', function(e) {
         label = 'Female'
     }
 
-    for (const [k, v] of Object.entries(PlayerLicenses)) {
-        if (v){
-            var firstLetter = k.substring(0, 1);  
-            var Fulltext = firstLetter.toUpperCase()+k.replace(firstLetter,'')+" License"
-    
-            var AddOption = '<div class="documents-test">' + 
-                '<div class="documents-title-title">'+Fulltext+'</div>' +
-                '<div class="documents-title-icon-registration" data-title="'+Fulltext+'" data-text="<b><u>Issued To</u></b><p><p><b>Name: </b>'+FirstName+' '+LastName+'</p></p></b><p><b>ID: </b>'+StateId+'</p></b><p><b>Sex: </b>'+label+'</p></b><p><b><u>Issued By</u></b></p><p><b>Name: </b>State Account</p><p><b><center>Official Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
-            '</div>';
-    
-            $('.documents-list').append(AddOption);
+    if (PlayerLicenses){
+        for (const [k, v] of Object.entries(PlayerLicenses)) {
+            if (v){
+                var firstLetter = k.substring(0, 1);  
+                var Fulltext = firstLetter.toUpperCase()+k.replace(firstLetter,'')+" License"
+        
+                var AddOption = '<div class="documents-test">' + 
+                    '<div class="documents-title-title">'+Fulltext+'</div>' +
+                    '<div class="documents-title-icon-registration" data-title="'+Fulltext+'" data-text="<b><u>Issued To</u></b><p><p><b>Name: </b>'+FirstName+' '+LastName+'</p></p></b><p><b>ID: </b>'+StateId+'</p></b><p><b>Sex: </b>'+label+'</p></b><p><b><u>Issued By</u></b></p><p><b>Name: </b>State Account</p><p><b><center>Official Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
+                '</div>';
+        
+                $('.documents-list').append(AddOption);
+            }
         }
+    } else {
+        var AddOption = '<div class="casino-text-clear">Nothing Here!</div>'+
+        '<div class="casino-text-clear" style="font-size: 500%;color: #0d1218c0;"><i class="fas fa-frown"></i></div>'
+    $('.documents-list').append(AddOption);
     }
 });
 
