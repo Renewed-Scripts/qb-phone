@@ -44,13 +44,8 @@ $(document).on('click', '.whatsapp-chat', function(e){
 
     $('.whatsapp-openedchat-messages').animate({scrollTop: 9999}, 150);
 
-    if (OpenedChatPicture == null) {
-        OpenedChatPicture = "./img/default.png";
-        if (ChatData.picture != null || ChatData.picture != undefined || ChatData.picture != "default") {
-            OpenedChatPicture = ChatData.picture
-        }
-        $(".whatsapp-openedchat-picture").css({"background-image":"url("+OpenedChatPicture+")"});
-    }
+    ShitterPicture = "./img/default.png";
+    $(".whatsapp-openedchat-picture").css({"background-image":"url("+ShitterPicture+")"});
 });
 
 $(document).on('click', '#whatsapp-openedchat-back', function(e){
@@ -109,9 +104,6 @@ QB.Phone.Functions.LoadWhatsappChats = function(chats) {
     $(".whatsapp-chats").html("");
     $.each(chats, function(i, chat){
         var profilepicture = "./img/default.png";
-        if (chat.picture !== "default") {
-            profilepicture = chat.picture
-        }
         var LastMessage = QB.Phone.Functions.GetLastMessage(chat.messages);
         var ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+chat.name+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
 
@@ -340,19 +332,8 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
     if (cData) {
         OpenedChatData.number = cData.number;
 
-        if (OpenedChatPicture == null) {
-            $.post('https://qb-phone/GetProfilePicture', JSON.stringify({
-                number: OpenedChatData.number,
-            }), function(picture){
-                OpenedChatPicture = "./img/default.png";
-                if (picture != "default" && picture != null) {
-                    OpenedChatPicture = picture
-                }
-                $(".whatsapp-openedchat-picture").css({"background-image":"url("+OpenedChatPicture+")"});
-            });
-        } else {
-            $(".whatsapp-openedchat-picture").css({"background-image":"url("+OpenedChatPicture+")"});
-        }
+        ShitterPicture = "./img/default.png";
+        $(".whatsapp-openedchat-picture").css({"background-image":"url("+ShitterPicture+")"});
 
         $(".whatsapp-openedchat-name").html("<p>"+cData.name+"</p>");
         $(".whatsapp-openedchat-messages").html("");
@@ -386,17 +367,9 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
         $('.whatsapp-openedchat-messages').animate({scrollTop: 9999}, 1);
     } else {
         OpenedChatData.number = NewChatData.number;
-        if (OpenedChatPicture == null) {
-            $.post('https://qb-phone/GetProfilePicture', JSON.stringify({
-                number: OpenedChatData.number,
-            }), function(picture){
-                OpenedChatPicture = "./img/default.png";
-                if (picture != "default" && picture != null) {
-                    OpenedChatPicture = picture
-                }
-                $(".whatsapp-openedchat-picture").css({"background-image":"url("+OpenedChatPicture+")"});
-            });
-        }
+
+        ShitterPicture = "./img/default.png";
+        $(".whatsapp-openedchat-picture").css({"background-image":"url("+ShitterPicture+")"});
 
         $(".whatsapp-openedchat-name").html("<p>"+NewChatData.name+"</p>");
         $(".whatsapp-openedchat-messages").html("");
