@@ -279,6 +279,7 @@ QB.Phone.Functions.LoadContacts = function(myContacts) {
 };
 
 $(document).on('click', '#new-chat-phone', function(e){
+    $("#whatsapp-contact-search").fadeOut(150);
     var ContactId = $(this).parent().parent().data('contactid');
     var ContactData = $("[data-contactid='"+ContactId+"']").data('contactData');
 
