@@ -11,6 +11,27 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function(){
+    $("#whatsapp-contact-input-search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $(".whatsapp-openedchat-message").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+});
+
+function formatPhoneNumber(phoneNumberString) {
+    var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+    var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      var intlCode = (match[1] ? '+1 ' : '');
+      return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+    }
+    return null;
+    formatPhoneNumber('+12345678900') // => "+1 (234) 567-8900"
+    formatPhoneNumber('2345678900')   // => "(234) 567-8900"
+}
+
 $(document).on('click', '#whatsapp-newconvo-icon', function(e){
     e.preventDefault();
     ClearInputNew()
@@ -105,7 +126,13 @@ QB.Phone.Functions.LoadWhatsappChats = function(chats) {
     $.each(chats, function(i, chat){
         var profilepicture = "./img/default.png";
         var LastMessage = QB.Phone.Functions.GetLastMessage(chat.messages);
-        var ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+chat.name+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
+        var ChatElement = ChatElement
+        
+        if (isNaN(chat.name) == true) {
+            ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+chat.name+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
+        } else {
+            ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+formatPhoneNumber(chat.name)+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
+        }
 
         $(".whatsapp-chats").append(ChatElement);
         $("#whatsapp-chat-"+i).data('chatdata', chat);
@@ -335,7 +362,11 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
         ShitterPicture = "./img/default.png";
         $(".whatsapp-openedchat-picture").css({"background-image":"url("+ShitterPicture+")"});
 
-        $(".whatsapp-openedchat-name").html("<p>"+cData.name+"</p>");
+        if (isNaN(cData.name) == true) {
+            $(".whatsapp-openedchat-name").html("<p>"+cData.name+"</p>");
+        } else {
+            $(".whatsapp-openedchat-name").html("<p>"+formatPhoneNumber(cData.name)+"</p>");
+        }
         $(".whatsapp-openedchat-messages").html("");
 
         $.each(cData.messages, function(i, chat){
@@ -371,7 +402,11 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
         ShitterPicture = "./img/default.png";
         $(".whatsapp-openedchat-picture").css({"background-image":"url("+ShitterPicture+")"});
 
-        $(".whatsapp-openedchat-name").html("<p>"+NewChatData.name+"</p>");
+        if (isNaN(NewChatData.name) == true) {
+            $(".whatsapp-openedchat-name").html("<p>"+NewChatData.name+"</p>");
+        } else {
+            $(".whatsapp-openedchat-name").html("<p>"+formatPhoneNumber(NewChatData.name)+"</p>");
+        }
         $(".whatsapp-openedchat-messages").html("");
         var NewDate = new Date();
         var NewDateMonth = NewDate.getMonth();
