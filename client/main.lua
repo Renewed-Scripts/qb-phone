@@ -1409,10 +1409,59 @@ RegisterNUICallback('SendMessage', function(data, cb)
             ReorganizeChats(NumberKey)
         end
     else
-        TriggerEvent('qb-phone:client:CustomNotification', "MESSAGES", "Incorrect Phone Number!", 'fas fa-phone', '#FF0000', 7500)
+        PhoneData.Chats[#PhoneData.Chats+1] = {
+            name = IsNumberInContacts(ChatNumber),
+            number = ChatNumber,
+            messages = {},
+        }
+        NumberKey = GetKeyByNumber(ChatNumber)
+        PhoneData.Chats[NumberKey].messages[#PhoneData.Chats[NumberKey].messages+1] = {
+            date = ChatDate,
+            messages = {},
+        }
+        ChatKey = GetKeyByDate(NumberKey, ChatDate)
+        if ChatType == "message" then
+            PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
+                message = ChatMessage,
+                time = ChatTime,
+                sender = PhoneData.PlayerData.citizenid,
+                type = ChatType,
+                data = {},
+            }
+        elseif ChatType == "location" then
+            PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
+                message = "Shared Location",
+                time = ChatTime,
+                sender = PhoneData.PlayerData.citizenid,
+                type = ChatType,
+                data = {
+                    x = Pos.x,
+                    y = Pos.y,
+                },
+            }
+        elseif ChatType == "picture" then
+            PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
+                message = "Photo",
+                time = ChatTime,
+                sender = PhoneData.PlayerData.citizenid,
+                type = ChatType,
+                data = {
+                    url = data.url
+                },
+            }
+        end
+        TriggerServerEvent('qb-phone:server:UpdateMessages', PhoneData.Chats[NumberKey].messages, ChatNumber, true)
+        NumberKey = GetKeyByNumber(ChatNumber)
+        ReorganizeChats(NumberKey)
     end
 
-    cb('ok')
+    QBCore.Functions.TriggerCallback('qb-phone:server:GetContactPicture', function(Chat)
+        SendNUIMessage({
+            action = "UpdateChat",
+            chatData = Chat,
+            chatNumber = ChatNumber,
+        })
+    end,  PhoneData.Chats[GetKeyByNumber(ChatNumber)])
 end)
 
 RegisterNUICallback("TakePhoto", function(_,cb)
