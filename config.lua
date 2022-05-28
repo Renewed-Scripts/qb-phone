@@ -2,6 +2,8 @@ Config = Config or {}
 
 -- If you have Lions Boosting System, enable this check to NOT produce any vehicle registration for vinscratched vehicles. Disable if you want to produce vehicle registration regardless
 Config.Vinscratch = true 
+-- Item name for pings app ( Having a VPN sends an anonymous ping, else sends the players name)
+Config.VPNItem = 'vpn'
 
 -- How Long Does The Player Have To Accept The Ping - This Is In Seconds
 Config.Timeout = 30
