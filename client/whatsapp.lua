@@ -1,5 +1,45 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
+-- Functions
+
+local function GetKeyByDate(Number, Date)
+    local retval = nil
+    if PhoneData.Chats[Number] ~= nil then
+        if PhoneData.Chats[Number].messages ~= nil then
+            for key, chat in pairs(PhoneData.Chats[Number].messages) do
+                if chat.date == Date then
+                    retval = key
+                    break
+                end
+            end
+        end
+    end
+    return retval
+end
+
+local function GetKeyByNumber(Number)
+    local retval = nil
+    if PhoneData.Chats then
+        for k, v in pairs(PhoneData.Chats) do
+            if v.number == Number then
+                retval = k
+            end
+        end
+    end
+    return retval
+end
+
+local function ReorganizeChats(key)
+    local ReorganizedChats = {}
+    ReorganizedChats[1] = PhoneData.Chats[key]
+    for k, chat in pairs(PhoneData.Chats) do
+        if k ~= key then
+            ReorganizedChats[#ReorganizedChats+1] = chat
+        end
+    end
+    PhoneData.Chats = ReorganizedChats
+end
+
 -- NUI Callback
 
 RegisterNUICallback('SharedLocation', function(data)

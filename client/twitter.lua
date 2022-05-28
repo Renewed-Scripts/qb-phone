@@ -1,3 +1,14 @@
+-- Functions
+
+local function escape_str(s)
+	return s
+end
+
+local function GenerateTweetId()
+    local tweetId = "TWEET-"..math.random(11111111, 99999999)
+    return tweetId
+end
+
 -- NUI Callback
 
 RegisterNUICallback('GetHashtagMessages', function(data, cb)

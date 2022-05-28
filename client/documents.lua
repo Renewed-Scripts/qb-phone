@@ -1,5 +1,26 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
+-- Functions
+
+local function GetClosestPlayer()
+    local closestPlayers = QBCore.Functions.GetPlayersFromCoords()
+    local closestDistance = -1
+    local closestPlayer = -1
+    local coords = GetEntityCoords(PlayerPedId())
+    for i=1, #closestPlayers, 1 do
+        if closestPlayers[i] ~= PlayerId() then
+            local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
+            local distance = #(pos - coords)
+
+            if closestDistance == -1 or closestDistance > distance then
+                closestPlayer = closestPlayers[i]
+                closestDistance = distance
+            end
+        end
+	end
+	return closestPlayer, closestDistance
+end
+
 -- NUI Callback
 
 RegisterNUICallback('documents_Save_Note_As', function(data)

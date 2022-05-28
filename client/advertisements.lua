@@ -1,3 +1,17 @@
+-- Functions
+
+local function GetKeyByNumber(Number)
+    local retval = nil
+    if PhoneData.Chats then
+        for k, v in pairs(PhoneData.Chats) do
+            if v.number == Number then
+                retval = k
+            end
+        end
+    end
+    return retval
+end
+
 -- NUI Callback
 
 RegisterNUICallback('PostAdvert', function(data)

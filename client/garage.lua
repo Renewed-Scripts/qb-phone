@@ -1,3 +1,21 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
+-- Functions
+
+local function findVehFromPlateAndLocate(plate)
+    local gameVehicles = QBCore.Functions.GetVehicles()
+    for i = 1, #gameVehicles do
+        local vehicle = gameVehicles[i]
+        if DoesEntityExist(vehicle) then
+            if QBCore.Functions.GetPlate(vehicle) == plate then
+                local vehCoords = GetEntityCoords(vehicle)
+                SetNewWaypoint(vehCoords.x, vehCoords.y)
+                return true
+            end
+        end
+    end
+end
+
 -- NUI Callback
 
 RegisterNUICallback('SetupGarageVehicles', function(data, cb)

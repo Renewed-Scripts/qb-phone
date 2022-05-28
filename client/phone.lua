@@ -42,15 +42,6 @@ function string:split(delimiter)
     return result
 end
 
-local function escape_str(s)
-	return s
-end
-
-local function GenerateTweetId()
-    local tweetId = "TWEET-"..math.random(11111111, 99999999)
-    return tweetId
-end
-
 local function IsNumberInContacts(num)
     local retval = num
     for _, v in pairs(PhoneData.Contacts) do
@@ -94,58 +85,6 @@ local function GetClosestPlayer()
         end
 	end
 	return closestPlayer, closestDistance
-end
-
-local function GetKeyByDate(Number, Date)
-    local retval = nil
-    if PhoneData.Chats[Number] ~= nil then
-        if PhoneData.Chats[Number].messages ~= nil then
-            for key, chat in pairs(PhoneData.Chats[Number].messages) do
-                if chat.date == Date then
-                    retval = key
-                    break
-                end
-            end
-        end
-    end
-    return retval
-end
-
-local function GetKeyByNumber(Number)
-    local retval = nil
-    if PhoneData.Chats then
-        for k, v in pairs(PhoneData.Chats) do
-            if v.number == Number then
-                retval = k
-            end
-        end
-    end
-    return retval
-end
-
-local function ReorganizeChats(key)
-    local ReorganizedChats = {}
-    ReorganizedChats[1] = PhoneData.Chats[key]
-    for k, chat in pairs(PhoneData.Chats) do
-        if k ~= key then
-            ReorganizedChats[#ReorganizedChats+1] = chat
-        end
-    end
-    PhoneData.Chats = ReorganizedChats
-end
-
-local function findVehFromPlateAndLocate(plate)
-    local gameVehicles = QBCore.Functions.GetVehicles()
-    for i = 1, #gameVehicles do
-        local vehicle = gameVehicles[i]
-        if DoesEntityExist(vehicle) then
-            if QBCore.Functions.GetPlate(vehicle) == plate then
-                local vehCoords = GetEntityCoords(vehicle)
-                SetNewWaypoint(vehCoords.x, vehCoords.y)
-                return true
-            end
-        end
-    end
 end
 
 local function PublicPhone()
