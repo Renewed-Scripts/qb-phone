@@ -1,12 +1,11 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local QBPhone = {}
-local Tweets = {}
+local Tweets = {} -- Located in the Twitter File as well ??
 local AppAlerts = {}
-local MentionedTweets = {}
-local Hashtags = {}
+local MentionedTweets = {} -- Located in the Twitter File as well ??
+local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
-local Adverts = {}
-local GeneratedPlates = {}
+local Adverts = {} -- Located in the advertisements File as well ??
 local WebHook = "https://discord.com/api/webhooks/881102998498074664/60jhrJkGkIGr6AUSvvFGXskwyr-rq5F5bBGfACqEiaeZerbW2A-w4MSjbFiippSTiGxR"
 local bannedCharacters = {'%','$',';'}
 
@@ -19,10 +18,6 @@ local function GetOnlineStatus(number)
         retval = true
     end
     return retval
-end
-
-local function GenerateMailId()
-    return math.random(111111, 999999)
 end
 
 local function escape_sqli(source)
@@ -39,13 +34,6 @@ local function round(num, numDecimalPlaces)
         return math.floor(num * mult + 0.5) / mult
     end
     return math.floor(num + 0.5)
-end
-
-function QBPhone.AddMentionedTweet(citizenid, TweetData)
-    if MentionedTweets[citizenid] == nil then
-        MentionedTweets[citizenid] = {}
-    end
-    MentionedTweets[citizenid][#MentionedTweets[citizenid]+1] = TweetData
 end
 
 function QBPhone.SetPhoneAlerts(citizenid, app, alerts)
@@ -85,132 +73,6 @@ local function SplitStringToArray(string)
     return retval
 end
 
-local function GenerateOwnerName()
-    local names = {
-        [1] = {
-            name = "Jan Bloksteen",
-            citizenid = "DSH091G93"
-        },
-        [2] = {
-            name = "Jay Dendam",
-            citizenid = "AVH09M193"
-        },
-        [3] = {
-            name = "Ben Klaariskees",
-            citizenid = "DVH091T93"
-        },
-        [4] = {
-            name = "Karel Bakker",
-            citizenid = "GZP091G93"
-        },
-        [5] = {
-            name = "Klaas Adriaan",
-            citizenid = "DRH09Z193"
-        },
-        [6] = {
-            name = "Nico Wolters",
-            citizenid = "KGV091J93"
-        },
-        [7] = {
-            name = "Mark Hendrickx",
-            citizenid = "ODF09S193"
-        },
-        [8] = {
-            name = "Bert Johannes",
-            citizenid = "KSD0919H3"
-        },
-        [9] = {
-            name = "Karel de Grote",
-            citizenid = "NDX091D93"
-        },
-        [10] = {
-            name = "Jan Pieter",
-            citizenid = "ZAL0919X3"
-        },
-        [11] = {
-            name = "Huig Roelink",
-            citizenid = "ZAK09D193"
-        },
-        [12] = {
-            name = "Corneel Boerselman",
-            citizenid = "POL09F193"
-        },
-        [13] = {
-            name = "Hermen Klein Overmeen",
-            citizenid = "TEW0J9193"
-        },
-        [14] = {
-            name = "Bart Rielink",
-            citizenid = "YOO09H193"
-        },
-        [15] = {
-            name = "Antoon Henselijn",
-            citizenid = "QBC091H93"
-        },
-        [16] = {
-            name = "Aad Keizer",
-            citizenid = "YDN091H93"
-        },
-        [17] = {
-            name = "Thijn Kiel",
-            citizenid = "PJD09D193"
-        },
-        [18] = {
-            name = "Henkie Krikhaar",
-            citizenid = "RND091D93"
-        },
-        [19] = {
-            name = "Teun Blaauwkamp",
-            citizenid = "QWE091A93"
-        },
-        [20] = {
-            name = "Dries Stielstra",
-            citizenid = "KJH0919M3"
-        },
-        [21] = {
-            name = "Karlijn Hensbergen",
-            citizenid = "ZXC09D193"
-        },
-        [22] = {
-            name = "Aafke van Daalen",
-            citizenid = "XYZ0919C3"
-        },
-        [23] = {
-            name = "Door Leeferds",
-            citizenid = "ZYX0919F3"
-        },
-        [24] = {
-            name = "Nelleke Broedersen",
-            citizenid = "IOP091O93"
-        },
-        [25] = {
-            name = "Renske de Raaf",
-            citizenid = "PIO091R93"
-        },
-        [26] = {
-            name = "Krisje Moltman",
-            citizenid = "LEK091X93"
-        },
-        [27] = {
-            name = "Mirre Steevens",
-            citizenid = "ALG091Y93"
-        },
-        [28] = {
-            name = "Joosje Kalvenhaar",
-            citizenid = "YUR09E193"
-        },
-        [29] = {
-            name = "Mirte Ellenbroek",
-            citizenid = "SOM091W93"
-        },
-        [30] = {
-            name = "Marlieke Meilink",
-            citizenid = "KAS09193"
-        }
-    }
-    return names[math.random(1, #names)]
-end
-
 -- Callbacks
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source, cb, ContactData)
@@ -218,14 +80,18 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source,
     if Target ~= nil then
         if Calls[Target.PlayerData.citizenid] ~= nil then
             if Calls[Target.PlayerData.citizenid].inCall then
+                print("false, true")
                 cb(false, true)
             else
+                print("true, true")
                 cb(true, true)
             end
         else
+            print("true, true")
             cb(true, true)
         end
     else
+        print("false, false")
         cb(false, false)
     end
 end)
@@ -344,48 +210,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, society, amount, invoiceId, sendercitizenid)
-    local Invoices = {}
-    local Ply = QBCore.Functions.GetPlayer(source)
-    local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
-    local invoiceMailData = {}
-    if SenderPly and Config.BillingCommissions[society] then
-        local commission = round(amount * Config.BillingCommissions[society])
-        SenderPly.Functions.AddMoney('bank', commission)
-        invoiceMailData = {
-            sender = 'Billing Department',
-            subject = 'Commission Received',
-            message = string.format('You received a commission check of $%s when %s %s paid a bill of $%s.', commission, Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
-        }
-    elseif not SenderPly and Config.BillingCommissions[society] then
-        invoiceMailData = {
-            sender = 'Billing Department',
-            subject = 'Bill Paid',
-            message = string.format('%s %s paid a bill of $%s', Ply.PlayerData.charinfo.firstname, Ply.PlayerData.charinfo.lastname, amount)
-        }
-    end
-    Ply.Functions.RemoveMoney('bank', amount, "paid-invoice")
-    TriggerEvent('qb-phone:server:sendNewMailToOffline', sendercitizenid, invoiceMailData)
-    TriggerEvent("qb-bossmenu:server:addAccountMoney", society, amount)
-    exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-    local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    if invoices[1] ~= nil then
-        Invoices = invoices
-    end
-    cb(true, Invoices)
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, sender, amount, invoiceId)
-    local Invoices = {}
-    local Ply = QBCore.Functions.GetPlayer(source)
-    exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-    local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    if invoices[1] ~= nil then
-        Invoices = invoices
-    end
-    cb(true, Invoices)
-end)
-
 QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(source, cb, Chats)
     for k, v in pairs(Chats) do
         local Player = QBCore.Functions.GetPlayerByPhone(v.number)
@@ -446,214 +270,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', function(source, cb, search)
-    local search = escape_sqli(search)
-    local searchData = {}
-    local query = '%' .. search .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
-        {query, search})
-    if result[1] ~= nil then
-        for k, v in pairs(result) do
-            local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
-            if player[1] ~= nil then
-                local charinfo = json.decode(player[1].charinfo)
-                local vehicleInfo = QBCore.Shared.Vehicles[result[k].vehicle]
-                if vehicleInfo ~= nil then
-                    searchData[#searchData+1] = {
-                        plate = result[k].plate,
-                        status = true,
-                        owner = charinfo.firstname .. " " .. charinfo.lastname,
-                        citizenid = result[k].citizenid,
-                        label = vehicleInfo["name"]
-                    }
-                else
-                    searchData[#searchData+1] = {
-                        plate = result[k].plate,
-                        status = true,
-                        owner = charinfo.firstname .. " " .. charinfo.lastname,
-                        citizenid = result[k].citizenid,
-                        label = "Name not found.."
-                    }
-                end
-            end
-        end
-    else
-        if GeneratedPlates[search] ~= nil then
-            searchData[#searchData+1] = {
-                plate = GeneratedPlates[search].plate,
-                status = GeneratedPlates[search].status,
-                owner = GeneratedPlates[search].owner,
-                citizenid = GeneratedPlates[search].citizenid,
-                label = "Brand unknown.."
-            }
-        else
-            local ownerInfo = GenerateOwnerName()
-            GeneratedPlates[search] = {
-                plate = search,
-                status = true,
-                owner = ownerInfo.name,
-                citizenid = ownerInfo.citizenid
-            }
-            searchData[#searchData+1] = {
-                plate = search,
-                status = true,
-                owner = ownerInfo.name,
-                citizenid = ownerInfo.citizenid,
-                label = "Brand unknown.."
-            }
-        end
-    end
-    cb(searchData)
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb, plate)
-    local src = source
-    local vehicleData = {}
-    if plate ~= nil then
-        local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate = ?', {plate})
-        if result[1] ~= nil then
-            local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[1].citizenid})
-            local charinfo = json.decode(player[1].charinfo)
-            vehicleData = {
-                plate = plate,
-                status = true,
-                owner = charinfo.firstname .. " " .. charinfo.lastname,
-                citizenid = result[1].citizenid
-            }
-        elseif GeneratedPlates ~= nil and GeneratedPlates[plate] ~= nil then
-            vehicleData = GeneratedPlates[plate]
-        else
-            local ownerInfo = GenerateOwnerName()
-            GeneratedPlates[plate] = {
-                plate = plate,
-                status = true,
-                owner = ownerInfo.name,
-                citizenid = ownerInfo.citizenid
-            }
-            vehicleData = {
-                plate = plate,
-                status = true,
-                owner = ownerInfo.name,
-                citizenid = ownerInfo.citizenid
-            }
-        end
-        cb(vehicleData)
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'No Vehicle Nearby', 'error')
-        cb(nil)
-    end
-end)
-
-local function GetGarageNamephone(name)
-    for k,v in pairs(Garages) do
-        if k == name then
-            return true
-        end
-    end
-end
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(source, cb)
+QBCore.Functions.CreateCallback('qb-phone:server:HasPhone', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
-    local Vehicles = {}
-    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
-        {Player.PlayerData.citizenid})
-    if result[1] ~= nil then
-        for k, v in pairs(result) do
-            local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
-            local VehicleGarage = "None"
-            if v.garage ~= nil then
-                if GetGarageNamephone(v.garage) then
-                    if Garages[v.garage] or GangGarages[v.garage] or JobGarages[v.garage] then
-                        if Garages[v.garage] ~= nil then
-                            VehicleGarage = Garages[v.garage]["label"]
-                        elseif GangGarages[v.garage] ~= nil then
-                            VehicleGarage = GangGarages[v.garage]["label"]
-                        elseif JobGarages[v.garage] ~= nil then
-                            VehicleGarage = JobGarages[v.garage]["label"]
-                        end
-                    end
-                else
-                    VehicleGarage = v.garage
-                end
-            end
-
-            local VehicleState = "In"
-            if v.state == 0 then
-                VehicleState = "Out"
-            elseif v.state == 2 then
-                VehicleState = "Impounded"
-            end
-
-            local vehdata = {}
-            if Config.Vinscratch then
-                vinscratched = v.vinscratched
-            else
-                vinscratched = 'false'
-            end
-            if VehicleData["brand"] ~= nil then
-                if VehicleState == 'Out' then
-                    state = 'Out'
-                elseif VehicleState == 'In' then
-                    state = 'Stored'
-                end
-                vehdata = {
-                    fullname = VehicleData["brand"] .. " " .. VehicleData["name"],
-                    brand = VehicleData["brand"],
-                    model = VehicleData["name"],
-                    vinscratched = vinscratched,
-                    plate = v.plate,
-                    garage = VehicleGarage,
-                    state = state,
-                    fuel = v.fuel,
-                    engine = v.engine,
-                    body = v.body
-                }
-            else
-                vehdata = {
-                    fullname = VehicleData["name"],
-                    brand = VehicleData["name"],
-                    model = VehicleData["name"],
-                    vinscratched = vinscratched,
-                    plate = v.plate,
-                    garage = VehicleGarage,
-                    state = state,
-                    fuel = v.fuel,
-                    engine = v.engine,
-                    body = v.body
-                }
-            end
-            Vehicles[#Vehicles+1] = vehdata
-        end
-        cb(Vehicles)
-    else
-        cb(nil)
-    end
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(source, cb, amount, iban)
-    local newAmount = tostring(amount)
-    local newiban = tostring(iban)
-    for k, v in pairs(bannedCharacters) do
-        newAmount = string.gsub(newAmount, '%' .. v, '')
-        newiban = string.gsub(newiban, '%' .. v, '')
-    end
-    iban = newiban
-    amount = tonumber(newAmount)
-
-    local Player = QBCore.Functions.GetPlayer(source)
-    if (Player.PlayerData.money.bank - amount) >= 0 then
-        local query = '%"account":"' .. iban .. '"%'
-        local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-        if result[1] ~= nil then
-            local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
-            Player.Functions.RemoveMoney('bank', amount)
-            if Reciever ~= nil then
-                Reciever.Functions.AddMoney('bank', amount)
-            else
-                local RecieverMoney = json.decode(result[1].money)
-                RecieverMoney.bank = (RecieverMoney.bank + amount)
-                exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?', {json.encode(RecieverMoney), result[1].citizenid})
-            end
+    if Player ~= nil then
+        local HasPhone = Player.Functions.GetItemByName("phone")
+        if HasPhone ~= nil then
             cb(true)
         else
             cb(false)
@@ -682,37 +303,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(so
 end)
 
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
-	cb(WebHook)
+		cb(WebHook)
 end)
 
 -- Events
-
-RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local CitizenId = Player.PlayerData.citizenid
-    if Adverts[CitizenId] ~= nil then
-        Adverts[CitizenId].message = msg
-        Adverts[CitizenId].name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname
-        Adverts[CitizenId].number = Player.PlayerData.charinfo.phone
-        Adverts[CitizenId].url = url
-    else
-        Adverts[CitizenId] = {
-            message = msg,
-            name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
-            number = Player.PlayerData.charinfo.phone,
-            url = url
-        }
-    end
-    TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname)
-end)
-
-RegisterNetEvent('qb-phone:server:DeleteAdvert', function()
-    local Player = QBCore.Functions.GetPlayer(source)
-    local citizenid = Player.PlayerData.citizenid
-    Adverts[citizenid] = nil
-    TriggerClientEvent('qb-phone:client:UpdateAdvertsDel', -1, Adverts)
-end)
 
 RegisterNetEvent('qb-phone:server:SetCallState', function(bool)
     local src = source
@@ -725,139 +319,6 @@ RegisterNetEvent('qb-phone:server:SetCallState', function(bool)
     end
 end)
 
-RegisterNetEvent('qb-phone:server:RemoveMail', function(MailId)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:execute('DELETE FROM player_mails WHERE mailid = ? AND citizenid = ?', {MailId, Player.PlayerData.citizenid})
-    SetTimeout(100, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-        if mails[1] ~= nil then
-            for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
-                    mails[k].button = json.decode(mails[k].button)
-                end
-            end
-        end
-        TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
-    end)
-end)
-
-RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if mailData.button == nil then
-        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
-    else
-        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
-    end
-    TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
-    SetTimeout(200, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',
-            {Player.PlayerData.citizenid})
-        if mails[1] ~= nil then
-            for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
-                    mails[k].button = json.decode(mails[k].button)
-                end
-            end
-        end
-
-        TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
-    end)
-end)
-
-RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mailData)
-    local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    if Player then
-        local src = Player.PlayerData.source
-        if mailData.button == nil then
-            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
-            TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
-        else
-            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
-            TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
-        end
-        SetTimeout(200, function()
-            local mails = exports.oxmysql:executeSync(
-                'SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-            if mails[1] ~= nil then
-                for k, v in pairs(mails) do
-                    if mails[k].button ~= nil then
-                        mails[k].button = json.decode(mails[k].button)
-                    end
-                end
-            end
-
-            TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
-        end)
-    else
-        if mailData.button == nil then
-            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
-        else
-            exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
-        end
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
-    local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    if mailData.button == nil then
-        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
-    else
-        exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
-    end
-    SetTimeout(200, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {citizenid})
-        if mails[1] ~= nil then
-            for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
-                    mails[k].button = json.decode(mails[k].button)
-                end
-            end
-        end
-        TriggerClientEvent('qb-phone:client:UpdateMails', Player.PlayerData.source, mails)
-    end)
-end)
-
-RegisterNetEvent('qb-phone:server:ClearButtonData', function(mailId)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:execute('UPDATE player_mails SET button = ? WHERE mailid = ? AND citizenid = ?', {'', mailId, Player.PlayerData.citizenid})
-    SetTimeout(200, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-        if mails[1] ~= nil then
-            for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
-                    mails[k].button = json.decode(mails[k].button)
-                end
-            end
-        end
-        TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
-    end)
-end)
-
-RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName, TweetMessage)
-    for k, v in pairs(QBCore.Functions.GetPlayers()) do
-        local Player = QBCore.Functions.GetPlayer(v)
-        if Player ~= nil then
-            if (Player.PlayerData.charinfo.firstname == firstName and Player.PlayerData.charinfo.lastname == lastName) then
-                QBPhone.SetPhoneAlerts(Player.PlayerData.citizenid, "twitter")
-                QBPhone.AddMentionedTweet(Player.PlayerData.citizenid, TweetMessage)
-                TriggerClientEvent('qb-phone:client:GetMentioned', Player.PlayerData.source, TweetMessage, AppAlerts[Player.PlayerData.citizenid]["twitter"])
-            else
-                local query1 = '%' .. firstName .. '%'
-                local query2 = '%' .. lastName .. '%'
-                local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ? AND charinfo LIKE ?', {query1, query2})
-                if result[1] ~= nil then
-                    local MentionedTarget = result[1].citizenid
-                    QBPhone.SetPhoneAlerts(MentionedTarget, "twitter")
-                    QBPhone.AddMentionedTweet(MentionedTarget, TweetMessage)
-                end
-            end
-        end
-    end
-end)
-
 RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, AnonymousCall)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
@@ -867,92 +328,10 @@ RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, Ano
     end
 end)
 
-RegisterNetEvent('qb-phone:server:BillingEmail', function(data, paid)
-    for k, v in pairs(QBCore.Functions.GetPlayers()) do
-        local target = QBCore.Functions.GetPlayer(v)
-        if target.PlayerData.job.name == data.society then
-            if paid then
-                local name = '' .. QBCore.Functions.GetPlayer(source).PlayerData.charinfo.firstname .. ' ' .. QBCore.Functions.GetPlayer(source).PlayerData.charinfo.lastname .. ''
-                TriggerClientEvent('qb-phone:client:BillingEmail', target.PlayerData.source, data, true, name)
-            else
-                local name = '' .. QBCore.Functions.GetPlayer(source).PlayerData.charinfo.firstname .. ' ' .. QBCore.Functions.GetPlayer(source).PlayerData.charinfo.lastname .. ''
-                TriggerClientEvent('qb-phone:client:BillingEmail', target.PlayerData.source, data, false, name)
-            end
-        end
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:UpdateHashtags', function(Handle, messageData)
-    if Hashtags[Handle] ~= nil and next(Hashtags[Handle]) ~= nil then
-        Hashtags[Handle].messages[#Hashtags[Handle].messages+1] = messageData
-    else
-        Hashtags[Handle] = {
-            hashtag = Handle,
-            messages = {}
-        }
-        Hashtags[Handle].messages[#Hashtags[Handle].messages+1] = messageData
-    end
-    TriggerClientEvent('qb-phone:client:UpdateHashtags', -1, Handle, messageData)
-end)
-
 RegisterNetEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
     local src = source
     local CitizenId = QBCore.Functions.GetPlayer(src).citizenid
     QBPhone.SetPhoneAlerts(CitizenId, app, alerts)
-end)
-
-RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
-    local src = source
-    for i = 1, #Tweets do
-        if Tweets[i].tweetId == tweetId then
-            Tweets[i] = nil
-        end
-    end
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, {}, true)
-end)
-
-RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
-    local src = source
-    local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, NOW(), ?, ?, ?)', {
-        TweetData.citizenid,
-        TweetData.firstName,
-        TweetData.lastName,
-        TweetData.message,
-        TweetData.url:gsub("[%<>\"()\' $]",""),
-        TweetData.picture,
-        TweetData.tweetId
-    })
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
-end)
-
-RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
-    local src = source
-    local sender = QBCore.Functions.GetPlayer(src)
-
-    local query = '%' .. iban .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-    if result[1] ~= nil then
-        local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
-
-        if reciever ~= nil then
-            local PhoneItem = reciever.Functions.GetItemByName("phone")
-            reciever.Functions.AddMoney('bank', amount, "phone-transfered-from-" .. sender.PlayerData.citizenid)
-            sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-" .. reciever.PlayerData.citizenid)
-
-            if PhoneItem ~= nil then
-                TriggerClientEvent('qb-phone:client:TransferMoney', reciever.PlayerData.source, amount,
-                    reciever.PlayerData.money.bank)
-            end
-        else
-            local moneyInfo = json.decode(result[1].money)
-            moneyInfo.bank = round((moneyInfo.bank + amount))
-            exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?',
-                {json.encode(moneyInfo), result[1].citizenid})
-            sender.Functions.RemoveMoney('bank', amount, "phone-transfered")
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, "That account number doesn't exist!", 'error')
-    end
 end)
 
 RegisterNetEvent('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber, oldIban)
@@ -974,39 +353,6 @@ RegisterNetEvent('qb-phone:server:AddNewContact', function(name, number, iban)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:insert('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (?, ?, ?, ?)', {Player.PlayerData.citizenid, tostring(name), tostring(number), tostring(iban)})
-end)
-
-RegisterNetEvent('qb-phone:server:UpdateMessages', function(ChatMessages, ChatNumber, New)
-    local src = source
-    local SenderData = QBCore.Functions.GetPlayer(src)
-    local query = '%' .. ChatNumber .. '%'
-    local Player = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-    if Player[1] ~= nil then
-        local TargetData = QBCore.Functions.GetPlayerByCitizenId(Player[1].citizenid)
-        if TargetData ~= nil then
-            local Chat = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?', {SenderData.PlayerData.citizenid, ChatNumber})
-            if Chat[1] ~= nil then
-                exports.oxmysql:execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), TargetData.PlayerData.citizenid, SenderData.PlayerData.charinfo.phone})
-                exports.oxmysql:execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), SenderData.PlayerData.citizenid, TargetData.PlayerData.charinfo.phone})
-                TriggerClientEvent('qb-phone:client:UpdateMessages', TargetData.PlayerData.source, ChatMessages, SenderData.PlayerData.charinfo.phone, false)
-            else
-                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {TargetData.PlayerData.citizenid, SenderData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
-                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {SenderData.PlayerData.citizenid, TargetData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
-                TriggerClientEvent('qb-phone:client:UpdateMessages', TargetData.PlayerData.source, ChatMessages, SenderData.PlayerData.charinfo.phone, true)
-            end
-        else
-            local Chat = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ? AND number = ?', {SenderData.PlayerData.citizenid, ChatNumber})
-            if Chat[1] ~= nil then
-                exports.oxmysql:execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), Player[1].citizenid, SenderData.PlayerData.charinfo.phone})
-                Player[1].charinfo = json.decode(Player[1].charinfo)
-                exports.oxmysql:execute('UPDATE phone_messages SET messages = ? WHERE citizenid = ? AND number = ?', {json.encode(ChatMessages), SenderData.PlayerData.citizenid, Player[1].charinfo.phone})
-            else
-                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {Player[1].citizenid, SenderData.PlayerData.charinfo.phone, json.encode(ChatMessages)})
-                Player[1].charinfo = json.decode(Player[1].charinfo)
-                exports.oxmysql:insert('INSERT INTO phone_messages (citizenid, number, messages) VALUES (?, ?, ?)', {SenderData.PlayerData.citizenid, Player[1].charinfo.phone, json.encode(ChatMessages)})
-            end
-        end
-    end
 end)
 
 RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
@@ -1066,16 +412,6 @@ RegisterNetEvent('qb-phone:server:GiveContactDetails', function(PlayerId)
     TriggerClientEvent('qb-phone:client:AddNewSuggestion', PlayerId, SuggestionData)
 end)
 
-RegisterNetEvent('qb-phone:server:AddTransaction', function(data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:insert('INSERT INTO crypto_transactions (citizenid, title, message) VALUES (?, ?, ?)', {
-        Player.PlayerData.citizenid,
-        data.TransactionTitle,
-        data.TransactionMessage
-    })
-end)
-
 RegisterNetEvent('qb-phone:server:InstallApplication', function(ApplicationData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -1090,332 +426,65 @@ RegisterNetEvent('qb-phone:server:RemoveInstallation', function(App)
     Player.Functions.SetMetaData("phonedata", Player.PlayerData.metadata["phonedata"])
 end)
 
-RegisterNetEvent('qb-phone:server:addImageToGallery', function(image)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    exports.oxmysql:insert('INSERT INTO phone_gallery (`citizenid`, `image`) VALUES (?, ?)',{Player.PlayerData.citizenid,image})
-end)
-RegisterNetEvent('qb-phone:server:getImageFromGallery', function()
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local images = exports.oxmysql:executeSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
-    TriggerClientEvent('qb-phone:refreshImages', src, images)
-end)
+-- SHIT THAT IS NO LONGER NEEDED
 
-RegisterNetEvent('qb-phone:server:RemoveImageFromGallery', function(data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local image = data.image
-    exports.oxmysql:execute('DELETE FROM phone_gallery WHERE citizenid = ? AND image = ?',{Player.PlayerData.citizenid,image})
-end)
-
-
-RegisterNetEvent("qb-phone:server:sendPing", function(id)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local Shitter = tonumber(id)
-    local Other = QBCore.Functions.GetPlayer(Shitter)
-    local HasVPN = Player.Functions.GetItemByName("vpn")
-    if HasVPN ~= nil then
-        name = 'Anonymous'
-    else
-        name = Player.PlayerData.charinfo.firstname
+QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(source, cb, amount, iban)
+    local newAmount = tostring(amount)
+    local newiban = tostring(iban)
+    for k, v in pairs(bannedCharacters) do
+        newAmount = string.gsub(newAmount, '%' .. v, '')
+        newiban = string.gsub(newiban, '%' .. v, '')
     end
-    local info = { type = 'ping', Other = Shitter, Player = src, Name = name, OtherName = Other.PlayerData.charinfo.firstname }
-
-    if Other ~= nil then
-        TriggerClientEvent("qb-phone:client:sendNotificationPing", Shitter, info)
-        TriggerClientEvent("QBCore:Notify", src, 'Request Sent')
-    else
-        TriggerClientEvent("QBCore:Notify", src, 'State ID does not exist!', 'error')
-    end
-end)
-
-RegisterNetEvent("qb-phone:server:sendingPing", function(Other, Player, Name, OtherName)
-    TriggerClientEvent('qb-phone:client:CustomNotification', Player, "PING", OtherName..' Accepted Your Ping!', 'fas fa-map-pin', '#b3e0f2', 7500)
-    TriggerClientEvent("qb-phone:client:sendPing", Other, Player, Other, Name)
-end)
-
-
-------------
-
-
-
-local CasinoTable = {}
-local BetNumber = 0
-RegisterNetEvent('qb-phone:server:CasinoAddBet', function(data)
-    BetNumber = BetNumber + 1
-    CasinoTable[BetNumber] = {['Name'] = data.name, ['chanse'] = data.chanse, ['id'] = BetNumber}
-    TriggerClientEvent('qb-phone:client:addbetForAll', -1, CasinoTable)
-end)
-
-local CasinoBetList = {}
-local casino_status = true
-
-RegisterNetEvent('qb-phone:server:BettingAddToTable', function(data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local amount = tonumber(data.amount)
-    local CSN = Player.PlayerData.citizenid
-    if casino_status then
-        if Player.PlayerData.money.bank >= amount then
-            if not CasinoBetList[CSN] then
-                Player.Functions.RemoveMoney('bank', amount, "casino betting")
-                CasinoBetList[CSN] = {['csn'] = CSN, ['amount'] = amount, ['player'] = data.player, ['chanse'] = data.chanse, ['id'] = data.id}
+    iban = newiban
+    amount = tonumber(newAmount)
+    
+    local Player = QBCore.Functions.GetPlayer(source)
+    if (Player.PlayerData.money.bank - amount) >= 0 then
+        local query = '%"account":"' .. iban .. '"%'
+        local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+        if result[1] ~= nil then
+            local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
+            Player.Functions.RemoveMoney('bank', amount)
+            if Reciever ~= nil then
+                Reciever.Functions.AddMoney('bank', amount)
             else
-                TriggerClientEvent('QBCore:Notify', src, "You are already betting...", 'error')
+                local RecieverMoney = json.decode(result[1].money)
+                RecieverMoney.bank = (RecieverMoney.bank + amount)
+                exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?', {json.encode(RecieverMoney), result[1].citizenid})
+            end
+            cb(true)
+        else
+            cb(false)
+        end
+    end
+end)
+
+RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
+    local src = source
+    local sender = QBCore.Functions.GetPlayer(src)
+
+    local query = '%' .. iban .. '%'
+    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
+    if result[1] ~= nil then
+        local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
+
+        if reciever ~= nil then
+            local PhoneItem = reciever.Functions.GetItemByName("phone")
+            reciever.Functions.AddMoney('bank', amount, "phone-transfered-from-" .. sender.PlayerData.citizenid)
+            sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-" .. reciever.PlayerData.citizenid)
+
+            if PhoneItem ~= nil then
+                TriggerClientEvent('qb-phone:client:TransferMoney', reciever.PlayerData.source, amount,
+                    reciever.PlayerData.money.bank)
             end
         else
-            TriggerClientEvent('QBCore:Notify', src, "You do not have enough money!", 'error')
+            local moneyInfo = json.decode(result[1].money)
+            moneyInfo.bank = round((moneyInfo.bank + amount))
+            exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?',
+                {json.encode(moneyInfo), result[1].citizenid})
+            sender.Functions.RemoveMoney('bank', amount, "phone-transfered")
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, "Betting is not active...", 'error')
+        TriggerClientEvent('QBCore:Notify', src, "That account number doesn't exist!", "error")
     end
-end)
-
-RegisterNetEvent('qb-phone:server:DeleteAndClearTable', function()
-    local src = source
-    CasinoTable = {}
-    CasinoBetList = {}
-    BetNumber = 0
-    TriggerClientEvent('qb-phone:client:addbetForAll', -1, CasinoTable)
-    TriggerClientEvent('QBCore:Notify', src, "Done")
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:CheckHasBetTable', function(source, cb)
-    cb(CasinoTable)
-end)
-
-
-RegisterNetEvent('qb-phone:server:casino_status', function()
-    casino_status = not casino_status
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:CheckHasBetStatus', function(source, cb)
-    cb(casino_status)
-end)
-
-RegisterNetEvent('qb-phone:server:WineridCasino', function(data)
-    local Winer = data.id
-    for k, v in pairs(CasinoBetList) do
-        if v.id == Winer then
-            local OtherPly = QBCore.Functions.GetPlayerByCitizenId(v.csn)
-            if OtherPly then
-                local amount = v.amount * v.chanse
-                OtherPly.Functions.AddMoney('bank', tonumber(amount), "casino winner")
-            end
-        end
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:SetJobJobCenter', function(data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player.Functions.SetJob(data.job, 0) then
-        TriggerClientEvent('QBCore:Notify', src, 'Changed your job to: '..data.label)
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'Invalid Job...', 'error')
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:SendBillForPlayer_debt', function(data)
-    local src = source
-    local biller = QBCore.Functions.GetPlayer(src)
-    local billed = QBCore.Functions.GetPlayer(tonumber(data.ID))
-    local amount = tonumber(data.Amount)
-    if billed then
-        if (biller.PlayerData.job.name == "mechanic" or biller.PlayerData.job.name == "hayes" or biller.PlayerData.job.name == "weapondealer" or biller.PlayerData.job.name == "hayes") then
-            if biller.PlayerData.job.onduty then
-                if amount and amount > 0  and amount <= 50000 then
-                    exports.oxmysql:insert('INSERT INTO phone_debt (citizenid, amount,  sender, sendercitizenid, reason) VALUES (?, ?, ?, ?, ?)',{billed.PlayerData.citizenid, amount, biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname, biller.PlayerData.citizenid, data.Reason})
-                    TriggerClientEvent('QBCore:Notify', src, 'Debt successfully sent!')
-                    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Debt Received')
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', billed.PlayerData.source)
-                else
-                    TriggerClientEvent('QBCore:Notify', src, 'Must be a valid amount above 0 and below $50,000', 'error')
-                end
-            else
-                TriggerClientEvent("QBCore:Notify", src, 'You\'re not signed into your job!', 'error')
-            end
-        else
-            TriggerClientEvent("QBCore:Notify", src, 'You do not have the ability to send a debt!', 'error')
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'Player not Online', 'error')
-    end
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetHasBills_debt', function(source, cb)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local Debt = exports.oxmysql:executeSync('SELECT * FROM phone_debt WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    Wait(400)
-    if Debt[1] ~= nil then
-        cb(Debt)
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local OtherPly = QBCore.Functions.GetPlayerByCitizenId(data.CSN)
-    local ID = tonumber(data.id)
-    local Amount = tonumber(data.Amount)
-    local Commission = tonumber(data.Amount) * 0.20
-    if OtherPly then
-        if Ply.PlayerData.money.bank then
-            if Ply.Functions.RemoveMoney('bank', Amount, "Remove Money For Debt") then -- Makes sure the money is removed!
-                if OtherPly.PlayerData.job.name == "hayes" then
-                    OtherPly.Functions.AddMoney('bank', Commission, "Hayes Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                    TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!')
-                    TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'hayes')
-                elseif OtherPly.PlayerData.job.name == "mechanic" then
-                    OtherPly.Functions.AddMoney('bank', Amount+Commission, "Mechanic Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                    TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!')
-                    TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'mechanic')
-                elseif OtherPly.PlayerData.job.name == "weapondealer" then
-                    OtherPly.Functions.AddMoney('bank', Amount+Commission, "Ammunations Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                    TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!')
-                    TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'weapondealer')
-                elseif OtherPly.PlayerData.job.name == "ems" then
-                    OtherPly.Functions.AddMoney('bank', Commission, "EMS Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                    TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!')
-                    TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'ems')
-                else
-                    OtherPly.Functions.AddMoney('bank', Amount,"Debt | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                end
-            end
-        else
-            TriggerClientEvent('QBCore:Notify', src, 'You don\'t have enough money...', 'error')
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'Player not Online', 'error')
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:wenmo_givemoney_toID', function(data)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local OtherPly = QBCore.Functions.GetPlayer(tonumber(data.ID))
-    local Amount = tonumber(data.Amount)
-    local Reason = data.Reason
-    if OtherPly then
-        if Ply.PlayerData.money.bank then
-            if Ply.PlayerData.money.bank >= Amount then
-                Ply.Functions.RemoveMoney('bank', Amount, "Wenmo: "..Reason)
-                OtherPly.Functions.AddMoney('bank', Amount,"Wenmo: "..Reason)
-            else
-                TriggerClientEvent("QBCore:Notify", src, 'You don\'t have enough money!', 'error')
-            end
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'Player not Online', 'error')
-    end
-end)
-
-RegisterNetEvent("qb-phone:server:sendDocument", function(data)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src) -- Me
-    local Receiver = QBCore.Functions.GetPlayer(tonumber(data.StateID)) -- Shawn
-    local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
-    if Receiver ~= nil then
-        if Ply.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then
-            TriggerClientEvent("QBCore:Notify", src, 'Document Sent')
-            TriggerClientEvent("qb-phone:client:sendingDocumentRequest", data.StateID, data, Receiver, Ply, SenderName)
-        else
-            TriggerClientEvent("QBCore:Notify", src, 'You can\'t send a document to yourself!', 'error')
-        end
-    else
-        TriggerClientEvent("QBCore:Notify", src, 'This state id does not exists!', 'error')
-    end
-end)
-
-RegisterNetEvent("qb-phone:server:sendDocumentLocal", function(data, playerId)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local Receiver = QBCore.Functions.GetPlayer(playerId)
-    local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
-
-    TriggerClientEvent("QBCore:Notify", src, 'Document Sent')
-    TriggerClientEvent("qb-phone:client:sendingDocumentRequest", playerId, data, Receiver, Ply, SenderName)
-end)
-
-RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiver, Ply, SenderName)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-
-    if data.Type == "New" then
-        exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Player.PlayerData.citizenid, data.Title, data.Text, data.Time})
-        TriggerClientEvent('QBCore:Notify', src, 'Note Saved')
-    elseif data.Type == "Update" then
-        local ID = tonumber(data.ID)
-        local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE id = ?', {ID})
-        if Note[1] ~= nil then
-            exports.oxmysql:execute('DELETE FROM phone_note WHERE id = ?', {ID})
-            exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Player.PlayerData.citizenid, data.Title, data.Text, data.Time})
-            TriggerClientEvent('QBCore:Notify', src, 'Note Updated')
-        end
-    elseif data.Type == "Delete" then
-        local ID = tonumber(data.ID)
-        exports.oxmysql:execute('DELETE FROM phone_note WHERE id = ?', {ID})
-        TriggerClientEvent('QBCore:Notify', src, 'Note Deleted', 'error')
-    elseif data.Type == "Send" then
-        local ID = tonumber(data.ID)
-        local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE id = ?', {ID})
-        if Note[1] ~= nil then
-            exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Receiver.PlayerData.citizenid, data.Title, data.Text, data.Time})
-            TriggerClientEvent('qb-phone:client:CustomNotification', tonumber(data.StateID), 'DOCUMENTS', 'New Document', 'fas fa-folder', '#d9d9d9', 5000)
-        end
-    end
-    Wait(100)
-    TriggerClientEvent('qb-phone:RefReshNotes_Free_Documents', src)
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetNote_for_Documents_app', function(source, cb)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    Wait(400)
-    if Note[1] ~= nil then
-        cb(Note)
-    end
-end)
-
-
-local LSBNTable = {}
-local LSBNTableID = 0
-RegisterNetEvent('qb-phone:server:Send_lsbn_ToChat', function(data)
-    LSBNTableID = LSBNTableID + 1
-    if data.Type == "Text" then
-        LSBNTable[LSBNTableID] = {['Text'] = data.Text, ['Image'] = "none", ['ID'] = LSBNTableID, ['Type'] = data.Type, ['Time'] = data.Time,}
-    elseif data.Type == "Image" then
-        LSBNTable[LSBNTableID] = {['Text'] = data.Text, ['Image'] = data.Image, ['ID'] = LSBNTableID, ['Type'] = data.Type, ['Time'] = data.Time,}
-    end
-    local Tables = {
-        {
-            ['Text'] = data.Text, ['Image'] = data.Image, ['ID'] = LSBNTableID, ['Type'] = data.Type, ['Time'] = data.Time,
-        },
-    }
-    TriggerClientEvent('qb-phone:LSBN-reafy-for-add', -1, Tables, true, data.Text)
-end)
-
-RegisterNetEvent('qb-phone:server:GetLSBNchats', function()
-    local src = source
-    TriggerClientEvent('qb-phone:LSBN-reafy-for-add', src, LSBNTable, false, nil)
 end)
