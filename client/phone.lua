@@ -27,48 +27,6 @@ PhoneData = {
     Images = {},
 }
 
--- Handler Events
-
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    LoadPhone()
-end)
-
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    PhoneData = {
-        MetaData = {},
-        isOpen = false,
-        PlayerData = nil,
-        Contacts = {},
-        Tweets = {},
-        MentionedTweets = {},
-        Hashtags = {},
-        Chats = {},
-        Invoices = {},
-        CallData = {},
-        RecentCalls = {},
-        Garage = {},
-        Mails = {},
-        Adverts = {},
-        GarageVehicles = {},
-        AnimationData = {
-            lib = nil,
-            anim = nil,
-        },
-        SuggestedContacts = {},
-        CryptoTransactions = {},
-    }
-end)
-
-RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
-    SendNUIMessage({
-        action = "UpdateApplications",
-        JobData = JobInfo,
-        applications = Config.PhoneApplications
-    })
-
-    PlayerJob = JobInfo
-end)
-
 -- Functions
 
 function string:split(delimiter)
@@ -1063,6 +1021,47 @@ RegisterNetEvent('qb-phone:client:AnswerCall', function()
     end
 end)
 
+-- Handler Events
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    LoadPhone()
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    PhoneData = {
+        MetaData = {},
+        isOpen = false,
+        PlayerData = nil,
+        Contacts = {},
+        Tweets = {},
+        MentionedTweets = {},
+        Hashtags = {},
+        Chats = {},
+        Invoices = {},
+        CallData = {},
+        RecentCalls = {},
+        Garage = {},
+        Mails = {},
+        Adverts = {},
+        GarageVehicles = {},
+        AnimationData = {
+            lib = nil,
+            anim = nil,
+        },
+        SuggestedContacts = {},
+        CryptoTransactions = {},
+    }
+end)
+
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
+    SendNUIMessage({
+        action = "UpdateApplications",
+        JobData = JobInfo,
+        applications = Config.PhoneApplications
+    })
+
+    PlayerJob = JobInfo
+end)
 
 -- Threads
 
