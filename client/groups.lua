@@ -38,7 +38,6 @@ RegisterNetEvent('groups:phoneNotification', function(data)
 end)
 
 RegisterNetEvent("groups:createBlip", function(name, data)
-
     if data == nil then return print("Invalid Data was passed to the create blip event") end
 
     if FindBlipByName(name) then

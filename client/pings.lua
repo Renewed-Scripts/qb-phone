@@ -1,0 +1,45 @@
+-- NUI Callback
+
+RegisterNetEvent("qb-phone:client:sendPing", function(Player, Other, Name)
+    local pos = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(Player)), false)
+    Blip = AddBlipForCoord(pos.x, pos.y, pos.z)
+    SetBlipSprite(Blip, 280)
+    SetBlipDisplay(Blip, 4)
+    SetBlipScale(Blip, 1.1)
+    SetBlipAsShortRange(Blip, false)
+    SetBlipColour(Blip, 0)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentSubstringPlayerName(Name..'\'s ping!')
+    EndTextCommandSetBlipName(Blip)
+
+    TriggerEvent('qb-phone:client:CustomNotification', Name..'\'s Location Marked', "Ping Available For 5 Minutes", 'fas fa-map-pin', '#b3e0f2', 7500)
+
+    SetTimeout(60000*5, function()
+        RemoveBlip(Blip)
+        TriggerEvent('qb-phone:client:CustomNotification', Name..'\'s Location Removed', "Ping No Longer Available", 'fas fa-map-pin', '#b3e0f2', 7500)
+    end)
+end)
+
+RegisterNUICallback('AcceptPingPlayer', function()
+    TriggerServerEvent('qb-pings:server:acceptping')
+    TriggerEvent("qb-phone:ping:client:UiUppers", false)
+end)
+
+RegisterNUICallback('rejectPingPlayer', function()
+    TriggerServerEvent('qb-pings:server:denyping')
+    TriggerEvent("qb-phone:ping:client:UiUppers", false)
+end)
+
+RegisterNUICallback('SendPingPlayer', function(data)
+    TriggerServerEvent('qb-phone:server:sendPing', data.id)
+    
+end)
+
+-- Events
+
+RegisterNetEvent("qb-phone:client:sendNotificationPing", function(info)
+    local success = exports['qb-phone']:PhoneNotification("PING", info.Name..' Incoming Ping', 'fas fa-map-pin', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
+    if success then
+        TriggerServerEvent("qb-phone:server:sendingPing", info.Other, info.Player, info.Name, info.OtherName)
+    end
+end)
