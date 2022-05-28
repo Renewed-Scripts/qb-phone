@@ -14,19 +14,24 @@ end
 
 -- NUI Callback
 
-RegisterNUICallback('PostAdvert', function(data)
+RegisterNUICallback('PostAdvert', function(data, cb)
     TriggerServerEvent('qb-phone:server:AddAdvert', data.message, data.url)
+    cb("ok")
 end)
 
-RegisterNUICallback("DeleteAdvert", function()
+RegisterNUICallback("DeleteAdvert", function(data, cb)
     TriggerServerEvent("qb-phone:server:DeleteAdvert")
+
+    cb("ok")
 end)
 
-RegisterNUICallback('LoadAdverts', function()
+RegisterNUICallback('LoadAdverts', function(data, cb)
     SendNUIMessage({
         action = "RefreshAdverts",
         Adverts = PhoneData.Adverts
     })
+
+    cb("ok")
 end)
 
 RegisterNUICallback('ClearAlerts', function(data, cb)
@@ -46,6 +51,8 @@ RegisterNUICallback('ClearAlerts', function(data, cb)
         })
         SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
     end
+
+    cb("ok")
 end)
 
 -- Events

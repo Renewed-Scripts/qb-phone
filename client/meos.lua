@@ -7,8 +7,8 @@ RegisterNUICallback('FetchVehicleResults', function(data, cb)
         if result ~= nil then
             for k, v in pairs(result) do
                 QBCore.Functions.TriggerCallback('police:IsPlateFlagged', function(flagged)
-                    result[k].isFlagged = flagged
-                end, result[k].plate)
+                    v.isFlagged = flagged
+                end, v.plate)
                 Wait(50)
             end
         end
@@ -16,7 +16,7 @@ RegisterNUICallback('FetchVehicleResults', function(data, cb)
     end, data.input)
 end)
 
-RegisterNUICallback('FetchVehicleScan', function(data, cb)
+RegisterNUICallback('FetchVehicleScan', function(_, cb)
     local vehicle = QBCore.Functions.GetClosestVehicle()
     local plate = QBCore.Functions.GetPlate(vehicle)
     local vehname = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)):lower()
@@ -36,8 +36,7 @@ end)
 -- Events
 
 RegisterNetEvent('qb-phone:client:addPoliceAlert', function(alertData)
-    PlayerJob = QBCore.Functions.GetPlayerData().job
-    if PlayerJob.name == 'police' and PlayerJob.onduty then
+    if PlayerData.job.name == 'police' and PlayerData.job.onduty then
         SendNUIMessage({
             action = "AddPoliceAlert",
             alert = alertData,

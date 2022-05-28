@@ -1,3 +1,5 @@
+local patt = "[?!@#]"
+
 -- Functions
 
 local function escape_str(s)
@@ -109,7 +111,7 @@ end)
 RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData, delete)
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
-    if not delete then 
+    if not delete then
         if src ~= MyPlayerId then
             SendNUIMessage({
                 action = "PhoneNotification",

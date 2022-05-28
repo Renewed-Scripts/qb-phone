@@ -118,7 +118,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.Adverts = Adverts
 
         local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
-        local Contacts = {}
         if result[1] ~= nil then
             for k, v in pairs(result) do
                 v.status = GetOnlineStatus(v.number)
@@ -270,17 +269,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:HasPhone', function(source, cb)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then
-        local HasPhone = Player.Functions.GetItemByName("phone")
-        if HasPhone ~= nil then
-            cb(true)
-        else
-            cb(false)
-        end
-    end
-end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(source, cb)
     local Lawyers = {}
@@ -374,7 +362,7 @@ end)
 
 RegisterNetEvent('qb-phone:server:CancelCall', function(ContactData)
     local Ply = QBCore.Functions.GetPlayerByPhone(ContactData.TargetData.number)
-    if Ply ~= nil then
+    if Ply then
         TriggerClientEvent('qb-phone:client:CancelCall', Ply.PlayerData.source)
     end
 end)
@@ -437,7 +425,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
     end
     iban = newiban
     amount = tonumber(newAmount)
-    
+
     local Player = QBCore.Functions.GetPlayer(source)
     if (Player.PlayerData.money.bank - amount) >= 0 then
         local query = '%"account":"' .. iban .. '"%'

@@ -1,6 +1,6 @@
 -- NUI Callback
 
-RegisterNUICallback('GetGalleryData', function(data, cb)
+RegisterNUICallback('GetGalleryData', function(_, cb)
     local data = PhoneData.Images
     cb(data)
 end)
