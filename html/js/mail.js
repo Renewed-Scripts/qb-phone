@@ -76,6 +76,17 @@ $(document).on('click', '#remove-mail', function(e){
     }, 300);
 });
 
+function ConfirmationFrame() {
+    $('.spinner-input-frame').css("display", "flex");
+    setTimeout(function () {
+        $('.spinner-input-frame').css("display", "none");
+        $('.checkmark-input-frame').css("display", "flex");
+        setTimeout(function () {
+            $('.checkmark-input-frame').css("display", "none");
+        }, 2000)
+    }, 1000)
+}
+
 QB.Phone.Functions.SetupMails = function(Mails) {
     var NewDate = new Date();
     var NewHour = NewDate.getHours();
@@ -146,25 +157,23 @@ $(document).on('click', '#advert-sendmessage-chat', function(e){
     e.preventDefault();
 
     var Advert = $(".advert-box-textt-input").val();
-    let picture = $('#advert-new-url').val();
+    let picture = $('.advert-box-image-input').val();
 
-    if (Advert !== "") {
-        $('#advert-box-textt').fadeOut(350);
-        if (!picture){
-            $.post('https://qb-phone/PostAdvert', JSON.stringify({
-                message: Advert,
-                url: null
-            }));
-            ClearInputNew()
+    if (Advert !== "" || picture != "") {
+        if (picture != ""){
+            setTimeout(function(){
+                ConfirmationFrame()
+            }, 150);
         }
+        $.post('https://qb-phone/PostAdvert', JSON.stringify({
+            message: Advert,
+            url: picture
+        }));
+        ClearInputNew()
+        $('#advert-box-textt').fadeOut(350);
     } else {
         QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "You can\'t post an empty ad!", "#ff8f1a", 2000);
     }
-});
-
-$(document).on('click','.advimage', function (){
-    let source = $(this).attr('src')
-    QB.Screen.popUp(source);
 });
 
 $(document).on('click','#new-advert-photo',function(e){
@@ -227,10 +236,8 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
                 ALLOWED_ATTR: []
             });
 
-            if (clean == '') { clean = 'I\'m a silly goose :/' }
-
             if (advert.url) {
-                var element = `<div class="advert"><span class="advert-sender"><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 95%; position:relative; z-index: 1; right:1px;height: auto; bottom:1vh;"></br><span><div class="adv-icon"></div> <br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
+                var element = `<div class="advert"><span class="advert-sender"><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 80%; position:relative; z-index: 0; right:1px;height: auto; bottom:0vh;"></br><span><div class="adv-icon"></div> <br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
             } else {
                 var element = `<div class="advert"><span class="advert-sender"><p>${clean}<br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
             }
