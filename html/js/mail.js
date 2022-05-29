@@ -237,9 +237,9 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
             });
 
             if (advert.url) {
-                var element = `<div class="advert"><span class="advert-sender"><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 80%; position:relative; z-index: 0; right:1px;height: auto; bottom:0vh;"></br><span><div class="adv-icon"></div> <br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
+                var element = `<div class="advert" data-number=`+advert.number+`><span class="advert-sender"><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 80%; position:relative; z-index: 0; right:1px;height: auto; bottom:0vh;"></br><span><div class="adv-icon"></div> <br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
             } else {
-                var element = `<div class="advert"><span class="advert-sender"><p>${clean}<br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
+                var element = `<div class="advert" data-number=`+advert.number+`><span class="advert-sender"><p>${clean}<br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
             }
 
             $(".advert-list").append(element);
@@ -247,61 +247,6 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
             //if (advert.number === QB.Phone.Data.PlayerData.charinfo.phone){
                 //$(".advert").append('<i class="fas fa-trash"style="font-size: 1rem; right:0;" id="adv-delete"></i>')
             //}
-
-            $(document).on('click','.advert-sender',function(e){
-                e.preventDefault();
-                if (advert.number != undefined){
-                    var InputNum = advert.number;
-
-                    if (InputNum != ""){
-                        cData = {
-                            number: InputNum,
-                            name: InputNum,
-                        }
-                        $.post('https://qb-phone/CallContact', JSON.stringify({
-                            ContactData: cData,
-                            Anonymous: QB.Phone.Data.AnonymousCall,
-                        }), function(status){
-                            if (cData.number !== QB.Phone.Data.PlayerData.charinfo.phone) {
-                                if (status.IsOnline) {
-                                    if (status.CanCall) {
-                                        if (!status.InCall) {
-                                            $('.phone-new-box-body').fadeOut(350);
-                                            ClearInputNew()
-                                            $(".phone-call-outgoing").css({"display":"none"});
-                                            $(".phone-call-incoming").css({"display":"none"});
-                                            $(".phone-call-ongoing").css({"display":"none"});
-                                            $(".phone-call-outgoing-caller").html(cData.name);
-                                            QB.Phone.Functions.HeaderTextColor("white", 400);
-                                            QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
-                                            setTimeout(function(){
-                                                $(".phone-app").css({"display":"none"});
-                                                QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, -160);
-                                                QB.Phone.Functions.ToggleApp("phone-call", "block");
-                                                $(".phone-currentcall-container").css({"display":"block"});
-                                                $("#incoming-answer").css({"display":"none"});
-                                            }, 450);
-                    
-                                            CallData.name = cData.name;
-                                            CallData.number = cData.number;
-                    
-                                            QB.Phone.Data.currentApplication = "phone-call";
-                                        } else {
-                                            QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
-                                        }
-                                    } else {
-                                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is busy!");
-                                    }
-                                } else {
-                                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
-                                }
-                            } else {
-                                QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call yourself!");
-                            }
-                        });
-                    } 
-                }
-            })
         });
     } else {
         $(".advert-list").html("");
@@ -309,6 +254,62 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
         $(".advert-list").append(element);
     }
 }
+
+$(document).on('click','.advert-sender',function(e){
+    e.preventDefault();
+    var Number = $(this).parent().data('number');
+    if (Number != undefined){
+        var InputNum = Number;
+
+        if (InputNum != ""){
+            cData = {
+                number: InputNum,
+                name: InputNum,
+            }
+            $.post('https://qb-phone/CallContact', JSON.stringify({
+                ContactData: cData,
+                Anonymous: QB.Phone.Data.AnonymousCall,
+            }), function(status){
+                if (cData.number !== QB.Phone.Data.PlayerData.charinfo.phone) {
+                    if (status.IsOnline) {
+                        if (status.CanCall) {
+                            if (!status.InCall) {
+                                $('.phone-new-box-body').fadeOut(350);
+                                ClearInputNew()
+                                $(".phone-call-outgoing").css({"display":"none"});
+                                $(".phone-call-incoming").css({"display":"none"});
+                                $(".phone-call-ongoing").css({"display":"none"});
+                                $(".phone-call-outgoing-caller").html(cData.name);
+                                QB.Phone.Functions.HeaderTextColor("white", 400);
+                                QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
+                                setTimeout(function(){
+                                    $(".phone-app").css({"display":"none"});
+                                    QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, -160);
+                                    QB.Phone.Functions.ToggleApp("phone-call", "block");
+                                    $(".phone-currentcall-container").css({"display":"block"});
+                                    $("#incoming-answer").css({"display":"none"});
+                                }, 450);
+        
+                                CallData.name = cData.name;
+                                CallData.number = cData.number;
+        
+                                QB.Phone.Data.currentApplication = "phone-call";
+                            } else {
+                                QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
+                            }
+                        } else {
+                            QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is busy!");
+                        }
+                    } else {
+                        QB.Phone.Notifications.Add("fas fa-phone", "Phone", "This person is not available!");
+                    }
+                } else {
+                    QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call yourself!");
+                }
+            });
+        } 
+    }
+})
 
 $(document).on('click','#adv-delete',function(e){
     e.preventDefault();
