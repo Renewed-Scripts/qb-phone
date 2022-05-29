@@ -80,18 +80,14 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source,
     if Target ~= nil then
         if Calls[Target.PlayerData.citizenid] ~= nil then
             if Calls[Target.PlayerData.citizenid].inCall then
-                print("false, true")
                 cb(false, true)
             else
-                print("true, true")
                 cb(true, true)
             end
         else
-            print("true, true")
             cb(true, true)
         end
     else
-        print("false, false")
         cb(false, false)
     end
 end)
