@@ -2,6 +2,16 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 -- Functions
 
+local function IsNumberInContacts(num)
+    local retval = num
+    for _, v in pairs(PhoneData.Contacts) do
+        if num == v.number then
+            retval = v.name
+        end
+    end
+    return retval
+end
+
 local function GetKeyByDate(Number, Date)
     local retval = nil
     if PhoneData.Chats[Number] ~= nil then

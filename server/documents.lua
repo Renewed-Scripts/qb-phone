@@ -46,7 +46,7 @@ RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiv
         local ID = tonumber(data.ID)
         exports.oxmysql:execute('DELETE FROM phone_note WHERE id = ?', {ID})
         TriggerClientEvent('QBCore:Notify', src, 'Note Deleted', "error")
-    elseif data.Type == "Send" then
+    elseif data.Type == "PermSend" then
         local ID = tonumber(data.ID)
         local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE id = ?', {ID})
         if Note[1] ~= nil then
