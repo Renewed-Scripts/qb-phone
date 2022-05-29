@@ -1,3 +1,5 @@
+local QBCore = exports['5life-core']:GetCoreObject()
+
 -- NUI Callback
 
 RegisterNUICallback('GetJobCentersJobs', function(data, cb)

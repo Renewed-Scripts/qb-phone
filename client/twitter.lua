@@ -1,3 +1,4 @@
+local QBCore = exports['5life-core']:GetCoreObject()
 local patt = "[?!@#]"
 
 -- Functions
