@@ -116,8 +116,8 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
             SendNUIMessage({
                 action = "PhoneNotification",
                 PhoneNotify = {
-                    title = "New Tweet: (@"..NewTweetData.firstName.." "..NewTweetData.lastName..")",
-                    text = "A new tweet as been posted.",
+                    title = "@"..NewTweetData.firstName.." "..NewTweetData.lastName..")",
+                    text = NewTweetData.message,
                     icon = "fab fa-twitter",
                     color = "#1DA1F2",
                 },

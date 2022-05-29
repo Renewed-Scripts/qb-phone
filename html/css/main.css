@@ -421,7 +421,7 @@ body {
     font-family: 'Poppins', sans-serif;
     color: rgb(255, 255, 255);
     width: 22vh;
-    overflow: hidden;
+    overflow: break-word;
 }
 
 .notification-time {
