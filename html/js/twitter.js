@@ -11,6 +11,17 @@ $(document).ready(function(){
     });
 });
 
+function ConfirmationFrame() {
+    $('.spinner-input-frame').css("display", "flex");
+    setTimeout(function () {
+        $('.spinner-input-frame').css("display", "none");
+        $('.checkmark-input-frame').css("display", "flex");
+        setTimeout(function () {
+            $('.checkmark-input-frame').css("display", "none");
+        }, 2000)
+    }, 1000)
+}
+
 $(document).on('click', '.twitter-header-tab', function(e){
     e.preventDefault();
 
@@ -86,6 +97,11 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){
     var imageURL = $('.twt-box-image-input').val()
     if (TweetMessage != "" || imageURL !== "") {
         var CurrentDate = new Date();
+        if (imageURL != ""){
+            setTimeout(function(){
+                ConfirmationFrame()
+            }, 150);
+        }
         $.post('https://qb-phone/PostNewTweet', JSON.stringify({
             Message: TweetMessage,
             Date: CurrentDate,
@@ -104,6 +120,38 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){
         QB.Phone.Notifications.Add("fab fa-twitter", "Twitter", "Fill a message!", "#1DA1F2");
     };
     $('.twt-box-image-input').val("");
+});
+
+$(document).on('click', '#retweet-sendmessage-chat', function(e){
+    e.preventDefault();
+
+    var TweetMessage = $(".twt-box-textt-input-retweet").val();
+    var imageURL = $('.twt-box-image-retweet').val()
+    if (TweetMessage != "" || imageURL !== "") {
+        var CurrentDate = new Date();
+        if (imageURL != ""){
+            setTimeout(function(){
+                ConfirmationFrame()
+            }, 150);
+        }
+        $.post('https://qb-phone/PostNewTweet', JSON.stringify({
+            Message: TweetMessage,
+            Date: CurrentDate,
+            Picture: QB.Phone.Data.MetaData.profilepicture,
+            url: imageURL
+        }), function(Tweets){
+            QB.Phone.Notifications.LoadTweets(Tweets);
+            ClearInputNew();
+            $('#twt-box-textt-retweet').fadeOut(350);
+        });
+        $.post('https://qb-phone/GetHashtags', JSON.stringify({}), function(Hashtags){
+            QB.Phone.Notifications.LoadHashtags(Hashtags)
+        })
+        QB.Phone.Animations.TopSlideUp(".twitter-new-tweet-tab", 450, -120);
+    } else {
+        QB.Phone.Notifications.Add("fab fa-twitter", "Twitter", "Fill a message!", "#1DA1F2");
+    };
+    $('.twt-box-image-retweet').val("");
 });
 
 QB.Phone.Notifications.LoadTweets = function(Tweets) {
@@ -137,7 +185,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     $(".twitter-home-tab").append(TweetElement);
             } else {
                 let TweetElement = '<div class="twitter-tweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'"><div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
-                    '<div class="twitter-retweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
+                    '<div class="twitter-retweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
                     '<div class="tweet-flag"><i class="fas fa-flag"></i></div>'+
                     '<div class="tweet-tweeter">' + ' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+ '</span></div>'+ //' &middot; '+TimeAgo+'
                     '<div class="tweet-message">'+TwtMessage+'</div>'+
@@ -146,6 +194,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     //'<div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div>' +
                     '</div>';
                 $(".twitter-home-tab").append(TweetElement);
+                
             }
         });
     }
@@ -171,9 +220,13 @@ $(document).on('click', '.tweet-retweet', function(e){
     e.preventDefault();
     var TwtName = $(this).parent().data('twthandler');
     var TwtMessage = $(this).parent().data('twtmessage');
+    var ImageURL = $(this).parent().data('imagemessage');
     ClearInputNew()
-    $('#twt-box-textt').fadeIn(350);
-    $(".twt-box-textt-input").val("RT "+TwtName+ " "+ TwtMessage);
+    $('#twt-box-textt-retweet').fadeIn(350);
+    $(".twt-box-textt-input-retweet").val("RT "+TwtName+ " "+ TwtMessage);
+    if (ImageURL != ''){
+        $('.twt-box-image-retweet').val(ImageURL)
+    }
 });
 
 $(document).on('click', '.tweet-flag', function(e){
