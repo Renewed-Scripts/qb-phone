@@ -6,6 +6,35 @@ Hashtags = {}
 
 -- Functions
 
+function QBPhone.SetPhoneAlerts(citizenid, app, alerts)
+    if citizenid ~= nil and app ~= nil then
+        if AppAlerts[citizenid] == nil then
+            AppAlerts[citizenid] = {}
+            if AppAlerts[citizenid][app] == nil then
+                if alerts == nil then
+                    AppAlerts[citizenid][app] = 1
+                else
+                    AppAlerts[citizenid][app] = alerts
+                end
+            end
+        else
+            if AppAlerts[citizenid][app] == nil then
+                if alerts == nil then
+                    AppAlerts[citizenid][app] = 1
+                else
+                    AppAlerts[citizenid][app] = 0
+                end
+            else
+                if alerts == nil then
+                    AppAlerts[citizenid][app] = AppAlerts[citizenid][app] + 1
+                else
+                    AppAlerts[citizenid][app] = AppAlerts[citizenid][app] + 0
+                end
+            end
+        end
+    end
+end
+
 function QBPhone.AddMentionedTweet(citizenid, TweetData)
     if MentionedTweets[citizenid] == nil then
         MentionedTweets[citizenid] = {}
