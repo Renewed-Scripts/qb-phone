@@ -551,7 +551,7 @@ RegisterNUICallback('AddNewContact', function(data, cb)
     }
     Wait(100)
     cb(PhoneData.Contacts)
-    if PhoneData.Chats[data.ContactNumber] ~= nil and next(PhoneData.Chats[data.ContactNumber]) ~= nil then
+    if PhoneData.Chats[data.ContactNumber] and next(PhoneData.Chats[data.ContactNumber]) then
         PhoneData.Chats[data.ContactNumber].name = data.ContactName
     end
     TriggerServerEvent('qb-phone:server:AddNewContact', data.ContactName, data.ContactNumber, data.ContactIban)
@@ -572,7 +572,7 @@ RegisterNUICallback('EditContact', function(data, cb)
             v.iban = NewIban
         end
     end
-    if PhoneData.Chats[NewNumber] ~= nil and next(PhoneData.Chats[NewNumber]) ~= nil then
+    if PhoneData.Chats[NewNumber] and next(PhoneData.Chats[NewNumber]) then
         PhoneData.Chats[NewNumber].name = NewName
     end
     Wait(100)
@@ -1042,23 +1042,6 @@ CreateThread(function()
             })
         end
         Wait(1000)
-    end
-end)
-
-CreateThread(function()
-    while true do
-        Wait(60000)
-        if LocalPlayer.state.isLoggedIn then
-            QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
-                if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then
-                    PhoneData.Contacts = pData.PlayerContacts
-                end
-                SendNUIMessage({
-                    action = "RefreshContacts",
-                    Contacts = PhoneData.Contacts
-                })
-            end)
-        end
     end
 end)
 

@@ -95,7 +95,7 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source, cb)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player ~= nil then
+    if Player then
         local PhoneData = {
             Applications = {},
             PlayerContacts = {},
@@ -114,8 +114,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.Adverts = Adverts
 
         local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
-        if result[1] ~= nil then
-            for k, v in pairs(result) do
+        if result[1] then
+            for _, v in pairs(result) do
                 v.status = GetOnlineStatus(v.number)
             end
 
@@ -123,14 +123,14 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         end
 
         local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Player.PlayerData.citizenid})
-        if invoices[1] ~= nil then
+        if invoices[1] then
             for k, v in pairs(invoices) do
                 local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
-                if Ply ~= nil then
+                if Ply then
                     v.number = Ply.PlayerData.charinfo.phone
                 else
                     local res = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {v.sender})
-                    if res[1] ~= nil then
+                    if res[1] then
                         res[1].charinfo = json.decode(res[1].charinfo)
                         v.number = res[1].charinfo.phone
                     else
@@ -142,10 +142,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         end
 
         local garageresult = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid})
-        if garageresult[1] ~= nil then
+        if garageresult[1] then
             for k, v in pairs(garageresult) do
                 local vehicleModel = v.vehicle
-                if (QBCore.Shared.Vehicles[vehicleModel] ~= nil) and (Garages[v.garage] ~= nil) then
+                if (QBCore.Shared.Vehicles[vehicleModel]) and (Garages[v.garage]) then
                     v.garage = Garages[v.garage].label
                     v.vehicle = QBCore.Shared.Vehicles[vehicleModel].name
                     v.brand = QBCore.Shared.Vehicles[vehicleModel].brand
@@ -156,32 +156,32 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         end
 
         local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
-        if messages ~= nil and next(messages) ~= nil then
+        if messages and next(messages) then
             PhoneData.Chats = messages
         end
 
-        if AppAlerts[Player.PlayerData.citizenid] ~= nil then
+        if AppAlerts[Player.PlayerData.citizenid] then
             PhoneData.Applications = AppAlerts[Player.PlayerData.citizenid]
         end
 
-        if MentionedTweets[Player.PlayerData.citizenid] ~= nil then
+        if MentionedTweets[Player.PlayerData.citizenid] then
             PhoneData.MentionedTweets = MentionedTweets[Player.PlayerData.citizenid]
         end
 
-        if Hashtags ~= nil and next(Hashtags) ~= nil then
+        if Hashtags and next(Hashtags) then
             PhoneData.Hashtags = Hashtags
         end
 
         local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets WHERE `date` > NOW() - INTERVAL ? hour', {Config.TweetDuration})
 
-        if Tweets ~= nil and next(Tweets) ~= nil then
+        if Tweets and next(Tweets) then
             PhoneData.Tweets = Tweets
         end
 
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-        if mails[1] ~= nil then
+        if mails[1] then
             for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
+                if mails[k].button then
                     mails[k].button = json.decode(mails[k].button)
                 end
             end
@@ -189,7 +189,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         end
 
         local transactions = exports.oxmysql:executeSync('SELECT * FROM crypto_transactions WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-        if transactions[1] ~= nil then
+        if transactions[1] then
             for _, v in pairs(transactions) do
                 PhoneData.CryptoTransactions[#PhoneData.CryptoTransactions+1] = {
                     TransactionTitle = v.title,
