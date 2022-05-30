@@ -12,11 +12,14 @@
     position: absolute;
     width: 90%;
     height: 10%;
+    /* top: 8%; */
     top: 92%;
     left: 27%;
     right: 0;
     color: white;
+    /* font-family: 'Poppins', sans-serif; */
     font-size: 1.8vh;
+    /* margin: 0 auto; */
 }
 
 .employment-header > p {
@@ -50,6 +53,13 @@
     display: none;
 }
 
+
+
+
+
+
+
+
 .empolyment-btn-create-group{
     display: inline;
     background: #8ee074;
@@ -62,7 +72,25 @@
     background: #6cac59;
 }
 
+.employment-div-active-stage{
+    width: 98%;
+    margin-left: 2%;
+    margin-bottom: 20%;
+    margin-top: 12%;
+    padding-left: 5%;
+    background-color: #2c465f;
+    transition: 0.2s;
+    color: whitesmoke;
+    border-bottom: .1vh solid #f5f5f5ad;
+    border-radius: 6px;
+
+    font-size: 125%;
+}
+
+
+
 .employment-div-job-group{
+    /* display: inline; */
     width: 98%;
     margin-left: 1%;
     margin-bottom: 2%;
@@ -85,6 +113,7 @@
 .employment-div-job-group-body-main{
     display: inline-block;
     position: absolute;
+    /* background: black; */
     width: 70%;
     max-width: 70%;
     margin-top: 4%;
@@ -127,4 +156,62 @@
 
 #employment-list-group:hover{
     color: #8ee074;
+}
+
+.employment-Groupjob {
+    margin-top: 16%;
+     border-top: 1px solid white;
+     width: 99%;
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+     padding-top: 14px;
+     justify-content: center;
+     align-items: center;
+     padding-left: 9%;
+ }
+ 
+ .employment-div-active-stagee {
+     width: 90%;
+     padding: 4px;
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     color: white;
+     font-size: 1.5vh;
+     position: relative;
+ }
+ 
+ .isDone {
+     text-decoration: line-through;
+     background: #188218 !important;
+     position: relative;
+ }
+ .isDone::after {
+    background: #188218 !important;
+ }
+ .employment-div-active-stagee::after {
+     content: '';
+     height: 12px;
+     background: #0296ae;
+     left: -23px;
+     top: -2px;
+     width: 12px;
+     position: absolute;
+     border-radius: 100%;
+ }
+ .employment-div-active-stagee::before {
+     content: '';
+     height: 118%;
+     background: white;
+     left: -18px;
+     top: 5px;
+     width: 2px;
+     position: absolute;
+ }
+
+ .employment-div-active-stagee {
+    background: #176e8f;
+    border-radius: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.671);
 }
