@@ -11,7 +11,6 @@ RegisterNUICallback('GetInvoices', function(data, cb)
 end)
 
 RegisterNUICallback('PayInvoice', function(data, cb)
-    local sender = data.sender
     local senderCitizenId = data.senderCitizenId
     local society = data.society
     local amount = data.amount
@@ -25,7 +24,6 @@ RegisterNUICallback('PayInvoice', function(data, cb)
 end)
 
 RegisterNUICallback('DeclineInvoice', function(data, cb)
-    local sender = data.sender
     local society = data.society
     local amount = data.amount
     local invoiceId = data.invoiceId

@@ -6,7 +6,7 @@ RegisterNUICallback('SendBillForPlayer_debt', function(data)
     TriggerServerEvent('qb-phone:server:SendBillForPlayer_debt', data)
 end)
 
-RegisterNUICallback('GetHasBills_debt', function(data, cb)
+RegisterNUICallback('GetHasBills_debt', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetHasBills_debt', function(Has)
         cb(Has)
     end)

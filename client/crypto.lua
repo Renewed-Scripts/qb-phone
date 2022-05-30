@@ -35,7 +35,7 @@ end)
 
 -- Events
 
-RegisterNetEvent('qb-phone:client:AddTransaction', function(SenderData, TransactionData, Message, Title)
+RegisterNetEvent('qb-phone:client:AddTransaction', function(_, _, Message, Title)
     local Data = {
         TransactionTitle = Title,
         TransactionMessage = Message,

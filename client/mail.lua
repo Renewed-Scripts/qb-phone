@@ -1,13 +1,13 @@
 -- NUI Callback
 
 RegisterNUICallback('AcceptMailButton', function(data)
-    if data.buttonEvent ~= nil or  data.buttonData ~= nil then
+    if data.buttonEvent or data.buttonData then
         TriggerEvent(data.buttonEvent, data.buttonData)
     end
     TriggerServerEvent('qb-phone:server:ClearButtonData', data.mailId)
 end)
 
-RegisterNUICallback('GetMails', function(data, cb)
+RegisterNUICallback('GetMails', function(_, cb)
     cb(PhoneData.Mails)
 end)
 

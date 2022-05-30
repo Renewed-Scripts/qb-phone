@@ -42,10 +42,10 @@ RegisterNUICallback('FetchPlayerHouses', function(data, cb)
 end)
 
 RegisterNUICallback('SetGPSLocation', function(data, cb)
-    local ped = PlayerPedId()
-
     SetNewWaypoint(data.coords.x, data.coords.y)
     QBCore.Functions.Notify('GPS set!', "success")
+
+    cb("ok")
 end)
 
 RegisterNUICallback('SetApartmentLocation', function(data, cb)
@@ -54,4 +54,6 @@ RegisterNUICallback('SetApartmentLocation', function(data, cb)
 
     SetNewWaypoint(TypeData.coords.enter.x, TypeData.coords.enter.y)
     QBCore.Functions.Notify('GPS set!', "success")
+
+    cb("ok")
 end)

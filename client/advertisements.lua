@@ -6,6 +6,7 @@ local function GetKeyByNumber(Number)
         for k, v in pairs(PhoneData.Chats) do
             if v.number == Number then
                 retval = k
+                break
             end
         end
     end

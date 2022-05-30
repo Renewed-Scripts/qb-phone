@@ -5,7 +5,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 RegisterNUICallback('FetchVehicleResults', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetVehicleSearchResults', function(result)
         if result ~= nil then
-            for k, v in pairs(result) do
+            for _, v in pairs(result) do
                 QBCore.Functions.TriggerCallback('police:IsPlateFlagged', function(flagged)
                     v.isFlagged = flagged
                 end, v.plate)
