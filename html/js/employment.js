@@ -69,7 +69,7 @@ function AddDIV(data){
     if(data) {
         Object.keys(data).map(function(element,index){
             if(data[element].leader == CSN) {
-                AddOption = 
+                AddOption =
                 `
                 <div class="employment-div-job-group">
                 <div class="employment-div-job-group-image">
@@ -77,7 +77,7 @@ function AddDIV(data){
                 </div><div class="employment-div-job-group-body-main">
                 ${data[element].GName}<i id="employment-block-grouped"
                 data-id="${data[element].id}"
-                data-pass="${data[element].GPass}" 
+                data-pass="${data[element].GPass}"
                 class="fas fa-sign-in-alt">
                 </i>
                 <div class="employment-option-class-body">
@@ -90,12 +90,12 @@ function AddDIV(data){
                 <div class="employment-div-job-group">
                 <div class="employment-div-job-group-image">
                 <i class="fas fa-users"></i></div>
-                <div class="employment-div-job-group-body-main">'+v.GName+'<i id="employment-join-grouped" data-id="${data[element].id}" data-pass="${data[element].GPass}" class="fas fa-sign-in-alt">
+                <div class="employment-div-job-group-body-main">${data[element].GName}<i id="employment-join-grouped" data-id="${data[element].id}" data-pass="${data[element].GPass}" class="fas fa-sign-in-alt">
                 </i><div class="employment-option-class-body">
                 <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends">${data[element].Users}</i>
                 </div></div></div>`
-                Object.keys(data[element].members).map(function(element,index){
-                    if(data[element].members[element].CID == CSN) {
+                Object.keys(data[element].members).map(function(element2,index){
+                    if(data[element].members[element2].CID == CSN) {
                         AddOption = `
                         <div class="employment-div-job-group">
                         <div class="employment-div-job-group-image">
@@ -108,7 +108,7 @@ function AddDIV(data){
                 })
             }
             $('.employment-list').append(AddOption);
-        }) 
+        })
     } else {
         $(".employment-list").html("");
         var AddOption = '<div class="casino-text-clear">No Group</div>'
@@ -126,7 +126,7 @@ function AddGroupJobs(data){
         for (const [k, v] of Object.entries(data)) {
             console.log(JSON.stringify(data))
             if (v.isDone) {
-                AddOption = 
+                AddOption =
                 `
                 <div class="employment-div-active-stagee isDone">
                     <input type="checkbox" id="job${v.name}" checked disabled>
@@ -134,7 +134,7 @@ function AddGroupJobs(data){
                 </div>
                 `
             } else {
-                AddOption = 
+                AddOption =
                 `
                 <div class="employment-div-active-stagee">
                     <input type="checkbox" id="job${v.name}" disabled>

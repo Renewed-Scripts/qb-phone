@@ -38,6 +38,7 @@ end)
 
 -- Events
 RegisterNetEvent("qb-phone:client:sendNotificationPing", function(info)
+    PlaySound(-1, "Click_Fail", "WEB_NAVIGATION_SOUNDS_PHONE", 0, 0, 1)
     local success = exports['qb-phone']:PhoneNotification("PING", info.Name..' Incoming Ping', 'fas fa-map-pin', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
     if success then
         TriggerServerEvent("qb-phone:server:sendingPing", info.Other, info.Player, info.Name, info.OtherName)

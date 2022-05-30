@@ -148,7 +148,7 @@ end
 local function LoadPhone()
     Wait(100)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
-        PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
+        PhoneData.PlayerData = PlayerData
         local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
         PhoneData.MetaData = PhoneMeta
 
@@ -245,7 +245,7 @@ end
 
 local function OpenPhone()
     if HasPhone then
-        PhoneData.PlayerData = QBCore.Functions.GetPlayerData()
+        PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
         SendNUIMessage({
             action = "open",
