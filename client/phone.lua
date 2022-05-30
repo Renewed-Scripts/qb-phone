@@ -997,6 +997,7 @@ end)
 RegisterNetEvent("QBCore:Player:SetPlayerData", function(val)
     PlayerData = val
     PhoneChecks()
+    Wait(250)
     CallCheck()
 end)
 

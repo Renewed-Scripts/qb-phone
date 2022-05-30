@@ -61,9 +61,7 @@ RegisterNUICallback('GetWhatsappChat', function(data, cb)
 end)
 
 RegisterNUICallback('GetWhatsappChats', function(data, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetContactPictures', function(Chats)
-        cb(Chats)
-    end, PhoneData.Chats)
+    cb(PhoneData.Chats)
 end)
 
 RegisterNUICallback('SendMessage', function(data, cb)
@@ -72,15 +70,14 @@ RegisterNUICallback('SendMessage', function(data, cb)
     local ChatNumber = data.ChatNumber
     local ChatTime = data.ChatTime
     local ChatType = data.ChatType
-    local Ped = PlayerPedId()
-    local Pos = GetEntityCoords(Ped)
     local NumberKey = GetKeyByNumber(ChatNumber)
     local ChatKey = GetKeyByDate(NumberKey, ChatDate)
-    if PhoneData.Chats[NumberKey] ~= nil then
-        if(PhoneData.Chats[NumberKey].messages == nil) then
+    if PhoneData.Chats[NumberKey]then
+        if not PhoneData.Chats[NumberKey].messages then
             PhoneData.Chats[NumberKey].messages = {}
         end
-        if PhoneData.Chats[NumberKey].messages[ChatKey] ~= nil then
+
+        if PhoneData.Chats[NumberKey].messages[ChatKey] then
             if ChatType == "message" then
                 PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
                     message = ChatMessage,
@@ -168,13 +165,11 @@ RegisterNUICallback('SendMessage', function(data, cb)
         ReorganizeChats(NumberKey)
     end
 
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetContactPicture', function(Chat)
-        SendNUIMessage({
-            action = "UpdateChat",
-            chatData = Chat,
-            chatNumber = ChatNumber,
-        })
-    end,  PhoneData.Chats[GetKeyByNumber(ChatNumber)])
+    SendNUIMessage({
+        action = "UpdateChat",
+        chatData = PhoneData.Chats[GetKeyByNumber(ChatNumber)],
+        chatNumber = ChatNumber,
+    })
 end)
 
 -- Events
@@ -231,15 +226,12 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
             NumberKey = GetKeyByNumber(SenderNumber)
             ReorganizeChats(NumberKey)
 
-            Wait(100)
-            QBCore.Functions.TriggerCallback('qb-phone:server:GetContactPictures', function(Chats)
-                SendNUIMessage({
-                    action = "UpdateChat",
-                    chatData = Chats[GetKeyByNumber(SenderNumber)],
-                    chatNumber = SenderNumber,
-                    Chats = Chats,
-                })
-            end,  PhoneData.Chats)
+            SendNUIMessage({
+                action = "UpdateChat",
+                chatData = Chats[GetKeyByNumber(SenderNumber)],
+                chatNumber = SenderNumber,
+                Chats = PhoneData.Chats,
+            })
         else
 	    SendNUIMessage({
 	        action = "PhoneNotification",
@@ -291,15 +283,12 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
             NumberKey = GetKeyByNumber(SenderNumber)
             ReorganizeChats(NumberKey)
 
-            Wait(100)
-            QBCore.Functions.TriggerCallback('qb-phone:server:GetContactPictures', function(Chats)
-                SendNUIMessage({
-                    action = "UpdateChat",
-                    chatData = Chats[GetKeyByNumber(SenderNumber)],
-                    chatNumber = SenderNumber,
-                    Chats = Chats,
-                })
-            end,  PhoneData.Chats)
+            SendNUIMessage({
+                action = "UpdateChat",
+                chatData = Chats[GetKeyByNumber(SenderNumber)],
+                chatNumber = SenderNumber,
+                Chats = PhoneData.Chats,
+            })
         else
             SendNUIMessage({
                 action = "PhoneNotification",

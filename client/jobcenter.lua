@@ -1,4 +1,4 @@
-local QBCore = exports['5life-core']:GetCoreObject()
+local QBCore = exports['qb-core']:GetCoreObject()
 
 -- NUI Callback
 

@@ -205,20 +205,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetContactPictures', function(source, cb, Chats)
-    for k, v in pairs(Chats) do
-        local Player = QBCore.Functions.GetPlayerByPhone(v.number)
-    end
-    cb(Chats)
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetContactPicture', function(source, cb, Chat)
-    local query = '%' .. Chat.number .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-    local MetaData = json.decode(result[1].metadata)
-    cb(Chat)
-end)
-
 QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, cb, search)
     local search = escape_sqli(search)
     local searchData = {}
