@@ -15,7 +15,7 @@ end
 -- NUI Callback
 
 RegisterNUICallback('GetHashtagMessages', function(data, cb)
-    if PhoneData.Hashtags[data.hashtag] ~= nil and next(PhoneData.Hashtags[data.hashtag]) ~= nil then
+    if PhoneData.Hashtags[data.hashtag] and next(PhoneData.Hashtags[data.hashtag]) ~= nil then
         cb(PhoneData.Hashtags[data.hashtag])
     else
         cb(nil)
@@ -85,12 +85,12 @@ RegisterNUICallback('FlagTweet',function(data)
     QBCore.Functions.Notify(data.name..' was reported for saying '..data.message, "error")
 end)
 
-RegisterNUICallback('GetMentionedTweets', function(data, cb)
+RegisterNUICallback('GetMentionedTweets', function(_, cb)
     cb(PhoneData.MentionedTweets)
 end)
 
-RegisterNUICallback('GetHashtags', function(data, cb)
-    if PhoneData.Hashtags ~= nil and next(PhoneData.Hashtags) ~= nil then
+RegisterNUICallback('GetHashtags', function(_, cb)
+    if PhoneData.Hashtags and next(PhoneData.Hashtags) then
         cb(PhoneData.Hashtags)
     else
         cb(nil)
@@ -109,7 +109,7 @@ end)
 
 -- Events
 
-RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData, delete)
+RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, delete)
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
     if not delete then
@@ -117,8 +117,8 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
             SendNUIMessage({
                 action = "PhoneNotification",
                 PhoneNotify = {
-                    title = "@"..NewTweetData.firstName.." "..NewTweetData.lastName..")",
-                    text = NewTweetData.message,
+                    title = "Twitter",
+                    text = "A new tweet has been posted",
                     icon = "fab fa-twitter",
                     color = "#1DA1F2",
                 },
@@ -162,7 +162,7 @@ end)
 -- Events
 
 RegisterNetEvent('qb-phone:client:UpdateHashtags', function(Handle, msgData)
-    if PhoneData.Hashtags[Handle] ~= nil then
+    if PhoneData.Hashtags[Handle] then
         PhoneData.Hashtags[Handle].messages[#PhoneData.Hashtags[Handle].messages+1] = msgData
     else
         PhoneData.Hashtags[Handle] = {
@@ -181,8 +181,8 @@ end)
 RegisterNetEvent('qb-phone:client:GetMentioned', function(TweetMessage, AppAlerts)
     Config.PhoneApplications["twitter"].Alerts = AppAlerts
     SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "New mention!", text = TweetMessage.message, icon = "fab fa-twitter", color = "#1DA1F2", }, })
-    local TweetMessage = {firstName = TweetMessage.firstName, lastName = TweetMessage.lastName, message = escape_str(TweetMessage.message), time = TweetMessage.time, picture = TweetMessage.picture}
-    PhoneData.MentionedTweets[#PhoneData.MentionedTweets+1] = TweetMessage
+    local NewMessage = {firstName = TweetMessage.firstName, lastName = TweetMessage.lastName, message = escape_str(TweetMessage.message), time = TweetMessage.time, picture = TweetMessage.picture}
+    PhoneData.MentionedTweets[#PhoneData.MentionedTweets+1] = NewMessage
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
     SendNUIMessage({ action = "UpdateMentionedTweets", Tweets = PhoneData.MentionedTweets })
 end)

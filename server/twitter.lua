@@ -86,7 +86,7 @@ RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
             Tweets[i] = nil
         end
     end
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, {}, true)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, true)
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
@@ -97,8 +97,8 @@ RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
         TweetData.lastName,
         TweetData.message,
         TweetData.url:gsub("[%<>\"()\' $]",""),
-        TweetData.picture,
+        TweetData.picture:gsub("[%<>\"()\' $]",""),
         TweetData.tweetId
     })
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, false)
 end)
