@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- Functions
 
 local function IsNumberInContacts(num)
@@ -53,14 +51,14 @@ end
 -- NUI Callback
 
 RegisterNUICallback('GetWhatsappChat', function(data, cb)
-    if PhoneData.Chats[data.phone] ~= nil then
+    if PhoneData.Chats[data.phone] then
         cb(PhoneData.Chats[data.phone])
     else
         cb(false)
     end
 end)
 
-RegisterNUICallback('GetWhatsappChats', function(data, cb)
+RegisterNUICallback('GetWhatsappChats', function(_, cb)
     cb(PhoneData.Chats)
 end)
 
@@ -165,6 +163,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
         ReorganizeChats(NumberKey)
     end
 
+    cb("ok")
     SendNUIMessage({
         action = "UpdateChat",
         chatData = PhoneData.Chats[GetKeyByNumber(ChatNumber)],
@@ -249,7 +248,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
     else
         PhoneData.Chats[NumberKey].messages = ChatMessages
 
-        if PhoneData.Chats[NumberKey].Unread ~= nil then
+        if PhoneData.Chats[NumberKey].Unread then
             PhoneData.Chats[NumberKey].Unread = PhoneData.Chats[NumberKey].Unread + 1
         else
             PhoneData.Chats[NumberKey].Unread = 1
