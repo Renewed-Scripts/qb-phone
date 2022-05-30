@@ -353,8 +353,10 @@ local function CancelCall()
 end
 
 local function CallCheck()
-    if not HasPhone or PhoneData.CallData.CallType == "ongoing" and (PlayerData.metadata['isdead'] or PlayerData.metadata['ishandcuffed']) then
-        CancelCall()
+    if PhoneData.CallData.CallType == "ongoing" then
+        if not HasPhone or PlayerData.metadata['isdead'] or PlayerData.metadata['inlaststand'] or PlayerData.metadata['ishandcuffed'] then
+            CancelCall()
+        end
     end
 end
 
