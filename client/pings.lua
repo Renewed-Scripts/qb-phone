@@ -1,7 +1,8 @@
+local Blip
+
 -- NUI Callback
 
-RegisterNetEvent("qb-phone:client:sendPing", function(Player, Other, Name)
-    local pos = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(Player)), false)
+RegisterNetEvent("qb-phone:client:sendPing", function(Name, pos)
     Blip = AddBlipForCoord(pos.x, pos.y, pos.z)
     SetBlipSprite(Blip, 280)
     SetBlipDisplay(Blip, 4)
@@ -32,11 +33,10 @@ end)
 
 RegisterNUICallback('SendPingPlayer', function(data)
     TriggerServerEvent('qb-phone:server:sendPing', data.id)
-    
+
 end)
 
 -- Events
-
 RegisterNetEvent("qb-phone:client:sendNotificationPing", function(info)
     local success = exports['qb-phone']:PhoneNotification("PING", info.Name..' Incoming Ping', 'fas fa-map-pin', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
     if success then
