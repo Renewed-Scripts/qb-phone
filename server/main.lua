@@ -14,7 +14,7 @@ local bannedCharacters = {'%','$',';'}
 local function GetOnlineStatus(number)
     local Target = QBCore.Functions.GetPlayerByPhone(number)
     local retval = false
-    if Target ~= nil then
+    if Target then
         retval = true
     end
     return retval
@@ -37,7 +37,7 @@ local function round(num, numDecimalPlaces)
 end
 
 function QBPhone.SetPhoneAlerts(citizenid, app, alerts)
-    if citizenid ~= nil and app ~= nil then
+    if citizenid and app then
         if AppAlerts[citizenid] == nil then
             AppAlerts[citizenid] = {}
             if AppAlerts[citizenid][app] == nil then
@@ -77,8 +77,8 @@ end
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source, cb, ContactData)
     local Target = QBCore.Functions.GetPlayerByPhone(ContactData.number)
-    if Target ~= nil then
-        if Calls[Target.PlayerData.citizenid] ~= nil then
+    if Target then
+        if Calls[Target.PlayerData.citizenid] then
             if Calls[Target.PlayerData.citizenid].inCall then
                 cb(false, true)
             else
@@ -198,7 +198,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             end
         end
         local images = exports.oxmysql:executeSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
-        if images ~= nil and next(images) ~= nil then
+        if images and next(images) then
             PhoneData.Images = images
         end
         cb(PhoneData)
@@ -224,12 +224,12 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
         ApaData[v.citizenid] = ApartmentData[k]
     end
     local result = exports.oxmysql:executeSync(query)
-    if result[1] ~= nil then
+    if result[1] then
         for k, v in pairs(result) do
             local charinfo = json.decode(v.charinfo)
             local metadata = json.decode(v.metadata)
             local appiepappie = {}
-            if ApaData[v.citizenid] ~= nil and next(ApaData[v.citizenid]) ~= nil then
+            if ApaData[v.citizenid] and next(ApaData[v.citizenid]) then
                 appiepappie = ApaData[v.citizenid]
             end
             searchData[#searchData+1] = {
@@ -256,7 +256,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(so
     local Lawyers = {}
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
-        if Player ~= nil then
+        if Player then
             if (Player.PlayerData.job.name == "lawyer" or Player.PlayerData.job.name == "realestate" or
                 Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "taxi" or
                 Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "ems" or Player.PlayerData.job.name == "hayes") and
@@ -281,7 +281,7 @@ end)
 RegisterNetEvent('qb-phone:server:SetCallState', function(bool)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
-    if Calls[Ply.PlayerData.citizenid] ~= nil then
+    if Calls[Ply.PlayerData.citizenid] then
         Calls[Ply.PlayerData.citizenid].inCall = bool
     else
         Calls[Ply.PlayerData.citizenid] = {}
@@ -293,7 +293,7 @@ RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, Ano
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
     local Target = QBCore.Functions.GetPlayerByPhone(TargetData.number)
-    if Target ~= nil then
+    if Target then
         TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall)
     end
 end)
@@ -333,7 +333,7 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
     local label = Hour .. ":" .. Minute
     TriggerClientEvent('qb-phone:client:AddRecentCall', src, data, label, type)
     local Trgt = QBCore.Functions.GetPlayerByPhone(data.number)
-    if Trgt ~= nil then
+    if Trgt then
         TriggerClientEvent('qb-phone:client:AddRecentCall', Trgt.PlayerData.source, {
             name = Ply.PlayerData.charinfo.firstname .. " " .. Ply.PlayerData.charinfo.lastname,
             number = Ply.PlayerData.charinfo.phone,
@@ -351,7 +351,7 @@ end)
 
 RegisterNetEvent('qb-phone:server:AnswerCall', function(CallData)
     local Ply = QBCore.Functions.GetPlayerByPhone(CallData.TargetData.number)
-    if Ply ~= nil then
+    if Ply then
         TriggerClientEvent('qb-phone:client:AnswerCall', Ply.PlayerData.source)
     end
 end)
@@ -412,10 +412,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
     if (Player.PlayerData.money.bank - amount) >= 0 then
         local query = '%"account":"' .. iban .. '"%'
         local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-        if result[1] ~= nil then
+        if result[1] then
             local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
             Player.Functions.RemoveMoney('bank', amount)
-            if Reciever ~= nil then
+            if Reciever then
                 Reciever.Functions.AddMoney('bank', amount)
             else
                 local RecieverMoney = json.decode(result[1].money)
@@ -435,15 +435,15 @@ RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
 
     local query = '%' .. iban .. '%'
     local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-    if result[1] ~= nil then
+    if result[1] then
         local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
 
-        if reciever ~= nil then
+        if reciever then
             local PhoneItem = reciever.Functions.GetItemByName("phone")
             reciever.Functions.AddMoney('bank', amount, "phone-transfered-from-" .. sender.PlayerData.citizenid)
             sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-" .. reciever.PlayerData.citizenid)
 
-            if PhoneItem ~= nil then
+            if PhoneItem then
                 TriggerClientEvent('qb-phone:client:TransferMoney', reciever.PlayerData.source, amount,
                     reciever.PlayerData.money.bank)
             end

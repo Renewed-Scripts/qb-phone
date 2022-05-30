@@ -33,7 +33,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetHasBills_debt', function(sou
     local Ply = QBCore.Functions.GetPlayer(src)
     local Debt = exports.oxmysql:executeSync('SELECT * FROM phone_debt WHERE citizenid = ?', {Ply.PlayerData.citizenid})
     Wait(400)
-    if Debt[1] ~= nil then
+    if Debt[1] then
         cb(Debt)
     end
 end)
@@ -47,7 +47,7 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
     local Commission = tonumber(data.Amount) * 0.20
     if OtherPly then
         if Ply.PlayerData.money.bank then
-            if Ply.Functions.RemoveMoney('bank', Amount, "Remove Money For Debt") then -- Makes sure the money is removed! 
+            if Ply.Functions.RemoveMoney('bank', Amount, "Remove Money For Debt") then -- Makes sure the money is removed!
                 if OtherPly.PlayerData.job.name == "hayes" then
                     OtherPly.Functions.AddMoney('bank', Commission, "Hayes Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
                     exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})

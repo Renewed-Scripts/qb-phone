@@ -14,9 +14,9 @@ RegisterNetEvent('qb-phone:server:RemoveMail', function(MailId)
     exports.oxmysql:execute('DELETE FROM player_mails WHERE mailid = ? AND citizenid = ?', {MailId, Player.PlayerData.citizenid})
     SetTimeout(100, function()
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-        if mails[1] ~= nil then
+        if mails[1] then
             for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
+                if mails[k].button then
                     mails[k].button = json.decode(mails[k].button)
                 end
             end
@@ -37,9 +37,9 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData)
     SetTimeout(200, function()
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',
             {Player.PlayerData.citizenid})
-        if mails[1] ~= nil then
+        if mails[1] then
             for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
+                if mails[k].button then
                     mails[k].button = json.decode(mails[k].button)
                 end
             end
@@ -63,9 +63,9 @@ RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mai
         SetTimeout(200, function()
             local mails = exports.oxmysql:executeSync(
                 'SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-            if mails[1] ~= nil then
+            if mails[1] then
                 for k, v in pairs(mails) do
-                    if mails[k].button ~= nil then
+                    if mails[k].button then
                         mails[k].button = json.decode(mails[k].button)
                     end
                 end
@@ -91,9 +91,9 @@ RegisterNetEvent('qb-phone:server:sendNewEventMail', function(citizenid, mailDat
     end
     SetTimeout(200, function()
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {citizenid})
-        if mails[1] ~= nil then
+        if mails[1] then
             for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
+                if mails[k].button then
                     mails[k].button = json.decode(mails[k].button)
                 end
             end
@@ -108,9 +108,9 @@ RegisterNetEvent('qb-phone:server:ClearButtonData', function(mailId)
     exports.oxmysql:execute('UPDATE player_mails SET button = ? WHERE mailid = ? AND citizenid = ?', {'', mailId, Player.PlayerData.citizenid})
     SetTimeout(200, function()
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-        if mails[1] ~= nil then
+        if mails[1] then
             for k, v in pairs(mails) do
-                if mails[k].button ~= nil then
+                if mails[k].button then
                     mails[k].button = json.decode(mails[k].button)
                 end
             end

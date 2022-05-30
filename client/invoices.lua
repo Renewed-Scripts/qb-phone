@@ -2,8 +2,8 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 -- NUI Callback
 
-RegisterNUICallback('GetInvoices', function(data, cb)
-    if PhoneData.Invoices ~= nil and next(PhoneData.Invoices) ~= nil then
+RegisterNUICallback('GetInvoices', function(_, cb)
+    if PhoneData.Invoices and next(PhoneData.Invoices) then
         cb(PhoneData.Invoices)
     else
         cb(nil)

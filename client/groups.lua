@@ -5,7 +5,7 @@ local GroupBlips = {}
 
 local function FindBlipByName(name)
     for i=1, #GroupBlips do
-        if GroupBlips[i] ~= nil then
+        if GroupBlips[i] then
             if GroupBlips[i]["name"] == name then
                 return i
             end

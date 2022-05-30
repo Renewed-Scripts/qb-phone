@@ -37,7 +37,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
     TriggerEvent("qb-bossmenu:server:addAccountMoney", society, amount)
     exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
     local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    if invoices[1] ~= nil then
+    if invoices[1] then
         Invoices = invoices
     end
     cb(true, Invoices)
@@ -48,7 +48,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(sourc
     local Ply = QBCore.Functions.GetPlayer(source)
     exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
     local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    if invoices[1] ~= nil then
+    if invoices[1] then
         Invoices = invoices
     end
     cb(true, Invoices)

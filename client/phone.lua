@@ -152,7 +152,7 @@ local function LoadPhone()
         local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
         PhoneData.MetaData = PhoneMeta
 
-        if pData.InstalledApps ~= nil and next(pData.InstalledApps) ~= nil then
+        if pData.InstalledApps and next(pData.InstalledApps) then
             for k, v in pairs(pData.InstalledApps) do
                 local AppData = Config.StoreApps[v.app]
                 Config.PhoneApplications[v.app] = {
@@ -175,21 +175,21 @@ local function LoadPhone()
             PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture
         end
 
-        if pData.Applications ~= nil and next(pData.Applications) ~= nil then
+        if pData.Applications and next(pData.Applications) then
             for k, v in pairs(pData.Applications) do
                 Config.PhoneApplications[k].Alerts = v
             end
         end
 
-        if pData.MentionedTweets ~= nil and next(pData.MentionedTweets) ~= nil then
+        if pData.MentionedTweets and next(pData.MentionedTweets) then
             PhoneData.MentionedTweets = pData.MentionedTweets
         end
 
-        if pData.PlayerContacts ~= nil and next(pData.PlayerContacts) ~= nil then
+        if pData.PlayerContacts and next(pData.PlayerContacts) then
             PhoneData.Contacts = pData.PlayerContacts
         end
 
-        if pData.Chats ~= nil and next(pData.Chats) ~= nil then
+        if pData.Chats and next(pData.Chats) then
             local Chats = {}
             for k, v in pairs(pData.Chats) do
                 Chats[v.number] = {
@@ -202,33 +202,33 @@ local function LoadPhone()
             PhoneData.Chats = Chats
         end
 
-        if pData.Invoices ~= nil and next(pData.Invoices) ~= nil then
+        if pData.Invoices and next(pData.Invoices) then
             for _, invoice in pairs(pData.Invoices) do
                 invoice.name = IsNumberInContacts(invoice.number)
             end
             PhoneData.Invoices = pData.Invoices
         end
 
-        if pData.Hashtags ~= nil and next(pData.Hashtags) ~= nil then
+        if pData.Hashtags and next(pData.Hashtags) then
             PhoneData.Hashtags = pData.Hashtags
         end
 
-        if pData.Tweets ~= nil and next(pData.Tweets) ~= nil then
+        if pData.Tweets and next(pData.Tweets) then
             PhoneData.Tweets = pData.Tweets
         end
 
-        if pData.Mails ~= nil and next(pData.Mails) ~= nil then
+        if pData.Mails and next(pData.Mails) then
             PhoneData.Mails = pData.Mails
         end
 
-        if pData.Adverts ~= nil and next(pData.Adverts) ~= nil then
+        if pData.Adverts and next(pData.Adverts) then
             PhoneData.Adverts = pData.Adverts
         end
 
-        if pData.CryptoTransactions ~= nil and next(pData.CryptoTransactions) ~= nil then
+        if pData.CryptoTransactions and next(pData.CryptoTransactions) then
             PhoneData.CryptoTransactions = pData.CryptoTransactions
         end
-        if pData.Images ~= nil and next(pData.Images) ~= nil then
+        if pData.Images and next(pData.Images) then
             PhoneData.Images = pData.Images
         end
 
@@ -641,7 +641,7 @@ RegisterNUICallback('DeleteContact', function(data, cb)
     end
     Wait(100)
     cb(PhoneData.Contacts)
-    if PhoneData.Chats[Number] ~= nil and next(PhoneData.Chats[Number]) ~= nil then
+    if PhoneData.Chats[Number] and next(PhoneData.Chats[Number]) then
         PhoneData.Chats[Number].name = Number
     end
     TriggerServerEvent('qb-phone:server:RemoveContact', Name, Number)
@@ -1162,7 +1162,7 @@ end)
 
 RegisterNUICallback('RemoveSuggestion', function(data, cb) -- I DONT THINK WE NEED THIS ANYMORE
     local data = data.data
-    if PhoneData.SuggestedContacts ~= nil and next(PhoneData.SuggestedContacts) ~= nil then
+    if PhoneData.SuggestedContacts and next(PhoneData.SuggestedContacts) then
         for k, v in pairs(PhoneData.SuggestedContacts) do
             if (data.name[1] == v.name[1] and data.name[2] == v.name[2]) and data.number == v.number and data.bank == v.bank then
                 table.remove(PhoneData.SuggestedContacts, k)

@@ -39,7 +39,7 @@ RegisterNUICallback('ClearAlerts', function(data, cb)
     local chat = data.number
     local ChatKey = GetKeyByNumber(chat)
 
-    if PhoneData.Chats[ChatKey].Unread ~= nil then
+    if PhoneData.Chats[ChatKey].Unread then
         local newAlerts = (Config.PhoneApplications['whatsapp'].Alerts - PhoneData.Chats[ChatKey].Unread)
         Config.PhoneApplications['whatsapp'].Alerts = newAlerts
         TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "whatsapp", newAlerts)

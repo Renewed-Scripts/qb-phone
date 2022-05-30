@@ -36,7 +36,7 @@ end exports('RemoveBlipForGroup', RemoveBlipForGroup)
 
 -- All group functions to get members leaders and size.
 local function GetGroupByMembers(src)
-    if Players[src] then 
+    if Players[src] then
         for group, _ in pairs(EmploymentGroup) do
             for k, v in pairs (EmploymentGroup[group].members) do
                 if v.Player == src then
@@ -77,7 +77,7 @@ end
 
 local function RemovePlayerFromGroup(src, groupID)
     local player = QBCore.Functions.GetPlayer(src)
-    if Players[src] then 
+    if Players[src] then
         if EmploymentGroup[groupID] then
             local g = EmploymentGroup[groupID].members
             for k,v in pairs(g) do
@@ -103,9 +103,9 @@ end
 local function ChangeGroupLeader(groupID)
     local m = EmploymentGroup[groupID].members
     local l = GetGroupLeader(groupID)
-    if #m > 1 then 
-        for i=1, #m do 
-            if m[i] ~= l then 
+    if #m > 1 then
+        for i=1, #m do
+            if m[i] ~= l then
                 EmploymentGroup[groupID].leader = m[i]
                 break
             end
@@ -145,24 +145,24 @@ AddEventHandler('playerDropped', function(reason)
 	local src = source
     local groupID = GetGroupByMembers(src)
     if groupID ~= 0 then
-        if isGroupLeader(src, groupID) then 
+        if isGroupLeader(src, groupID) then
             if ChangeGroupLeader(groupID) then
                 TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
-            else 
+            else
                 DestroyGroup(groupID)
                 TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
-            end 
-        else 
+            end
+        else
             RemovePlayerFromGroup(groupID, src)
-        end 
-    end	
+        end
+    end
 end)
 
 
 RegisterNetEvent("qb-phone:server:employment_checkJobStauts", function (data)
-    local src = source 
+    local src = source
     local checkStatus = GetGroupByMembers(src)
-    if checkStatus ~= nil then
+    if checkStatus then
         TriggerClientEvent('qb-phone:client:showEmploymentPage', src)
     else
         TriggerClientEvent('qb-phone:client:showEmploymentGroupPage', src)
@@ -172,7 +172,7 @@ end)
 RegisterNetEvent("qb-phone:server:employment_CreateJobGroup", function(data)
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
-    if not Players[src] then 
+    if not Players[src] then
         Players[src] = true
         EmploymentGroup[#EmploymentGroup+1] = {
             id = #EmploymentGroup+1,

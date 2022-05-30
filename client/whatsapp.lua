@@ -12,8 +12,8 @@ end
 
 local function GetKeyByDate(Number, Date)
     local retval = nil
-    if PhoneData.Chats[Number] ~= nil then
-        if PhoneData.Chats[Number].messages ~= nil then
+    if PhoneData.Chats[Number] then
+        if PhoneData.Chats[Number].messages then
             for key, chat in pairs(PhoneData.Chats[Number].messages) do
                 if chat.date == Date then
                     retval = key
@@ -191,7 +191,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
             messages = ChatMessages
         }
 
-        if PhoneData.Chats[NumberKey].Unread ~= nil then
+        if PhoneData.Chats[NumberKey].Unread then
             PhoneData.Chats[NumberKey].Unread = PhoneData.Chats[NumberKey].Unread + 1
         else
             PhoneData.Chats[NumberKey].Unread = 1

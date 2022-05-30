@@ -15,7 +15,7 @@ end
 -- NUI Callback
 
 RegisterNUICallback('GetHashtagMessages', function(data, cb)
-    if PhoneData.Hashtags[data.hashtag] and next(PhoneData.Hashtags[data.hashtag]) ~= nil then
+    if PhoneData.Hashtags[data.hashtag] and next(PhoneData.Hashtags[data.hashtag]) then
         cb(PhoneData.Hashtags[data.hashtag])
     else
         cb(nil)
@@ -44,7 +44,7 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
 
     for i = 2, #Hashtag, 1 do
         local Handle = Hashtag[i]:split(" ")[1]
-        if Handle ~= nil or Handle ~= "" then
+        if Handle or Handle ~= "" then
             local InvalidSymbol = string.match(Handle, patt)
             if InvalidSymbol then
                 Handle = Handle:gsub("%"..InvalidSymbol, "")
@@ -55,13 +55,13 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
 
     for i = 2, #MentionTag, 1 do
         local Handle = MentionTag[i]:split(" ")[1]
-        if Handle ~= nil or Handle ~= "" then
+        if Handle or Handle ~= "" then
             local Fullname = Handle:split("_")
             local Firstname = Fullname[1]
             table.remove(Fullname, 1)
             local Lastname = table.concat(Fullname, " ")
 
-            if (Firstname ~= nil and Firstname ~= "") and (Lastname ~= nil and Lastname ~= "") then
+            if (Firstname and Firstname ~= "") and (Lastname and Lastname ~= "") then
                 if Firstname ~= PhoneData.PlayerData.charinfo.firstname and Lastname ~= PhoneData.PlayerData.charinfo.lastname then
                     TriggerServerEvent('qb-phone:server:MentionedPlayer', Firstname, Lastname, TweetMessage)
                 end

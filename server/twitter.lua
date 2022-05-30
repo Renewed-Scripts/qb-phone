@@ -7,7 +7,7 @@ Hashtags = {}
 -- Functions
 
 function QBPhone.SetPhoneAlerts(citizenid, app, alerts)
-    if citizenid ~= nil and app ~= nil then
+    if citizenid and app then
         if AppAlerts[citizenid] == nil then
             AppAlerts[citizenid] = {}
             if AppAlerts[citizenid][app] == nil then
@@ -47,7 +47,7 @@ end
 RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName, TweetMessage)
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
-        if Player ~= nil then
+        if Player then
             if (Player.PlayerData.charinfo.firstname == firstName and Player.PlayerData.charinfo.lastname == lastName) then
                 QBPhone.SetPhoneAlerts(Player.PlayerData.citizenid, "twitter")
                 QBPhone.AddMentionedTweet(Player.PlayerData.citizenid, TweetMessage)
@@ -56,7 +56,7 @@ RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName
                 local query1 = '%' .. firstName .. '%'
                 local query2 = '%' .. lastName .. '%'
                 local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ? AND charinfo LIKE ?', {query1, query2})
-                if result[1] ~= nil then
+                if result[1] then
                     local MentionedTarget = result[1].citizenid
                     QBPhone.SetPhoneAlerts(MentionedTarget, "twitter")
                     QBPhone.AddMentionedTweet(MentionedTarget, TweetMessage)
@@ -67,7 +67,7 @@ RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateHashtags', function(Handle, messageData)
-    if Hashtags[Handle] ~= nil and next(Hashtags[Handle]) ~= nil then
+    if Hashtags[Handle] and next(Hashtags[Handle]) then
         Hashtags[Handle].messages[#Hashtags[Handle].messages+1] = messageData
     else
         Hashtags[Handle] = {

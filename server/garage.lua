@@ -13,18 +13,18 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
     local Vehicles = {}
     local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
         {Player.PlayerData.citizenid})
-    if result[1] ~= nil then
+    if result[1] then
         for k, v in pairs(result) do
             local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
             local VehicleGarage = "None"
-            if v.garage ~= nil then
+            if v.garage then
                 if GetGarageNamephone(v.garage) then
                     if Garages[v.garage] or GangGarages[v.garage] or JobGarages[v.garage] then
-                        if Garages[v.garage] ~= nil then
+                        if Garages[v.garage] then
                             VehicleGarage = Garages[v.garage]["label"]
-                        elseif GangGarages[v.garage] ~= nil then
+                        elseif GangGarages[v.garage] then
                             VehicleGarage = GangGarages[v.garage]["label"]
-                        elseif JobGarages[v.garage] ~= nil then
+                        elseif JobGarages[v.garage] then
                             VehicleGarage = JobGarages[v.garage]["label"]
                         end
                     end
@@ -32,7 +32,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     VehicleGarage = v.garage
                 end
             end
-            
+
             local VehicleState = "In"
             if v.state == 0 then
                 VehicleState = "Out"
@@ -46,7 +46,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
             else
                 vinscratched = 'false'
             end
-            if VehicleData["brand"] ~= nil then
+            if VehicleData["brand"] then
                 if VehicleState == 'Out' then
                     state = 'Out'
                 elseif VehicleState == 'In' then

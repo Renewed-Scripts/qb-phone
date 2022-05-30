@@ -5,7 +5,7 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local CitizenId = Player.PlayerData.citizenid
-    if Adverts[CitizenId] ~= nil then
+    if Adverts[CitizenId] then
         Adverts[CitizenId].message = msg
         Adverts[CitizenId].name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname
         Adverts[CitizenId].number = Player.PlayerData.charinfo.phone
