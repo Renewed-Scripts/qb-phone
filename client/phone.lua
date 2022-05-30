@@ -966,6 +966,12 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerData = QBCore.Functions.GetPlayerData()
     PhoneChecks()
     LoadPhone()
+
+    SendNUIMessage({
+        action = "UpdateApplications",
+        JobData = PlayerData.job,
+        applications = Config.PhoneApplications
+    })
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
@@ -1020,6 +1026,11 @@ CreateThread(function()
     Wait(500)
     LoadPhone()
     PublicPhone()
+    SendNUIMessage({
+        action = "UpdateApplications",
+        JobData = PlayerData.job,
+        applications = Config.PhoneApplications
+    })
 end)
 
 CreateThread(function()

@@ -29,7 +29,6 @@ RegisterNetEvent("qb-phone:server:sendPing", function(id)
 end)
 
 RegisterNetEvent("qb-phone:server:sendingPing", function(Other, Player, Name, OtherName)
-    print(GetEntityCoords(GetPlayerPed(Player)))
     TriggerClientEvent('qb-phone:client:CustomNotification', Player, "PING", OtherName..' Accepted Your Ping!', 'fas fa-map-pin', '#b3e0f2', 7500)
     TriggerClientEvent("qb-phone:client:sendPing", Other, Name, GetEntityCoords(GetPlayerPed(Player)))
 end)

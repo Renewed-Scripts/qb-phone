@@ -140,49 +140,49 @@ end
 -- Events
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', function(source, cb, search)
-    local search = escape_sqli(search)
+    local newSearch = escape_sqli(search)
     local searchData = {}
-    local query = '%' .. search .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
-        {query, search})
-    if result[1] ~= nil then
-        for k, v in pairs(result) do
-            local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
-            if player[1] ~= nil then
+    local query = '%' .. newSearch .. '%'
+    local result = MySQL.query.await('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
+        {query, newSearch})
+    if result[1] then
+        for _, v in pairs(result) do
+            local player = MySQL.query.await('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
+            if player[1] then
                 local charinfo = json.decode(player[1].charinfo)
-                local vehicleInfo = QBCore.Shared.Vehicles[result[k].vehicle]
-                if vehicleInfo ~= nil then
+                local vehicleInfo = QBCore.Shared.Vehicles[v.vehicle]
+                if vehicleInfo then
                     searchData[#searchData+1] = {
-                        plate = result[k].plate,
+                        plate = v.plate,
                         status = true,
                         owner = charinfo.firstname .. " " .. charinfo.lastname,
-                        citizenid = result[k].citizenid,
+                        citizenid = v.citizenid,
                         label = vehicleInfo["name"]
                     }
                 else
                     searchData[#searchData+1] = {
-                        plate = result[k].plate,
+                        plate = v.plate,
                         status = true,
                         owner = charinfo.firstname .. " " .. charinfo.lastname,
-                        citizenid = result[k].citizenid,
+                        citizenid = v.citizenid,
                         label = "Name not found.."
                     }
                 end
             end
         end
     else
-        if GeneratedPlates[search] ~= nil then
+        if GeneratedPlates[newSearch] then
             searchData[#searchData+1] = {
-                plate = GeneratedPlates[search].plate,
-                status = GeneratedPlates[search].status,
-                owner = GeneratedPlates[search].owner,
-                citizenid = GeneratedPlates[search].citizenid,
+                plate = GeneratedPlates[newSearch].plate,
+                status = GeneratedPlates[newSearch].status,
+                owner = GeneratedPlates[newSearch].owner,
+                citizenid = GeneratedPlates[newSearch].citizenid,
                 label = "Brand unknown.."
             }
         else
             local ownerInfo = GenerateOwnerName()
-            GeneratedPlates[search] = {
-                plate = search,
+            GeneratedPlates[newSearch] = {
+                plate = newSearch,
                 status = true,
                 owner = ownerInfo.name,
                 citizenid = ownerInfo.citizenid
@@ -202,9 +202,9 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb, plate)
     local src = source
     local vehicleData = {}
-    if plate ~= nil then
+    if plate then
         local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate = ?', {plate})
-        if result[1] ~= nil then
+        if result[1] then
             local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[1].citizenid})
             local charinfo = json.decode(player[1].charinfo)
             vehicleData = {
@@ -213,7 +213,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb
                 owner = charinfo.firstname .. " " .. charinfo.lastname,
                 citizenid = result[1].citizenid
             }
-        elseif GeneratedPlates ~= nil and GeneratedPlates[plate] ~= nil then
+        elseif GeneratedPlates and GeneratedPlates[plate] then
             vehicleData = GeneratedPlates[plate]
         else
             local ownerInfo = GenerateOwnerName()
