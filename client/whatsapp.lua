@@ -52,23 +52,6 @@ end
 
 -- NUI Callback
 
-RegisterNUICallback('SharedLocation', function(data)
-    local x = data.coords.x
-    local y = data.coords.y
-
-    SetNewWaypoint(x, y)
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Messages",
-            text = "Location set!",
-            icon = "fas fa-comment",
-            color = "#25D366",
-            timeout = 1500,
-        },
-    })
-end)
-
 RegisterNUICallback('GetWhatsappChat', function(data, cb)
     if PhoneData.Chats[data.phone] ~= nil then
         cb(PhoneData.Chats[data.phone])
@@ -106,17 +89,6 @@ RegisterNUICallback('SendMessage', function(data, cb)
                     type = ChatType,
                     data = {},
                 }
-            elseif ChatType == "location" then
-                PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
-                    message = "Shared Location",
-                    time = ChatTime,
-                    sender = PhoneData.PlayerData.citizenid,
-                    type = ChatType,
-                    data = {
-                        x = Pos.x,
-                        y = Pos.y,
-                    },
-                }
             elseif ChatType == "picture" then
                 PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
                     message = "Photo",
@@ -144,17 +116,6 @@ RegisterNUICallback('SendMessage', function(data, cb)
                     sender = PhoneData.PlayerData.citizenid,
                     type = ChatType,
                     data = {},
-                }
-            elseif ChatType == "location" then
-                PhoneData.Chats[NumberKey].messages[ChatDate].messages[#PhoneData.Chats[NumberKey].messages[ChatDate].messages+1] = {
-                    message = "Shared Location",
-                    time = ChatTime,
-                    sender = PhoneData.PlayerData.citizenid,
-                    type = ChatType,
-                    data = {
-                        x = Pos.x,
-                        y = Pos.y,
-                    },
                 }
             elseif ChatType == "picture" then
                 PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
@@ -190,17 +151,6 @@ RegisterNUICallback('SendMessage', function(data, cb)
                 sender = PhoneData.PlayerData.citizenid,
                 type = ChatType,
                 data = {},
-            }
-        elseif ChatType == "location" then
-            PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
-                message = "Shared Location",
-                time = ChatTime,
-                sender = PhoneData.PlayerData.citizenid,
-                type = ChatType,
-                data = {
-                    x = Pos.x,
-                    y = Pos.y,
-                },
             }
         elseif ChatType == "picture" then
             PhoneData.Chats[NumberKey].messages[ChatKey].messages[#PhoneData.Chats[NumberKey].messages[ChatKey].messages+1] = {
