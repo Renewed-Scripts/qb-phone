@@ -86,19 +86,19 @@ RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
             Tweets[i] = nil
         end
     end
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, true)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, TweetData, Tweets, true)
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     local src = source
     local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, NOW(), ?, ?, ?)', {
         TweetData.citizenid,
-        TweetData.firstName,
-        TweetData.lastName,
-        TweetData.message,
-        TweetData.url:gsub("[%<>\"()\' $]",""),
+        TweetData.firstName:gsub("[%<>\"()\' $]",""),
+        TweetData.lastName:gsub("[%<>\"()\' $]",""),
+        TweetData.message:gsub("[%<>\"()\' $]",""),
+        TweetData.url,
         TweetData.picture:gsub("[%<>\"()\' $]",""),
         TweetData.tweetId
     })
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, false)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
 end)
