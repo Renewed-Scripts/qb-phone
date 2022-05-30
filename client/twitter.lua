@@ -31,7 +31,7 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         firstName = PhoneData.PlayerData.charinfo.firstname,
         lastName = PhoneData.PlayerData.charinfo.lastname,
         citizenid = PhoneData.PlayerData.citizenid,
-        message = escape_str(data.Message),
+        message = escape_str(data.Message):gsub("[%<>\"()\'$]",""),
         time = data.Date,
         tweetId = GenerateTweetId(),
         picture = data.Picture,
@@ -112,14 +112,14 @@ end)
 RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData, delete)
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
-    local newFirst, newLast = NewTweetData.firstName:gsub("[%<>\"()\' $]",""), NewTweetData.lastName:gsub("[%<>\"()\' $]","")
+    local newFirst, newLast = NewTweetData.firstName:gsub("[%<>\"()\'$]",""), NewTweetData.lastName:gsub("[%<>\"()\' $]","")
     if not delete then
         if src ~= MyPlayerId then
             SendNUIMessage({
                 action = "PhoneNotification",
                 PhoneNotify = {
                     title = "@"..newFirst.." "..newLast,
-                    text = NewTweetData.message:gsub("[%<>\"()\' $]",""),
+                    text = NewTweetData.message:gsub("[%<>\"()\'$]",""),
                     icon = "fab fa-twitter",
                     color = "#1DA1F2",
                 },

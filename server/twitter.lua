@@ -93,11 +93,11 @@ RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
     local src = source
     local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, date, url, picture, tweetid) VALUES (?, ?, ?, ?, NOW(), ?, ?, ?)', {
         TweetData.citizenid,
-        TweetData.firstName:gsub("[%<>\"()\' $]",""),
-        TweetData.lastName:gsub("[%<>\"()\' $]",""),
-        TweetData.message:gsub("[%<>\"()\' $]",""),
+        TweetData.firstName:gsub("[%<>\"()\'$]",""),
+        TweetData.lastName:gsub("[%<>\"()\'$]",""),
+        TweetData.message:gsub("[%<>\"()\'$]",""),
         TweetData.url,
-        TweetData.picture:gsub("[%<>\"()\' $]",""),
+        TweetData.picture:gsub("[%<>\"()\'$]",""),
         TweetData.tweetId
     })
     TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
