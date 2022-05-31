@@ -28,10 +28,10 @@ function newPhoneProp()
 		Wait(1)
 	end
 	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, 1, 1, 0)
-
-	local bone = GetPedBoneIndex(PlayerPedId(), 28422)
+    local ped = PlayerPedId()
+	local bone = GetPedBoneIndex(ped, 28422)
 	if phoneModel == joaat("prop_cs_phone_01") then
-		AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 50.0, 320.0, 50.0, 1, 1, 0, 0, 2, 1)
+		AttachEntityToEntity(phoneProp, ped, bone, 0.0, 0.0, 0.0, 50.0, 320.0, 50.0, 1, 1, 0, 0, 2, 1)
 	else
 		AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 0, 2, 1)
 	end
