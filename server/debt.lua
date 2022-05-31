@@ -6,7 +6,7 @@ RegisterNetEvent('qb-phone:server:SendBillForPlayer_debt', function(data)
     local billed = QBCore.Functions.GetPlayer(tonumber(data.ID))
     local amount = tonumber(data.Amount)
     if billed then
-        if (biller.PlayerData.job.name == "mechanic" or biller.PlayerData.job.name == "hayes" or biller.PlayerData.job.name == "weapondealer" or biller.PlayerData.job.name == "hayes") then
+        if (biller.PlayerData.job.name == "mechanic") then
             if biller.PlayerData.job.onduty then
                 if amount and amount > 0  and amount <= 50000 then
                     exports.oxmysql:insert('INSERT INTO phone_debt (citizenid, amount,  sender, sendercitizenid, reason) VALUES (?, ?, ?, ?, ?)',{billed.PlayerData.citizenid, amount, biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname, biller.PlayerData.citizenid, data.Reason})
@@ -48,28 +48,14 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
     if OtherPly then
         if Ply.PlayerData.money.bank then
             if Ply.Functions.RemoveMoney('bank', Amount, "Remove Money For Debt") then -- Makes sure the money is removed!
-                if OtherPly.PlayerData.job.name == "hayes" then
-                    OtherPly.Functions.AddMoney('bank', Commission, "Hayes Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                    TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!', "primary")
-                    TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'hayes')
-                elseif OtherPly.PlayerData.job.name == "mechanic" then
+                if OtherPly.PlayerData.job.name == "mechanic" then
                     OtherPly.Functions.AddMoney('bank', Amount+Commission, "Mechanic Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
                     exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
                     Wait(1)
                     TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
                     TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!', "primary")
                     TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'mechanic')
-                elseif OtherPly.PlayerData.job.name == "weapondealer" then
-                    OtherPly.Functions.AddMoney('bank', Amount+Commission, "Ammunations Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                    TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!', "primary")
-                    TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'weapondealer')
-                elseif OtherPly.PlayerData.job.name == "ems" then
+                elseif OtherPly.PlayerData.job.name == "ammbulance" or OtherPly.PlayerData.job.name == "doctor" then
                     OtherPly.Functions.AddMoney('bank', Commission, "EMS Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
                     exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
                     Wait(1)
