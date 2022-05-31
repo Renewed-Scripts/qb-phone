@@ -5,20 +5,14 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local CitizenId = Player.PlayerData.citizenid
-    if Adverts[CitizenId] then
-        Adverts[CitizenId].message = msg
-        Adverts[CitizenId].name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname
-        Adverts[CitizenId].number = Player.PlayerData.charinfo.phone
-        Adverts[CitizenId].url = url
-    else
-        Adverts[CitizenId] = {
-            message = msg,
-            name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
-            number = Player.PlayerData.charinfo.phone,
-            url = url
-        }
-    end
-    TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname)
+    local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
+    if not Adverts[CitizenId] then Adverts[CitizenId] = {} end
+    Adverts[CitizenId].message = msg
+    Adverts[CitizenId].name = name
+    Adverts[CitizenId].number = Player.PlayerData.charinfo.phone
+    Adverts[CitizenId].url = url
+
+    TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, name)
 end)
 
 RegisterNetEvent('qb-phone:server:DeleteAdvert', function()

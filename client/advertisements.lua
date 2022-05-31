@@ -1,16 +1,13 @@
 -- Functions
 
 local function GetKeyByNumber(Number)
-    local retval = nil
     if PhoneData.Chats then
         for k, v in pairs(PhoneData.Chats) do
             if v.number == Number then
-                retval = k
-                break
+                return k
             end
         end
     end
-    return retval
 end
 
 -- NUI Callback
@@ -20,18 +17,16 @@ RegisterNUICallback('PostAdvert', function(data, cb)
     cb("ok")
 end)
 
-RegisterNUICallback("DeleteAdvert", function(data, cb)
+RegisterNUICallback("DeleteAdvert", function(_, cb)
     TriggerServerEvent("qb-phone:server:DeleteAdvert")
-
     cb("ok")
 end)
 
-RegisterNUICallback('LoadAdverts', function(data, cb)
+RegisterNUICallback('LoadAdverts', function(_, cb)
     SendNUIMessage({
         action = "RefreshAdverts",
         Adverts = PhoneData.Adverts
     })
-
     cb("ok")
 end)
 
