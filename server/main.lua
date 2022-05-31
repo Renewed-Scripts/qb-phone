@@ -38,25 +38,25 @@ end
 
 function QBPhone.SetPhoneAlerts(citizenid, app, alerts)
     if citizenid and app then
-        if AppAlerts[citizenid] == nil then
+        if not AppAlerts[citizenid] then
             AppAlerts[citizenid] = {}
-            if AppAlerts[citizenid][app] == nil then
-                if alerts == nil then
+            if not AppAlerts[citizenid][app] then
+                if not alerts then
                     AppAlerts[citizenid][app] = 1
                 else
                     AppAlerts[citizenid][app] = alerts
                 end
             end
         else
-            if AppAlerts[citizenid][app] == nil then
-                if alerts == nil then
+            if not AppAlerts[citizenid][app] then
+                if not alerts then
                     AppAlerts[citizenid][app] = 1
                 else
                     AppAlerts[citizenid][app] = 0
                 end
             else
-                if alerts == nil then
-                    AppAlerts[citizenid][app] = AppAlerts[citizenid][app] + 1
+                if not alerts then
+                    AppAlerts[citizenid][app]= 1
                 else
                     AppAlerts[citizenid][app] = AppAlerts[citizenid][app] + 0
                 end
@@ -273,7 +273,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(so
 end)
 
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
-		cb(WebHook)
+	cb(WebHook)
 end)
 
 -- Events
@@ -281,12 +281,8 @@ end)
 RegisterNetEvent('qb-phone:server:SetCallState', function(bool)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
-    if Calls[Ply.PlayerData.citizenid] then
-        Calls[Ply.PlayerData.citizenid].inCall = bool
-    else
-        Calls[Ply.PlayerData.citizenid] = {}
-        Calls[Ply.PlayerData.citizenid].inCall = bool
-    end
+    if not Calls[Ply.PlayerData.citizenid] then Calls[Ply.PlayerData.citizenid] = {} end
+    Calls[Ply.PlayerData.citizenid].inCall = bool
 end)
 
 RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, AnonymousCall)

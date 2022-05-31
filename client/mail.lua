@@ -1,10 +1,11 @@
 -- NUI Callback
 
-RegisterNUICallback('AcceptMailButton', function(data)
+RegisterNUICallback('AcceptMailButton', function(data, cb)
     if data.buttonEvent or data.buttonData then
         TriggerEvent(data.buttonEvent, data.buttonData)
     end
     TriggerServerEvent('qb-phone:server:ClearButtonData', data.mailId)
+    cb('ok')
 end)
 
 RegisterNUICallback('GetMails', function(_, cb)

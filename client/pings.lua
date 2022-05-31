@@ -21,19 +21,21 @@ RegisterNetEvent("qb-phone:client:sendPing", function(Name, pos)
     end)
 end)
 
-RegisterNUICallback('AcceptPingPlayer', function()
+RegisterNUICallback('AcceptPingPlayer', function(_, cb)
     TriggerServerEvent('qb-pings:server:acceptping')
     TriggerEvent("qb-phone:ping:client:UiUppers", false)
+    cb('ok')
 end)
 
-RegisterNUICallback('rejectPingPlayer', function()
+RegisterNUICallback('rejectPingPlayer', function(_, cb)
     TriggerServerEvent('qb-pings:server:denyping')
     TriggerEvent("qb-phone:ping:client:UiUppers", false)
+    cb('ok')
 end)
 
-RegisterNUICallback('SendPingPlayer', function(data)
+RegisterNUICallback('SendPingPlayer', function(data, cb)
     TriggerServerEvent('qb-phone:server:sendPing', data.id)
-
+    cb('ok')
 end)
 
 -- Events

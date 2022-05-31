@@ -5,13 +5,10 @@ local GroupBlips = {}
 
 local function FindBlipByName(name)
     for i=1, #GroupBlips do
-        if GroupBlips[i] then
-            if GroupBlips[i]["name"] == name then
-                return i
-            end
+        if GroupBlips[i] and GroupBlips[i].name == name then
+            return i
         end
     end
-    return false
 end
 
 RegisterNetEvent("groups:removeBlip", function(name)
@@ -38,7 +35,7 @@ RegisterNetEvent('groups:phoneNotification', function(data)
 end)
 
 RegisterNetEvent("groups:createBlip", function(name, data)
-    if data == nil then return print("Invalid Data was passed to the create blip event") end
+    if not data then return print("Invalid Data was passed to the create blip event") end
 
     if FindBlipByName(name) then
         TriggerEvent("groups:removeBlip", name)
@@ -55,13 +52,13 @@ RegisterNetEvent("groups:createBlip", function(name, data)
         blip = AddBlipForCoord(data.coords)
     end
 
-    if data.color == nil then data.color = 1 end
-    if data.alpha == nil then data.alpha = 255 end
+    if not data.color then data.color = 1 end
+    if not data.alpha then data.alpha = 255 end
 
     if not data.radius then
-        if data.sprite == nil then data.sprite = 1 end
-        if data.scale == nil then data.scale = 0.7 end
-        if data.label == nil then data.label = "NO LABEL FOUND" end
+        if not data.sprite then data.sprite = 1 end
+        if not data.scale then data.scale = 0.7 end
+        if not data.label then data.label = "NO LABEL FOUND" end
 
         SetBlipSprite(blip, data.sprite)
         SetBlipScale(blip, data.scale)
@@ -80,7 +77,7 @@ RegisterNetEvent("groups:createBlip", function(name, data)
     GroupBlips[#GroupBlips+1] = {name = name, blip = blip}
 end)
 
-RegisterNUICallback('GetGroupsApp', function (data, cb)
+RegisterNUICallback('GetGroupsApp', function (_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:getAllGroups', function (getGroups, inGroup, currentJob, stages)
         SendNUIMessage({
             action = "GroupAddDIV",
@@ -89,6 +86,7 @@ RegisterNUICallback('GetGroupsApp', function (data, cb)
             job = currentJob,
             stage = stages
         })
+        cb("ok")
     end)
 end)
 
@@ -102,7 +100,6 @@ end)
 
 RegisterCommand("testgroup", function()
     TriggerServerEvent('TestGroups')
-
 end, false)
 
 RegisterNetEvent('qb-phone:client:AddGroupStage', function(status, stage)
@@ -116,20 +113,24 @@ RegisterNetEvent('qb-phone:client:AddGroupStage', function(status, stage)
 end)
 
 
-RegisterNUICallback('employment_CreateJobGroup', function(data) --employment
+RegisterNUICallback('employment_CreateJobGroup', function(data, cb) --employment
     TriggerServerEvent('qb-phone:server:employment_CreateJobGroup', data)
+    cb("ok")
 end)
 
-RegisterNUICallback('employment_JoinTheGroup', function(data) --employment
+RegisterNUICallback('employment_JoinTheGroup', function(data, cb) --employment
     TriggerServerEvent('qb-phone:server:employment_JoinTheGroup', data)
+    cb("ok")
 end)
 
-RegisterNUICallback('employment_leave_grouped', function(data) --employment
+RegisterNUICallback('employment_leave_grouped', function(data, cb) --employment
     TriggerServerEvent('qb-phone:server:employment_leave_grouped', data)
+    cb("ok")
 end)
 
-RegisterNUICallback('employment_DeleteGroup', function(data) --employment
+RegisterNUICallback('employment_DeleteGroup', function(data, cb) --employment
     TriggerServerEvent('qb-phone:server:employment_DeleteGroup', data)
+    cb("ok")
 end)
 
 

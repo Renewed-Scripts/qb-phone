@@ -32,27 +32,12 @@ PhoneData = {
 
 -- Functions
 
-function string:split(delimiter)
-    local result = { }
-    local from  = 1
-    local delim_from, delim_to = string.find( self, delimiter, from  )
-    while delim_from do
-      table.insert( result, string.sub( self, from , delim_from-1 ) )
-      from  = delim_to + 1
-      delim_from, delim_to = string.find( self, delimiter, from  )
-    end
-    table.insert( result, string.sub( self, from  ) )
-    return result
-end
-
 local function IsNumberInContacts(num)
-    local retval = num
     for _, v in pairs(PhoneData.Contacts) do
         if num == v.number then
-            retval = v.name
+            return v.name
         end
     end
-    return retval
 end
 
 local function PhoneChecks()
@@ -61,6 +46,7 @@ local function PhoneChecks()
         for _, v in pairs(PlayerData.items) do
             if v.name == 'phone' then
                 _phone = true
+                break
             end
         end
     end
@@ -110,18 +96,17 @@ local function PublicPhone()
         295857659,-78626473,
         -1559354806
     }
-        exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
-            options = {
-                {
-                    type = "client",
-                    event = "stx-phone:client:publocphoneopen",
-                    icon = "fas fa-phone-alt",
-                    label = "Public Phone",
-                    job = false,
-                },
+    exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
+        options = {
+            {
+                type = "client",
+                event = "stx-phone:client:publocphoneopen",
+                icon = "fas fa-phone-alt",
+                label = "Public Phone",
             },
-            distance = 1.0
-        })
+        },
+        distance = 1.0
+    })
 end
 
 local function DisableDisplayControlActions()
@@ -169,11 +154,7 @@ local function LoadPhone()
             end
         end
 
-        if PhoneMeta.profilepicture == nil then
-            PhoneData.MetaData.profilepicture = "default"
-        else
-            PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture
-        end
+        PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture or"default"
 
         if pData.Applications and next(pData.Applications) then
             for k, v in pairs(pData.Applications) do
@@ -300,56 +281,31 @@ local function CancelCall()
     if not PhoneData.isOpen then
         StopAnimTask(PlayerPedId(), PhoneData.AnimationData.lib, PhoneData.AnimationData.anim, 2.5)
         deletePhone()
-        PhoneData.AnimationData.lib = nil
-        PhoneData.AnimationData.anim = nil
-    else
-        PhoneData.AnimationData.lib = nil
-        PhoneData.AnimationData.anim = nil
     end
+    PhoneData.AnimationData.lib = nil
+    PhoneData.AnimationData.anim = nil
 
     TriggerServerEvent('qb-phone:server:SetCallState', false)
 
-    if not PhoneData.isOpen then
-        SendNUIMessage({
-            action = "SetupHomeCall",
-            CallData = PhoneData.CallData,
-        })
+    SendNUIMessage({
+        action = "SetupHomeCall",
+        CallData = PhoneData.CallData,
+    })
 
-        SendNUIMessage({
-            action = "CancelOutgoingCall",
-        })
+    SendNUIMessage({
+        action = "CancelOutgoingCall",
+    })
 
-        SendNUIMessage({
-            action = "PhoneNotification",
-            PhoneNotify = {
-                title = "PHONE CALL",
-                text = "Disconnected...",
-                icon = "fas fa-phone-square",
-                color = "#e84118",
-                timeout = 5000,
-            },
-        })
-    else
-        SendNUIMessage({
-            action = "SetupHomeCall",
-            CallData = PhoneData.CallData,
-        })
-
-        SendNUIMessage({
-            action = "CancelOutgoingCall",
-        })
-
-        SendNUIMessage({
-            action = "PhoneNotification",
-            PhoneNotify = {
-                title = "PHONE CALL",
-                text = "Disconnected...",
-                icon = "fas fa-phone-square",
-                color = "#e84118",
-                timeout = 5000,
-            },
-        })
-    end
+    SendNUIMessage({
+        action = "PhoneNotification",
+        PhoneNotify = {
+            title = "PHONE CALL",
+            text = "Disconnected...",
+            icon = "fas fa-phone-square",
+            color = "#e84118",
+            timeout = 5000,
+        },
+    })
 end
 
 local function CallCheck()
@@ -375,7 +331,7 @@ local function CallContact(CallData, AnonymousCall)
         if not PhoneData.CallData.AnsweredCall then
             if RepeatCount + 1 ~= Config.CallRepeats + 1 then
                 if PhoneData.CallData.InCall then
-                    RepeatCount = RepeatCount + 1
+                    RepeatCount += 1
                     TriggerServerEvent("InteractSound_SV:PlayOnSource", "dialing", 0.1)
                 else
                     break
@@ -499,27 +455,29 @@ RegisterNUICallback('AnswerCall', function()
     AnswerCall()
 end)
 
-RegisterNUICallback('ClearRecentAlerts', function(data, cb)
+RegisterNUICallback('ClearRecentAlerts', function(_, cb)
     TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "phone", 0)
     Config.PhoneApplications["phone"].Alerts = 0
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
+    cb('ok')
 end)
 
-RegisterNUICallback('SetBackground', function(data)
+RegisterNUICallback('SetBackground', function(data, cb)
     local background = data.background
     PhoneData.MetaData.background = background
     TriggerServerEvent('qb-phone:server:SaveMetaData', PhoneData.MetaData)
+    cb('ok')
 end)
 
-RegisterNUICallback('GetMissedCalls', function(data, cb)
+RegisterNUICallback('GetMissedCalls', function(_, cb)
     cb(PhoneData.RecentCalls)
 end)
 
-RegisterNUICallback('GetSuggestedContacts', function(data, cb)
+RegisterNUICallback('GetSuggestedContacts', function(_, cb)
     cb(PhoneData.SuggestedContacts)
 end)
 
-RegisterNUICallback('HasPhone', function(data, cb)
+RegisterNUICallback('HasPhone', function(_, cb)
     cb(HasPhone)
 end)
 
@@ -580,10 +538,11 @@ RegisterNUICallback('EditContact', function(data, cb)
     TriggerServerEvent('qb-phone:server:EditContact', NewName, NewNumber, NewIban, OldName, OldNumber, OldIban)
 end)
 
-RegisterNUICallback('UpdateProfilePicture', function(data)
+RegisterNUICallback('UpdateProfilePicture', function(data, cb)
     local pf = data.profilepicture
     PhoneData.MetaData.profilepicture = pf
     TriggerServerEvent('qb-phone:server:SaveMetaData', PhoneData.MetaData)
+    cb('ok')
 end)
 
 RegisterNUICallback('FetchSearchResults', function(data, cb)
@@ -616,6 +575,7 @@ end)
 
 RegisterNUICallback('RemoveApplication', function(data, cb)
     TriggerServerEvent('qb-phone:server:RemoveInstallation', data.app)
+    cb("ok")
 end)
 
 RegisterNUICallback('DeleteContact', function(data, cb)
@@ -661,7 +621,7 @@ RegisterNUICallback('SetupStoreApps', function(_, cb)
     cb(data)
 end)
 
-RegisterNUICallback('ClearGeneralAlerts', function(data)
+RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
     SetTimeout(400, function()
         Config.PhoneApplications[data.app].Alerts = 0
         SendNUIMessage({
@@ -670,6 +630,7 @@ RegisterNUICallback('ClearGeneralAlerts', function(data)
         })
         TriggerServerEvent('qb-phone:server:SetPhoneAlerts', data.app, 0)
         SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
+        cb('ok')
     end)
 end)
 
@@ -765,56 +726,31 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
     if not PhoneData.isOpen then
         StopAnimTask(PlayerPedId(), PhoneData.AnimationData.lib, PhoneData.AnimationData.anim, 2.5)
         deletePhone()
-        PhoneData.AnimationData.lib = nil
-        PhoneData.AnimationData.anim = nil
-    else
-        PhoneData.AnimationData.lib = nil
-        PhoneData.AnimationData.anim = nil
     end
+    PhoneData.AnimationData.lib = nil
+    PhoneData.AnimationData.anim = nil
 
     TriggerServerEvent('qb-phone:server:SetCallState', false)
 
-    if not PhoneData.isOpen then
-        SendNUIMessage({
-            action = "SetupHomeCall",
-            CallData = PhoneData.CallData,
-        })
+    SendNUIMessage({
+        action = "SetupHomeCall",
+        CallData = PhoneData.CallData,
+    })
 
-        SendNUIMessage({
-            action = "CancelOutgoingCall",
-        })
+    SendNUIMessage({
+        action = "CancelOutgoingCall",
+    })
 
-        SendNUIMessage({
-            action = "PhoneNotification",
-            PhoneNotify = {
-                title = "PHONE CALL",
-                text = "Disconnected...",
-                icon = "fas fa-phone-square",
-                color = "#e84118",
-                timeout = 5000,
-            },
-        })
-    else
-        SendNUIMessage({
-            action = "SetupHomeCall",
-            CallData = PhoneData.CallData,
-        })
-
-        SendNUIMessage({
-            action = "CancelOutgoingCall",
-        })
-
-        SendNUIMessage({
-            action = "PhoneNotification",
-            PhoneNotify = {
-                title = "PHONE CALL",
-                text = "Disconnected...",
-                icon = "fas fa-phone-square",
-                color = "#e84118",
-                timeout = 5000,
-            },
-        })
-    end
+    SendNUIMessage({
+        action = "PhoneNotification",
+        PhoneNotify = {
+            title = "PHONE CALL",
+            text = "Disconnected...",
+            icon = "fas fa-phone-square",
+            color = "#e84118",
+            timeout = 5000,
+        },
+    })
 end)
 
 RegisterNUICallback('phone-silent-button', function(data,cb)
@@ -1052,12 +988,14 @@ RegisterNetEvent('stx-phone:client:publocphoneopen',function()
     SendNUIMessage({type = 'publicphoneopen'})
 end)
 
-RegisterNUICallback('publicphoneclose', function()
+RegisterNUICallback('publicphoneclose', function(_, cb)
     SetNuiFocus(false, false)
+    cb('ok')
 end)
 
-RegisterNUICallback('openHelp', function()
+RegisterNUICallback('openHelp', function(_, cb)
     TriggerEvent('qb-cityhall:client:PayTaxes2') -- Custom Tax Script Dependency
+    cb('ok')
 end)
 
 

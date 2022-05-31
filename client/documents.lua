@@ -2,11 +2,12 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 -- NUI Callback
 
-RegisterNUICallback('documents_Save_Note_As', function(data)
+RegisterNUICallback('documents_Save_Note_As', function(data, cb)
     TriggerServerEvent('qb-phone:server:documents_Save_Note_As', data)
+    cb("ok")
 end)
 
-RegisterNUICallback('document_Send_Note', function(data)
+RegisterNUICallback('document_Send_Note', function(data, cb)
     if data.Type == 'LocalSend' then
         local player, distance = QBCore.Functions.GetClosestPlayer()
         if player ~= -1 and distance < 2.5 then
@@ -18,6 +19,7 @@ RegisterNUICallback('document_Send_Note', function(data)
     elseif data.Type == 'PermSend' then
         TriggerServerEvent('qb-phone:server:sendDocument', data)
     end
+    cb("ok")
 end)
 
 RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiver, Ply, SenderName)
@@ -38,7 +40,7 @@ RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiv
     end
 end)
 
-RegisterNUICallback('GetNote_for_Documents_app', function(data, cb)
+RegisterNUICallback('GetNote_for_Documents_app', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetNote_for_Documents_app', function(Has)
         cb(Has)
     end)

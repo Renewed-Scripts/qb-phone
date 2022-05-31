@@ -1,19 +1,12 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-
-
 RegisterNetEvent("qb-phone:server:sendPing", function(id)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local Shitter = tonumber(id)
     local Other = QBCore.Functions.GetPlayer(Shitter)
     local HasVPN = Player.Functions.GetItemByName(Config.VPNItem)
-    if HasVPN then
-        name = 'Anonymous'
-    else
-        name = Player.PlayerData.charinfo.firstname
-    end
-
+    local name = HasVPN and 'Anonymous' or Player.PlayerData.charinfo.firstname
 
     if Other then
         local info = { type = 'ping', Other = Shitter, Player = src, Name = name, OtherName = Other.PlayerData.charinfo.firstname }

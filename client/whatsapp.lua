@@ -5,6 +5,7 @@ local function IsNumberInContacts(num)
     for _, v in pairs(PhoneData.Contacts) do
         if num == v.number then
             retval = v.name
+            break
         end
     end
     return retval
@@ -26,15 +27,13 @@ local function GetKeyByDate(Number, Date)
 end
 
 local function GetKeyByNumber(Number)
-    local retval = nil
     if PhoneData.Chats then
         for k, v in pairs(PhoneData.Chats) do
             if v.number == Number then
-                retval = k
+                return k
             end
         end
     end
-    return retval
 end
 
 local function ReorganizeChats(key)

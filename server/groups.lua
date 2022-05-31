@@ -18,7 +18,7 @@ local function NotifyGroup(group, msg, type)
 end exports("NotifyGroup", NotifyGroup)
 
 local function CreateBlipForGroup(groupID, name, data)
-    if groupID == nil then return print("CreateBlipForGroup was sent an invalid groupID :"..groupID) end
+    if not groupID then return print("CreateBlipForGroup was sent an invalid groupID :"..groupID) end
 
     for i=1, #EmploymentGroup[groupID].members do
         TriggerClientEvent("groups:createBlip", EmploymentGroup[groupID].members[i].Player, name, data)
@@ -26,7 +26,7 @@ local function CreateBlipForGroup(groupID, name, data)
 end exports('CreateBlipForGroup', CreateBlipForGroup)
 
 local function RemoveBlipForGroup(groupID, name)
-    if groupID == nil then return print("CreateBlipForGroup was sent an invalid groupID :"..groupID) end
+    if not groupID then return print("CreateBlipForGroup was sent an invalid groupID :"..groupID) end
 
     for i=1, #EmploymentGroup[groupID].members do
         TriggerClientEvent("groups:removeBlip", EmploymentGroup[groupID].members[i].Player, name)
@@ -48,7 +48,7 @@ local function GetGroupByMembers(src)
 end exports("GetGroupByMembers", GetGroupByMembers)
 
 local function getGroupMembers(groupID)
-    if groupID == nil then return print("getGroupMembers was sent an invalid groupID :"..groupID) end
+    if not groupID then return print("getGroupMembers was sent an invalid groupID :"..groupID) end
     local temp = {}
     for k,v in pairs(EmploymentGroup[groupID].members) do
         temp[#temp+1] = v.Player
@@ -57,12 +57,12 @@ local function getGroupMembers(groupID)
 end exports('getGroupMembers', getGroupMembers)
 
 local function getGroupSize(groupID)
-    if groupID == nil then return print("getGroupSize was sent an invalid groupID :"..groupID) end
+    if not groupID then return print("getGroupSize was sent an invalid groupID :"..groupID) end
     return #EmploymentGroup[groupID].members
 end exports('getGroupSize', getGroupSize)
 
 local function GetGroupLeader(groupID)
-    if groupID == nil then return print("GetGroupLeader was sent an invalid groupID :"..groupID) end
+    if not groupID then return print("GetGroupLeader was sent an invalid groupID :"..groupID) end
     return EmploymentGroup[groupID].leader
 end exports("GetGroupLeader", GetGroupLeader)
 
@@ -83,7 +83,7 @@ local function RemovePlayerFromGroup(src, groupID)
             for k,v in pairs(g) do
                 if v.CID == player.PlayerData.citizenid then
                     EmploymentGroup[groupID].members[k] = nil
-                    EmploymentGroup[groupID].Users = EmploymentGroup[groupID].Users - 1
+                    EmploymentGroup[groupID].Users -= 1
                     Players[src] = false
                     NotifyGroup(groupID, GetPlayerCharName(src).." Has left the group...", "success")
                     TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
@@ -93,7 +93,7 @@ local function RemovePlayerFromGroup(src, groupID)
                         DestroyGroup(groupID)
                     end
 
-                    return
+                    break
                 end
             end
         end
@@ -114,20 +114,16 @@ local function ChangeGroupLeader(groupID)
 end
 
 local function isGroupLeader(src, groupID)
-    if groupID == nil then return end
+    if not groupID then return end
     local CID = QBCore.Functions.GetPlayer(src).PlayerData.citizenid
     local grouplead = GetGroupLeader(groupID)
-    if grouplead == CID then
-        return true
-    else
-        return false
-    end
+    return grouplead == CID or false
 end
 
 ---- All the job functions for the groups
 
 local function setJobStatus(groupID, status, stages)
-    if groupID == nil then return print("setJobStatus was sent an invalid groupID :"..groupID) end
+    if not groupID then return print("setJobStatus was sent an invalid groupID :"..groupID) end
     EmploymentGroup[groupID].status = status
     EmploymentGroup[groupID].stage = stages
     local m = getGroupMembers(groupID)
@@ -137,7 +133,7 @@ local function setJobStatus(groupID, status, stages)
 end exports('setJobStatus', setJobStatus)
 
 local function getJobStatus(groupID)
-    if groupID == nil then return print("getJobStatus was sent an invalid groupID :"..groupID) end
+    if not groupID then return print("getJobStatus was sent an invalid groupID :"..groupID) end
     return EmploymentGroup[groupID].status
 end exports('getJobStatus', getJobStatus)
 
@@ -236,12 +232,12 @@ RegisterNetEvent('qb-phone:server:employment_JoinTheGroup', function(data)
         Players[src] = true
         TriggerClientEvent('QBCore:Notify', src, "You joined the group", "success")
         TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
-        return
+        break
     end
 end)
 
 local function GetGroupStages(groupID)
-    if groupID == nil then return print("GetGroupStages was sent an invalid groupID :"..groupID) end
+    if not groupID then return print("GetGroupStages was sent an invalid groupID :"..groupID) end
     return EmploymentGroup[groupID].stage
 end exports('GetGroupStages', GetGroupStages)
 
@@ -260,8 +256,7 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:employment_CheckPlayerNames', function(source, cb, csn)
     local Names = {}
     for k, v in pairs(EmploymentGroup[csn].members) do
-        local Name = v.name
-        Names[#Names+1] = Name
+        Names[#Names+1] = v.name
     end
     cb(Names)
 end)

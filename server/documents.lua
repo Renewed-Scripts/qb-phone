@@ -2,8 +2,8 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent("qb-phone:server:sendDocument", function(data)
     local src = source
-    local Ply = QBCore.Functions.GetPlayer(src) -- Me
-    local Receiver = QBCore.Functions.GetPlayer(tonumber(data.StateID)) -- Shawn
+    local Ply = QBCore.Functions.GetPlayer(src)
+    local Receiver = QBCore.Functions.GetPlayer(tonumber(data.StateID))
     local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
     if Receiver then
         if Ply.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then

@@ -12,6 +12,19 @@ local function GenerateTweetId()
     return tweetId
 end
 
+function string:split(delimiter)
+    local result = { }
+    local from  = 1
+    local delim_from, delim_to = string.find( self, delimiter, from  )
+    while delim_from do
+      table.insert( result, string.sub( self, from , delim_from-1 ) )
+      from  = delim_to + 1
+      delim_from, delim_to = string.find( self, delimiter, from  )
+    end
+    table.insert( result, string.sub( self, from  ) )
+    return result
+end
+
 -- NUI Callback
 
 RegisterNUICallback('GetHashtagMessages', function(data, cb)
@@ -80,9 +93,9 @@ RegisterNUICallback('DeleteTweet',function(data)
     TriggerServerEvent('qb-phone:server:DeleteTweet', data.id)
 end)
 
-RegisterNUICallback('FlagTweet',function(data)
-    TriggerServerEvent("")
+RegisterNUICallback('FlagTweet',function(data, cb)
     QBCore.Functions.Notify(data.name..' was reported for saying '..data.message, "error")
+    cb('ok')
 end)
 
 RegisterNUICallback('GetMentionedTweets', function(_, cb)
@@ -97,7 +110,7 @@ RegisterNUICallback('GetHashtags', function(_, cb)
     end
 end)
 
-RegisterNUICallback('ClearMentions', function()
+RegisterNUICallback('ClearMentions', function(_, cb)
     Config.PhoneApplications["twitter"].Alerts = 0
     SendNUIMessage({
         action = "RefreshAppAlerts",
@@ -105,6 +118,7 @@ RegisterNUICallback('ClearMentions', function()
     })
     TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "twitter", 0)
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
+    cb('ok')
 end)
 
 -- Events
@@ -163,15 +177,13 @@ end)
 -- Events
 
 RegisterNetEvent('qb-phone:client:UpdateHashtags', function(Handle, msgData)
-    if PhoneData.Hashtags[Handle] then
-        PhoneData.Hashtags[Handle].messages[#PhoneData.Hashtags[Handle].messages+1] = msgData
-    else
+    if not PhoneData.Hashtags[Handle] then
         PhoneData.Hashtags[Handle] = {
             hashtag = Handle,
             messages = {}
         }
-        PhoneData.Hashtags[Handle].messages[#PhoneData.Hashtags[Handle].messages+1] = msgData
     end
+    PhoneData.Hashtags[Handle].messages[#PhoneData.Hashtags[Handle].messages+1] = msgData
 
     SendNUIMessage({
         action = "UpdateHashtags",

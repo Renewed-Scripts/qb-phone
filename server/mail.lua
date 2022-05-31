@@ -35,8 +35,7 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData)
     end
     TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
     SetTimeout(200, function()
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',
-            {Player.PlayerData.citizenid})
+        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
         if mails[1] then
             for k, v in pairs(mails) do
                 if mails[k].button then
@@ -53,7 +52,7 @@ RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mai
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
     if Player then
         local src = Player.PlayerData.source
-        if mailData.button == nil then
+        if not mailData.button then
             exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
             TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
         else
@@ -61,8 +60,7 @@ RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mai
             TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
         end
         SetTimeout(200, function()
-            local mails = exports.oxmysql:executeSync(
-                'SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+            local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
             if mails[1] then
                 for k, v in pairs(mails) do
                     if mails[k].button then
@@ -74,7 +72,7 @@ RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mai
             TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
         end)
     else
-        if mailData.button == nil then
+        if not mailData.button then
             exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
         else
             exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
@@ -84,7 +82,7 @@ end)
 
 RegisterNetEvent('qb-phone:server:sendNewEventMail', function(citizenid, mailData)
     local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    if mailData.button == nil then
+    if not mailData.button then
         exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
     else
         exports.oxmysql:insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})

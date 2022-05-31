@@ -2,31 +2,35 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 -- NUI Callback
 
-RegisterNUICallback('GetAvailableRaces', function(data, cb)
+RegisterNUICallback('GetAvailableRaces', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:GetRaces', function(Races)
         cb(Races)
     end)
 end)
 
-RegisterNUICallback('JoinRace', function(data)
+RegisterNUICallback('JoinRace', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:JoinRace', data.RaceData)
+    cb("ok")
 end)
 
-RegisterNUICallback('LeaveRace', function(data)
+RegisterNUICallback('LeaveRace', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:LeaveRace', data.RaceData)
+    cb("ok")
 end)
 
-RegisterNUICallback('StartRace', function(data)
+RegisterNUICallback('StartRace', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:StartRace', data.RaceData.RaceId)
+    cb("ok")
 end)
 
-RegisterNUICallback('SetAlertWaypoint', function(data)
+RegisterNUICallback('SetAlertWaypoint', function(data, cb)
     local coords = data.alert.coords
     QBCore.Functions.Notify('GPS set: '..data.alert.title, "primary")
     SetNewWaypoint(coords.x, coords.y)
+    cb("ok")
 end)
 
-RegisterNUICallback('GetRaces', function(data, cb)
+RegisterNUICallback('GetRaces', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:GetListedRaces', function(Races)
         cb(Races)
     end)
@@ -41,15 +45,16 @@ end)
 
 RegisterNUICallback('SetupRace', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:SetupRace', data.RaceId, tonumber(data.AmountOfLaps))
+    cb("ok")
 end)
 
-RegisterNUICallback('HasCreatedRace', function(data, cb)
+RegisterNUICallback('HasCreatedRace', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:HasCreatedRace', function(HasCreated)
         cb(HasCreated)
     end)
 end)
 
-RegisterNUICallback('IsInRace', function(data, cb)
+RegisterNUICallback('IsInRace', function(_, cb)
     local InRace = exports['qb-lapraces']:IsInRace()
     cb(InRace)
 end)
@@ -67,9 +72,10 @@ end)
 
 RegisterNUICallback('StartTrackEditor', function(data, cb)
     TriggerServerEvent('qb-lapraces:server:CreateLapRace', data.TrackName)
+    cb("ok")
 end)
 
-RegisterNUICallback('GetRacingLeaderboards', function(data, cb)
+RegisterNUICallback('GetRacingLeaderboards', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:GetRacingLeaderboards', function(Races)
         cb(Races)
     end)
@@ -102,7 +108,7 @@ RegisterNUICallback('IsBusyCheck', function(data, cb)
     end
 end)
 
-RegisterNUICallback('CanRaceSetup', function(data, cb)
+RegisterNUICallback('CanRaceSetup', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:CanRaceSetup', function(CanSetup)
         cb(CanSetup)
     end)

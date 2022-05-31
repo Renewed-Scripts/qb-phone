@@ -143,31 +143,21 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
     local newSearch = escape_sqli(search)
     local searchData = {}
     local query = '%' .. newSearch .. '%'
-    local result = MySQL.query.await('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',
-        {query, newSearch})
+    local result = MySQL.query.await('SELECT * FROM player_vehicles WHERE plate LIKE ? OR citizenid = ?',{query, newSearch})
     if result[1] then
         for _, v in pairs(result) do
             local player = MySQL.query.await('SELECT * FROM players WHERE citizenid = ?', {result[k].citizenid})
             if player[1] then
                 local charinfo = json.decode(player[1].charinfo)
                 local vehicleInfo = QBCore.Shared.Vehicles[v.vehicle]
-                if vehicleInfo then
-                    searchData[#searchData+1] = {
-                        plate = v.plate,
-                        status = true,
-                        owner = charinfo.firstname .. " " .. charinfo.lastname,
-                        citizenid = v.citizenid,
-                        label = vehicleInfo["name"]
-                    }
-                else
-                    searchData[#searchData+1] = {
-                        plate = v.plate,
-                        status = true,
-                        owner = charinfo.firstname .. " " .. charinfo.lastname,
-                        citizenid = v.citizenid,
-                        label = "Name not found.."
-                    }
-                end
+        
+                searchData[#searchData+1] = {
+                    plate = v.plate,
+                    status = true,
+                    owner = charinfo.firstname .. " " .. charinfo.lastname,
+                    citizenid = v.citizenid,
+                    label = vehicleInfo and vehicleInfo.name or "Name not found.."
+                }
             end
         end
     else
