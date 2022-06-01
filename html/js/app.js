@@ -92,9 +92,9 @@ QB.Phone.Functions.SetupApplications = function(data) {
             }else if (app.app == "lsbn"){
                 icon = '<img src="./img/apps/lsbn.png" style="width: 85%;margin-top: 7%;">';
             }
-            
 
-            
+
+
             $(applicationSlot).html(icon+'<div class="app-unread-alerts">0</div>');
             $(applicationSlot).prop('title', app.tooltipText);
             $(applicationSlot).data('app', app.app);
@@ -380,7 +380,6 @@ QB.Phone.Functions.ToggleApp = function(app, show) {
 }
 
 QB.Phone.Functions.Close = function() {
-
     if (QB.Phone.Data.currentApplication == "whatsapp") {
         setTimeout(function(){
             QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
@@ -540,7 +539,7 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                 }
                 QB.Phone.Notifications.Timeout = setTimeout(function(){
                     QB.Phone.Animations.TopSlideUp(".phone-notification-container", 150, -8);
-                    
+
                     QB.Phone.Notifications.Timeout = setTimeout(function(){
                     if (!QB.Phone.Data.IsOpen == true) {
                     QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
@@ -584,7 +583,7 @@ $(".notification-accept").click(function(e) {
     $.post('https://qb-phone/AcceptNotification', JSON.stringify({})),
 
     QB.Phone.Animations.TopSlideUp(".phone-notification-container-new", 150, -8);
-        
+
     if (!QB.Phone.Data.IsOpen == true) {
     QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
     }
@@ -594,7 +593,7 @@ $(document).on('click', ".notification-deny", function() {
     $.post('https://qb-phone/DenyNotification', JSON.stringify({})),
 
     QB.Phone.Animations.TopSlideUp(".phone-notification-container-new", 150, -8);
-        
+
     if (!QB.Phone.Data.IsOpen == true) {
     QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
     }

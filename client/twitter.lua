@@ -54,39 +54,51 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     local TwitterMessage = data.Message
     local MentionTag = TwitterMessage:split("@")
     local Hashtag = TwitterMessage:split("#")
-
-    for i = 2, #Hashtag, 1 do
-        local Handle = Hashtag[i]:split(" ")[1]
-        if Handle or Handle ~= "" then
-            local InvalidSymbol = string.match(Handle, patt)
-            if InvalidSymbol then
-                Handle = Handle:gsub("%"..InvalidSymbol, "")
+    print(#Hashtag)
+    if #Hashtag <= 3 then
+        for i = 2, #Hashtag, 1 do
+            local Handle = Hashtag[i]:split(" ")[1]
+            if Handle or Handle ~= "" then
+                local InvalidSymbol = string.match(Handle, patt)
+                if InvalidSymbol then
+                    Handle = Handle:gsub("%"..InvalidSymbol, "")
+                end
+                TriggerServerEvent('qb-phone:server:UpdateHashtags', Handle, TweetMessage)
             end
-            TriggerServerEvent('qb-phone:server:UpdateHashtags', Handle, TweetMessage)
         end
-    end
 
-    for i = 2, #MentionTag, 1 do
-        local Handle = MentionTag[i]:split(" ")[1]
-        if Handle or Handle ~= "" then
-            local Fullname = Handle:split("_")
-            local Firstname = Fullname[1]
-            table.remove(Fullname, 1)
-            local Lastname = table.concat(Fullname, " ")
+        for i = 2, #MentionTag, 1 do
+            local Handle = MentionTag[i]:split(" ")[1]
+            if Handle or Handle ~= "" then
+                local Fullname = Handle:split("_")
+                local Firstname = Fullname[1]
+                table.remove(Fullname, 1)
+                local Lastname = table.concat(Fullname, " ")
 
-            if (Firstname and Firstname ~= "") and (Lastname and Lastname ~= "") then
-                if Firstname ~= PhoneData.PlayerData.charinfo.firstname and Lastname ~= PhoneData.PlayerData.charinfo.lastname then
-                    TriggerServerEvent('qb-phone:server:MentionedPlayer', Firstname, Lastname, TweetMessage)
+                if (Firstname and Firstname ~= "") and (Lastname and Lastname ~= "") then
+                    if Firstname ~= PhoneData.PlayerData.charinfo.firstname and Lastname ~= PhoneData.PlayerData.charinfo.lastname then
+                        TriggerServerEvent('qb-phone:server:MentionedPlayer', Firstname, Lastname, TweetMessage)
+                    end
                 end
             end
         end
+
+        PhoneData.Tweets[#PhoneData.Tweets+1] = TweetMessage
+        Wait(100)
+        cb(PhoneData.Tweets)
+
+        TriggerServerEvent('qb-phone:server:UpdateTweets', PhoneData.Tweets, TweetMessage)
+    else
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "Twitter",
+                text = "Cannot send more than 2 #'s",
+                icon = "fab fa-twitter",
+                color = "#1DA1F2",
+            },
+        })
     end
-
-    PhoneData.Tweets[#PhoneData.Tweets+1] = TweetMessage
-    Wait(100)
-    cb(PhoneData.Tweets)
-
-    TriggerServerEvent('qb-phone:server:UpdateTweets', PhoneData.Tweets, TweetMessage)
 end)
 
 RegisterNUICallback('DeleteTweet',function(data)
