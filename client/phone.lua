@@ -473,10 +473,6 @@ RegisterNUICallback('GetMissedCalls', function(_, cb)
     cb(PhoneData.RecentCalls)
 end)
 
-RegisterNUICallback('GetSuggestedContacts', function(_, cb)
-    cb(PhoneData.SuggestedContacts)
-end)
-
 RegisterNUICallback('HasPhone', function(_, cb)
     cb(HasPhone)
 end)
