@@ -298,7 +298,7 @@
                         </div>
                     </div>
 
-                    <div class="phone-app">
+                    <div class="contacts-app">
 
                         <div class="phone-contacts">
                             <div class="phone-new-box-body" id="phone-contacts-new-ui">
@@ -322,16 +322,24 @@
                             </div>
 
                             <div class="phone-contacts-header">
-                                <input type="text" id="contact-search" placeholder="Search" spellcheck="false">
+                                <span id="phone-search-text">Search</span>
+                                <input type="text" id="phone-contact-search" placeholder="" spellcheck="false">
+                                <i class="fas fa-search" id="contact-search-icon"></i>
                                 <i id="phone-plus-icon" class="fas fa-user-plus"></i>
                             </div>
 
                             <div class="phone-contact-list">
                             </div>
                         </div>
+                    </div>
+
+                    <div class="phone-app">
 
                         <div class="phone-recent">
-                            <div class="phone-recent-call-number"><i class="fas fa-phone"></i></div>
+                            <span id="phone-recent-search-text">Search</span>
+                            <input type="text" id="phone-recent-search" placeholder="" spellcheck="false">
+                            <i class="fas fa-search" id="recent-search-icon"></i>
+                            <i class="fas fa-phone" id="phone-recent-call-number"></i>
 
                             <div class="phone-new-box-body">
                                 <div class="phone-new-box-main">
@@ -342,78 +350,12 @@
                                 </div>
                             </div>
 
-                            <div class="phone-recent-header"><p>Recent Call History</p></div>
+                            <div class="phone-recent-header">
+                                <span id="phone-header-text">Nothing Here!</span>
+                                <i class="fas fa-frown" id="header-frown-icon"></i>
+                            </div>
 
                             <div class="phone-recent-calls">
-                            </div>
-                        </div>
-
-                        <div class="phone-suggestedcontacts">
-                            <div class="phone-suggestedcontacts-header">
-                                Suggested Contacts
-                                <p class="amount-of-suggested-contacts">0 contacts</p>
-                            </div>
-
-                            <div class="suggested-contacts">
-                            </div>
-                        </div>
-
-                        <div class="phone-keypad noselect">
-                            <div id="phone-keypad-input"></div>
-
-                            <div class="phone-keypad-keys">
-                                <div class="phone-keypad-key" data-keypadvalue="1">1</div>
-                                <div class="phone-keypad-key" data-keypadvalue="2">2</div>
-                                <div class="phone-keypad-key" data-keypadvalue="3">3</div>
-                                <div class="phone-keypad-key" data-keypadvalue="4">4</div>
-                                <div class="phone-keypad-key" data-keypadvalue="5">5</div>
-                                <div class="phone-keypad-key" data-keypadvalue="6">6</div>
-                                <div class="phone-keypad-key" data-keypadvalue="7">7</div>
-                                <div class="phone-keypad-key" data-keypadvalue="8">8</div>
-                                <div class="phone-keypad-key" data-keypadvalue="9">9</div>
-                                <div class="phone-keypad-key" data-keypadvalue="*">*</div>
-                                <div class="phone-keypad-key" data-keypadvalue="0">0</div>
-                                <div class="phone-keypad-key" data-keypadvalue="#">#</div>
-                            </div>
-                            <div class="phone-keypad-key-call"><i class="fas fa-phone-alt"></i></div>
-                        </div>
-
-                        <div class="phone-add-contact">
-
-                            <i id="phone-add-contact-name-icon" class="fas fa-user"></i>
-                            <input type="text" class="phone-add-contact-name" placeholder="Contact Name" required spellcheck="false">
-
-                            <i id="phone-add-contact-number-icon" class="fas fa-phone-alt"></i>
-                            <input type="number" class="phone-add-contact-number" placeholder="Phone number" required spellcheck="false">
-
-                            <div class="phone-add-contact-buttons">
-                                <div class="phone-add-contact-button" id="add-contact-save"><p>Save</p></div>
-                                <div class="phone-add-contact-button" id="add-contact-cancel"><p>Cancel</p></div>
-                            </div>
-                        </div>
-
-                        <div class="phone-edit-contact">
-                            <div class="phone-edit-contact-header"><p>Add Contact</p></div>
-
-                            <i id="phone-edit-contact-name-icon" class="fas fa-user"></i>
-                            <input type="text" class="phone-edit-contact-name" placeholder="Contact Name" required spellcheck="false">
-
-                            <i id="phone-edit-contact-number-icon" class="fas fa-phone-alt"></i>
-                            <input type="number" class="phone-edit-contact-number" placeholder="Phone number" required spellcheck="false">
-
-                            <div class="phone-edit-contact-buttons">
-                                <div class="phone-edit-contact-button" id="edit-contact-save"><p>Save</p></div>
-                                <div class="phone-edit-contact-button" id="edit-contact-delete"><p>Delete</p></div>
-                                <div class="phone-edit-contact-button" id="edit-contact-cancel"><p>Cancel</p></div>
-                            </div>
-                        </div>
-
-                        <div class="phone-app-footer">
-                            <div class="phone-app-footer-button" data-phonefootertab="recent">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="phone-app-footer-button phone-selected-footer-tab" data-phonefootertab="contacts">
-                                <i class="fas fa-address-book"></i>
                             </div>
                         </div>
                     </div>
