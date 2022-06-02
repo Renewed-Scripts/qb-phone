@@ -91,6 +91,8 @@ QB.Phone.Functions.SetupApplications = function(data) {
                 icon = '<img src="./img/apps/crypto.png" style="width: 85%;margin-top: 7%;">';
             }else if (app.app == "lsbn"){
                 icon = '<img src="./img/apps/lsbn.png" style="width: 85%;margin-top: 7%;">';
+            }else if (app.app == "contacts"){
+                icon = '<img src="./img/apps/contacts.png" style="width: 85%;margin-top: 7%;">';
             }
 
 
@@ -179,9 +181,6 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/GetMissedCalls', JSON.stringify({}), function(recent){
                         QB.Phone.Functions.SetupRecentCalls(recent);
                     });
-                    $.post('https://qb-phone/GetSuggestedContacts', JSON.stringify({}), function(suggested){
-                        QB.Phone.Functions.SetupSuggestedContacts(suggested);
-                    });
                     $.post('https://qb-phone/ClearGeneralAlerts', JSON.stringify({
                         app: "phone"
                     }));
@@ -268,6 +267,11 @@ $(document).on('click', '.phone-application', function(e){
                 }
                 else if (PressedApplication == "lsbn") {
                     LoadLSBNEvent();
+                } else if (PressedApplication == "contacts") {
+                    $("#phone-contact-search").show();
+                    $.post('https://qb-phone/ClearGeneralAlerts', JSON.stringify({
+                        app: "contacts"
+                    }));
                 }
             }
         }

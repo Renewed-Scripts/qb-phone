@@ -38,6 +38,19 @@ Config.PhoneApplications = {
         slot = 1,
         Alerts = 0,
     },
+    ["contacts"] = {
+        app = "contacts",
+        color = "#345b7a",
+        color2 = "#122445",
+        icon = "fas fa-phone-volume",
+        tooltipText = "Contacts",
+        tooltipPos = "top",
+        style = "font-size: 3.3vh";
+        job = false,
+        blockedjobs = {},
+        slot = 2,
+        Alerts = 0,
+    },
     ["phone"] = {
         app = "phone",
         color = "#51da80",
@@ -62,19 +75,6 @@ Config.PhoneApplications = {
         job = false,
         blockedjobs = {},
         slot = 4,
-        Alerts = 0,
-    },
-    ["settings"] = {
-        app = "settings",
-        color = "#636e72",
-        color2 = "#4c5558",
-        icon = "fas fa-cog",
-        tooltipText = "Settings",
-        tooltipPos = "top",
-        style = "padding-right: .08vh; font-size: 3.3vh";
-        job = false,
-        blockedjobs = {},
-        slot = 2,
         Alerts = 0,
     },
     ["ping"] = {
@@ -316,6 +316,19 @@ Config.PhoneApplications = {
         job = "police",
         blockedjobs = {},
         slot = 23,
+        Alerts = 0,
+    },
+    ["settings"] = {
+        app = "settings",
+        color = "#636e72",
+        color2 = "#4c5558",
+        icon = "fas fa-cog",
+        tooltipText = "Settings",
+        tooltipPos = "top",
+        style = "padding-right: .08vh; font-size: 3.3vh";
+        job = false,
+        blockedjobs = {},
+        slot = 24,
         Alerts = 0,
     },
 
