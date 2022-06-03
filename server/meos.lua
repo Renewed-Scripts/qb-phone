@@ -150,7 +150,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetVehicleSearchResults', funct
             if player[1] then
                 local charinfo = json.decode(player[1].charinfo)
                 local vehicleInfo = QBCore.Shared.Vehicles[v.vehicle]
-        
+
                 searchData[#searchData+1] = {
                     plate = v.plate,
                     status = true,
@@ -225,4 +225,49 @@ QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb
         TriggerClientEvent('QBCore:Notify', src, 'No Vehicle Nearby', "error")
         cb(nil)
     end
+end)
+
+RegisterNetEvent('qb-phone:server:ClientScanPlate', function(plate)
+    local src = source
+    local vehicleData = {}
+    if plate then
+        local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate = ?', {plate})
+        if result[1] then
+            local player = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {result[1].citizenid})
+            local charinfo = json.decode(player[1].charinfo)
+            vehicleData = {
+                plate = plate,
+                status = true,
+                owner = charinfo.firstname .. " " .. charinfo.lastname,
+                citizenid = result[1].citizenid
+            }
+        elseif GeneratedPlates and GeneratedPlates[plate] then
+            vehicleData = GeneratedPlates[plate]
+        else
+            local ownerInfo = GenerateOwnerName()
+            GeneratedPlates[plate] = {
+                plate = plate,
+                status = true,
+                owner = ownerInfo.name,
+                citizenid = ownerInfo.citizenid
+            }
+            vehicleData = {
+                plate = plate,
+                status = true,
+                owner = ownerInfo.name,
+                citizenid = ownerInfo.citizenid
+            }
+        end
+    end
+
+    TriggerClientEvent('chat:addMessage', src, {
+        color = { 255, 0, 0},
+        multiline = true,
+        args = {"Vehicle: ", vehicleData.plate,}
+    })
+    TriggerClientEvent('chat:addMessage', src, {
+        color = { 255, 0, 0},
+        multiline = true,
+        args = {"Owner: ", vehicleData.owner,}
+    })
 end)
