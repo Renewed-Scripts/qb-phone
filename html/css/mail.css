@@ -542,8 +542,17 @@
 
 .nomails {
     text-align: center;
-    color: white;
-    /* font-family: 'Poppins', sans-serif; */
-    font-size: 1.5vh;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7vh;
+    font-weight: bold;
+    color: #FFFFFF;
     line-height: 20vh;
+}
+
+#mail-frown {
+    position: absolute;
+    top: 3.5%;
+    left: 41.5%;
+    font-size: 275%;
+    color: #FFFFFF;
 }

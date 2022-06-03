@@ -114,7 +114,7 @@ QB.Phone.Functions.SetupMails = function(Mails) {
                 $("#mail-"+mail.mailid).data('MailData', mail);
             });
         } else {
-            $(".mail-list").html('<p class="nomails">Nothing Here!</p>');
+            $(".mail-list").html('<p class="nomails">Nothing Here! <i class="fas fa-frown" id="mail-frown"></i></p>');
         }
 
     }

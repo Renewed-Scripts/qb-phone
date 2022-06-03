@@ -1104,3 +1104,7 @@ RegisterNUICallback('RemoveSuggestion', function(data, cb) -- I DONT THINK WE NE
         end
     end
 end)
+
+RegisterNUICallback('GetBankContacts', function(data, cb)
+    cb(PhoneData.Contacts)
+end)
