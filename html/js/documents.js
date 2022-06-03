@@ -85,7 +85,7 @@ $(document).on('click', '#documents-docs', function(e) {
     $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
     $(".documents-list").html(""); // Frown Face before loading any contents if any!
         var AddOption = '<div class="casino-text-clear">Nothing Here!</div>'+
-        '<div class="casino-text-clear" style="font-size: 500%;color: #0d1218c0;"><i class="fas fa-frown"></i></div>'
+        '<div class="casino-text-clear" style="font-size: 500%;color: #FFFFFF;"><i class="fas fa-frown"></i></div>'
     $('.documents-list').append(AddOption);
 
     $.post('https://qb-phone/GetNote_for_Documents_app', JSON.stringify({}), function(HasNote){

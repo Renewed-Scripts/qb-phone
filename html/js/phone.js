@@ -348,6 +348,7 @@ $(document).on('click', '#phone-number-savecontact-edit', function(e){
     var ContactIban = $(".phone-edit-contact-iban").val();
 
     if (ContactName != "" && ContactNumber != "") {
+        ConfirmationFrame()
         $.post('https://qb-phone/EditContact', JSON.stringify({
             CurrentContactName: ContactName,
             CurrentContactNumber: ContactNumber,
@@ -422,6 +423,7 @@ $(document).on('click', '#phone-number-savecontact', function(e){
     var ContactIban = $(".phone-add-contact-iban").val();
 
     if (ContactName != "" && ContactNumber != "") {
+        ConfirmationFrame()
         $.post('https://qb-phone/AddNewContact', JSON.stringify({
             ContactName: ContactName,
             ContactNumber: ContactNumber,
