@@ -93,6 +93,7 @@ $(document).on('click', '#debt-create-bill-accept', function(e){
             id: ENDKey,
             Amount: ENDamount,
             CSN: ENDsenderCSN,
+            Reason: ENDreason,
         }));
         ClearInputNew()
         $('#debt-box-new-for-accept').fadeOut(350);

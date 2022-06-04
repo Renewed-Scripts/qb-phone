@@ -1,30 +1,47 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
+local function isAuthorized(job)
+    return Config.DebtJobs[job]
+end
+
 RegisterNetEvent('qb-phone:server:SendBillForPlayer_debt', function(data)
     local src = source
     local biller = QBCore.Functions.GetPlayer(src)
     local billed = QBCore.Functions.GetPlayer(tonumber(data.ID))
     local amount = tonumber(data.Amount)
-    if billed then
-        if (biller.PlayerData.job.name == "mechanic") then
-            if biller.PlayerData.job.onduty then
-                if amount and amount > 0  and amount <= 50000 then
-                    exports.oxmysql:insert('INSERT INTO phone_debt (citizenid, amount,  sender, sendercitizenid, reason) VALUES (?, ?, ?, ?, ?)',{billed.PlayerData.citizenid, amount, biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname, biller.PlayerData.citizenid, data.Reason})
-                    TriggerClientEvent('QBCore:Notify', src, 'Debt successfully sent!', "success")
-                    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Debt Received', "primary")
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', billed.PlayerData.source)
-                else
-                    TriggerClientEvent('QBCore:Notify', src, 'Must be a valid amount above 0 and below $50,000', "error")
-                end
-            else
-                TriggerClientEvent("QBCore:Notify", src, 'You\'re not signed into your job!', "error")
-            end
+
+    if not biller or not billed or not amount or amount < 0 then return TriggerClientEvent('QBCore:Notify', src, 'Error 404', "error") end
+    if not isAuthorized(biller.PlayerData.job.name) then return TriggerClientEvent('QBCore:Notify', src, 'You do not have access to do this', "error") end
+    if Config.DebtJobs[biller.PlayerData.job.name] and not biller.PlayerData.job.onduty then return TriggerClientEvent('QBCore:Notify', src, 'You must be on duty to do this...', "error") end
+
+    exports.oxmysql:insert('INSERT INTO phone_debt (citizenid, amount,  sender, sendercitizenid, reason) VALUES (?, ?, ?, ?, ?)',{billed.PlayerData.citizenid, amount, biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname, biller.PlayerData.citizenid, data.Reason})
+    TriggerClientEvent('QBCore:Notify', src, 'Debt successfully sent!', "success")
+    Wait(0) -- Waiting a single frame to ensure that database updates in time for the client to receive the event
+    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Debt Received', "primary")
+    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', billed.PlayerData.source)
+end)
+
+RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
+    local src = source -- src is the player who paid the bill
+    local Ply = QBCore.Functions.GetPlayer(src)
+    local OtherPly = QBCore.Functions.GetPlayerByCitizenId(data.CSN) -- this is the sender for the bill
+    local ID = tonumber(data.id)
+    local Amount = tonumber(data.Amount)
+
+    if Ply.Functions.RemoveMoney('bank', Amount, tostring(data.Reason)) then -- Makes sure the money is removed!
+        exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
+        Wait(0) -- Waiting a single frame to ensure that database updates in time for the client to receive the event
+        TriggerClientEvent('qb-phone:RefreshPhoneForDebt', src)
+
+        if OtherPly and Config.DebtJobs[OtherPly.PlayerData.job.name].comissionEnabled then
+            local comission = Amount * Config.DebtJobs[OtherPly.PlayerData.job.name].comission
+            Amount = Amount - comission
+            OtherPly.Functions.AddMoney('bank', comission, OtherPly.PlayerData.job.name.." Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
+            TriggerClientEvent("QBCore:Notify", OtherPly.PlayerData.source, 'You received $'..comission..' in commission!', "primary")
+            TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount, OtherPly.PlayerData.job.name)
         else
-            TriggerClientEvent("QBCore:Notify", src, 'You do not have the ability to send a debt!', "error")
+            TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount, OtherPly.PlayerData.job.name)
         end
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'Player not Online', "error")
     end
 end)
 
@@ -35,44 +52,5 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetHasBills_debt', function(sou
     Wait(400)
     if Debt[1] then
         cb(Debt)
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local OtherPly = QBCore.Functions.GetPlayerByCitizenId(data.CSN)
-    local ID = tonumber(data.id)
-    local Amount = tonumber(data.Amount)
-    local Commission = tonumber(data.Amount) * 0.20
-    if OtherPly then
-        if Ply.PlayerData.money.bank then
-            if Ply.Functions.RemoveMoney('bank', Amount, "Remove Money For Debt") then -- Makes sure the money is removed!
-                if OtherPly.PlayerData.job.name == "mechanic" then
-                    OtherPly.Functions.AddMoney('bank', Amount+Commission, "Mechanic Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                    TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!', "primary")
-                    TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'mechanic')
-                elseif OtherPly.PlayerData.job.name == "ammbulance" or OtherPly.PlayerData.job.name == "doctor" then
-                    OtherPly.Functions.AddMoney('bank', Commission, "EMS Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                    TriggerClientEvent("QBCore:Notify", src, 'You received $'..Commission..' in commission!', "primary")
-                    TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount * 0.80, 'ems')
-                else
-                    OtherPly.Functions.AddMoney('bank', Amount,"Debt | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-                    exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-                    Wait(1)
-                    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', OtherPly.PlayerData.source)
-                end
-            end
-        else
-            TriggerClientEvent('QBCore:Notify', src, 'You don\'t have enough money...', "error")
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'Player not Online', "error")
     end
 end)

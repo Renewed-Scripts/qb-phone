@@ -1,7 +1,7 @@
 Config = Config or {}
 
 -- If you have Lions Boosting System, enable this check to NOT produce any vehicle registration for vinscratched vehicles. Disable if you want to produce vehicle registration regardless
-Config.Vinscratch = true 
+Config.Vinscratch = true
 -- Item name for pings app ( Having a VPN sends an anonymous ping, else sends the players name)
 Config.VPNItem = 'vpn'
 
@@ -19,11 +19,34 @@ Config.BlipScale = 0.75
 Config.BillingCommissions = { -- This is a percentage (0.10) == 10%
     mechanic = 0.10
 }
+
 Config.Linux = false -- True if linux
 Config.TweetDuration = 24 -- How many hours to load tweets (12 will load the past 12 hours of tweets)
 Config.RepeatTimeout = 2000
 Config.CallRepeats = 10
 Config.OpenPhone = 244
+
+
+
+-- Job = the sender of the bills Job, onDuty = if the sender must be on Duty, Comission = the commission the individual gets when someone pays the bill
+Config.DebtJobs = {
+    ["mechanic"] = { onDuty = true, comissionEnabled = true, comission = 0.10 },
+    ["police"] = { onDuty = true, comissionEnabled = true, comission = 0.10 },
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Config.PhoneApplications = {
     ["details"] = {
         app = "details",
