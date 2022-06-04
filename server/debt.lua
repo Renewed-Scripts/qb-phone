@@ -13,6 +13,8 @@ RegisterNetEvent('qb-phone:server:SendBillForPlayer_debt', function(data)
     if not biller or not billed or not amount or amount < 0 then return TriggerClientEvent('QBCore:Notify', src, 'Error 404', "error") end
     if not isAuthorized(biller.PlayerData.job.name) then return TriggerClientEvent('QBCore:Notify', src, 'You do not have access to do this', "error") end
     if Config.DebtJobs[biller.PlayerData.job.name] and not biller.PlayerData.job.onduty then return TriggerClientEvent('QBCore:Notify', src, 'You must be on duty to do this...', "error") end
+    if #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(billed.PlayerData.source))) > 10 then return TriggerClientEvent('QBCore:Notify', src, 'You are too far away from the player', "error") end
+
 
     exports.oxmysql:insert('INSERT INTO phone_debt (citizenid, amount,  sender, sendercitizenid, reason) VALUES (?, ?, ?, ?, ?)',{billed.PlayerData.citizenid, amount, biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname, biller.PlayerData.citizenid, data.Reason})
     TriggerClientEvent('QBCore:Notify', src, 'Debt successfully sent!', "success")
