@@ -17,9 +17,9 @@ RegisterNetEvent('qb-phone:server:SendBillForPlayer_debt', function(data)
 
 
     exports.oxmysql:insert('INSERT INTO phone_debt (citizenid, amount,  sender, sendercitizenid, reason) VALUES (?, ?, ?, ?, ?)',{billed.PlayerData.citizenid, amount, biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname, biller.PlayerData.citizenid, data.Reason})
-    TriggerClientEvent('QBCore:Notify', src, 'Debt successfully sent!', "success")
+    TriggerClientEvent('qb-phone:DebtSend', src)
     Wait(0) -- Waiting a single frame to ensure that database updates in time for the client to receive the event
-    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Debt Received', "primary")
+    TriggerClientEvent('qb-phone:DebtRecieved', billed.PlayerData.source)
     TriggerClientEvent('qb-phone:RefreshPhoneForDebt', billed.PlayerData.source)
 end)
 
@@ -40,6 +40,7 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
             Amount = Amount - comission
             OtherPly.Functions.AddMoney('bank', comission, OtherPly.PlayerData.job.name.." Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
             TriggerClientEvent("QBCore:Notify", OtherPly.PlayerData.source, 'You received $'..comission..' in commission!', "primary")
+            TriggerClientEvent('qb-phone:DebtMail', OtherPly.PlayerData.source, Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
             TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount, OtherPly.PlayerData.job.name)
         else
             TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount, OtherPly.PlayerData.job.name)
@@ -51,7 +52,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetHasBills_debt', function(sou
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
     local Debt = exports.oxmysql:executeSync('SELECT * FROM phone_debt WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    Wait(400)
+    Wait(100)
     if Debt[1] then
         cb(Debt)
     end

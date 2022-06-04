@@ -23,3 +23,40 @@ RegisterNetEvent('qb-phone:RefreshPhoneForDebt', function()
         action = "DebtRefresh",
     })
 end)
+
+
+RegisterNetEvent('qb-phone:DebtSend', function()
+    SendNUIMessage({
+        action = "PhoneNotification",
+        PhoneNotify = {
+            title = "Debt",
+            text = "Debt Successfully Sent!",
+            icon = "fas fa-dollar-sign",
+            color = "#1DA1F2",
+        },
+    })
+end)
+
+RegisterNetEvent('qb-phone:DebtRecieved', function()
+    SendNUIMessage({
+        action = "PhoneNotification",
+        PhoneNotify = {
+            title = "Debt",
+            text = "Bill Recieved!",
+            icon = "fas fa-dollar-sign",
+            color = "#1DA1F2",
+        },
+    })
+end)
+
+RegisterNetEvent('qb-phone:DebtMail', function(name)
+    SendNUIMessage({
+        action = "PhoneNotification",
+        PhoneNotify = {
+            title = "Debt Recieved",
+            text = "Payment Recieved From "..name,
+            icon = "fas fa-dollar-sign",
+            color = "#1DA1F2",
+        },
+    })
+end)
