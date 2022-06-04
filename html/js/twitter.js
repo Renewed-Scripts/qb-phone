@@ -190,7 +190,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     '<div class="tweet-tweeter">' + ' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+ '</span></div>'+ //' &middot; '+TimeAgo+'
                     '<div class="tweet-message">'+TwtMessage+'</div>'+
                     '<div class="tweet-time">' + TimeAgo + '</div>' +
-                    '<img class="image" src= ' + Tweet.url + ' style = " border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                    '<img class="tweet-image" id="image-container" src= ' + Tweet.url + ' style = " border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px; filter: blur(1.5rem);">' +
                     //'<div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div>' +
                     '</div>';
                 $(".twitter-home-tab").append(TweetElement);
@@ -199,6 +199,17 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
         });
     }
 }
+
+$(document).on('dblclick', '#image-container', function(e){
+    e.preventDefault();
+    let source = $(this).attr('src')
+    QB.Screen.popUp(source)
+});
+
+$(document).on('click', '#image-container', function(e){
+    e.preventDefault();
+    $(this).css({"filter":"blur(0rem)"}); 
+});
 
 $(document).on('click','#twt-delete-click',function(e){
     e.preventDefault();
@@ -309,12 +320,6 @@ QB.Phone.Functions.FormatTwitterMessage = function(TwitterMessage) {
 
     return TwtMessage
 }
-
-$(document).on('click', '.image', function(e){
-    e.preventDefault();
-    let source = $(this).attr('src')
-    QB.Screen.popUp(source)
-});
 
 $(document).on('click', '.mentioned-tag', function(e){
     e.preventDefault();
