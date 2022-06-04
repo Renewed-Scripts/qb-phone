@@ -14,7 +14,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
     local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
         {Player.PlayerData.citizenid})
     if result[1] then
-        for k, v in pairs(result) do
+        for _, v in pairs(result) do
             local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
             local VehicleGarage = "None"
             if v.garage then

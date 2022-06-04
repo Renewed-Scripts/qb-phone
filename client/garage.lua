@@ -19,7 +19,9 @@ end
 -- NUI Callback
 
 RegisterNUICallback('SetupGarageVehicles', function(_, cb)
-    cb(PhoneData.GarageVehicles)
+    QBCore.Functions.TriggerCallback('qb-phone:server:GetGarageVehicles', function(vehicles)
+        cb(vehicles)
+    end)
 end)
 
 RegisterNUICallback('gps-vehicle-garage', function(data, cb)

@@ -128,7 +128,6 @@ RegisterNUICallback('ClearMentions', function(_, cb)
         action = "RefreshAppAlerts",
         AppData = Config.PhoneApplications
     })
-    TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "twitter", 0)
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
     cb('ok')
 end)
