@@ -79,14 +79,7 @@ end)
 
 RegisterNUICallback('GetGroupsApp', function (_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:getAllGroups', function (getGroups, inGroup, currentJob, stages)
-        SendNUIMessage({
-            action = "GroupAddDIV",
-            data = getGroups,
-            showPage = inGroup,
-            job = currentJob,
-            stage = stages
-        })
-        cb("ok")
+        cb(getGroups)
     end)
 end)
 
