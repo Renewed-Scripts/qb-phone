@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
-.lawyers-app {
+.services-app {
     display: none;
     height: 100%;
     width: 100%;
@@ -8,7 +8,7 @@
     background: #212832;
 }
 
-.lawyers-header {
+.services-header {
     position: absolute;
     width: 100%;
     height: 12vh;
@@ -18,13 +18,13 @@
     font-size: 1.8vh;
 }
 
-.lawyers-header > p {
+.services-header > p {
     line-height: 12vh;
     text-indent: 2vh;
     margin: 0 0 0 9vh;
 }
 
-.lawyers-header > span {
+.services-header > span {
     position: absolute;
     top: 8vh;
     left: 9vh;
@@ -33,7 +33,7 @@
     color: white;
 }
 
-.lawyers-list {
+.services-list {
     position: absolute;
     width: 90%;
     height: 73%;
@@ -45,11 +45,11 @@
     overflow-y: scroll;
 }
 
-.lawyers-list::-webkit-scrollbar {
+.services-list::-webkit-scrollbar {
     display: none;
 }
 
-.lawyer-list {
+.service-list {
     position: relative;
     width: 95%;
     height: 6vh;
@@ -59,7 +59,7 @@
     box-shadow: 0rem 0rem 0.2rem 0.02rem #000000a6;
 }
 
-.lawyer-list-firstletter {
+.service-list-firstletter {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -75,7 +75,7 @@
     color: white;
 }
 
-.lawyer-list-fullname {
+.service-list-fullname {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -89,7 +89,7 @@
     color: white;
 }
 
-.no-lawyers {
+.no-services {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -103,7 +103,7 @@
     color: white;
 }
 
-.lawyer-list-call {
+.service-list-call {
     color: white;
     position: absolute;
     top: 25%;
@@ -114,7 +114,7 @@
     transition: .08s ease-in-out;
 }
 
-.lawyer-list-call:hover {
+.service-list-call:hover {
     color: #8ee074;
     opacity: .8;
     transform: rotate(0deg);

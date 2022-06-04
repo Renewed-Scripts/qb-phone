@@ -254,8 +254,8 @@ Config.PhoneApplications = {
         slot = 17,
         Alerts = 0,
     },
-    ["lawyers"] = {
-        app = "lawyers",
+    ["services"] = {
+        app = "services",
         color = "#26d4ce",
         color2 = "#1e9c98",
         icon = "fas fa-briefcase",
@@ -431,4 +431,31 @@ Config.JobCenter = {
         label = "Truck Driver",
         Coords = {925.83, -1560.23},
     },
+}
+
+Config.ServiceJobs = {
+    {
+        Job = "lawyer",
+        HeaderBackgroundColor = "rgb(42, 137, 214)"
+    },
+    {
+        Job = "realestate",
+        HeaderBackgroundColor = "rgb(155, 15, 120)"
+    },
+    {
+        Job = "mechanic",
+        HeaderBackgroundColor = "rgb(0, 204, 102)"
+    },
+    {
+        Job = "taxi",
+        HeaderBackgroundColor = "rgb(255, 190, 27)"
+    },
+    {
+        Job = "police",
+        HeaderBackgroundColor = "rgb(0, 0, 255)"
+    },
+    {
+        Job = "ambulance",
+        HeaderBackgroundColor = "rgb(255, 0, 0)"
+    }
 }

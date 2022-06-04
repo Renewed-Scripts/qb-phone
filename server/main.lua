@@ -1,7 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local QBPhone = {}
-local Tweets = {} -- Located in the Twitter File as well ??
-local AppAlerts = {}
 local MentionedTweets = {} -- Located in the Twitter File as well ??
 local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
@@ -26,43 +23,6 @@ local function escape_sqli(source)
         ["'"] = "\\'"
     }
     return source:gsub("['\"]", replacements)
-end
-
-local function round(num, numDecimalPlaces)
-    if numDecimalPlaces and numDecimalPlaces > 0 then
-        local mult = 10 ^ numDecimalPlaces
-        return math.floor(num * mult + 0.5) / mult
-    end
-    return math.floor(num + 0.5)
-end
-
-function QBPhone.SetPhoneAlerts(citizenid, app, alerts)
-    if citizenid and app then
-        if not AppAlerts[citizenid] then
-            AppAlerts[citizenid] = {}
-            if not AppAlerts[citizenid][app] then
-                if not alerts then
-                    AppAlerts[citizenid][app] = 1
-                else
-                    AppAlerts[citizenid][app] = alerts
-                end
-            end
-        else
-            if not AppAlerts[citizenid][app] then
-                if not alerts then
-                    AppAlerts[citizenid][app] = 1
-                else
-                    AppAlerts[citizenid][app] = 0
-                end
-            else
-                if not alerts then
-                    AppAlerts[citizenid][app]= 1
-                else
-                    AppAlerts[citizenid][app] = AppAlerts[citizenid][app] + 0
-                end
-            end
-        end
-    end
 end
 
 local function SplitStringToArray(string)
@@ -97,7 +57,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
         local PhoneData = {
-            Applications = {},
             PlayerContacts = {},
             MentionedTweets = {},
             Chats = {},
@@ -109,8 +68,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
             CryptoTransactions = {},
             Tweets = {},
             Images = {},
-            InstalledApps = Player.PlayerData.metadata["phonedata"].InstalledApps
         }
+
         PhoneData.Adverts = Adverts
 
         local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
@@ -158,10 +117,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
         if messages and next(messages) then
             PhoneData.Chats = messages
-        end
-
-        if AppAlerts[Player.PlayerData.citizenid] then
-            PhoneData.Applications = AppAlerts[Player.PlayerData.citizenid]
         end
 
         if MentionedTweets[Player.PlayerData.citizenid] then
@@ -251,25 +206,30 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     end
 end)
 
+QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', function(source, cb)
+    local Services = {}
+    
+    for i = 1, #Config.ServiceJobs do
+        local job = Config.ServiceJobs[i]
+        Services[job.Job] = {}
+        Services[job.Job].Label = QBCore.Shared.Jobs[job.Job].label
+        Services[job.Job].HeaderBackgroundColor = job.HeaderBackgroundColor
+        Services[job.Job].Players = {}
+    end
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(source, cb)
-    local Lawyers = {}
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player then
-            if (Player.PlayerData.job.name == "lawyer" or Player.PlayerData.job.name == "realestate" or
-                Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "taxi" or
-                Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "ems" or Player.PlayerData.job.name == "hayes") and
-                Player.PlayerData.job.onduty then
-                Lawyers[#Lawyers+1] = {
-                    name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
-                    phone = Player.PlayerData.charinfo.phone,
-                    typejob = Player.PlayerData.job.name
+            local job = Player.PlayerData.job.name
+            if Services[job] and Player.PlayerData.job.onduty then
+                Services[job].Players[#(Services[job].Players)+1] = {
+                    Name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
+                    Phone = Player.PlayerData.charinfo.phone,
                 }
             end
         end
     end
-    cb(Lawyers)
+    cb(Services)
 end)
 
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
@@ -292,12 +252,6 @@ RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, Ano
     if Target then
         TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall)
     end
-end)
-
-RegisterNetEvent('qb-phone:server:SetPhoneAlerts', function(app, alerts)
-    local src = source
-    local CitizenId = QBCore.Functions.GetPlayer(src).citizenid
-    QBPhone.SetPhoneAlerts(CitizenId, app, alerts)
 end)
 
 RegisterNetEvent('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber, oldIban)
@@ -363,20 +317,6 @@ RegisterNetEvent('qb-phone:server:SaveMetaData', function(MData)
     Player.Functions.SetMetaData("phone", MData)
 end)
 
-RegisterNetEvent('qb-phone:server:GiveContactDetails', function(PlayerId)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local SuggestionData = {
-        name = {
-            [1] = Player.PlayerData.charinfo.firstname,
-            [2] = Player.PlayerData.charinfo.lastname
-        },
-        number = Player.PlayerData.charinfo.phone,
-        bank = Player.PlayerData.charinfo.account
-    }
-
-    TriggerClientEvent('qb-phone:client:AddNewSuggestion', PlayerId, SuggestionData)
-end)
 
 RegisterNetEvent('qb-phone:server:InstallApplication', function(ApplicationData)
     local src = source
@@ -422,35 +362,5 @@ QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(sou
         else
             cb(false)
         end
-    end
-end)
-
-RegisterNetEvent('qb-phone:server:TransferMoney', function(iban, amount)
-    local src = source
-    local sender = QBCore.Functions.GetPlayer(src)
-
-    local query = '%' .. iban .. '%'
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-    if result[1] then
-        local reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
-
-        if reciever then
-            local PhoneItem = reciever.Functions.GetItemByName("phone")
-            reciever.Functions.AddMoney('bank', amount, "phone-transfered-from-" .. sender.PlayerData.citizenid)
-            sender.Functions.RemoveMoney('bank', amount, "phone-transfered-to-" .. reciever.PlayerData.citizenid)
-
-            if PhoneItem then
-                TriggerClientEvent('qb-phone:client:TransferMoney', reciever.PlayerData.source, amount,
-                    reciever.PlayerData.money.bank)
-            end
-        else
-            local moneyInfo = json.decode(result[1].money)
-            moneyInfo.bank = round((moneyInfo.bank + amount))
-            exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?',
-                {json.encode(moneyInfo), result[1].citizenid})
-            sender.Functions.RemoveMoney('bank', amount, "phone-transfered")
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, "That account number doesn't exist!", "error")
     end
 end)

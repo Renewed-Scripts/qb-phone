@@ -229,9 +229,9 @@ $(document).on('click', '.phone-application', function(e){
                     });
                 } else if (PressedApplication == "meos") {
                     SetupMeosHome();
-                } else if (PressedApplication == "lawyers") {
-                    $.post('https://qb-phone/GetCurrentLawyers', JSON.stringify({}), function(data){
-                        SetupLawyers(data);
+                } else if (PressedApplication == "services") {
+                    $.post('https://qb-phone/GetServicesWithActivePlayers', JSON.stringify({}), function(data){
+                        SetupServices(data);
                     });
                 } else if (PressedApplication == "store") {
                     $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
