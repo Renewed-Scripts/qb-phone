@@ -109,58 +109,13 @@ local function PublicPhone()
     })
 end
 
-local function DisableDisplayControlActions()
-    DisableControlAction(0, 1, true)
-    DisableControlAction(0, 2, true)
-    DisableControlAction(0, 3, true)
-    DisableControlAction(0, 4, true)
-    DisableControlAction(0, 5, true)
-    DisableControlAction(0, 6, true)
-    DisableControlAction(0, 263, true)
-    DisableControlAction(0, 264, true)
-    DisableControlAction(0, 257, true)
-    DisableControlAction(0, 140, true)
-    DisableControlAction(0, 141, true)
-    DisableControlAction(0, 142, true)
-    DisableControlAction(0, 143, true)
-    DisableControlAction(0, 177, true)
-    DisableControlAction(0, 200, true)
-    DisableControlAction(0, 202, true)
-    DisableControlAction(0, 322, true)
-    DisableControlAction(0, 245, true)
-end
-
 local function LoadPhone()
-    Wait(100)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
         PhoneData.PlayerData = PlayerData
         local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
         PhoneData.MetaData = PhoneMeta
 
-        if pData.InstalledApps and next(pData.InstalledApps) then
-            for k, v in pairs(pData.InstalledApps) do
-                local AppData = Config.StoreApps[v.app]
-                Config.PhoneApplications[v.app] = {
-                    app = v.app,
-                    color = AppData.color,
-                    icon = AppData.icon,
-                    tooltipText = AppData.title,
-                    tooltipPos = "right",
-                    job = AppData.job,
-                    blockedjobs = AppData.blockedjobs,
-                    slot = AppData.slot,
-                    Alerts = 0,
-                }
-            end
-        end
-
-        PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture or"default"
-
-        if pData.Applications and next(pData.Applications) then
-            for k, v in pairs(pData.Applications) do
-                Config.PhoneApplications[k].Alerts = v
-            end
-        end
+        PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture or "default"
 
         if pData.MentionedTweets and next(pData.MentionedTweets) then
             PhoneData.MentionedTweets = pData.MentionedTweets
@@ -172,7 +127,7 @@ local function LoadPhone()
 
         if pData.Chats and next(pData.Chats) then
             local Chats = {}
-            for k, v in pairs(pData.Chats) do
+            for _, v in pairs(pData.Chats) do
                 Chats[v.number] = {
                     name = IsNumberInContacts(v.number),
                     number = v.number,
@@ -237,13 +192,6 @@ local function OpenPhone()
         })
         PhoneData.isOpen = true
 
-        CreateThread(function()
-            while PhoneData.isOpen do
-                DisableDisplayControlActions()
-                Wait(1)
-            end
-        end)
-
         if not PhoneData.CallData.InCall then
             DoPhoneAnimation('cellphone_text_in')
         else
@@ -252,10 +200,6 @@ local function OpenPhone()
 
         SetTimeout(250, function()
             newPhoneProp()
-        end)
-
-        QBCore.Functions.TriggerCallback('qb-phone:server:GetGarageVehicles', function(vehicles)
-            PhoneData.GarageVehicles = vehicles
         end)
     else
         QBCore.Functions.Notify("You don't have a phone?", "error")
@@ -456,7 +400,6 @@ RegisterNUICallback('AnswerCall', function()
 end)
 
 RegisterNUICallback('ClearRecentAlerts', function(_, cb)
-    TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "phone", 0)
     Config.PhoneApplications["phone"].Alerts = 0
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
     cb('ok')
@@ -624,7 +567,6 @@ RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
             action = "RefreshAppAlerts",
             AppData = Config.PhoneApplications
         })
-        TriggerServerEvent('qb-phone:server:SetPhoneAlerts', data.app, 0)
         SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
         cb('ok')
     end)
@@ -699,7 +641,6 @@ RegisterNetEvent('qb-phone:client:AddRecentCall', function(data, time, type)
         number = data.number,
         anonymous = data.anonymous
     }
-    TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "phone")
     Config.PhoneApplications["phone"].Alerts = Config.PhoneApplications["phone"].Alerts + 1
     SendNUIMessage({
         action = "RefreshAppAlerts",
@@ -829,16 +770,6 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
             break
         end
     end
-end)
-
-RegisterNetEvent('qb-phone:RefreshPhone', function()
-    LoadPhone()
-    SetTimeout(250, function()
-        SendNUIMessage({
-            action = "RefreshAlerts",
-            AppData = Config.PhoneApplications,
-        })
-    end)
 end)
 
 RegisterNetEvent('qb-phone:client:AnswerCall', function()
@@ -998,25 +929,6 @@ end)
 --- SHIT THAT IS GONE
 
 
-RegisterNUICallback('TransferMoney', function(data, cb)
-    data.amount = tonumber(data.amount)
-    if tonumber(PhoneData.PlayerData.money.bank) >= data.amount then
-        local amaountata = PhoneData.PlayerData.money.bank - data.amount
-        TriggerServerEvent('qb-phone:server:TransferMoney', data.iban, data.amount)
-        local cbdata = {
-            CanTransfer = true,
-            NewAmount = amaountata
-        }
-        cb(cbdata)
-    else
-        local cbdata = {
-            CanTransfer = false,
-            NewAmount = nil,
-        }
-        cb(cbdata)
-    end
-end)
-
 RegisterNUICallback('CanTransferMoney', function(data, cb)
     local amount = tonumber(data.amountOf)
     local iban = data.sendTo
@@ -1068,21 +980,6 @@ RegisterNetEvent('qb-phone:client:RemoveBankMoney', function(amount)
     end
 end)
 
-RegisterNetEvent('qb-phone:client:AddNewSuggestion', function(SuggestionData)
-    PhoneData.SuggestedContacts[#PhoneData.SuggestedContacts+1] = SuggestionData
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Phone",
-            text = "New suggested contact!",
-            icon = "fa fa-phone-alt",
-            color = "#04b543",
-            timeout = 1500,
-        },
-    })
-    Config.PhoneApplications["phone"].Alerts = Config.PhoneApplications["phone"].Alerts + 1
-    TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "phone", Config.PhoneApplications["phone"].Alerts)
-end)
 
 RegisterNetEvent('qb-phone:client:GiveContactDetails', function()
     local player, distance = GetClosestPlayer()
@@ -1103,8 +1000,4 @@ RegisterNUICallback('RemoveSuggestion', function(data, cb) -- I DONT THINK WE NE
             end
         end
     end
-end)
-
-RegisterNUICallback('GetBankContacts', function(data, cb)
-    cb(PhoneData.Contacts)
 end)

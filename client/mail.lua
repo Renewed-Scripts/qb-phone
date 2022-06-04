@@ -32,7 +32,6 @@ RegisterNetEvent('qb-phone:client:NewMailNotify', function(MailData)
         },
     })
     Config.PhoneApplications['mail'].Alerts = Config.PhoneApplications['mail'].Alerts + 1
-    TriggerServerEvent('qb-phone:server:SetPhoneAlerts', "mail")
 end)
 
 RegisterNetEvent('qb-phone:client:UpdateMails', function(NewMails)
