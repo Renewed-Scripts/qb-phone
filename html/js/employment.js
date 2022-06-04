@@ -64,7 +64,7 @@ $(document).ready(function(){
 
 function AddDIV(data){
     var AddOption;
-    var CSN = QB.Phone.Data.PlayerData.citizenid;
+    var CSN = QB.Phone.Data.PlayerData.source;
     $(".employment-list").html("");
     if(data) {
         Object.keys(data).map(function(element,index){

@@ -115,10 +115,9 @@ end
 
 local function isGroupLeader(src, groupID)
     if not groupID then return end
-    local CID = QBCore.Functions.GetPlayer(src).PlayerData.citizenid
     local grouplead = GetGroupLeader(groupID)
-    return grouplead == CID or false
-end
+    return grouplead == src or false
+end exports('isGroupLeader', isGroupLeader)
 
 ---- All the job functions for the groups
 
@@ -176,7 +175,7 @@ RegisterNetEvent("qb-phone:server:employment_CreateJobGroup", function(data)
             GName = data.name,
             GPass = data.pass,
             Users = 1,
-            leader = player.PlayerData.citizenid,
+            leader = src,
             members = {
                 {name = GetPlayerCharName(src), CID = player.PlayerData.citizenid, Player = src,}
             },
@@ -203,9 +202,8 @@ end)
 RegisterNetEvent('qb-phone:server:employment_DeleteGroup', function(data)
     local src = source
     print(json.encode(data))
-    local player = QBCore.Functions.GetPlayer(src)
     if not Players[src] then return print("You are not in a group?!?") end
-    if GetGroupLeader(data.delete) == player.PlayerData.citizenid then
+    if GetGroupLeader(data.delete) == src then
         DestroyGroup(data.delete)
     else
         RemovePlayerFromGroup(data.delete, src)
