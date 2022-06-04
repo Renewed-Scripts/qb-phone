@@ -434,11 +434,28 @@ Config.JobCenter = {
 }
 
 Config.ServiceJobs = {
-    "lawyer",
-    "realestate",
-    "mechanic",
-    "taxi",
-    "police",
-    "ems",
-    "hayes"
+    {
+        Job = "lawyer",
+        HeaderBackgroundColor = "rgb(42, 137, 214)"
+    },
+    {
+        Job = "realestate",
+        HeaderBackgroundColor = "rgb(155, 15, 120)"
+    },
+    {
+        Job = "mechanic",
+        HeaderBackgroundColor = "rgb(0, 204, 102)"
+    },
+    {
+        Job = "taxi",
+        HeaderBackgroundColor = "rgb(255, 190, 27)"
+    },
+    {
+        Job = "police",
+        HeaderBackgroundColor = "rgb(0, 0, 255)"
+    },
+    {
+        Job = "ambulance",
+        HeaderBackgroundColor = "rgb(255, 0, 0)"
+    }
 }

@@ -251,31 +251,30 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     end
 end)
 
-local function IsServiceJob(job)
-    for i = 1, #Config.ServiceJobs do
-        if Config.ServiceJobs[i] == job then
-            return true
-        end
-    end
-    
-    return false
-end
-
 QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', function(source, cb)
-    local Lawyers = {}
+    local Services = {}
+    
+    for i = 1, #Config.ServiceJobs do
+        local job = Config.ServiceJobs[i]
+        Services[job.Job] = {}
+        Services[job.Job].Label = QBCore.Shared.Jobs[job.Job].label
+        Services[job.Job].HeaderBackgroundColor = job.HeaderBackgroundColor
+        Services[job.Job].Players = {}
+    end
+
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player then
-            if IsServiceJob(Player.PlayerData.job.name) and Player.PlayerData.job.onduty then
-                Lawyers[#Lawyers+1] = {
-                    name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
-                    phone = Player.PlayerData.charinfo.phone,
-                    typejob = Player.PlayerData.job.name
+            local job = Player.PlayerData.job.name
+            if Services[job] and Player.PlayerData.job.onduty then
+                Services[job].Players[#(Services[job].Players)+1] = {
+                    Name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
+                    Phone = Player.PlayerData.charinfo.phone,
                 }
             end
         end
     end
-    cb(Lawyers)
+    cb(Services)
 end)
 
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)

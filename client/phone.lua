@@ -131,7 +131,7 @@ local function DisableDisplayControlActions()
 end
 
 local function LoadPhone()
-    Wait(100)
+    Wait(1000)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
         PhoneData.PlayerData = PlayerData
         local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
