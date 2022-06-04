@@ -254,8 +254,8 @@ Config.PhoneApplications = {
         slot = 17,
         Alerts = 0,
     },
-    ["lawyers"] = {
-        app = "lawyers",
+    ["services"] = {
+        app = "services",
         color = "#26d4ce",
         color2 = "#1e9c98",
         icon = "fas fa-briefcase",
@@ -431,4 +431,14 @@ Config.JobCenter = {
         label = "Truck Driver",
         Coords = {925.83, -1560.23},
     },
+}
+
+Config.ServiceJobs = {
+    "lawyer",
+    "realestate",
+    "mechanic",
+    "taxi",
+    "police",
+    "ems",
+    "hayes"
 }

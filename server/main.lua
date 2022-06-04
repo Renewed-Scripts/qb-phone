@@ -251,16 +251,22 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     end
 end)
 
+local function IsServiceJob(job)
+    for i = 1, #Config.ServiceJobs do
+        if Config.ServiceJobs[i] == job then
+            return true
+        end
+    end
+    
+    return false
+end
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentLawyers', function(source, cb)
+QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', function(source, cb)
     local Lawyers = {}
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player then
-            if (Player.PlayerData.job.name == "lawyer" or Player.PlayerData.job.name == "realestate" or
-                Player.PlayerData.job.name == "mechanic" or Player.PlayerData.job.name == "taxi" or
-                Player.PlayerData.job.name == "police" or Player.PlayerData.job.name == "ems" or Player.PlayerData.job.name == "hayes") and
-                Player.PlayerData.job.onduty then
+            if IsServiceJob(Player.PlayerData.job.name) and Player.PlayerData.job.onduty then
                 Lawyers[#Lawyers+1] = {
                     name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
                     phone = Player.PlayerData.charinfo.phone,
