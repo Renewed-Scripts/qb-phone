@@ -4,6 +4,27 @@ local function isAuthorized(job)
     return Config.DebtJobs[job]
 end
 
+local function format_int(n)
+    if not n then return 0 end
+    n = tonumber(n)
+    if n >= 1e14 then return tostring(n) end
+    if n <= -1e14 then return "-" .. tostring(math.abs(n)) end
+    local negative = n < 0
+    n = tostring(math.abs(n))
+    local dp = string.find(n, "%.") or #n + 1
+
+    for i = dp - 4, 1, -3 do
+        n = n:sub(1, i) .. "," .. n:sub(i + 1)
+    end
+
+    -- Make sure the amount is padded with zeroes
+    if n[#n - 1] == "." then
+        n = n .. "0"
+    end
+
+    return (negative and "-" or "") .. n
+end
+
 RegisterNetEvent('qb-phone:server:SendBillForPlayer_debt', function(data)
     local src = source
     local biller = QBCore.Functions.GetPlayer(src)
@@ -38,12 +59,22 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
         if OtherPly and Config.DebtJobs[OtherPly.PlayerData.job.name].comissionEnabled then
             local comission = Amount * Config.DebtJobs[OtherPly.PlayerData.job.name].comission
             Amount = Amount - comission
-            OtherPly.Functions.AddMoney('bank', comission, OtherPly.PlayerData.job.name.." Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
             TriggerClientEvent("QBCore:Notify", OtherPly.PlayerData.source, 'You received $'..comission..' in commission!', "primary")
+
+            OtherPly.Functions.AddMoney('bank', comission, OtherPly.PlayerData.job.name.." Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
             TriggerClientEvent('qb-phone:DebtMail', OtherPly.PlayerData.source, Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
-            TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount, OtherPly.PlayerData.job.name)
+
+            if Config.ManagementType == "simple-banking" then
+                TriggerEvent('qb-banking:society:server:DepositMoney', src, Amount, OtherPly.PlayerData.job.name)
+            elseif Config.ManagementType == "qb-management" then
+                exports['qb-management']:AddMoney(OtherPly.PlayerData.job.name, Amount)
+            end
         else
-            TriggerEvent('qb-banking:society:server:DepositMoney', source, Amount, OtherPly.PlayerData.job.name)
+            if Config.ManagementType == "simple-banking" then
+                TriggerEvent('qb-banking:society:server:DepositMoney', src, Amount, OtherPly.PlayerData.job.name)
+            elseif Config.ManagementType == "qb-management" then
+                exports['qb-management']:AddMoney(OtherPly.PlayerData.job.name, Amount)
+            end
         end
     end
 end)

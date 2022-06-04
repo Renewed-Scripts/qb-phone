@@ -34,7 +34,7 @@ Config.DebtJobs = {
     ["police"] = { onDuty = true, comissionEnabled = true, comission = 0.10 },
 }
 
-
+Config.ManagementType = "qb-management" -- put qb-management for qb-management || put simple-banking for simple-banking implementation
 
 
 
