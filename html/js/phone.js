@@ -269,7 +269,7 @@ $(document).on('click', '#new-chat-phone', function(e){
                 top: 0+"%"
             });
 
-            QB.Phone.Functions.ToggleApp("phone", "none");
+            QB.Phone.Functions.ToggleApp("contacts", "none");
             QB.Phone.Functions.ToggleApp("whatsapp", "block");
             QB.Phone.Data.currentApplication = "whatsapp";
 
