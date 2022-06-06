@@ -490,33 +490,6 @@ RegisterNUICallback('FetchSearchResults', function(data, cb)
     end, data.input)
 end)
 
-RegisterNUICallback('InstallApplication', function(data, cb)
-    local ApplicationData = Config.StoreApps[data.app]
-    local NewSlot = GetFirstAvailableSlot()
-    --  local NewSlot = 17
-
-    if not CanDownloadApps then
-        return
-    end
-
-    if NewSlot <= Config.MaxSlots then
-        TriggerServerEvent('qb-phone:server:InstallApplication', {
-            app = data.app,
-        })
-        cb({
-            app = data.app,
-            data = ApplicationData
-        })
-    else
-        cb(false)
-    end
-end)
-
-RegisterNUICallback('RemoveApplication', function(data, cb)
-    TriggerServerEvent('qb-phone:server:RemoveInstallation', data.app)
-    cb("ok")
-end)
-
 RegisterNUICallback('DeleteContact', function(data, cb)
     local Name = data.CurrentContactName
     local Number = data.CurrentContactNumber
@@ -1000,4 +973,31 @@ RegisterNUICallback('RemoveSuggestion', function(data, cb) -- I DONT THINK WE NE
             end
         end
     end
+end)
+
+RegisterNUICallback('InstallApplication', function(data, cb)
+    local ApplicationData = Config.StoreApps[data.app]
+    local NewSlot = GetFirstAvailableSlot()
+    --  local NewSlot = 17
+
+    if not CanDownloadApps then
+        return
+    end
+
+    if NewSlot <= Config.MaxSlots then
+        TriggerServerEvent('qb-phone:server:InstallApplication', {
+            app = data.app,
+        })
+        cb({
+            app = data.app,
+            data = ApplicationData
+        })
+    else
+        cb(false)
+    end
+end)
+
+RegisterNUICallback('RemoveApplication', function(data, cb)
+    TriggerServerEvent('qb-phone:server:RemoveInstallation', data.app)
+    cb("ok")
 end)

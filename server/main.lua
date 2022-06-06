@@ -4,19 +4,8 @@ local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
 local Adverts = {} -- Located in the advertisements File as well ??
 local WebHook = "https://discord.com/api/webhooks/881102998498074664/60jhrJkGkIGr6AUSvvFGXskwyr-rq5F5bBGfACqEiaeZerbW2A-w4MSjbFiippSTiGxR"
-local bannedCharacters = {'%','$',';'}
 
 -- Functions
-
-local function GetOnlineStatus(number)
-    local Target = QBCore.Functions.GetPlayerByPhone(number)
-    local retval = false
-    if Target then
-        retval = true
-    end
-    return retval
-end
-
 local function escape_sqli(source)
     local replacements = {
         ['"'] = '\\"',
@@ -55,111 +44,97 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source, cb)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player then
-        local PhoneData = {
-            PlayerContacts = {},
-            MentionedTweets = {},
-            Chats = {},
-            Hashtags = {},
-            Invoices = {},
-            Garage = {},
-            Mails = {},
-            Adverts = {},
-            CryptoTransactions = {},
-            Tweets = {},
-            Images = {},
-        }
+    if not Player or not src then return end
 
-        PhoneData.Adverts = Adverts
 
-        local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
-        if result[1] then
-            for _, v in pairs(result) do
-                v.status = GetOnlineStatus(v.number)
-            end
+    local PhoneData = {
+        PlayerContacts = {},
+        MentionedTweets = {},
+        Chats = {},
+        Hashtags = {},
+        Invoices = {},
+        Garage = {},
+        Mails = {},
+        Adverts = {},
+        CryptoTransactions = {},
+        Tweets = {},
+        Images = {},
+    }
 
-            PhoneData.PlayerContacts = result
-        end
+    PhoneData.Adverts = Adverts
 
-        local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Player.PlayerData.citizenid})
-        if invoices[1] then
-            for k, v in pairs(invoices) do
-                local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
-                if Ply then
-                    v.number = Ply.PlayerData.charinfo.phone
-                else
-                    local res = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {v.sender})
-                    if res[1] then
-                        res[1].charinfo = json.decode(res[1].charinfo)
-                        v.number = res[1].charinfo.phone
-                    else
-                        v.number = nil
-                    end
-                end
-            end
-            PhoneData.Invoices = invoices
-        end
-
-        local garageresult = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid})
-        if garageresult[1] then
-            for k, v in pairs(garageresult) do
-                local vehicleModel = v.vehicle
-                if (QBCore.Shared.Vehicles[vehicleModel]) and (Garages[v.garage]) then
-                    v.garage = Garages[v.garage].label
-                    v.vehicle = QBCore.Shared.Vehicles[vehicleModel].name
-                    v.brand = QBCore.Shared.Vehicles[vehicleModel].brand
-                end
-
-            end
-            PhoneData.Garage = garageresult
-        end
-
-        local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
-        if messages and next(messages) then
-            PhoneData.Chats = messages
-        end
-
-        if MentionedTweets[Player.PlayerData.citizenid] then
-            PhoneData.MentionedTweets = MentionedTweets[Player.PlayerData.citizenid]
-        end
-
-        if Hashtags and next(Hashtags) then
-            PhoneData.Hashtags = Hashtags
-        end
-
-        local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets WHERE `date` > NOW() - INTERVAL ? hour', {Config.TweetDuration})
-
-        if Tweets and next(Tweets) then
-            PhoneData.Tweets = Tweets
-        end
-
-        local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-        if mails[1] then
-            for k, v in pairs(mails) do
-                if mails[k].button then
-                    mails[k].button = json.decode(mails[k].button)
-                end
-            end
-            PhoneData.Mails = mails
-        end
-
-        local transactions = exports.oxmysql:executeSync('SELECT * FROM crypto_transactions WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-        if transactions[1] then
-            for _, v in pairs(transactions) do
-                PhoneData.CryptoTransactions[#PhoneData.CryptoTransactions+1] = {
-                    TransactionTitle = v.title,
-                    TransactionMessage = v.message
-                }
-            end
-        end
-        local images = exports.oxmysql:executeSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
-        if images and next(images) then
-            PhoneData.Images = images
-        end
-        cb(PhoneData)
+    local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
+    if result[1] then
+        PhoneData.PlayerContacts = result
     end
+
+    local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Player.PlayerData.citizenid})
+    if invoices[1] then
+        for k, v in pairs(invoices) do
+            local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
+            if Ply then
+                v.number = Ply.PlayerData.charinfo.phone
+            else
+                local res = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {v.sender})
+                if res[1] then
+                    res[1].charinfo = json.decode(res[1].charinfo)
+                    v.number = res[1].charinfo.phone
+                else
+                    v.number = nil
+                end
+            end
+        end
+        PhoneData.Invoices = invoices
+    end
+
+    local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
+    if messages and next(messages) then
+        PhoneData.Chats = messages
+    end
+
+    if MentionedTweets[Player.PlayerData.citizenid] then
+        PhoneData.MentionedTweets = MentionedTweets[Player.PlayerData.citizenid]
+    end
+
+    if Hashtags and next(Hashtags) then
+        PhoneData.Hashtags = Hashtags
+    end
+
+    local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets WHERE `date` > NOW() - INTERVAL ? hour', {Config.TweetDuration})
+
+    if Tweets and next(Tweets) then
+        PhoneData.Tweets = Tweets
+    end
+
+    local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+    if mails[1] then
+        for k, v in pairs(mails) do
+            if mails[k].button then
+                mails[k].button = json.decode(mails[k].button)
+            end
+        end
+        PhoneData.Mails = mails
+    end
+
+    local transactions = exports.oxmysql:executeSync('SELECT * FROM crypto_transactions WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+    if transactions[1] then
+        for _, v in pairs(transactions) do
+            PhoneData.CryptoTransactions[#PhoneData.CryptoTransactions+1] = {
+                TransactionTitle = v.title,
+                TransactionMessage = v.message
+            }
+        end
+    end
+
+    local images = exports.oxmysql:executeSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
+    if images and next(images) then
+        PhoneData.Images = images
+    end
+    cb(PhoneData)
 end)
 
+
+-- Can't even wrap my head around this lol diffently needs a good old rewrite
 QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, cb, search)
     local search = escape_sqli(search)
     local searchData = {}
@@ -206,9 +181,12 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     end
 end)
 
+
+
+-- Services
 QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', function(source, cb)
     local Services = {}
-    
+
     for i = 1, #Config.ServiceJobs do
         local job = Config.ServiceJobs[i]
         Services[job.Job] = {}
@@ -217,7 +195,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', 
         Services[job.Job].Players = {}
     end
 
-    for k, v in pairs(QBCore.Functions.GetPlayers()) do
+    for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player then
             local job = Player.PlayerData.job.name
@@ -232,12 +210,12 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', 
     cb(Services)
 end)
 
+-- Webhook needs to get fixed, right now anyone can grab this and use it to spam dick pics in Discord servers
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
 	cb(WebHook)
 end)
 
 -- Events
-
 RegisterNetEvent('qb-phone:server:SetCallState', function(bool)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
@@ -249,12 +227,12 @@ RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, Ano
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
     local Target = QBCore.Functions.GetPlayerByPhone(TargetData.number)
-    if Target then
-        TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall)
-    end
+    if not Target then return end
+
+    TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall)
 end)
 
-RegisterNetEvent('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber, oldIban)
+RegisterNetEvent('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:execute(
@@ -294,73 +272,21 @@ end)
 
 RegisterNetEvent('qb-phone:server:CancelCall', function(ContactData)
     local Ply = QBCore.Functions.GetPlayerByPhone(ContactData.TargetData.number)
-    if Ply then
-        TriggerClientEvent('qb-phone:client:CancelCall', Ply.PlayerData.source)
-    end
+    if not Ply then return end
+
+    TriggerClientEvent('qb-phone:client:CancelCall', Ply.PlayerData.source)
 end)
 
 RegisterNetEvent('qb-phone:server:AnswerCall', function(CallData)
     local Ply = QBCore.Functions.GetPlayerByPhone(CallData.TargetData.number)
-    if Ply then
-        TriggerClientEvent('qb-phone:client:AnswerCall', Ply.PlayerData.source)
-    end
+    if not Ply then return end
+
+    TriggerClientEvent('qb-phone:client:AnswerCall', Ply.PlayerData.source)
 end)
 
 RegisterNetEvent('qb-phone:server:SaveMetaData', function(MData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {Player.PlayerData.citizenid})
-    local MetaData = json.decode(result[1].metadata)
-    MetaData.phone = MData
-    exports.oxmysql:execute('UPDATE players SET metadata = ? WHERE citizenid = ?',
-        {json.encode(MetaData), Player.PlayerData.citizenid})
+
     Player.Functions.SetMetaData("phone", MData)
-end)
-
-
-RegisterNetEvent('qb-phone:server:InstallApplication', function(ApplicationData)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    Player.PlayerData.metadata["phonedata"].InstalledApps[ApplicationData.app] = ApplicationData
-    Player.Functions.SetMetaData("phonedata", Player.PlayerData.metadata["phonedata"])
-end)
-
-RegisterNetEvent('qb-phone:server:RemoveInstallation', function(App)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    Player.PlayerData.metadata["phonedata"].InstalledApps[App] = nil
-    Player.Functions.SetMetaData("phonedata", Player.PlayerData.metadata["phonedata"])
-end)
-
--- SHIT THAT IS NO LONGER NEEDED
-
-QBCore.Functions.CreateCallback('qb-phone:server:CanTransferMoney', function(source, cb, amount, iban)
-    local newAmount = tostring(amount)
-    local newiban = tostring(iban)
-    for k, v in pairs(bannedCharacters) do
-        newAmount = string.gsub(newAmount, '%' .. v, '')
-        newiban = string.gsub(newiban, '%' .. v, '')
-    end
-    iban = newiban
-    amount = tonumber(newAmount)
-
-    local Player = QBCore.Functions.GetPlayer(source)
-    if (Player.PlayerData.money.bank - amount) >= 0 then
-        local query = '%"account":"' .. iban .. '"%'
-        local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ?', {query})
-        if result[1] then
-            local Reciever = QBCore.Functions.GetPlayerByCitizenId(result[1].citizenid)
-            Player.Functions.RemoveMoney('bank', amount)
-            if Reciever then
-                Reciever.Functions.AddMoney('bank', amount)
-            else
-                local RecieverMoney = json.decode(result[1].money)
-                RecieverMoney.bank = (RecieverMoney.bank + amount)
-                exports.oxmysql:execute('UPDATE players SET money = ? WHERE citizenid = ?', {json.encode(RecieverMoney), result[1].citizenid})
-            end
-            cb(true)
-        else
-            cb(false)
-        end
-    end
 end)

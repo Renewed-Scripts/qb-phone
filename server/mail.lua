@@ -15,9 +15,9 @@ RegisterNetEvent('qb-phone:server:RemoveMail', function(MailId)
     SetTimeout(100, function()
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
         if mails[1] then
-            for k, v in pairs(mails) do
-                if mails[k].button then
-                    mails[k].button = json.decode(mails[k].button)
+            for _, v in pairs(mails) do
+                if v.button then
+                    v.button = json.decode(v.button)
                 end
             end
         end
@@ -37,9 +37,9 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData)
     SetTimeout(200, function()
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
         if mails[1] then
-            for k, v in pairs(mails) do
-                if mails[k].button then
-                    mails[k].button = json.decode(mails[k].button)
+            for _, v in pairs(mails) do
+                if v.button then
+                    v.button = json.decode(v.button)
                 end
             end
         end
@@ -62,9 +62,9 @@ RegisterNetEvent('qb-phone:server:sendNewMailToOffline', function(citizenid, mai
         SetTimeout(200, function()
             local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
             if mails[1] then
-                for k, v in pairs(mails) do
-                    if mails[k].button then
-                        mails[k].button = json.decode(mails[k].button)
+                for _, v in pairs(mails) do
+                    if v.button then
+                        v.button = json.decode(v.button)
                     end
                 end
             end
@@ -90,9 +90,9 @@ RegisterNetEvent('qb-phone:server:sendNewEventMail', function(citizenid, mailDat
     SetTimeout(200, function()
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {citizenid})
         if mails[1] then
-            for k, v in pairs(mails) do
-                if mails[k].button then
-                    mails[k].button = json.decode(mails[k].button)
+            for _, v in pairs(mails) do
+                if v.button then
+                    v.button = json.decode(v.button)
                 end
             end
         end
@@ -107,9 +107,9 @@ RegisterNetEvent('qb-phone:server:ClearButtonData', function(mailId)
     SetTimeout(200, function()
         local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
         if mails[1] then
-            for k, v in pairs(mails) do
-                if mails[k].button then
-                    mails[k].button = json.decode(mails[k].button)
+            for _, v in pairs(mails) do
+                if v.button then
+                    v.button = json.decode(v.button)
                 end
             end
         end
@@ -118,7 +118,7 @@ RegisterNetEvent('qb-phone:server:ClearButtonData', function(mailId)
 end)
 
 RegisterNetEvent('qb-phone:server:BillingEmail', function(data, paid)
-    for k, v in pairs(QBCore.Functions.GetPlayers()) do
+    for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local target = QBCore.Functions.GetPlayer(v)
         if target.PlayerData.job.name == data.society then
             if paid then

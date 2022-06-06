@@ -6,35 +6,6 @@ Hashtags = {}
 
 -- Functions
 
-function QBPhone.SetPhoneAlerts(citizenid, app, alerts)
-    if citizenid and app then
-        if not AppAlerts[citizenid] then
-            AppAlerts[citizenid] = {}
-            if not AppAlerts[citizenid][app] then
-                if not alerts then
-                    AppAlerts[citizenid][app] = 1
-                else
-                    AppAlerts[citizenid][app] = alerts
-                end
-            end
-        else
-            if not AppAlerts[citizenid][app] then
-                if not alerts then
-                    AppAlerts[citizenid][app] = 1
-                else
-                    AppAlerts[citizenid][app] = 0
-                end
-            else
-                if not alerts then
-                    AppAlerts[citizenid][app] += 1
-                else
-                    AppAlerts[citizenid][app] = AppAlerts[citizenid][app] + 0
-                end
-            end
-        end
-    end
-end
-
 function QBPhone.AddMentionedTweet(citizenid, TweetData)
     if not MentionedTweets[citizenid] then MentionedTweets[citizenid] = {} end
     MentionedTweets[citizenid][#MentionedTweets[citizenid]+1] = TweetData
@@ -47,7 +18,6 @@ RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName
         local Player = QBCore.Functions.GetPlayer(v)
         if Player then
             if (Player.PlayerData.charinfo.firstname == firstName and Player.PlayerData.charinfo.lastname == lastName) then
-                QBPhone.SetPhoneAlerts(Player.PlayerData.citizenid, "twitter")
                 QBPhone.AddMentionedTweet(Player.PlayerData.citizenid, TweetMessage)
                 TriggerClientEvent('qb-phone:client:GetMentioned', Player.PlayerData.source, TweetMessage, AppAlerts[Player.PlayerData.citizenid]["twitter"])
             else
@@ -56,7 +26,6 @@ RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName
                 local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE charinfo LIKE ? AND charinfo LIKE ?', {query1, query2})
                 if result[1] then
                     local MentionedTarget = result[1].citizenid
-                    QBPhone.SetPhoneAlerts(MentionedTarget, "twitter")
                     QBPhone.AddMentionedTweet(MentionedTarget, TweetMessage)
                 end
             end

@@ -5,15 +5,13 @@ RegisterNetEvent("qb-phone:server:sendDocument", function(data)
     local Ply = QBCore.Functions.GetPlayer(src)
     local Receiver = QBCore.Functions.GetPlayer(tonumber(data.StateID))
     local SenderName = Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname
-    if Receiver then
-        if Ply.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then
-            TriggerClientEvent("QBCore:Notify", src, 'Document Sent', "primary")
-            TriggerClientEvent("qb-phone:client:sendingDocumentRequest", data.StateID, data, Receiver, Ply, SenderName)
-        else
-            TriggerClientEvent("QBCore:Notify", src, 'You can\'t send a document to yourself!', "error")
-        end
+    if not Receiver then return TriggerClientEvent("QBCore:Notify", src, 'This state id does not exists!', "error") end
+
+    if Ply.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then
+        TriggerClientEvent("QBCore:Notify", src, 'Document Sent', "primary")
+        TriggerClientEvent("qb-phone:client:sendingDocumentRequest", data.StateID, data, Receiver, Ply, SenderName)
     else
-        TriggerClientEvent("QBCore:Notify", src, 'This state id does not exists!', "error")
+        TriggerClientEvent("QBCore:Notify", src, 'You can\'t send a document to yourself!', "error")
     end
 end)
 
@@ -62,7 +60,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetNote_for_Documents_app', fun
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
     local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    Wait(400)
+    Wait(100)
     if Note[1] then
         cb(Note)
     end

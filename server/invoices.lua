@@ -1,15 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
--- Functions
-
-local function round(num, numDecimalPlaces)
-    if numDecimalPlaces and numDecimalPlaces > 0 then
-        local mult = 10 ^ numDecimalPlaces
-        return math.floor(num * mult + 0.5) / mult
-    end
-    return math.floor(num + 0.5)
-end
-
 -- Events
 
 QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, cb, society, amount, invoiceId, sendercitizenid)
@@ -18,7 +8,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
     local invoiceMailData = {}
     if SenderPly and Config.BillingCommissions[society] then
-        local commission = round(amount * Config.BillingCommissions[society])
+        local commission = math.ceil(amount * Config.BillingCommissions[society])
         SenderPly.Functions.AddMoney('bank', commission)
         invoiceMailData = {
             sender = 'Billing Department',
