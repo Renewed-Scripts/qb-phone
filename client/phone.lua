@@ -70,44 +70,35 @@ local function CalculateTimeToDisplay()
     return obj
 end
 
-local function GetClosestPlayer()
-    local closestPlayers = QBCore.Functions.GetPlayersFromCoords()
-    local closestDistance = -1
-    local closestPlayer = -1
-    local coords = GetEntityCoords(PlayerPedId())
-    for i=1, #closestPlayers, 1 do
-        if closestPlayers[i] ~= PlayerId() then
-            local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
-            local distance = #(pos - coords)
-
-            if closestDistance == -1 or closestDistance > distance then
-                closestPlayer = closestPlayers[i]
-                closestDistance = distance
-            end
-        end
-	end
-	return closestPlayer, closestDistance
+local function updateTime()
+    while PhoneData.isOpen do
+        SendNUIMessage({
+            action = "UpdateTime",
+            InGameTime = CalculateTimeToDisplay(),
+        })
+        Wait(1500)
+    end
 end
 
-local function PublicPhone()
-    local PublicPhoneobject = {
-        -2103798695,1158960338,
-        1281992692,1511539537,
-        295857659,-78626473,
-        -1559354806
-    }
-    exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
-        options = {
-            {
-                type = "client",
-                event = "stx-phone:client:publocphoneopen",
-                icon = "fas fa-phone-alt",
-                label = "Public Phone",
-            },
+local PublicPhoneobject = {
+    -2103798695,1158960338,
+    1281992692,1511539537,
+    295857659,-78626473,
+    -1559354806
+}
+
+exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
+    options = {
+        {
+            type = "client",
+            event = "stx-phone:client:publocphoneopen",
+            icon = "fas fa-phone-alt",
+            label = "Public Phone",
         },
-        distance = 1.0
-    })
-end
+    },
+    distance = 1.0
+})
+
 
 local function LoadPhone()
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
@@ -201,6 +192,8 @@ local function OpenPhone()
         SetTimeout(250, function()
             newPhoneProp()
         end)
+
+        updateTime()
     else
         QBCore.Functions.Notify("You don't have a phone?", "error")
     end
@@ -523,14 +516,6 @@ RegisterNUICallback('GetServicesWithActivePlayers', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetServicesWithActivePlayers', function(lawyers)
         cb(lawyers)
     end)
-end)
-
-RegisterNUICallback('SetupStoreApps', function(_, cb)
-    local data = {
-        StoreApps = Config.StoreApps,
-        PhoneData = PlayerData.metadata["phonedata"]
-    }
-    cb(data)
 end)
 
 RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
@@ -861,24 +846,11 @@ CreateThread(function()
     PhoneChecks()
     Wait(500)
     LoadPhone()
-    PublicPhone()
     SendNUIMessage({
         action = "UpdateApplications",
         JobData = PlayerData.job,
         applications = Config.PhoneApplications
     })
-end)
-
-CreateThread(function()
-    while true do
-        if PhoneData.isOpen then
-            SendNUIMessage({
-                action = "UpdateTime",
-                InGameTime = CalculateTimeToDisplay(),
-            })
-        end
-        Wait(1000)
-    end
 end)
 
 -- Public Phone Shit
@@ -901,6 +873,13 @@ end)
 
 --- SHIT THAT IS GONE
 
+RegisterNUICallback('SetupStoreApps', function(_, cb)
+    local data = {
+        StoreApps = Config.StoreApps,
+        PhoneData = PlayerData.metadata["phonedata"]
+    }
+    cb(data)
+end)
 
 RegisterNUICallback('CanTransferMoney', function(data, cb)
     local amount = tonumber(data.amountOf)
