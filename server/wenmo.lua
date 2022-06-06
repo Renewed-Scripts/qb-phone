@@ -8,12 +8,10 @@ RegisterNetEvent('qb-phone:server:wenmo_givemoney_toID', function(data)
     local Reason = data.Reason
     if not OtherPly then return TriggerClientEvent('QBCore:Notify', src, 'Player not Online', "error") end
 
-    if Ply.PlayerData.money.bank then
-        if Ply.PlayerData.money.bank >= Amount then
-            Ply.Functions.RemoveMoney('bank', Amount, "Wenmo: "..Reason)
-            OtherPly.Functions.AddMoney('bank', Amount,"Wenmo: "..Reason)
-        else
-            TriggerClientEvent("QBCore:Notify", src, 'You don\'t have enough money!', "error")
-        end
+    if Ply.PlayerData.money.bank and Ply.PlayerData.money.bank >= Amount then
+        Ply.Functions.RemoveMoney('bank', Amount, "Wenmo: "..Reason)
+        OtherPly.Functions.AddMoney('bank', Amount,"Wenmo: "..Reason)
+    else
+        TriggerClientEvent("QBCore:Notify", src, 'You don\'t have enough money!', "error") -- replace this with Phone Notify
     end
 end)

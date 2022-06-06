@@ -70,7 +70,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
 
     local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Player.PlayerData.citizenid})
     if invoices[1] then
-        for k, v in pairs(invoices) do
+        for _, v in pairs(invoices) do
             local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
             if Ply then
                 v.number = Ply.PlayerData.charinfo.phone
@@ -108,9 +108,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
 
     local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
     if mails[1] then
-        for k, v in pairs(mails) do
-            if mails[k].button then
-                mails[k].button = json.decode(mails[k].button)
+        for _, v in pairs(mails) do
+            if v.button then
+                v.button = json.decode(v.button)
             end
         end
         PhoneData.Mails = mails
@@ -219,6 +219,9 @@ end)
 RegisterNetEvent('qb-phone:server:SetCallState', function(bool)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
+
+    if not Ply then return end
+
     if not Calls[Ply.PlayerData.citizenid] then Calls[Ply.PlayerData.citizenid] = {} end
     Calls[Ply.PlayerData.citizenid].inCall = bool
 end)
@@ -227,7 +230,7 @@ RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, Ano
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
     local Target = QBCore.Functions.GetPlayerByPhone(TargetData.number)
-    if not Target then return end
+    if not Target or not Ply then return end
 
     TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall)
 end)
@@ -235,6 +238,9 @@ end)
 RegisterNetEvent('qb-phone:server:EditContact', function(newName, newNumber, newIban, oldName, oldNumber)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+
+    if not Player then return end
+
     exports.oxmysql:execute(
         'UPDATE player_contacts SET name = ?, number = ?, iban = ? WHERE citizenid = ? AND name = ? AND number = ?',
         {newName, newNumber, newIban, Player.PlayerData.citizenid, oldName, oldNumber})
@@ -243,6 +249,9 @@ end)
 RegisterNetEvent('qb-phone:server:RemoveContact', function(Name, Number)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+
+    if not Player then return end
+
     exports.oxmysql:execute('DELETE FROM player_contacts WHERE name = ? AND number = ? AND citizenid = ?',
         {Name, Number, Player.PlayerData.citizenid})
 end)
@@ -250,6 +259,9 @@ end)
 RegisterNetEvent('qb-phone:server:AddNewContact', function(name, number, iban)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+
+    if not Player then return end
+
     exports.oxmysql:insert('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (?, ?, ?, ?)', {Player.PlayerData.citizenid, tostring(name), tostring(number), tostring(iban)})
 end)
 
@@ -259,15 +271,17 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
     local Hour = os.date("%H")
     local Minute = os.date("%M")
     local label = Hour .. ":" .. Minute
+
     TriggerClientEvent('qb-phone:client:AddRecentCall', src, data, label, type)
-    local Trgt = QBCore.Functions.GetPlayerByPhone(data.number)
-    if Trgt then
-        TriggerClientEvent('qb-phone:client:AddRecentCall', Trgt.PlayerData.source, {
-            name = Ply.PlayerData.charinfo.firstname .. " " .. Ply.PlayerData.charinfo.lastname,
-            number = Ply.PlayerData.charinfo.phone,
-            anonymous = data.anonymous
-        }, label, "outgoing")
-    end
+
+    local Target = QBCore.Functions.GetPlayerByPhone(data.number)
+    if not Target then return end
+
+    TriggerClientEvent('qb-phone:client:AddRecentCall', Trgt.PlayerData.source, {
+        name = Ply.PlayerData.charinfo.firstname .. " " .. Ply.PlayerData.charinfo.lastname,
+        number = Ply.PlayerData.charinfo.phone,
+        anonymous = data.anonymous
+    }, label, "outgoing")
 end)
 
 RegisterNetEvent('qb-phone:server:CancelCall', function(ContactData)
@@ -287,6 +301,7 @@ end)
 RegisterNetEvent('qb-phone:server:SaveMetaData', function(MData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
 
     Player.Functions.SetMetaData("phone", MData)
 end)

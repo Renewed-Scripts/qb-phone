@@ -46,6 +46,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
             else
                 vinscratched = 'false'
             end
+
             if VehicleData["brand"] then
                 if VehicleState == 'Out' then
                     state = 'Out'

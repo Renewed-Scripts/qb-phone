@@ -36,6 +36,9 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:DeclineInvoice', function(source, cb, sender, amount, invoiceId)
     local Invoices = {}
     local Ply = QBCore.Functions.GetPlayer(source)
+
+    if not Ply then return end
+
     exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
     local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Ply.PlayerData.citizenid})
     if invoices[1] then
