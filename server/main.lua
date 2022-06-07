@@ -25,6 +25,7 @@ end
 -- Callbacks
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source, cb, ContactData)
+    ContactData.number = tonumber(ContactData.number)
     local Target = QBCore.Functions.GetPlayerByPhone(ContactData.number)
     if Target then
         if Calls[Target.PlayerData.citizenid] then
@@ -277,7 +278,7 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
     local Target = QBCore.Functions.GetPlayerByPhone(data.number)
     if not Target then return end
 
-    TriggerClientEvent('qb-phone:client:AddRecentCall', Trgt.PlayerData.source, {
+    TriggerClientEvent('qb-phone:client:AddRecentCall', Target.PlayerData.source, {
         name = Ply.PlayerData.charinfo.firstname .. " " .. Ply.PlayerData.charinfo.lastname,
         number = Ply.PlayerData.charinfo.phone,
         anonymous = data.anonymous
