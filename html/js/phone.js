@@ -100,7 +100,7 @@ $(document).on('click', '#phone-recent-copy-contact', function(e){
     copyToClipboard(PhoneNumber)
     QB.Phone.Notifications.Add("fas fa-phone", "Contacts", "Phone Number Copied!");
 });
- 
+
 $(document).on('click', '#phone-recent-start-call', function(e){
     e.preventDefault();
 
@@ -467,7 +467,6 @@ $(document).on('click', '#add-contact-cancel', function(e){
 
 $(document).on('click', '#phone-start-call', function(e){
     e.preventDefault();
-
     var ContactId = $(this).parent().parent().data('contactid');
     var ContactData = $("[data-contactid='"+ContactId+"']").data('contactData');
 
@@ -475,7 +474,6 @@ $(document).on('click', '#phone-start-call', function(e){
 });
 
 SetupCall = function(cData) {
-    var retval = false;
     $.post('https://qb-phone/CallContact', JSON.stringify({
         ContactData: cData,
         Anonymous: QB.Phone.Data.AnonymousCall,
@@ -493,6 +491,7 @@ SetupCall = function(cData) {
                         setTimeout(function(){
                             $(".phone-app").css({"display":"none"});
                             QB.Phone.Animations.TopSlideDown('.phone-application-container', 400, -160);
+                            QB.Phone.Functions.ToggleApp("contacts", "none");
                             QB.Phone.Functions.ToggleApp("phone-call", "block");
                             $(".phone-currentcall-container").css({"display":"block"});
                             $("#incoming-answer").css({"display":"none"});
