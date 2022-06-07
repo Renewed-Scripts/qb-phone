@@ -35,9 +35,9 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
         Wait(0) -- Waiting a single frame to ensure that database updates in time for the client to receive the event
         TriggerClientEvent('qb-phone:RefreshPhoneForDebt', src)
 
-        if OtherPly and Config.DebtJobs[OtherPly.PlayerData.job.name].comissionEnabled then
+        if OtherPly and isAuthorized(OtherPly.PlayerData.job.name) and Config.DebtJobs[OtherPly.PlayerData.job.name].comissionEnabled then
             local comission = Amount * Config.DebtJobs[OtherPly.PlayerData.job.name].comission
-            Amount = Amount - comission
+            Amount -= comission
             TriggerClientEvent("QBCore:Notify", OtherPly.PlayerData.source, 'You received $'..comission..' in commission!', "primary")
 
             OtherPly.Functions.AddMoney('bank', comission, OtherPly.PlayerData.job.name.." Debt Commission | $"..Amount.." Paid By: "..Ply.PlayerData.charinfo.firstname..' '..Ply.PlayerData.charinfo.lastname)
@@ -49,10 +49,18 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
                 exports['qb-management']:AddMoney(OtherPly.PlayerData.job.name, Amount)
             end
         else
-            if Config.ManagementType == "simple-banking" then
-                TriggerEvent('qb-banking:society:server:DepositMoney', src, Amount, OtherPly.PlayerData.job.name)
-            elseif Config.ManagementType == "qb-management" then
-                exports['qb-management']:AddMoney(OtherPly.PlayerData.job.name, Amount)
+            local jobData = MySQL.query.await('SELECT job FROM players WHERE citizenid = ?', {data.CSN})
+            if jobData[1] then
+                jobData = json.decode(jobData[1].job)
+                if isAuthorized(jobData.name) and Config.DebtJobs[jobData.name].comissionEnabled then
+                    local comission = Amount * Config.DebtJobs[jobData.name].comission
+                    Amount -= comission
+                    if Config.ManagementType == "simple-banking" then
+                        TriggerEvent('qb-banking:society:server:DepositMoney', src, Amount, jobData.name)
+                    elseif Config.ManagementType == "qb-management" then
+                        exports['qb-management']:AddMoney(jobData.name, Amount)
+                    end
+                end
             end
         end
     end
