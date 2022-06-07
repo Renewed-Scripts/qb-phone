@@ -8,7 +8,7 @@ RegisterNetEvent("qb-phone:server:sendPing", function(id)
     local HasVPN = Player.Functions.GetItemByName(Config.VPNItem)
     local name = HasVPN and 'Anonymous' or Player.PlayerData.charinfo.firstname
 
-    if not other then return TriggerClientEvent("QBCore:Notify", src, 'State ID does not exist!', "error") end
+    if not Other then return TriggerClientEvent("QBCore:Notify", src, 'State ID does not exist!', "error") end
 
     local info = { type = 'ping', Other = Shitter, Player = src, Name = name, OtherName = Other.PlayerData.charinfo.firstname }
     if Player.PlayerData.citizenid ~= Other.PlayerData.citizenid then
