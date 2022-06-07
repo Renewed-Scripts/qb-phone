@@ -125,11 +125,10 @@ QB.Phone.Functions.LoadWhatsappChats = function(chats) {
         var profilepicture = "./img/default.png";
         var LastMessage = QB.Phone.Functions.GetLastMessage(chat.messages);
         var ChatElement = ChatElement
-        
-        if (isNaN(chat.name) == true) {
+        if (chat.name !== undefined && isNaN(chat.name) == true) {
             ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+chat.name+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
         } else {
-            ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+formatPhoneNumber(chat.name)+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
+            ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+formatPhoneNumber(chat.number)+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
         }
 
         $(".whatsapp-chats").append(ChatElement);
