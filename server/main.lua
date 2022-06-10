@@ -230,7 +230,7 @@ end)
 RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, AnonymousCall)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
-    local Target = QBCore.Functions.GetPlayerByPhone(TargetData.number)
+    local Target = QBCore.Functions.GetPlayerByPhone(tonumber(TargetData.number))
     if not Target or not Ply then return end
 
     TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall)
