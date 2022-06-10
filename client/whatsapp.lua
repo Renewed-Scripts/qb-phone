@@ -29,7 +29,7 @@ end
 local function GetKeyByNumber(Number)
     if PhoneData.Chats then
         for k, v in pairs(PhoneData.Chats) do
-            if v.number == Number then
+            if tonumber(v.number) == Number then
                 return k
             end
         end
