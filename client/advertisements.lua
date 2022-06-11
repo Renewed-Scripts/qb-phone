@@ -23,11 +23,13 @@ RegisterNUICallback("DeleteAdvert", function(_, cb)
 end)
 
 RegisterNUICallback('LoadAdverts', function(_, cb)
-    SendNUIMessage({
+    QBCore.Functions.TriggerCallback('qb-phone:serve:GetAdverts', function(Adverts)
+        SendNUIMessage({
         action = "RefreshAdverts",
-        Adverts = PhoneData.Adverts
+        Adverts = Adverts
     })
-    cb("ok")
+    cb(Adverts)
+    end)
 end)
 
 RegisterNUICallback('ClearAlerts', function(data, cb)
