@@ -299,10 +299,10 @@ $(document).on('click', '#whatsapp-openedchat-call', function(e){
                                 $(".phone-currentcall-container").css({"display":"block"});
                                 $("#incoming-answer").css({"display":"none"});
                             }, 450);
-    
+
                             CallData.name = cData.name;
                             CallData.number = cData.number;
-    
+
                             QB.Phone.Data.currentApplication = "phone-call";
                         } else {
                             QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
@@ -317,7 +317,7 @@ $(document).on('click', '#whatsapp-openedchat-call', function(e){
                 QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call yourself!");
             }
         });
-    } 
+    }
 });
 
 QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {

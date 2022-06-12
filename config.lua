@@ -1,7 +1,7 @@
 Config = Config or {}
 
 -- If you have Lions Boosting System, enable this check to NOT produce any vehicle registration for vinscratched vehicles. Disable if you want to produce vehicle registration regardless
-Config.Vinscratch = true
+Config.Vinscratch = false
 -- Item name for pings app ( Having a VPN sends an anonymous ping, else sends the players name)
 Config.VPNItem = 'vpn'
 
@@ -306,18 +306,6 @@ Config.PhoneApplications = {
         slot = 21,
         Alerts = 0,
     },
---[[    ["bank"] = {
-        app = "bank",
-        color = "#9c88ff",
-        color2 = "#8070d5",
-        icon = "fas fa-file-contract",
-        tooltipText = "Invoices",
-        style = "font-size: 2.7vh";
-        job = false,
-        blockedjobs = {},
-        slot = 21,
-        Alerts = 0,
-    },--]]
     ["racing"] = {
         app = "racing",
         color = "#353b48",
@@ -330,13 +318,14 @@ Config.PhoneApplications = {
         slot = 22,
         Alerts = 0,
     },
-    ["meos"] = {
-        app = "meos",
-        color = "#004682",
-        color2 = "#00325c",
-        icon = "fas fa-ad",
-        tooltipText = "MDT",
-        job = "police",
+    ["bank"] = {
+        app = "bank",
+        color = "#9c88ff",
+        color2 = "#8070d5",
+        icon = "fas fa-file-contract",
+        tooltipText = "Invoices",
+        style = "font-size: 2.7vh";
+        job = false,
         blockedjobs = {},
         slot = 23,
         Alerts = 0,
@@ -354,36 +343,17 @@ Config.PhoneApplications = {
         slot = 24,
         Alerts = 0,
     },
-
-
-
-
-
-
-    -- ["mybank"] = {
-    --     app = "mybank",
-    --     color = "#a9fd78",
-    --     color2 = "#86c95f",
-    --     icon = "fas fa-dollar-sign",
-    --     tooltipText = "My Bank",
-    --     style = "color: black; font-size: 2.7vh";
-    --     job = false,
-    --     blockedjobs = {},
-    --     slot = 20,
-    --     Alerts = 0,
-    -- },
-    -- ["camera"] = {
-    --     app = "camera",
-    --     color = "#AC1D2C",
-    --     color2 = "#25d366",
-    --     icon = "fas fa-camera",
-    --     tooltipText = "Camera",
-    --     tooltipPos = "bottom",
-    --     job = false,
-    --     blockedjobs = {},
-    --     slot = 15,
-    --     Alerts = 0,
-    -- },
+    ["meos"] = {
+        app = "meos",
+        color = "#004682",
+        color2 = "#00325c",
+        icon = "fas fa-ad",
+        tooltipText = "MDT",
+        job = "police",
+        blockedjobs = {},
+        slot = 25,
+        Alerts = 0,
+    },
 }
 Config.MaxSlots = 28
 

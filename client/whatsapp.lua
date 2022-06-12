@@ -29,7 +29,7 @@ end
 local function GetKeyByNumber(Number)
     if PhoneData.Chats then
         for k, v in pairs(PhoneData.Chats) do
-            if tonumber(v.number) == Number then
+            if tonumber(v.number) == tonumber(Number) then
                 return k
             end
         end
@@ -69,7 +69,8 @@ RegisterNUICallback('SendMessage', function(data, cb)
     local ChatType = data.ChatType
     local NumberKey = GetKeyByNumber(ChatNumber)
     local ChatKey = GetKeyByDate(NumberKey, ChatDate)
-    if PhoneData.Chats[NumberKey]then
+
+    if PhoneData.Chats[NumberKey] then
         if not PhoneData.Chats[NumberKey].messages then
             PhoneData.Chats[NumberKey].messages = {}
         end
