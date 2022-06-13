@@ -257,7 +257,7 @@ $(document).on('click', '#whatsapp-openedchat-send', function(e){
         $.post('https://qb-phone/SendMessage', JSON.stringify({
             ChatNumber: OpenedChatData.number,
             ChatDate: GetCurrentDateKey(),
-            ChatMessage: "Photo",
+            ChatMessage: null,
             ChatTime: FormatMessageTime(),
             ChatType: "picture",
             url : urlDetect

@@ -1,3 +1,5 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
 -- Functions
 
 local function GetKeyByNumber(Number)
