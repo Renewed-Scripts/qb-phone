@@ -22,7 +22,6 @@ QB.Phone.Functions.SetupRecentCalls = function(recentcalls) { // THIS
 
     if (recentcalls){
         $.each(recentcalls, function(i, recentCall){
-            var FirstLetter = (recentCall.name).charAt(0);
             var TypeIcon = 'fas fa-phone';
             var IconStyle = "color: #e74c3c;";
             if (recentCall.type === "outgoing") {
