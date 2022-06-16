@@ -480,7 +480,7 @@ QB.Phone.Notifications.Custom.Add = function(icon, title, text, color, timeout, 
                 QB.Phone.Animations.BottomSlideUp('.container', 150, -55);
             }
 
-            QB.Phone.Animations.TopSlideDown(".phone-notification-container-new", 600, 5);
+            QB.Phone.Animations.TopSlideDown(".phone-notification-container-new", 600, 6);
 
             $(".notification-icon-new").html('<i class="'+icon+'"></i>');
             $(".notification-title-new").html(title);
@@ -527,9 +527,9 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                     $(".notification-title").css({"color":"#e74c3c"});
                 }
                 if (!QB.Phone.Data.IsOpen == true) {
-                    QB.Phone.Animations.BottomSlideUp('.container', 150, -56);
+                    QB.Phone.Animations.BottomSlideUp('.container', 450, -57);
                 }
-                    QB.Phone.Animations.TopSlideDown(".phone-notification-container", 600, 5);
+                    QB.Phone.Animations.TopSlideDown(".phone-notification-container", 600, 6);
                 if (icon !== "politie") {
                     $(".notification-icon").html('<i class="'+icon+'"></i>');
                 } else {
@@ -542,7 +542,7 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                     clearTimeout(QB.Phone.Notifications.Timeout);
                 }
                 QB.Phone.Notifications.Timeout = setTimeout(function(){
-                    QB.Phone.Animations.TopSlideUp(".phone-notification-container", 150, -8);
+                    QB.Phone.Animations.TopSlideUp(".phone-notification-container", 600, -8);
 
                     QB.Phone.Notifications.Timeout = setTimeout(function(){
                     if (!QB.Phone.Data.IsOpen == true) {
