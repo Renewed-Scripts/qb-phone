@@ -374,7 +374,7 @@ $(document).on('click', '.phone-tab-button', function(event){
 });
 
 QB.Phone.Functions.Open = function(data) {
-    QB.Phone.Animations.BottomSlideUp('.container', 300, -4);
+    QB.Phone.Animations.BottomSlideUp('.container', 500, -6.6);
     QB.Phone.Notifications.LoadTweets(data.Tweets);
     QB.Phone.Data.IsOpen = true;
 }
@@ -414,7 +414,7 @@ QB.Phone.Functions.Close = function() {
         $(".meos-recent-alert").css({"background-color":"#004682"});
     }
     $('.publicphonebase').css('display', 'none')
-    QB.Phone.Animations.BottomSlideDown('.container', 300, -70);
+    QB.Phone.Animations.BottomSlideDown('.container', 500, -70);
     $.post('https://qb-phone/Close');
     QB.Phone.Data.IsOpen = false;
 }

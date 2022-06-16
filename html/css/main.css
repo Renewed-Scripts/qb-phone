@@ -36,7 +36,7 @@ body {
     display: none;
     position: absolute;
     bottom: -70%;
-    right: -1.5vh;
+    right: -6.8vh;
 }
 
 .phone-currentcall-container {
@@ -132,7 +132,7 @@ body {
 }
 
 .phone-container {
-    height: 61.7vh;
+    height: 70.7vh;
     width: 29vh;
     bottom: 1vh;
     border-radius: 3vh;
@@ -143,11 +143,11 @@ body {
 }
 
 .phone-background {
-    height: 61.7vh;
-    width: 30.5vh;
-    bottom: 1vh;
-    border-radius: 3vh;
-    right: 0.5vh;
+    height: 62.7vh;
+    width: 28.0vh;
+    bottom: 1.65vh;
+    border-radius: 1vh;
+    right: 2.0vh;
     margin: 5vh;
     overflow: hidden;
     position: absolute;
@@ -169,7 +169,7 @@ body {
 #phone-time {
     font-family: 'Roboto', sans-serif;
     font-size: 1.1vh;
-    padding: 2.1vh 0 0 2.1vh;
+    padding: 1.2vh 0 0 1.1vh;
     float: left;
     color: white !important;
 }
@@ -178,14 +178,14 @@ body {
     font-family: 'Roboto', sans-serif;
     text-transform: uppercase;
     font-size: 1.1vh;
-    padding: 2.1vh 0 0 1vh;
+    padding: 1.2vh 0 0 1vh;
     float: left;
     color: white !important;
 }
 
 #phone-icons {
     font-size: 1.1vh;
-    padding: 2vh 2.5vh 0 0vh;
+    padding: 1.2vh 1.1vh 0 0vh;
     float: right;
     color: white !important;
 }
@@ -265,7 +265,7 @@ body {
 
 .phone-applications {
     position: relative;
-    height: 100%;
+    height: 97%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.05);
 }
@@ -274,7 +274,7 @@ body {
     position: relative;
     height: 4.8vh;
     width: 4.8vh;
-    left: 1vh;
+    left: 0vh;
     float: left;
     margin-left: 1.75vh;
     margin-top: 1.5vh;
