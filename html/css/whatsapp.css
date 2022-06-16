@@ -15,13 +15,13 @@
 }
 .whatsapp-header-top {
     position: relative;
-    height: 6.2vh;
+    height: 6.7vh;
     width: 100%;
     background-color: #212832;
 }
 .whatsapp-header-footer {
     position: relative;
-    height: 4.5vh;
+    height: 5.5vh;
     width: 100%;
     background-color: #212832;
 }
@@ -36,8 +36,11 @@
     position: absolute;
     top: 4.7vh;
     right: 3.9vh;
-    font-size: 1.6vh;
+    font-size: 1.8vh;
     color: #FFFFFF;
+}
+#whatsapp-newconvo-icon:hover{
+    color: rgb(187, 187, 187);
 }
 #whatsapp-search-input-text {
     position: absolute;
@@ -79,15 +82,15 @@
 #whatsapp-search-text {
     position: absolute;
     top: 4.7vh;
-    left: 3.2vh;
+    left: 3.0vh;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2vh;
     color: #FFFFFF;
 }
 #whatsapp-search-icon {
     position: absolute;
-    top: 1.4vh;
-    left: 3.5vh;
+    top: 1.2vh;
+    left: 3.0vh;
     font-size: 1.4vh;
     color: #FFFFFF;
 }
@@ -151,8 +154,8 @@
 .whatsapp-chats {
     position: absolute;
     width: 100%;
-    height: 81%;
-    top: 10.7vh;
+    height: 79.6%;
+    top: 12.0vh;
     background: #212832;
     overflow-y: scroll;
     overflow-x: hidden !important;
@@ -248,7 +251,7 @@
     font-family: 'Roboto', sans-serif;
     font-size: 1.1vh;
     color: white;
-    max-width: 17vh;
+    max-width: 13vh;
 }
 
 .whatsapp-chat-lastmessage > p {
@@ -538,7 +541,7 @@
 .popupclass {
     position: absolute;
     transform: translate(-50%, -50%);
-    top: 50%;
+    top: 0%;
     left: 50%;
     width: 70%;
     height: auto;

@@ -374,7 +374,7 @@ $(document).on('click', '.phone-tab-button', function(event){
 });
 
 QB.Phone.Functions.Open = function(data) {
-    QB.Phone.Animations.BottomSlideUp('.container', 300, -4);
+    QB.Phone.Animations.BottomSlideUp('.container', 500, -6.6);
     QB.Phone.Notifications.LoadTweets(data.Tweets);
     QB.Phone.Data.IsOpen = true;
 }
@@ -414,7 +414,7 @@ QB.Phone.Functions.Close = function() {
         $(".meos-recent-alert").css({"background-color":"#004682"});
     }
     $('.publicphonebase').css('display', 'none')
-    QB.Phone.Animations.BottomSlideDown('.container', 300, -70);
+    QB.Phone.Animations.BottomSlideDown('.container', 500, -70);
     $.post('https://qb-phone/Close');
     QB.Phone.Data.IsOpen = false;
 }
@@ -480,7 +480,7 @@ QB.Phone.Notifications.Custom.Add = function(icon, title, text, color, timeout, 
                 QB.Phone.Animations.BottomSlideUp('.container', 150, -55);
             }
 
-            QB.Phone.Animations.TopSlideDown(".phone-notification-container-new", 600, 6.5);
+            QB.Phone.Animations.TopSlideDown(".phone-notification-container-new", 600, 6);
 
             $(".notification-icon-new").html('<i class="'+icon+'"></i>');
             $(".notification-title-new").html(title);
@@ -527,9 +527,9 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                     $(".notification-title").css({"color":"#e74c3c"});
                 }
                 if (!QB.Phone.Data.IsOpen == true) {
-                    QB.Phone.Animations.BottomSlideUp('.container', 150, -56);
+                    QB.Phone.Animations.BottomSlideUp('.container', 450, -57);
                 }
-                    QB.Phone.Animations.TopSlideDown(".phone-notification-container", 450, 8);
+                    QB.Phone.Animations.TopSlideDown(".phone-notification-container", 600, 6);
                 if (icon !== "politie") {
                     $(".notification-icon").html('<i class="'+icon+'"></i>');
                 } else {
@@ -542,7 +542,7 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                     clearTimeout(QB.Phone.Notifications.Timeout);
                 }
                 QB.Phone.Notifications.Timeout = setTimeout(function(){
-                    QB.Phone.Animations.TopSlideUp(".phone-notification-container", 150, -8);
+                    QB.Phone.Animations.TopSlideUp(".phone-notification-container", 600, -8);
 
                     QB.Phone.Notifications.Timeout = setTimeout(function(){
                     if (!QB.Phone.Data.IsOpen == true) {
