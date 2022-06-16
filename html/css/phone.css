@@ -98,15 +98,14 @@
 }
 
 #phone-recent-call-number{
-    position: relative;
-    top: 2%;
-    float: left;
-    left: 82%;
-    color: whitesmoke;
-    transition: 0.25s;
+    position: absolute;
+    top: 0.7vh;
+    right: 2.8vh;
+    font-size: 1.8vh;
+    color: #FFFFFF;
 }
 #phone-recent-call-number:hover{
-    color: #2c465f;
+    color: rgb(187, 187, 187);
 }
 
 .phone-recent-header {
@@ -120,7 +119,7 @@
 }
 .phone-recent-calls {
     position: absolute;
-    width: 85%;
+    width: 90%;
     height: 45vh;
     margin: 0 auto;
     left: 0;
@@ -989,9 +988,9 @@
     border: none;
     background: none;
     top: 2.7vh;
-    width: 75%;
+    width: 80%;
     margin: 0 auto;
-    left: 0;
+    left: 0.5vh;
     right: 0.3vh;
     opacity: 1;
     height: 2.5vh;
@@ -1004,14 +1003,14 @@
 #recent-search-icon {
     position: absolute;
     top: 3.2vh;
-    left: 3.8vh;
+    left: 3.0vh;
     font-size: 1.4vh;
     color: #FFFFFF;
 }
 #phone-recent-search-text {
     position: absolute;
     top: 0.7vh;
-    left: 3.5vh;
+    left: 3.0vh;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2vh;
     color: #FFFFFF;
