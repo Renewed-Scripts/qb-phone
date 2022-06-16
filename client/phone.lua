@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 --- Global Variables ---
 PlayerData = QBCore.Functions.GetPlayerData()
-HasPhone = false
+local HasPhone = false
 
 local CallVolume = 0.2
 PhoneData = {
@@ -34,7 +34,7 @@ PhoneData = {
 
 local function IsNumberInContacts(num)
     for _, v in pairs(PhoneData.Contacts) do
-        if num == v.number then
+        if tostring(num) == v.number then
             return v.name
         end
     end
@@ -55,8 +55,8 @@ local function PhoneChecks()
 end
 
 local function CalculateTimeToDisplay()
-	hour = GetClockHours()
-    minute = GetClockMinutes()
+	local hour = GetClockHours()
+    local minute = GetClockMinutes()
 
     local obj = {}
 
@@ -486,7 +486,6 @@ end)
 RegisterNUICallback('DeleteContact', function(data, cb)
     local Name = data.CurrentContactName
     local Number = data.CurrentContactNumber
-    local Account = data.CurrentContactIban
 
     for k, v in pairs(PhoneData.Contacts) do
         if v.name == Name and v.number == Number then
