@@ -364,8 +364,10 @@ body {
     font-size: 1vh;
     font-family: 'Poppins', sans-serif;
     color: rgb(255, 255, 255);
-    width: 22vh;
+    max-width: 18vh;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .notification-time-new {
@@ -420,8 +422,10 @@ body {
     font-size: 1vh;
     font-family: 'Poppins', sans-serif;
     color: rgb(255, 255, 255);
-    width: 22vh;
-    overflow: break-word;
+    max-width: 22vh;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .notification-time {
