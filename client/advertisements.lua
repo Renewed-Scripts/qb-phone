@@ -66,16 +66,15 @@ end)
 
 RegisterNetEvent('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
     PhoneData.Adverts = Adverts
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Advertisement",
-            text = "New Ad Posted: "..LastAd,
-            icon = "fas fa-ad",
-            color = "#ff8f1a",
-            timeout = 4500,
-        },
-    })
+
+    TriggerEvent('qb-phone:client:CustomNotification',
+        "Advertisement",
+        "New Ad Posted: "..LastAd,
+        "fas fa-ad",
+        "#ff8f1a",
+        4500
+    )
+
     SendNUIMessage({
         action = "RefreshAdverts",
         Adverts = PhoneData.Adverts

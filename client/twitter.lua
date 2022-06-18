@@ -109,11 +109,6 @@ RegisterNUICallback('FlagTweet',function(data, cb)
     QBCore.Functions.Notify(data.name..' was reported for saying '..data.message, "error")
     cb('ok')
 end)
-
-RegisterNUICallback('GetMentionedTweets', function(_, cb)
-    cb(PhoneData.MentionedTweets)
-end)
-
 RegisterNUICallback('GetHashtags', function(_, cb)
     if PhoneData.Hashtags and next(PhoneData.Hashtags) then
         cb(PhoneData.Hashtags)
@@ -202,11 +197,8 @@ RegisterNetEvent('qb-phone:client:UpdateHashtags', function(Handle, msgData)
     })
 end)
 
-RegisterNetEvent('qb-phone:client:GetMentioned', function(TweetMessage, AppAlerts)
-    Config.PhoneApplications["twitter"].Alerts = AppAlerts
+RegisterNetEvent('qb-phone:client:GetMentioned', function(TweetMessage)
     SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "New mention!", text = TweetMessage.message, icon = "fab fa-twitter", color = "#1DA1F2", }, })
     local NewMessage = {firstName = TweetMessage.firstName, lastName = TweetMessage.lastName, message = escape_str(TweetMessage.message), time = TweetMessage.time, picture = TweetMessage.picture}
-    PhoneData.MentionedTweets[#PhoneData.MentionedTweets+1] = NewMessage
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
-    SendNUIMessage({ action = "UpdateMentionedTweets", Tweets = PhoneData.MentionedTweets })
 end)

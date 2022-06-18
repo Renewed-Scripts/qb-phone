@@ -21,11 +21,9 @@ Config.BillingCommissions = { -- This is a percentage (0.10) == 10%
 }
 
 Config.Linux = false -- True if linux
-Config.TweetDuration = 24 -- How many hours to load tweets (12 will load the past 12 hours of tweets)
+Config.TweetDuration = 8 -- How many hours to load tweets (12 will load the past 12 hours of tweets)
 Config.RepeatTimeout = 4000
 Config.CallRepeats = 10
-Config.OpenPhone = 244
-
 
 
 -- Job = the sender of the bills Job, onDuty = if the sender must be on Duty, Comission = the commission the individual gets when someone pays the bill
@@ -35,16 +33,6 @@ Config.DebtJobs = {
 }
 
 Config.ManagementType = "simple-banking" -- put qb-management for qb-management || put simple-banking for simple-banking implementation
-
-
-
-
-
-
-
-
-
-
 
 
 Config.PhoneApplications = {

@@ -11,7 +11,6 @@ PhoneData = {
     PlayerData = nil,
     Contacts = {},
     Tweets = {},
-    MentionedTweets = {},
     Hashtags = {},
     Chats = {},
     Invoices = {},
@@ -107,10 +106,6 @@ local function LoadPhone()
         PhoneData.MetaData = PhoneMeta
 
         PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture or "default"
-
-        if pData.MentionedTweets and next(pData.MentionedTweets) then
-            PhoneData.MentionedTweets = pData.MentionedTweets
-        end
 
         if pData.PlayerContacts and next(pData.PlayerContacts) then
             PhoneData.Contacts = pData.PlayerContacts
@@ -233,16 +228,13 @@ local function CancelCall()
         action = "CancelOutgoingCall",
     })
 
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "PHONE CALL",
-            text = "Disconnected...",
-            icon = "fas fa-phone-square",
-            color = "#e84118",
-            timeout = 5000,
-        },
-    })
+    TriggerEvent('qb-phone:client:CustomNotification',
+        "PHONE CALL",
+        "Disconnected...",
+        "fas fa-phone-square",
+        "#e84118",
+        5000
+    )
 end
 
 local function CallCheck()
@@ -326,15 +318,13 @@ local function AnswerCall()
         PhoneData.CallData.CallType = nil
         PhoneData.CallData.AnsweredCall = false
 
-        SendNUIMessage({
-            action = "PhoneNotification",
-            PhoneNotify = {
-                title = "Phone",
-                text = "You don't have an incoming call...",
-                icon = "fas fa-phone",
-                color = "#e84118",
-            },
-        })
+        TriggerEvent('qb-phone:client:CustomNotification',
+            "Phone",
+            "You don't have an incoming call...",
+            "fas fa-phone",
+            "#e84118",
+            4500
+        )
     end
 end
 
@@ -490,16 +480,15 @@ RegisterNUICallback('DeleteContact', function(data, cb)
     for k, v in pairs(PhoneData.Contacts) do
         if v.name == Name and v.number == Number then
             table.remove(PhoneData.Contacts, k)
-                SendNUIMessage({
-                    action = "PhoneNotification",
-                    PhoneNotify = {
-                        title = "Phone",
-                        text = "Contact deleted!",
-                        icon = "fa fa-phone-alt",
-                        color = "#04b543",
-                        timeout = 1500,
-                    },
-                })
+
+            TriggerEvent('qb-phone:client:CustomNotification',
+                "Phone",
+                "Contact deleted!",
+                "fa fa-phone-alt",
+                "#04b543",
+                1500
+            )
+
             break
         end
     end
@@ -635,16 +624,13 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
         action = "CancelOutgoingCall",
     })
 
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "PHONE CALL",
-            text = "Disconnected...",
-            icon = "fas fa-phone-square",
-            color = "#e84118",
-            timeout = 5000,
-        },
-    })
+    TriggerEvent('qb-phone:client:CustomNotification',
+        "PHONE CALL",
+        "Disconnected...",
+        "fas fa-phone-square",
+        "#e84118",
+        5000
+    )
 end)
 
 RegisterNUICallback('phone-silent-button', function(data,cb)
@@ -768,15 +754,13 @@ RegisterNetEvent('qb-phone:client:AnswerCall', function()
         PhoneData.CallData.CallType = nil
         PhoneData.CallData.AnsweredCall = false
 
-        SendNUIMessage({
-            action = "PhoneNotification",
-            PhoneNotify = {
-                title = "Phone",
-                text = "You don't have an incoming call...",
-                icon = "fas fa-phone",
-                color = "#e84118",
-            },
-        })
+        TriggerEvent('qb-phone:client:CustomNotification',
+            "Phone",
+            "You don't have an incoming call...",
+            "fas fa-phone",
+            "#e84118",
+            2500
+        )
     end
 end)
 
@@ -803,7 +787,6 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
         PlayerData = nil,
         Contacts = {},
         Tweets = {},
-        MentionedTweets = {},
         Hashtags = {},
         Chats = {},
         Invoices = {},

@@ -117,16 +117,13 @@ end)
 -- Events
 
 RegisterNetEvent('qb-phone:client:RaceNotify', function(message)
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Racing",
-            text = message,
-            icon = "fas fa-flag-checkered",
-            color = "#353b48",
-            timeout = 3500,
-        },
-    })
+    TriggerEvent('qb-phone:client:CustomNotification',
+        "Racing",
+        message,
+        "fas fa-flag-checkered",
+        "#353b48",
+        3500
+    )
 end)
 
 RegisterNetEvent('qb-phone:client:UpdateLapraces', function()

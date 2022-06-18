@@ -24,39 +24,34 @@ RegisterNetEvent('qb-phone:RefreshPhoneForDebt', function()
     })
 end)
 
+-- should trigger these on serve rside instead of here but im lazy rn --
 
 RegisterNetEvent('qb-phone:DebtSend', function()
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Debt",
-            text = "Debt Successfully Sent!",
-            icon = "fas fa-dollar-sign",
-            color = "#1DA1F2",
-        },
-    })
+    TriggerEvent('qb-phone:client:CustomNotification',
+        "Debt",
+        "Debt Successfully Sent!",
+        "fas fa-dollar-sign",
+        "#1DA1F2",
+        4500
+    )
 end)
 
 RegisterNetEvent('qb-phone:DebtRecieved', function()
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Debt",
-            text = "Bill Recieved!",
-            icon = "fas fa-dollar-sign",
-            color = "#1DA1F2",
-        },
-    })
+    TriggerEvent('qb-phone:client:CustomNotification',
+        "Debt",
+        "Bill Recieved!",
+        "fas fa-dollar-sign",
+        "#1DA1F2",
+        4500
+    )
 end)
 
 RegisterNetEvent('qb-phone:DebtMail', function(name)
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Debt Recieved",
-            text = "Payment Recieved From "..name,
-            icon = "fas fa-dollar-sign",
-            color = "#1DA1F2",
-        },
-    })
+    TriggerEvent('qb-phone:client:CustomNotification',
+        "Debt Recieved",
+        "Payment Recieved From "..name,
+        "fas fa-dollar-sign",
+        "#1DA1F2",
+        4500
+    )
 end)

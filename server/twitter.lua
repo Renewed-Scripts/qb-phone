@@ -1,15 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 QBPhone = {}
-MentionedTweets = {}
 Tweets = {}
 Hashtags = {}
-
--- Functions
-
-function QBPhone.AddMentionedTweet(citizenid, TweetData)
-    if not MentionedTweets[citizenid] then MentionedTweets[citizenid] = {} end
-    MentionedTweets[citizenid][#MentionedTweets[citizenid]+1] = TweetData
-end
 
 -- Events
 
@@ -19,7 +11,7 @@ RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName
         if Player then
             if (Player.PlayerData.charinfo.firstname == firstName and Player.PlayerData.charinfo.lastname == lastName) then
                 QBPhone.AddMentionedTweet(Player.PlayerData.citizenid, TweetMessage)
-                TriggerClientEvent('qb-phone:client:GetMentioned', Player.PlayerData.source, TweetMessage, AppAlerts[Player.PlayerData.citizenid]["twitter"])
+                TriggerClientEvent('qb-phone:client:GetMentioned', Player.PlayerData.source, TweetMessage)
             else
                 local query1 = '%' .. firstName .. '%'
                 local query2 = '%' .. lastName .. '%'

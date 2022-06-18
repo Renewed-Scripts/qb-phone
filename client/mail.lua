@@ -21,16 +21,14 @@ end)
 -- Events
 
 RegisterNetEvent('qb-phone:client:NewMailNotify', function(MailData)
-    SendNUIMessage({
-        action = "PhoneNotification",
-        PhoneNotify = {
-            title = "Mail",
-            text = "New E-Mail from: "..MailData.sender,
-            icon = "fas fa-envelope",
-            color = "#ff002f",
-            timeout = 1500,
-        },
-    })
+    TriggerEvent('qb-phone:client:CustomNotification',
+        "Mail",
+        "New E-Mail from: "..MailData.sender,
+        "fas fa-envelope",
+        "ff002f",
+        1500
+    )
+
     Config.PhoneApplications['mail'].Alerts = Config.PhoneApplications['mail'].Alerts + 1
 end)
 

@@ -1,5 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local MentionedTweets = {} -- Located in the Twitter File as well ??
 local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
 local Adverts = {} -- Located in the advertisements File as well ??
@@ -50,7 +49,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
 
     local PhoneData = {
         PlayerContacts = {},
-        MentionedTweets = {},
         Chats = {},
         Hashtags = {},
         Invoices = {},
@@ -91,10 +89,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
     local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
     if messages and next(messages) then
         PhoneData.Chats = messages
-    end
-
-    if MentionedTweets[Player.PlayerData.citizenid] then
-        PhoneData.MentionedTweets = MentionedTweets[Player.PlayerData.citizenid]
     end
 
     if Hashtags and next(Hashtags) then

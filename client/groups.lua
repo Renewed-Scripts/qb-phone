@@ -91,10 +91,6 @@ RegisterNetEvent('qb-phone:client:RefreshGroupsApp', function(Groups)
     })
 end)
 
-RegisterCommand("testgroup", function()
-    TriggerServerEvent('TestGroups')
-end, false)
-
 RegisterNetEvent('qb-phone:client:AddGroupStage', function(status, stage)
     --if not inJob then return end
     print(status, json.encode(stage))

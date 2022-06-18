@@ -28,7 +28,14 @@ RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiv
         if data.Type == 'PermSend' then
             TriggerServerEvent("qb-phone:server:documents_Save_Note_As", data, Receiver, Ply, SenderName)
         elseif data.Type == 'LocalSend' then
-            TriggerEvent('qb-phone:client:CustomNotification', 'DOCUMENTS', 'New Document', 'fas fa-folder', '#d9d9d9', 5000)
+            TriggerEvent('qb-phone:client:CustomNotification',
+                'DOCUMENTS',
+                'New Document',
+                'fas fa-folder',
+                '#d9d9d9',
+                5000
+            )
+
             SendNUIMessage({
                 action = "DocumentSent",
                 DocumentSend = {

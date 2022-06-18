@@ -14,16 +14,13 @@ end)
 
 RegisterNetEvent('qb-phone:LSBN-reafy-for-add', function(data, toggle, text)
     if toggle then
-        SendNUIMessage({
-            action = "PhoneNotification",
-            PhoneNotify = {
-                title = "LSBN",
-                text = text,
-                icon = "fas fa-bullhorn",
-                color = "#d8e212",
-                timeout = 1000,
-            },
-        })
+        TriggerEvent('qb-phone:client:CustomNotification',
+            "LSBN",
+            text,
+            "fas fa-bullhorn",
+            "#d8e212",
+            1500
+        )
     end
 
     SendNUIMessage({
