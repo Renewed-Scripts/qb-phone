@@ -131,6 +131,17 @@ local function setJobStatus(groupID, status, stages)
     end
 end exports('setJobStatus', setJobStatus)
 
+local function resetJobStatus(groupID)
+    if not groupID then return print("setJobStatus was sent an invalid groupID :"..groupID) end
+    EmploymentGroup[groupID].status = "WAITING"
+    EmploymentGroup[groupID].stage = {}
+    local m = getGroupMembers(groupID)
+    for i=1, #m do
+        TriggerClientEvent("qb-phone:client:AddGroupStage", m[i], EmploymentGroup[groupID].status, EmploymentGroup[groupID].stage)
+        TriggerClientEvent('qb-phone:client:RefreshGroupsApp', m[i], EmploymentGroup, true)
+    end
+end exports('resetJobStatus', resetJobStatus)
+
 local function getJobStatus(groupID)
     if not groupID then return print("getJobStatus was sent an invalid groupID :"..groupID) end
     return EmploymentGroup[groupID].status

@@ -83,7 +83,8 @@ RegisterNUICallback('GetGroupsApp', function (_, cb)
     end)
 end)
 
-RegisterNetEvent('qb-phone:client:RefreshGroupsApp', function(Groups)
+RegisterNetEvent('qb-phone:client:RefreshGroupsApp', function(Groups, finish)
+    if finish then inJob = false end
     if inJob then return end
     SendNUIMessage({
         action = "refreshApp",
@@ -92,7 +93,7 @@ RegisterNetEvent('qb-phone:client:RefreshGroupsApp', function(Groups)
 end)
 
 RegisterNetEvent('qb-phone:client:AddGroupStage', function(status, stage)
-    --if not inJob then return end
+    inJob = true
     print(status, json.encode(stage))
     SendNUIMessage({
         action = "addGroupStage",
