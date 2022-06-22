@@ -394,7 +394,7 @@ Config.JobCenter = {
 Config.ServiceJobs = {
     {
         Job = "lawyer",
-        HeaderBackgroundColor = "rgb(42, 137, 215)"
+        HeaderBackgroundColor = "rgb(42, 137, 214)"
     },
     {
         Job = "realestate",
