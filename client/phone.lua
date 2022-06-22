@@ -821,18 +821,18 @@ RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerData.job = JobInfo
 end)
 
--- Threads
-
-CreateThread(function()
-    PlayerData = QBCore.Functions.GetPlayerData()
-    PhoneChecks()
-    Wait(500)
-    LoadPhone()
-    SendNUIMessage({
-        action = "UpdateApplications",
-        JobData = PlayerData.job,
-        applications = Config.PhoneApplications
-    })
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+        PlayerData = QBCore.Functions.GetPlayerData()
+        PhoneChecks()
+        Wait(500)
+        LoadPhone()
+        SendNUIMessage({
+            action = "UpdateApplications",
+            JobData = PlayerData.job,
+            applications = Config.PhoneApplications
+        })
+    end
 end)
 
 -- Public Phone Shit
