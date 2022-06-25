@@ -1,5 +1,20 @@
 Config = Config or {}
 
+
+Config.DatabaseCleanup = {
+    tweets = 0.5, -- This means tweets get cleared from database after 12 hours or 0.5 days
+    mails = 2, -- This means mails get cleared from database after 2 days
+}
+
+
+
+
+
+
+
+
+
+
 -- If you have Lions Boosting System, enable this check to NOT produce any vehicle registration for vinscratched vehicles. Disable if you want to produce vehicle registration regardless
 Config.Vinscratch = false
 -- Item name for pings app ( Having a VPN sends an anonymous ping, else sends the players name)
