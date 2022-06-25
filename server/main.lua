@@ -67,25 +67,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.PlayerContacts = result
     end
 
-    local invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {Player.PlayerData.citizenid})
-    if invoices[1] then
-        for _, v in pairs(invoices) do
-            local Ply = QBCore.Functions.GetPlayerByCitizenId(v.sender)
-            if Ply then
-                v.number = Ply.PlayerData.charinfo.phone
-            else
-                local res = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', {v.sender})
-                if res[1] then
-                    res[1].charinfo = json.decode(res[1].charinfo)
-                    v.number = res[1].charinfo.phone
-                else
-                    v.number = nil
-                end
-            end
-        end
-        PhoneData.Invoices = invoices
-    end
-
     local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
     if messages and next(messages) then
         PhoneData.Chats = messages

@@ -124,13 +124,6 @@ local function LoadPhone()
             PhoneData.Chats = Chats
         end
 
-        if pData.Invoices and next(pData.Invoices) then
-            for _, invoice in pairs(pData.Invoices) do
-                invoice.name = IsNumberInContacts(invoice.number)
-            end
-            PhoneData.Invoices = pData.Invoices
-        end
-
         if pData.Hashtags and next(pData.Hashtags) then
             PhoneData.Hashtags = pData.Hashtags
         end
