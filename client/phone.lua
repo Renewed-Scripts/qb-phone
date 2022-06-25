@@ -13,7 +13,6 @@ PhoneData = {
     Tweets = {},
     Hashtags = {},
     Chats = {},
-    Invoices = {},
     CallData = {},
     RecentCalls = {},
     Garage = {},
@@ -24,7 +23,6 @@ PhoneData = {
         lib = nil,
         anim = nil,
     },
-    SuggestedContacts = {},
     CryptoTransactions = {},
     Images = {},
 }
@@ -782,7 +780,6 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
         Tweets = {},
         Hashtags = {},
         Chats = {},
-        Invoices = {},
         CallData = {},
         RecentCalls = {},
         Garage = {},
@@ -793,7 +790,6 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
             lib = nil,
             anim = nil,
         },
-        SuggestedContacts = {},
         CryptoTransactions = {},
     }
 end)
@@ -915,17 +911,6 @@ RegisterNetEvent('qb-phone:client:GiveContactDetails', function()
         TriggerServerEvent('qb-phone:server:GiveContactDetails', PlayerId)
     else
         QBCore.Functions.Notify("No one nearby!", "error")
-    end
-end)
-
-RegisterNUICallback('RemoveSuggestion', function(data, cb) -- I DONT THINK WE NEED THIS ANYMORE
-    local data = data.data
-    if PhoneData.SuggestedContacts and next(PhoneData.SuggestedContacts) then
-        for k, v in pairs(PhoneData.SuggestedContacts) do
-            if (data.name[1] == v.name[1] and data.name[2] == v.name[2]) and data.number == v.number and data.bank == v.bank then
-                table.remove(PhoneData.SuggestedContacts, k)
-            end
-        end
     end
 end)
 
