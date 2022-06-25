@@ -150,9 +150,7 @@ $(document).on('click', '.phone-application', function(e){
 
                 QB.Phone.Data.currentApplication = PressedApplication;
 
-                if (PressedApplication == "settings") {
-                    $("#mySerialNumber").text("qb-" + QB.Phone.Data.PlayerData.metadata["phonedata"].SerialNumber);
-                } else if (PressedApplication == "twitter") {
+                if (PressedApplication == "twitter") {
                     $.post('https://qb-phone/GetMentionedTweets', JSON.stringify({}), function(MentionedTweets){
                         QB.Phone.Notifications.LoadMentionedTweets(MentionedTweets)
                     })
