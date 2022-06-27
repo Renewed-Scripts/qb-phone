@@ -31,7 +31,7 @@ PhoneData = {
 
 local function IsNumberInContacts(num)
     for _, v in pairs(PhoneData.Contacts) do
-        if tostring(num) == v.number then
+        if num == v.number then
             return v.name
         end
     end
