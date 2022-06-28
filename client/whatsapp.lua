@@ -33,6 +33,7 @@ RegisterNUICallback('GetWhatsappChats', function(_, cb)
 end)
 
 RegisterNUICallback('SendMessage', function(data, cb)
+    print(json.encode(data))
     local ChatMessage = data.ChatMessage
     local ChatDate = data.ChatDate
     local ChatNumber = data.ChatNumber
@@ -53,7 +54,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
             }
         end
     else
-        PhoneData.Chats[#PhoneData.Chats+1] = {
+        PhoneData.Chats[data.ChatNumber] = {
             name = name,
             number = ChatNumber,
             messages = {},
@@ -62,7 +63,11 @@ RegisterNUICallback('SendMessage', function(data, cb)
             date = ChatDate,
             messages = {},
         }
+
+        ChatKey = GetKeyByDate(data.ChatNumber, ChatDate)
     end
+
+    print("CHAT KEY: ".. ChatKey)
 
     if ChatMessage then
         PhoneData.Chats[data.ChatNumber].messages[ChatKey].messages[#PhoneData.Chats[data.ChatNumber].messages[ChatKey].messages+1] = {
@@ -101,7 +106,7 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
     local NumberKey = tostring(SenderNumber)
 
     local name = IsNumberInContacts(SenderNumber) or SenderNumber
-
+    print(json.encode(PhoneData.PlayerData))
     if SenderNumber == PhoneData.PlayerData.charinfo.phone then return end
     if not ChatMessages then return end
     if New == nil then return end
