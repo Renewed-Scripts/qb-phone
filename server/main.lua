@@ -24,8 +24,8 @@ end
 -- Callbacks
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source, cb, ContactData)
-    ContactData.number = tonumber(ContactData.number)
-    local Target = QBCore.Functions.GetPlayerByPhone(tonumber(ContactData.number))
+    local number = tostring(ContactData.number)
+    local Target = QBCore.Functions.GetPlayerByPhone(number)
     if Target then
         if Calls[Target.PlayerData.citizenid] then
             if Calls[Target.PlayerData.citizenid].inCall then
@@ -76,7 +76,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.Hashtags = Hashtags
     end
 
-    local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets WHERE `date` > NOW() - INTERVAL ? hour', {Config.TweetDuration})
+    local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets')
 
     if Tweets and next(Tweets) then
         PhoneData.Tweets = Tweets
@@ -205,7 +205,7 @@ end)
 RegisterNetEvent('qb-phone:server:CallContact', function(TargetData, CallId, AnonymousCall)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
-    local Target = QBCore.Functions.GetPlayerByPhone(tonumber(TargetData.number))
+    local Target = QBCore.Functions.GetPlayerByPhone(tostring(TargetData.number))
     if not Target or not Ply then return end
 
     TriggerClientEvent('qb-phone:client:GetCalled', Target.PlayerData.source, Ply.PlayerData.charinfo.phone, CallId, AnonymousCall)
@@ -238,7 +238,7 @@ RegisterNetEvent('qb-phone:server:AddNewContact', function(name, number, iban)
 
     if not Player then return end
 
-    exports.oxmysql:insert('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (?, ?, ?, ?)', {Player.PlayerData.citizenid, tostring(name), tostring(number), tostring(iban)})
+    exports.oxmysql:insert('INSERT INTO player_contacts (citizenid, name, number, iban) VALUES (?, ?, ?, ?)', {Player.PlayerData.citizenid, tostring(name), number, tostring(iban)})
 end)
 
 RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
@@ -250,7 +250,7 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
 
     TriggerClientEvent('qb-phone:client:AddRecentCall', src, data, label, type)
 
-    local Target = QBCore.Functions.GetPlayerByPhone(tonumber(data.number))
+    local Target = QBCore.Functions.GetPlayerByPhone(data.number)
     if not Target then return end
 
     TriggerClientEvent('qb-phone:client:AddRecentCall', Target.PlayerData.source, {
@@ -261,13 +261,13 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
 end)
 
 RegisterNetEvent('qb-phone:server:CancelCall', function(ContactData)
-    local Ply = QBCore.Functions.GetPlayerByPhone(tonumber(ContactData.TargetData.number))
+    local Ply = QBCore.Functions.GetPlayerByPhone(ContactData.TargetData.number)
     if not Ply then return end
     TriggerClientEvent('qb-phone:client:CancelCall', Ply.PlayerData.source)
 end)
 
 RegisterNetEvent('qb-phone:server:AnswerCall', function(CallData)
-    local Ply = QBCore.Functions.GetPlayerByPhone(tonumber(CallData.TargetData.number))
+    local Ply = QBCore.Functions.GetPlayerByPhone(CallData.TargetData.number)
     if not Ply then return end
 
     TriggerClientEvent('qb-phone:client:AnswerCall', Ply.PlayerData.source)

@@ -31,7 +31,7 @@ PhoneData = {
 
 local function IsNumberInContacts(num)
     for _, v in pairs(PhoneData.Contacts) do
-        if tostring(num) == v.number then
+        if num == v.number then
             return v.name
         end
     end
@@ -145,6 +145,8 @@ local function LoadPhone()
             PhoneData.Images = pData.Images
         end
 
+        print(json.encode(PhoneData.PlayerData))
+
         SendNUIMessage({
             action = "LoadPhoneData",
             PhoneData = PhoneData,
@@ -153,6 +155,7 @@ local function LoadPhone()
             applications = Config.PhoneApplications,
             PlayerId = GetPlayerServerId(PlayerId())
         })
+
     end)
 end
 
@@ -421,6 +424,7 @@ RegisterNUICallback('AddNewContact', function(data, cb)
         iban = data.ContactIban
     }
     Wait(100)
+    print(PhoneData.Contacts)
     cb(PhoneData.Contacts)
     if PhoneData.Chats[data.ContactNumber] and next(PhoneData.Chats[data.ContactNumber]) then
         PhoneData.Chats[data.ContactNumber].name = data.ContactName
@@ -517,7 +521,7 @@ RegisterNUICallback('CallContact', function(data, cb)
             InCall = PhoneData.CallData.InCall,
         }
         cb(status)
-        if CanCall and not status.InCall and (data.ContactData.number ~= PhoneData.PlayerData.charinfo.phone) then
+        if CanCall and not status.InCall and (tostring(data.ContactData.number) ~= PhoneData.PlayerData.charinfo.phone) then
             CallContact(data.ContactData, data.Anonymous)
         end
     end, data.ContactData)
@@ -816,6 +820,8 @@ AddEventHandler('onResourceStart', function(resource)
         PhoneChecks()
         Wait(500)
         LoadPhone()
+
+        print("ok")
         SendNUIMessage({
             action = "UpdateApplications",
             JobData = PlayerData.job,
