@@ -66,7 +66,8 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
             end
         end
 
-        for i = 2, #MentionTag, 1 do
+        -- This shit dosnt even do anything lol
+        --[[for i = 2, #MentionTag, 1 do
             local Handle = MentionTag[i]:split(" ")[1]
             if Handle or Handle ~= "" then
                 local Fullname = Handle:split("_")
@@ -80,7 +81,7 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
                     end
                 end
             end
-        end
+        end]]
 
         cb("ok")
 

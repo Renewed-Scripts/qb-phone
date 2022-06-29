@@ -67,8 +67,6 @@ RegisterNUICallback('SendMessage', function(data, cb)
         ChatKey = GetKeyByDate(data.ChatNumber, ChatDate)
     end
 
-    print("CHAT KEY: ".. ChatKey)
-
     if ChatMessage then
         PhoneData.Chats[data.ChatNumber].messages[ChatKey].messages[#PhoneData.Chats[data.ChatNumber].messages[ChatKey].messages+1] = {
             message = ChatMessage,

@@ -108,7 +108,6 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){
             Picture: QB.Phone.Data.MetaData.profilepicture,
             url: imageURL
         }), function(){
-            //QB.Phone.Notifications.LoadTweets(Tweets);
             ClearInputNew();
             $('#twt-box-textt').fadeOut(350);
         });
