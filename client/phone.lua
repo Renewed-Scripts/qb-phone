@@ -125,7 +125,7 @@ local function LoadPhone()
         if pData.Hashtags and next(pData.Hashtags) then
             PhoneData.Hashtags = pData.Hashtags
         end
-
+        print(json.encode(pData.Tweets))
         if pData.Tweets and next(pData.Tweets) then
             PhoneData.Tweets = pData.Tweets
         end

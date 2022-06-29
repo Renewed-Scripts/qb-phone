@@ -5,6 +5,28 @@ Hashtags = {}
 
 -- Events
 
+CreateThread(function()
+    MySQL.Async.fetchAll('SELECT * FROM phone_tweets', {}, function(data)
+        if data then
+            for k, v in pairs(data) do
+                Tweets[#Tweets+1] = {
+                    id = v.id,
+                    citizenid = v.citizenid,
+                    firstName = v.firstName,
+                    lastName = v.lastName,
+                    message = v.message,
+                    url = v.url,
+                    picture = v.picture,
+                    tweetId = v.tweetId,
+                    time = v.time
+                }
+
+                if #Tweets >= Config.TsunamiTweets then break end
+            end
+        end
+    end)
+end)
+
 RegisterNetEvent('qb-phone:server:MentionedPlayer', function(firstName, lastName, TweetMessage)
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
@@ -43,14 +65,16 @@ RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
     for i = 1, #Tweets do
         if Tweets[i].tweetId == tweetId then
             Tweets[i] = nil
+            break
         end
     end
     TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, TweetData, Tweets, true)
 end)
 
-RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
+RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
     local src = source
-    local InsertTweet = exports.oxmysql:insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, picture, tweetid, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+
+    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, picture, tweetid, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
         TweetData.citizenid,
         TweetData.firstName:gsub("[%<>\"()\'$]",""),
         TweetData.lastName:gsub("[%<>\"()\'$]",""),
@@ -59,6 +83,56 @@ RegisterNetEvent('qb-phone:server:UpdateTweets', function(NewTweets, TweetData)
         TweetData.picture:gsub("[%<>\"()\'$]",""),
         TweetData.tweetId,
         time
-    })
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, NewTweets, TweetData, false)
+    }, function(id)
+        if id then
+            Tweets[#Tweets+1] = {
+                id = id,
+                citizenid = TweetData.citizenid,
+                firstName = TweetData.firstName:gsub("[%<>\"()\'$]",""),
+                lastName = TweetData.lastName:gsub("[%<>\"()\'$]",""),
+                message = TweetData.message:gsub("[%<>\"()\'$]",""),
+                url = TweetData.url,
+                picture = TweetData.picture:gsub("[%<>\"()\'$]",""),
+                tweetId =TweetData.tweetId,
+                time = time
+            }
+
+            TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, false)
+        end
+    end)
 end)
+
+
+
+-- Use this tweet function in different resources I used it in Renewed Fishing script to make the ped tweet close to start of tournaments --
+local function AddNewTweet(TweetData)
+
+    local tweetID = TweetData and TweetData.tweetId or "TWEET-"..math.random(11111111, 99999999)
+
+    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, picture, tweetid, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+        TweetData.citizenid,
+        TweetData.firstName:gsub("[%<>\"()\'$]",""),
+        TweetData.lastName:gsub("[%<>\"()\'$]",""),
+        TweetData.message:gsub("[%<>\"()\'$]",""),
+        TweetData.url,
+        TweetData.picture:gsub("[%<>\"()\'$]",""),
+        tweetID,
+        time
+    }, function(id)
+        if id then
+            Tweets[#Tweets+1] = {
+                id = id,
+                citizenid = TweetData.citizenid,
+                firstName = TweetData.firstName:gsub("[%<>\"()\'$]",""),
+                lastName = TweetData.lastName:gsub("[%<>\"()\'$]",""),
+                message = TweetData.message:gsub("[%<>\"()\'$]",""),
+                url = TweetData.url,
+                picture = TweetData.picture:gsub("[%<>\"()\'$]",""),
+                tweetId = tweetID,
+                time = time
+            }
+
+            TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, false)
+        end
+    end)
+end exports("AddNewTweet", AddNewTweet)

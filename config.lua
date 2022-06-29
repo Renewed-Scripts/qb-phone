@@ -1,6 +1,8 @@
 Config = Config or {}
 
 
+
+Config.TsunamiTweets = 15 -- This is the value of max amount of tweets to go through each restart meaning that no more than these amount of tweets will be loaded between restarts
 Config.DatabaseCleanup = {
     tweets = 0.5, -- This means tweets get cleared from database after 12 hours or 0.5 days
     mails = 2, -- This means mails get cleared from database after 2 days

@@ -54,7 +54,6 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     local TwitterMessage = data.Message
     local MentionTag = TwitterMessage:split("@")
     local Hashtag = TwitterMessage:split("#")
-    print(#Hashtag)
     if #Hashtag <= 3 then
         for i = 2, #Hashtag, 1 do
             local Handle = Hashtag[i]:split(" ")[1]
@@ -83,11 +82,9 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
             end
         end
 
-        PhoneData.Tweets[#PhoneData.Tweets+1] = TweetMessage
-        Wait(100)
-        cb(PhoneData.Tweets)
+        cb("ok")
 
-        TriggerServerEvent('qb-phone:server:UpdateTweets', PhoneData.Tweets, TweetMessage)
+        TriggerServerEvent('qb-phone:server:UpdateTweets', TweetMessage)
     else
         SendNUIMessage({
             action = "PhoneNotification",
@@ -129,37 +126,21 @@ end)
 
 -- Events
 
-RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetData, delete)
+RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, delete)
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
+    local NewTweetData = Tweets[#Tweets]
     local newFirst, newLast = NewTweetData.firstName:gsub("[%<>\"()\'$]",""), NewTweetData.lastName:gsub("[%<>\"()\' $]","")
     if not delete then
-        if src ~= MyPlayerId then
-            SendNUIMessage({
-                action = "PhoneNotification",
-                PhoneNotify = {
-                    title = "@"..newFirst.." "..newLast,
-                    text = NewTweetData.message:gsub("[%<>\"()\'$]",""),
-                    icon = "fab fa-twitter",
-                    color = "#1DA1F2",
-                },
-            })
-            SendNUIMessage({
-                action = "UpdateTweets",
-                Tweets = PhoneData.Tweets
-            })
-        else
-            SendNUIMessage({
-                action = "PhoneNotification",
-                PhoneNotify = {
-                    title = "Twitter",
-                    text = "Tweet posted!",
-                    icon = "fab fa-twitter",
-                    color = "#1DA1F2",
-                    timeout = 1000,
-                },
-            })
-        end
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "@"..newFirst.." "..newLast,
+                text = NewTweetData.message:gsub("[%<>\"()\'$]",""),
+                icon = "fab fa-twitter",
+                color = "#1DA1F2",
+            },
+        })
     else
         if src == MyPlayerId then
             SendNUIMessage({
@@ -173,11 +154,12 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, NewTweetD
                 },
             })
         end
-        SendNUIMessage({
-            action = "UpdateTweets",
-            Tweets = PhoneData.Tweets
-        })
     end
+
+    SendNUIMessage({
+        action = "UpdateTweets",
+        Tweets = PhoneData.Tweets
+    })
 end)
 
 -- Events

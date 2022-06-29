@@ -56,7 +56,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         Mails = {},
         Adverts = {},
         CryptoTransactions = {},
-        Tweets = {},
+        Tweets = Tweets,
         Images = {},
     }
 
@@ -74,12 +74,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
 
     if Hashtags and next(Hashtags) then
         PhoneData.Hashtags = Hashtags
-    end
-
-    local Tweets = exports.oxmysql:executeSync('SELECT * FROM phone_tweets')
-
-    if Tweets and next(Tweets) then
-        PhoneData.Tweets = Tweets
     end
 
     local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
@@ -261,7 +255,7 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
 end)
 
 RegisterNetEvent('qb-phone:server:CancelCall', function(ContactData)
-    local Ply = QBCore.Functions.GetPlayerByPhone(ContactData.TargetData.number)
+    local Ply = QBCore.Functions.GetPlayerByPhone(tostring(ContactData.TargetData.number))
     if not Ply then return end
     TriggerClientEvent('qb-phone:client:CancelCall', Ply.PlayerData.source)
 end)

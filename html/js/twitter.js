@@ -107,8 +107,8 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){
             Date: CurrentDate,
             Picture: QB.Phone.Data.MetaData.profilepicture,
             url: imageURL
-        }), function(Tweets){
-            QB.Phone.Notifications.LoadTweets(Tweets);
+        }), function(){
+            //QB.Phone.Notifications.LoadTweets(Tweets);
             ClearInputNew();
             $('#twt-box-textt').fadeOut(350);
         });
@@ -194,7 +194,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     //'<div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div>' +
                     '</div>';
                 $(".twitter-home-tab").append(TweetElement);
-                
+
             }
         });
     }
@@ -208,7 +208,7 @@ $(document).on('dblclick', '#image-container', function(e){
 
 $(document).on('click', '#image-container', function(e){
     e.preventDefault();
-    $(this).css({"filter":"blur(0rem)"}); 
+    $(this).css({"filter":"blur(0rem)"});
 });
 
 $(document).on('click','#twt-delete-click',function(e){
