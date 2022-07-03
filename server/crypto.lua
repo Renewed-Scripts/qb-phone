@@ -36,6 +36,7 @@ end
 RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    if not Player.PlayerData.metadata[type] then return end -- if the crypto dosnt exist
 
     local v = Config.CryptoCoins[GetConfig(type)]
     local cashAmount = amount * v.value
