@@ -360,25 +360,8 @@ Config.PhoneApplications = {
         Alerts = 0,
     },
 }
-Config.MaxSlots = 28
 
-Config.StoreApps = {
-    ["territory"] = {
-        app = "territory",
-        color = "#353b48",
-        icon = "fas fa-globe-europe",
-        tooltipText = "Territorium",
-        tooltipPos = "right",
-        style = "";
-        job = false,
-        blockedjobs = {},
-        slot = 17,
-        Alerts = 0,
-        password = true,
-        creator = "QBCore",
-        title = "Territory",
-    },
-}
+Config.MaxSlots = 28
 
 Config.JobCenter = {
     [1] = {
@@ -442,26 +425,26 @@ Config.CryptoCoins = {
         icon = 'fas fa-caret-square-up', -- icon
         metadata = 'shung', -- meta data name
         value = 0, -- price of coin
-    },  
+    },
     {
-        label = 'Guinea', 
-        abbrev = 'GNE', 
-        icon = 'fas fa-horse-head', 
+        label = 'Guinea',
+        abbrev = 'GNE',
+        icon = 'fas fa-horse-head',
         metadata = 'gne',
-        value = 0, 
-    },  
+        value = 0,
+    },
     {
-        label = 'X Coin', 
-        abbrev = 'XNXX', 
-        icon = 'fas fa-times', 
+        label = 'X Coin',
+        abbrev = 'XNXX',
+        icon = 'fas fa-times',
         metadata = 'xcoin',
-        value = 0, 
-    },  
+        value = 0,
+    },
     {
-        label = 'LME', 
-        abbrev = 'LME', 
-        icon = 'fas fa-lemon', 
+        label = 'LME',
+        abbrev = 'LME',
+        icon = 'fas fa-lemon',
         metadata = 'lme',
-        value = 0, 
-    }, 
+        value = 0,
+    },
 }
