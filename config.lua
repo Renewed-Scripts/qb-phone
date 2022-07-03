@@ -434,3 +434,34 @@ Config.ServiceJobs = {
         HeaderBackgroundColor = "rgb(255, 0, 0)"
     }
 }
+
+Config.CryptoCoins = {
+    {
+        label = 'Shungite', -- label name
+        abbrev = 'SHUNG', -- abbreviation
+        icon = 'fas fa-caret-square-up', -- icon
+        metadata = 'shung', -- meta data name
+        value = 0, -- price of coin
+    },  
+    {
+        label = 'Guinea', 
+        abbrev = 'GNE', 
+        icon = 'fas fa-horse-head', 
+        metadata = 'gne',
+        value = 0, 
+    },  
+    {
+        label = 'X Coin', 
+        abbrev = 'XNXX', 
+        icon = 'fas fa-times', 
+        metadata = 'xcoin',
+        value = 0, 
+    },  
+    {
+        label = 'LME', 
+        abbrev = 'LME', 
+        icon = 'fas fa-lemon', 
+        metadata = 'lme',
+        value = 0, 
+    }, 
+}
