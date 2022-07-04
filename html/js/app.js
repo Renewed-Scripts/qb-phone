@@ -197,16 +197,6 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/SetupGarageVehicles', JSON.stringify({}), function(Vehicles){
                         SetupGarageVehicles(Vehicles);
                     })
-                } else if (PressedApplication == "crypto") {
-                    $.post('https://qb-phone/GetCryptoData', JSON.stringify({
-                        crypto: "GNE",
-                    }), function(CryptoData){
-                        SetupCryptoData(CryptoData);
-                    })
-
-                    $.post('https://qb-phone/GetCryptoTransactions', JSON.stringify({}), function(data){
-                        RefreshCryptoTransactions(data);
-                    })
                 } else if (PressedApplication == "racing") {
                     $.post('https://qb-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
                         SetupRaces(Races);
@@ -253,6 +243,9 @@ $(document).on('click', '.phone-application', function(e){
                 }
                 else if (PressedApplication == "jobcenter") {
                     LoadJobCenter();
+                }
+                else if (PressedApplication == "crypto") {
+                    LoadCryptoCoins()
                 }
                 else if (PressedApplication == "employment") {
                     LoadEmploymentApp();
