@@ -424,27 +424,31 @@ Config.CryptoCoins = {
         abbrev = 'SHUNG', -- abbreviation
         icon = 'fas fa-caret-square-up', -- icon
         metadata = 'shung', -- meta data name
-        value = 0, -- price of coin
+        value = 50, -- price of coin
+        purchase = true -- TRUE ( crypto is purchaseable in the phone) FALSE ( crypto is not purchaseable and only exchangeable )
     },
     {
         label = 'Guinea',
         abbrev = 'GNE',
         icon = 'fas fa-horse-head',
         metadata = 'gne',
-        value = 0,
+        value = 100,
+        purchase = false
     },
     {
         label = 'X Coin',
         abbrev = 'XNXX',
         icon = 'fas fa-times',
         metadata = 'xcoin',
-        value = 0,
+        value = 75,
+        purchase = true
     },
     {
         label = 'LME',
         abbrev = 'LME',
         icon = 'fas fa-lemon',
         metadata = 'lme',
-        value = 0,
+        value = 150,
+        purchase = false
     },
 }

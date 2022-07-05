@@ -1,4 +1,24 @@
-var test = true;
+var CryptoMeta = ''
+
+var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
+function ConfirmationFrame() {
+    $('.spinner-input-frame').css("display", "flex");
+    setTimeout(function () {
+        $('.spinner-input-frame').css("display", "none");
+        $('.checkmark-input-frame').css("display", "flex");
+        setTimeout(function () {
+            $('.checkmark-input-frame').css("display", "none");
+        }, 2000)
+    }, 1000)
+}
 
 function LoadCryptoCoins(){
     $.post('https://qb-phone/GetCryptosFromDegens', JSON.stringify({}), function(Jobs){
@@ -6,7 +26,28 @@ function LoadCryptoCoins(){
         for (const [k, v] of Object.entries(Jobs)) {
             var CryptoType = QB.Phone.Data.PlayerData.metadata.crypto;
             var Crypto = v.metadata;
-            var AddOption = '<div class="crypto-list" id="crypto-id" ><span class="crypto-icon"><i class="'+v.icon+'"></i></span> <span class="crypto-label">'+v.label+'</span> <span class="crypto-value">'+CryptoType[Crypto]+'</span> <span class="crypto-block"><p>TESTING THIS DUMB SHIT AND MAKING IT WORK</p></span> </div>';
+
+            if (v.purchase){
+                var AddOption = '<div class="crypto-list" id="crypto-id"><span class="crypto-icon"><i class="'+v.icon+'"></i></span> <span class="crypto-label">'+v.label+'</span> <span class="crypto-value">'+CryptoType[Crypto]+'</span>' +
+                '<div class="crypto-block">' +
+                    '<div class="crypto-abbrev"><i class="fas fa-id-card"></i>'+v.abbrev+' ('+k+')</div>' +
+                    '<div class="crypto-extralabel"><i class="fas fa-tag"></i>'+v.label+'</div>' +
+                    '<div class="crypto-current"><i class="fas fa-money-check-alt"></i>'+CryptoType[Crypto]+'</div>' +
+                    '<div class="crypto-cost"><i class="fas fa-chart-bar"></i>'+formatter.format(v.value)+'</div>' +
+                    '<div class="crypto-box"><span class="crypto-box box-purchase" data-cryptometa="'+v.metadata+'" data-value="'+v.value+'">PURCHASE</span><span class="crypto-box box-exchange" style="margin-left: 18%;">EXCHANGE</span></div>' +
+                    '</div>' +
+                '</div>';
+            }else{
+                var AddOption = '<div class="crypto-list" id="crypto-id" ><span class="crypto-icon"><i class="'+v.icon+'"></i></span> <span class="crypto-label">'+v.label+'</span> <span class="crypto-value">'+CryptoType[Crypto]+'</span>' +
+                '<div class="crypto-block">' +
+                    '<div class="crypto-abbrev"><i class="fas fa-id-card"></i>'+v.abbrev+' ('+k+')</div>' +
+                    '<div class="crypto-extralabel"><i class="fas fa-tag"></i>'+v.label+'</div>' +
+                    '<div class="crypto-current"><i class="fas fa-money-check-alt"></i>'+CryptoType[Crypto]+'</div>' +
+                    '<div class="crypto-cost"><i class="fas fa-chart-bar"></i>'+formatter.format(v.value)+'</div>' +
+                    '<div class="crypto-box"><span class="crypto-box box-exchange">EXCHANGE</span></div>' +
+                    '</div>' +
+                '</div>';
+            }
             
             $('.crypto-lists').append(AddOption);
         }
@@ -14,14 +55,36 @@ function LoadCryptoCoins(){
     });
 };
 
+// $('.box-purchase').data('cryptometa')
+// $(this).data('cryptometa')
+
 $(document).on('click', '.crypto-list', function(e){
     e.preventDefault();
 
-    if (test){
-        $(".crypto-block").css({"display":"block"});
-        test = false;
-    }else{
-        $(".crypto-block").css({"display":"none"});
-        test = true;
+    $(this).find(".crypto-block").toggle();
+});
+
+$(document).on('click', '.box-purchase', function(e){
+    e.preventDefault();
+    ClearInputNew()
+    CryptoMeta = $(this).data('cryptometa')
+    CryptoValue = $(this).data('value')
+    $('#crypto-purchase-tab').fadeIn(350);
+});
+
+$(document).on('click', '#crypto-send-purchase', function(e){
+    e.preventDefault();
+    var crypto = CryptoMeta;
+    var amount = $(".crypto-amount").val();
+    if(amount != ""){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/BuyCrypto', JSON.stringify({
+            metadata: crypto,
+            amount: amount,
+        }));
     }
+    ClearInputNew()
+    $('#crypto-purchase-tab').fadeOut(350);
 });

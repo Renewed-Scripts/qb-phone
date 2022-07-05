@@ -13,9 +13,11 @@ end)
 
 -- This is not setup just put it in here when we do need it
 RegisterNUICallback('BuyCrypto', function(data, cb)
-
+    print(data.metadata)
+    print(data.amount)
     TriggerServerEvent('qb-phone:server:PurchaseCrypto', data.metadata, data.amount)
 
     cb("ok")
 end)
+
 
