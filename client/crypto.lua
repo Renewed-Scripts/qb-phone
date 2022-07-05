@@ -8,9 +8,13 @@ end)
 
 
 RegisterNUICallback('BuyCrypto', function(data, cb)
-    print(data.metadata)
-    print(data.amount)
     TriggerServerEvent('qb-phone:server:PurchaseCrypto', data.metadata, data.amount)
+
+    cb("ok")
+end)
+
+RegisterNUICallback('ExchangeCrypto', function(data, cb)
+    TriggerServerEvent('qb-phone:server:ExchangeCrypto', data.metadata, data.amount, data.stateid)
 
     cb("ok")
 end)
@@ -21,5 +25,3 @@ RegisterNetEvent('qb-phone:client:UpdateCrypto', function()
         PlayerData = PlayerData,
     })
 end)
-
-

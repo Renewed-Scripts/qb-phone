@@ -34,7 +34,7 @@ function LoadCryptoCoins(){
                     '<div class="crypto-extralabel"><i class="fas fa-tag"></i>'+v.label+'</div>' +
                     '<div class="crypto-current"><i class="fas fa-money-check-alt"></i>'+CryptoType[Crypto]+'</div>' +
                     '<div class="crypto-cost"><i class="fas fa-chart-bar"></i>'+formatter.format(v.value)+'</div>' +
-                    '<div class="crypto-box"><span class="crypto-box box-purchase" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'">PURCHASE</span><span class="crypto-box box-exchange" style="margin-left: 18%;">EXCHANGE</span></div>' +
+                    '<div class="crypto-box"><span class="crypto-box box-purchase" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'">PURCHASE</span><span class="crypto-box box-exchange" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style="margin-left: 18%;">EXCHANGE</span></div>' +
                     '</div>' +
                 '</div>';
             }else{
@@ -44,7 +44,7 @@ function LoadCryptoCoins(){
                     '<div class="crypto-extralabel"><i class="fas fa-tag"></i>'+v.label+'</div>' +
                     '<div class="crypto-current"><i class="fas fa-money-check-alt"></i>'+CryptoType[Crypto]+'</div>' +
                     '<div class="crypto-cost"><i class="fas fa-chart-bar"></i>'+formatter.format(v.value)+'</div>' +
-                    '<div class="crypto-box"><span class="crypto-box box-exchange">EXCHANGE</span></div>' +
+                    '<div class="crypto-box"><span class="crypto-box box-exchange" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'">EXCHANGE</span></div>' +
                     '</div>' +
                 '</div>';
             }
@@ -96,4 +96,37 @@ $(document).on('click', '#crypto-send-purchase', function(e){
     }
     ClearInputNew()
     $('#crypto-purchase-tab').fadeOut(350);
+});
+
+$(document).on('click', '.box-exchange', function(e){
+    e.preventDefault();
+    ClearInputNew()
+    CryptoMeta = $(this).data('cryptometa')
+    CryptoName = $(this).data('label')
+    $(".crypto-name-exchange").val(CryptoName);
+    $('#crypto-exchange-tab').fadeIn(350);
+});
+
+$(document).on('click', '#crypto-send-exchange', function(e){
+    e.preventDefault();
+    var crypto = CryptoMeta;
+    var amount = $(".crypto-amount-exchange").val();
+    var stateid = $(".crypto-stateid-exchange").val();
+    var CryptoType = QB.Phone.Data.PlayerData.metadata.crypto;
+    if(amount != "" || stateid != ""){
+        if (CryptoType[crypto] - amount > 0){
+            setTimeout(function(){
+                ConfirmationFrame()
+            }, 150);
+            $.post('https://qb-phone/ExchangeCrypto', JSON.stringify({
+                metadata: crypto,
+                amount: amount,
+                stateid: stateid,
+            }));
+        }else{
+            QB.Phone.Notifications.Add("fas fa-chart-line", "WALLET", "You don\'t have that much crypto", "#D3B300");
+        }
+    }
+    ClearInputNew()
+    $('#crypto-exchange-tab').fadeOut(350);
 });

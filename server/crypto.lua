@@ -56,19 +56,56 @@ RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
     if Player.PlayerData.money.bank and Player.PlayerData.money.bank >= cashAmount then
         Player.Functions.RemoveMoney('bank', cashAmount, "Crypto Purchased: "..v.abbrev)
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
-            "Purchased Crypto",
+            "WALLET",
             "You Purchased "..amount.." "..type.." Crypto",
-            "fas fa-check-circle",
-            "#0074FF",
+            "fas fa-chart-line",
+            "#D3B300",
             7500
         )
         AddCrypto(src, type, amount)
     else
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
-            "Error",
+            "WALLET",
             "Not Enough Money",
-            "fas fa-dollar-sign",
-            "#FF0000",
+            "fas fa-chart-line",
+            "#D3B300",
+            7500
+        )
+    end
+end)
+
+RegisterNetEvent('qb-phone:server:ExchangeCrypto', function(type, amount, stateid)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local Receiver = QBCore.Functions.GetPlayer(tonumber(stateid))
+    if not Player or not Player.PlayerData.metadata.crypto[type] then return end -- if the crypto dosnt exist
+    local v = Config.CryptoCoins[GetConfig(type)]
+    if not Receiver then return TriggerClientEvent("QBCore:Notify", src, 'This state id does not exists!', "error") end
+
+    if Player.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then
+        if RemoveCrypto(src, type, amount) then
+            TriggerClientEvent('qb-phone:client:CustomNotification', src,
+                "WALLET",
+                "You sent "..amount.." "..type.."!",
+                "fas fa-chart-line",
+                "#D3B300",
+                7500
+            )
+            AddCrypto(Receiver.PlayerData.source, type, amount)
+            TriggerClientEvent('qb-phone:client:CustomNotification', Receiver.PlayerData.source,
+                "WALLET",
+                "You received "..amount.." "..type.."!",
+                "fas fa-chart-line",
+                "#D3B300",
+                7500
+            )
+        end
+    else
+        TriggerClientEvent('qb-phone:client:CustomNotification', src,
+            "WALLET",
+            "Cannot send crypto to yourself!",
+            "fas fa-chart-line",
+            "#D3B300",
             7500
         )
     end
