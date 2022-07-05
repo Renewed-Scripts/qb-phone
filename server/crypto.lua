@@ -9,11 +9,16 @@ local function RemoveCrypto(src, type, amount)
 
     if not Player or not type or not amount then return end
 
-    local Crypto = Player.PlayerData.metadata[type]
+    local Crypto = Player.PlayerData.metadata.crypto
 
     if not Crypto then return end
-
-    Player.Functions.SetMetaData(type, (Crypto - amount))
+    if Crypto[type] - tonumber(amount) > 0 then
+        Crypto[type] = Crypto[type] - tonumber(amount)
+        Player.Functions.SetMetaData("crypto", Crypto)
+        return true
+    else
+        return false
+    end
 end exports("RemoveCrypto", RemoveCrypto)
 
 
@@ -24,17 +29,17 @@ local function AddCrypto(src, type, amount)
 
     if not Player or not type or not amount then return end
 
-    local Crypto = Player.PlayerData.metadata[type]
+    local Crypto = Player.PlayerData.metadata.crypto
 
     if not Crypto then return end
-
-    Player.Functions.SetMetaData(type, (Crypto + amount))
+    Crypto[type] = Crypto[type] + tonumber(amount)
+    Player.Functions.SetMetaData("crypto", Crypto)
 end exports("AddCrypto", AddCrypto)
 
 local function GetConfig(metadata)
-    for _, v in pairs(Config.CryptoCoins) do
+    for k, v in pairs(Config.CryptoCoins) do
         if v.metadata == metadata then
-            return v
+            return k
         end
     end
 end
@@ -42,10 +47,9 @@ end
 RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    if not Player or not Player.PlayerData.metadata[type] then return end -- if the crypto dosnt exist
-
+    if not Player or not Player.PlayerData.metadata.crypto[type] then return end -- if the crypto dosnt exist
     local v = Config.CryptoCoins[GetConfig(type)]
-    local cashAmount = amount * v.value
+    local cashAmount = tonumber(amount) * v.value
 
     if Player.PlayerData.money.bank and Player.PlayerData.money.bank >= cashAmount then
         Player.Functions.RemoveMoney('bank', cashAmount, "Crypto Purchased: "..v.abbrev)
