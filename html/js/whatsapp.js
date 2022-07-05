@@ -125,7 +125,7 @@ QB.Phone.Functions.LoadWhatsappChats = function(chats) {
         var profilepicture = "./img/default.png";
         var LastMessage = QB.Phone.Functions.GetLastMessage(chat.messages);
         var ChatElement = ChatElement
-        if (chat.name !== undefined && isNaN(chat.name) == true) {
+        if (chat.name != chat.number) {
             ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+chat.name+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
         } else {
             ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+formatPhoneNumber(chat.number)+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
@@ -327,11 +327,10 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
         ShitterPicture = "./img/default.png";
         $(".whatsapp-openedchat-picture").css({"background-image":"url("+ShitterPicture+")"});
 
-        if (isNaN(cData.name) == true) {
-            $(".whatsapp-openedchat-name").html(cData.name);
-            $(".whatsapp-openedchat-number").html("<p>"+formatPhoneNumber(cData.number)+"</p>");
+        if (cData.name != cData.number) {
+            $(".whatsapp-openedchat-number").html("<p>"+cData.name+"</p>");
         } else {
-            $(".whatsapp-openedchat-name").html("<p>"+formatPhoneNumber(cData.name)+"</p>");
+            $(".whatsapp-openedchat-name").html("<p>"+formatPhoneNumber(cData.number)+"</p>");
         }
         $(".whatsapp-openedchat-messages").html("");
 
