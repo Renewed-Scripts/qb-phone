@@ -76,7 +76,7 @@
 .documents-title-icon {
     position: relative;
     top: -1.2vh;
-    left: 19.0vh;
+    left: 17.5vh;
     font-size: 1.6vh;
     color: white;
     max-width: 17vh;
@@ -89,7 +89,7 @@
 .documents-title-icon-registration {
     position: relative;
     top: -1.2vh;
-    left: 19.0vh;
+    left: 17.5vh;
     font-size: 1.6vh;
     color: white;
     max-width: 17vh;
@@ -265,7 +265,7 @@
 
 .documents-dropdown {
     position: relative;
-    width: 22vh;
+    width: 20vh;
     display: inline-block;
     border-bottom: 0.1vh solid rgba(245, 245, 245, 0.68);
     transition: all .5s ease;
