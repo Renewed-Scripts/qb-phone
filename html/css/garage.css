@@ -30,13 +30,6 @@
     left: 0vh;
 }
 
-.garage-detailscreen {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: -30vh;
-}
-
 .garage-vehicles {
     position: absolute;
     width: 77.0%;
@@ -53,13 +46,11 @@
 }
 
 .garage-vehicle {
-    position: relative;
-    height: 6vh;
+    padding: 4px;
     width: 100%;
     background-color: rgb(44, 70, 95);
-    border-radius: 2px;
+    border-radius: 4px 4px 0px 0px;
     border-bottom: .1vh solid #fff;
-    transition: .08s linear;
     margin-bottom: 3.5%;
 }
 
@@ -74,10 +65,6 @@
     color: white;
     font-size: 4.0vh;
     transition: .05s linear;
-}
-
-.garage-vehicle:hover {
-    background-color: #0d1218c0;
 }
 
 .garage-vehicle-name {
@@ -102,16 +89,6 @@
     color: white;
     line-height: 5vh;
     font-size: 1.2vh;
-}
-
-.garage-cardetails {
-    position: absolute;
-    height: 76%;
-    width: 84%;
-    margin: 0 auto;
-    left: 0vh;
-    right: 0;
-    top: 11vh;
 }
 
 #garage-search {
@@ -144,129 +121,72 @@
     color: #FFFFFF;
 }
 
-.vehicle-brand {
-    position: relative;
-    width: 100%;
+/* Click Block CSS */
+
+.garage-block {
+    padding: 0 18px;
+    /*line-height: 5vh;*/
+    display: none;
+    overflow: hidden;
     background-color: rgb(44, 70, 95);
-    padding: .8vh;
+    margin-bottom: 1.4vh;
+}
+
+.garage-name {
+    padding: 3px 18px;
+    padding-left: 0vh;
     color: white;
+    font-size: 1.3vh;
     border-bottom: .1vh solid #fff;
-    margin-bottom: 1.5%;
+}
+
+.garage-name > i {
+    padding-right: 0.8vh;
+    font-size: 1.3vh;
+    color: white;
+}
+
+.garage-plate {
+    padding: 3px 18px;
+    padding-top: 1.1vh;
+    padding-left: 0vh;
+    color: white;
+    font-size: 1.3vh;
+    border-bottom: .1vh solid #fff;
+}
+
+.garage-plate > i {
+    padding-right: 0.8vh;
+    font-size: 1.3vh;
+    color: white;
+}
+
+.garage-fuel {
+    padding: 3px 18px;
+    padding-top: 1.1vh;
+    padding-left: 0vh;
+    color: white;
+    font-size: 1.3vh;
+    border-bottom: .1vh solid #fff;
+    margin-bottom: 5%;
+}
+
+.garage-fuel > i {
+    padding-right: 0.8vh;
+    font-size: 1.3vh;
+    color: white;
+}
+
+.garage-box {
+    transition: 0.25s;
+    margin-left: 3.3vh;
+    border-radius: 5px;
+    color: black;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.2vh;
 }
 
-.vehicle-model {
-    position: relative;
-    width: 100%;
-    background-color: rgb(44, 70, 95);
-    padding: .8vh;
-    color: white;
-    border-bottom: .1vh solid #fff;
-    margin-bottom: 1.5%;
-    font-size: 1.2vh;
-}
-
-.vehicle-plate {
-    position: relative;
-    width: 100%;
-    background-color: rgb(44, 70, 95);
-    padding: .8vh;
-    color: white;
-    border-bottom: .1vh solid #fff;
-    margin-bottom: 1.5%;
-    font-size: 1.2vh;
-}
-
-.vehicle-garage {
-    position: relative;
-    width: 100%;
-    background-color: rgb(44, 70, 95);
-    padding: .8vh;
-    color: white;
-    border-bottom: .1vh solid #fff;
-    margin-bottom: 1.5%;
-    font-size: 1.2vh;
-}
-
-.vehicle-status {
-    position: relative;
-    width: 100%;
-    background-color: rgb(44, 70, 95);
-    padding: .8vh;
-    color: white;
-    border-bottom: .1vh solid #fff;
-    margin-bottom: 1.5%;
-    font-size: 1.2vh;
-}
-
-.vehicle-fuel {
-    position: relative;
-    width: 100%;
-    background-color: rgb(44, 70, 95);
-    padding: .8vh;
-    color: white;
-    border-bottom: .1vh solid #fff;
-    margin-bottom: 1.5%;
-    font-size: 1.2vh;
-}
-
-.vehicle-engine {
-    position: relative;
-    width: 100%;
-    background-color: rgb(44, 70, 95);
-    padding: .8vh;
-    color: white;
-    border-bottom: .1vh solid #fff;
-    margin-bottom: 1.5%;
-    font-size: 1.2vh;
-}
-
-.vehicle-body {
-    position: relative;
-    width: 100%;
-    background-color: rgb(44, 70, 95);
-    padding: .8vh;
-    color: white;
-    border-bottom: .1vh solid #fff;
-    margin-bottom: 1.5%;
-    font-size: 1.2vh;
-}
-
-
-.vehicle-answer {
-    float: right;
-    font-size: 1.1vh;
-}
-
-
-.return-track {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.return-track > div {
-    margin: 2px;
-    width: 50%;
-    height: 5vh;
-    background-color: rgb(233, 233, 233);
-    border-radius: .3vh;
-    transition: .2s linear;
-    text-align: center;
-    line-height: 5vh;
-    font-size: 1.4vh;
-}
-
-#return-button{
-    background: #f5a15b;
-}
-#return-button:hover{
-    background: #c27e47;
-}
-
-#track-vehicle{
-    background: #8ee074
-}
-#track-vehicle:hover{
-    background: #6cac59
+.box-track{
+    background:#90e278;
+    padding: 2.0%;
 }
