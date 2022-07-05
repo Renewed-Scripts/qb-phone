@@ -1,7 +1,19 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
+
+local Debts = {}
+
 local function isAuthorized(job)
     return Config.DebtJobs[job]
+end
+
+local function DeleteCachedDebt(citizenid, id)
+    for k, v in pairs(Debts[citizenid]) do
+        if v.id == id then
+            Debts[citizenid][k] = nil
+            return
+        end
+    end
 end
 
 RegisterNetEvent('qb-phone:server:SendBillForPlayer_debt', function(data)
@@ -15,12 +27,30 @@ RegisterNetEvent('qb-phone:server:SendBillForPlayer_debt', function(data)
     if Config.DebtJobs[biller.PlayerData.job.name] and not biller.PlayerData.job.onduty then return TriggerClientEvent('QBCore:Notify', src, 'You must be on duty to do this...', "error") end
     if #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(billed.PlayerData.source))) > 10 then return TriggerClientEvent('QBCore:Notify', src, 'You are too far away from the player', "error") end
 
-
-    exports.oxmysql:insert('INSERT INTO phone_debt (citizenid, amount,  sender, sendercitizenid, reason) VALUES (?, ?, ?, ?, ?)',{billed.PlayerData.citizenid, amount, biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname, biller.PlayerData.citizenid, data.Reason})
     TriggerClientEvent('qb-phone:DebtSend', src)
-    Wait(0) -- Waiting a single frame to ensure that database updates in time for the client to receive the event
-    TriggerClientEvent('qb-phone:DebtRecieved', billed.PlayerData.source)
-    TriggerClientEvent('qb-phone:RefreshPhoneForDebt', billed.PlayerData.source)
+
+    MySQL.insert('INSERT INTO phone_debt (citizenid, amount,  sender, sendercitizenid, reason) VALUES (?, ?, ?, ?, ?)', {
+        billed.PlayerData.citizenid,
+        amount,
+        biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname,
+        biller.PlayerData.citizenid,
+        data.Reason
+    }, function(id)
+        if id then
+            if not Debts[billed.PlayerData.citizenid] then Debts[billed.PlayerData.citizenid] = {} end
+            Debts[billed.PlayerData.citizenid][#Debts[billed.PlayerData.citizenid]+1] = {
+                id = id,
+                citizenid = billed.PlayerData.citizenid,
+                amount = amount,
+                sender = biller.PlayerData.charinfo.firstname.." "..biller.PlayerData.charinfo.lastname,
+                sendercitizenid = biller.PlayerData.citizenid,
+                reason = data.Reason,
+            }
+
+            TriggerClientEvent('qb-phone:DebtRecieved', billed.PlayerData.source)
+            TriggerClientEvent('qb-phone:RefreshPhoneForDebt', billed.PlayerData.source)
+        end
+    end)
 end)
 
 RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
@@ -32,8 +62,9 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
 
     if Ply.Functions.RemoveMoney('bank', Amount, tostring(data.Reason)) then -- Makes sure the money is removed!
         exports.oxmysql:execute('DELETE FROM phone_debt WHERE id = ?', {ID})
-        Wait(0) -- Waiting a single frame to ensure that database updates in time for the client to receive the event
         TriggerClientEvent('qb-phone:RefreshPhoneForDebt', src)
+        DeleteCachedDebt(Ply.PlayerData.citizenid, ID)
+
 
         if OtherPly and isAuthorized(OtherPly.PlayerData.job.name) and Config.DebtJobs[OtherPly.PlayerData.job.name].comissionEnabled then
             local comission = Amount * Config.DebtJobs[OtherPly.PlayerData.job.name].comission
@@ -48,20 +79,37 @@ RegisterNetEvent('qb-phone:server:debit_AcceptBillForPay', function(data)
             elseif Config.ManagementType == "qb-management" then
                 exports['qb-management']:AddMoney(OtherPly.PlayerData.job.name, Amount)
             end
-        else
+        elseif isAuthorized(jobData.name) and Config.DebtJobs[jobData.name].comissionEnabled then
             local jobData = MySQL.query.await('SELECT job FROM players WHERE citizenid = ?', {data.CSN})
             if jobData[1] then
                 jobData = json.decode(jobData[1].job)
-                if isAuthorized(jobData.name) and Config.DebtJobs[jobData.name].comissionEnabled then
-                    local comission = Amount * Config.DebtJobs[jobData.name].comission
-                    Amount -= comission
-                    if Config.ManagementType == "simple-banking" then
-                        TriggerEvent('qb-banking:society:server:DepositMoney', src, Amount, jobData.name)
-                    elseif Config.ManagementType == "qb-management" then
-                        exports['qb-management']:AddMoney(jobData.name, Amount)
-                    end
+                local comission = Amount * Config.DebtJobs[jobData.name].comission
+                Amount -= comission
+                if Config.ManagementType == "simple-banking" then
+                    TriggerEvent('qb-banking:society:server:DepositMoney', src, Amount, jobData.name)
+                elseif Config.ManagementType == "qb-management" then
+                    exports['qb-management']:AddMoney(jobData.name, Amount)
                 end
             end
+        end
+    end
+end)
+
+CreateThread(function()
+    Wait(1000)
+    local newDebts = exports.oxmysql:executeSync('SELECT * FROM phone_debt', {})
+    if newDebts then
+        for k, v in pairs(newDebts) do
+            print(v.citizenid)
+            if not Debts[v.citizenid] then Debts[v.citizenid] = {} end
+            Debts[v.citizenid][#Debts[v.citizenid]+1] = {
+                id = v.id,
+                citizenid = v.citizenid,
+                amount = v.amount,
+                sender = v.sender,
+                sendercitizenid = v.sendercitizenid,
+                reason = v.reason,
+            }
         end
     end
 end)
@@ -69,9 +117,9 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:GetHasBills_debt', function(source, cb)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)
-    local Debt = exports.oxmysql:executeSync('SELECT * FROM phone_debt WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    Wait(100)
-    if Debt[1] then
-        cb(Debt)
+    if Debts[Ply.PlayerData.citizenid] and #Debts[Ply.PlayerData.citizenid] >= 1 then
+        cb(Debts[Ply.PlayerData.citizenid])
+    else
+        cb(nil)
     end
 end)
