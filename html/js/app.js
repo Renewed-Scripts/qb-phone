@@ -821,6 +821,12 @@ $(document).ready(function(){
             case "UpdateTransactions":
                 RefreshCryptoTransactions(event.data);
                 break;
+            case "UpdateCrypto":
+                if (QB.Phone.Data.currentApplication == "crypto") {
+                    QB.Phone.Data.PlayerData = event.data.PlayerData;
+                    LoadCryptoCoins()
+                }
+                break;
             case "UpdateRacingApp":
                 $.post('https://qb-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
                     SetupRaces(Races);
@@ -829,6 +835,7 @@ $(document).ready(function(){
             case "RefreshAlerts":
                 QB.Phone.Functions.SetupAppWarnings(event.data.AppData);
                 break;
+
         }
     })
 });
