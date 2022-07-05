@@ -59,7 +59,7 @@
 }
 
 .twitter-home-tab::-webkit-scrollbar-thumb {
-    background-color: #1DA1F2;
+    display: 'none';
 }
 
 .twitter-home-tab::-webkit-scrollbar-track {
@@ -477,4 +477,42 @@
 
 .twitter-hashtag-tweets::-webkit-scrollbar-track {
     background-color: transparent;
+}
+
+.tweet-block {
+    display: block;
+    position: relative;
+    left: 1.0vh;
+    width: 20.0vh;
+    height: 11.5vh;
+    bottom: 3.0vh;
+    outline: 1.5px ridge rgb(255, 255, 255);
+    background-color: #1564bf;
+}
+
+.tweet-eye {
+    position: absolute;
+    bottom: 6.5vh;
+    left: 7.75vh;
+    color: rgb(0, 0, 0);
+    font-size: 3.9vh;
+}
+
+.tweet-image-text {
+    position: absolute;
+    bottom: 5.4vh;
+    left: 5.7vh;
+    color: rgb(255, 255, 255);
+    font-size: 1.5vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+.tweet-image-text-other {
+    position: absolute;
+    top: 7.2vh;
+    left: 1.2vh;
+    color: rgb(255, 255, 255);
+    font-size: 1.2vh;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
 }
