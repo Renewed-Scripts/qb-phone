@@ -187,27 +187,39 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     '<div class="twitter-retweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
                     '<div class="tweet-flag"><i class="fas fa-flag"></i></div>'+
                     '<div class="tweet-tweeter">' + ' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+ '</span></div>'+ //' &middot; '+TimeAgo+'
-                    '<div class="tweet-message">'+TwtMessage+'</div>'+
+                    '<div class="tweet-message"><p>'+TwtMessage+'</p>Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
                     '<div class="tweet-time">' + TimeAgo + '</div>' +
-                    '<img class="tweet-image" id="image-container" src= ' + Tweet.url + ' style = " border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px; filter: blur(1.5rem);">' +
-                    //'<div class="twt-img" style="top: 1vh;"><img src="'+PictureUrl+'" class="tweeter-image"></div>' +
+                    '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                    '<div class="tweet-block">' +
+                        '<div class="tweet-eye"><i class="fas fa-eye"></i></div>'+
+                        '<div class="tweet-image-text">Click to View</div>'+
+                        '<div class="tweet-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
+                    '</div>'+
                     '</div>';
                 $(".twitter-home-tab").append(TweetElement);
-
+                
             }
         });
     }
 }
 
-$(document).on('dblclick', '#image-container', function(e){
+$(document).on('click', '.tweet-eye', function(e){
     e.preventDefault();
-    let source = $(this).attr('src')
-    QB.Screen.popUp(source)
+
+    $(this).parent().parent().find(".image").css({"display":"block"});
+    $(this).parent().parent().find(".tweet-block").css({"display":"none"});
+});
+
+$(document).on('click', '.tweet-message', function(e){
+    e.preventDefault();
+
+    $(this).parent().parent().find(".image").css({"display":"none"});
+    $(this).parent().parent().find(".tweet-block").css({"display":"block"});
 });
 
 $(document).on('click', '#image-container', function(e){
     e.preventDefault();
-    $(this).css({"filter":"blur(0rem)"});
+    QB.Screen.popUp(source)
 });
 
 $(document).on('click','#twt-delete-click',function(e){
