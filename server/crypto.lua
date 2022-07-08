@@ -57,7 +57,7 @@ RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
         Player.Functions.RemoveMoney('bank', cashAmount, "Crypto Purchased: "..v.abbrev)
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
             "WALLET",
-            "You Purchased "..amount.." "..type"!",
+            "You Purchased "..amount.." "..type.."!",
             "fas fa-chart-line",
             "#D3B300",
             7500
