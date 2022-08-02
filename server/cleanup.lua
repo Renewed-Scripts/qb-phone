@@ -22,7 +22,7 @@ CreateThread(function()
         elseif not v.time then
             MySQL.Sync.execute('UPDATE phone_tweets SET time = @time WHERE id = @id', {
                 ["@id"] = v.id,
-                ["@time"] =  time,
+                ["@time"] = time,
             })
         end
     end

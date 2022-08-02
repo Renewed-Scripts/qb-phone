@@ -73,25 +73,25 @@ QB.Phone.Functions.SetupApplications = function(data) {
             var icon = '<i class="ApplicationIcon '+app.icon+'" style="'+app.style+'"></i>';
             if (app.app == "meos") {
                 icon = '<img src="./img/apps/politie.png" class="police-icon">';
-            }else if (app.app == "garage"){
+            } else if (app.app == "garage"){
                 icon = '<img src="./img/apps/garage_img.png" class="garage-icon">';
-            }else if (app.app == "advert"){
+            } else if (app.app == "advert"){
                 icon = '<img src="./img/apps/Advertisements.png" class="advert-icon">';
-            }else if (app.app == "calculator"){
+            } else if (app.app == "calculator"){
                 icon = '<img src="./img/apps/calcilator.png" class="calc-icon">';
-            }else if (app.app == "employment"){
+            } else if (app.app == "employment"){
                 icon = '<img src="./img/apps/employment.png" class="calc-icon">';
-            }else if (app.app == "debt"){
+            } else if (app.app == "debt"){
                 icon = '<img src="./img/apps/debt.png">';
-            }else if (app.app == "wenmo"){
+            } else if (app.app == "wenmo"){
                 icon = '<img src="./img/apps/wenmo.png" class="calc-icon">';
-            }else if (app.app == "jobcenter"){
+            } else if (app.app == "jobcenter"){
                 icon = '<img src="./img/apps/jobcenter.png" style="width: 87%;margin-top: 6%;margin-left: -2%;">';
-            }else if (app.app == "crypto"){
+            } else if (app.app == "crypto"){
                 icon = '<img src="./img/apps/crypto.png" style="width: 85%;margin-top: 7%;">';
-            }else if (app.app == "lsbn"){
+            } else if (app.app == "lsbn"){
                 icon = '<img src="./img/apps/lsbn.png" style="width: 85%;margin-top: 7%;">';
-            }else if (app.app == "contacts"){
+            } else if (app.app == "contacts"){
                 icon = '<img src="./img/apps/contacts.png" style="width: 85%;margin-top: 7%;">';
             }
 
@@ -252,6 +252,12 @@ $(document).on('click', '.phone-application', function(e){
                 }
                 else if (PressedApplication == "debt") {
                     LoadDebtJob();
+                }
+                else if (PressedApplication == "gopro") {
+                    $.post('https://qb-phone/SetupGoPros', JSON.stringify({}), function(Cams){
+                        console.log(JSON.stringify(Cams));
+                        SetupGoPros(Cams);
+                    })
                 }
                 else if (PressedApplication == "documents") {
                     LoadGetNotes();

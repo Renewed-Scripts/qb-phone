@@ -73,7 +73,7 @@ end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
     local src = source
-
+    print(json.encode(TweetData.url))
     MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, picture, tweetid, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
         TweetData.citizenid,
         TweetData.firstName:gsub("[%<>\"()\'$]",""),

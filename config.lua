@@ -348,6 +348,19 @@ Config.PhoneApplications = {
         slot = 24,
         Alerts = 0,
     },
+    ["gopro"] = {
+        app = "gopro",
+        color = "#008FFF",
+        color2 = "#008FFF",
+        icon = "fas fa-camera",
+        tooltipText = "camera",
+        tooltipPos = "top",
+        style = "padding-right: .08vh; font-size: 3.3vh";
+        job = false,
+        blockedjobs = {},
+        slot = 25,
+        Alerts = 0,
+    },
     ["meos"] = {
         app = "meos",
         color = "#004682",
@@ -356,7 +369,7 @@ Config.PhoneApplications = {
         tooltipText = "MDT",
         job = "police",
         blockedjobs = {},
-        slot = 25,
+        slot = 26,
         Alerts = 0,
     },
 }

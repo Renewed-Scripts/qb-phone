@@ -63,7 +63,7 @@
     width: 50%;
     padding: 0.2vh;
     height: 7.1vh;
-    
+
 }
 .gallery-details {
     position: absolute;
@@ -152,7 +152,7 @@
     margin: 2px;
     width: 50%;
     height: 5vh;
-    
+
     color: #151515;
     border-radius: .3vh;
     transition: .2s linear;

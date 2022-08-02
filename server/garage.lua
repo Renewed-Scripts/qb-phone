@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 local function GetGarageNamephone(name)
-    for k,v in pairs(Garages) do
+    for k, _ in pairs(Garages) do
         if k == name then
             return true
         end
@@ -11,8 +11,7 @@ end
 QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
-    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?',
-        {Player.PlayerData.citizenid})
+    local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid})
     if result[1] then
         for _, v in pairs(result) do
             local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
@@ -58,7 +57,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     state = VehicleState,
                     fuel = v.fuel,
                     engine = v.engine,
-                    body = v.body
+                    body = v.body,
+                    paymentsleft = v.paymentsleft
                 }
             else
                 vehdata = {
@@ -71,7 +71,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     state = VehicleState,
                     fuel = v.fuel,
                     engine = v.engine,
-                    body = v.body
+                    body = v.body,
+                    paymentsleft = v.paymentsleft
                 }
             end
             Vehicles[#Vehicles+1] = vehdata

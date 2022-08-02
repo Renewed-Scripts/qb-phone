@@ -521,7 +521,7 @@ RegisterNUICallback('CallContact', function(data, cb)
             InCall = PhoneData.CallData.InCall,
         }
         cb(status)
-        if CanCall and not status.InCall and (tostring(data.ContactData.number) ~= PhoneData.PlayerData.charinfo.phone) then
+        if CanCall and not status.InCall then
             CallContact(data.ContactData, data.Anonymous)
         end
     end, data.ContactData)

@@ -26,6 +26,10 @@ end
 QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source, cb, ContactData)
     local number = tostring(ContactData.number)
     local Target = QBCore.Functions.GetPlayerByPhone(number)
+    local Player = QBCore.Functions.GetPlayer(source)
+
+    if Target.PlayerData.citizenid == Player.PlayerData.citizenid then return cb(false, false) end
+
     if Target then
         if Calls[Target.PlayerData.citizenid] then
             if Calls[Target.PlayerData.citizenid].inCall then

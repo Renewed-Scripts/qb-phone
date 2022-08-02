@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 
-
 -- exports['qb-phone']:RemoveCrypto(Player, type, amount)
 local function RemoveCrypto(src, type, amount)
     if not src then return end
@@ -23,8 +22,8 @@ local function RemoveCrypto(src, type, amount)
 end exports("RemoveCrypto", RemoveCrypto)
 
 
--- exports['qb-phone']:AddCrypto(Player, type, amount)
-local function AddCrypto(src, type, amount)
+-- exports['qb-phone']:hasEnough(Player, type, amount)
+local function hasEnough(src, type, amount)
     if not src then return end
     local Player = QBCore.Functions.GetPlayer(src)
 
@@ -33,9 +32,29 @@ local function AddCrypto(src, type, amount)
     local Crypto = Player.PlayerData.metadata.crypto
 
     if not Crypto then return end
+    if Crypto[type] - tonumber(amount) >= 0 then
+        return true
+    else
+        return false
+    end
+end exports("hasEnough", hasEnough)
+
+
+-- exports['qb-phone']:AddCrypto(Player, type, amount)
+local function AddCrypto(src, type, amount)
+    if not src then return end
+    local Player = QBCore.Functions.GetPlayer(src)
+
+    if not Player or not type or not amount then return false end
+
+    local Crypto = Player.PlayerData.metadata.crypto
+
+    if not Crypto then return false end
     Crypto[type] = Crypto[type] + tonumber(amount)
     Player.Functions.SetMetaData("crypto", Crypto)
     TriggerClientEvent('qb-phone:client:UpdateCrypto', src)
+
+    return true
 end exports("AddCrypto", AddCrypto)
 
 local function GetConfig(metadata)
@@ -57,7 +76,7 @@ RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
         Player.Functions.RemoveMoney('bank', cashAmount, "Crypto Purchased: "..v.abbrev)
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
             "WALLET",
-            "You Purchased "..amount.." "..type"!",
+            "You Purchased "..amount.." "..type.."!",
             "fas fa-chart-line",
             "#D3B300",
             7500
@@ -79,7 +98,6 @@ RegisterNetEvent('qb-phone:server:ExchangeCrypto', function(type, amount, statei
     local Player = QBCore.Functions.GetPlayer(src)
     local Receiver = QBCore.Functions.GetPlayer(tonumber(stateid))
     if not Player or not Player.PlayerData.metadata.crypto[type] then return end -- if the crypto dosnt exist
-    local v = Config.CryptoCoins[GetConfig(type)]
     if not Receiver then return TriggerClientEvent("QBCore:Notify", src, 'This state id does not exists!', "error") end
 
     if Player.PlayerData.citizenid ~= Receiver.PlayerData.citizenid then
@@ -91,6 +109,7 @@ RegisterNetEvent('qb-phone:server:ExchangeCrypto', function(type, amount, statei
                 "#D3B300",
                 7500
             )
+
             AddCrypto(Receiver.PlayerData.source, type, amount)
             TriggerClientEvent('qb-phone:client:CustomNotification', Receiver.PlayerData.source,
                 "WALLET",

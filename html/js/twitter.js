@@ -197,7 +197,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     '</div>'+
                     '</div>';
                 $(".twitter-home-tab").append(TweetElement);
-                
+
             }
         });
     }
