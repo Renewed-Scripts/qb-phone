@@ -1,23 +1,42 @@
 let cam
 
+// Functions 
+
+function ConfirmationFrame() {
+    $('.spinner-input-frame').css("display", "flex");
+    setTimeout(function () {
+        $('.spinner-input-frame').css("display", "none");
+        $('.checkmark-input-frame').css("display", "flex");
+        setTimeout(function () {
+            $('.checkmark-input-frame').css("display", "none");
+        }, 2000)
+    }, 1000)
+}
+
+SetupGoPros = function(cams) {
+    $(".gopro-lists").html("");
+    if (cams != null) {
+        $.each(cams, function(i, cams){
+            var Element = '<div class="gopro-list" id="vehicle-'+i+'"> <div class="gopro-list-icon"><i class="fas fa-camera"></i></div> <div class="gopro-list-name">'+cams.name+'</div> <div class="gopro-action-buttons"> <i class="fas fa-eye" id="gopro-view-camera" data-id="'+cams.id+'" data-toggle="tooltip" title="View"></i> <i class="fas fa-thumbtack" id="gopro-track-camera" data-id="'+cams.id+'" data-toggle="tooltip" title="Track"></i> <i class="fas fa-user-plus" id="gopro-addto-camera" data-id="'+cams.id+'" data-toggle="tooltip" title="Add Someone"></i>  </div></div>';
+            $(".gopro-lists").append(Element);
+        });
+    }
+}
+
+// Search Bar Filter
+
 $(document).ready(function(){
     $("#gopro-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $(".gopro-vehicle").filter(function() {
+        $(".gopro-list").filter(function() {
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
 });
 
-$(document).on('click', '.gopro-vehicle', function(e){
-    e.preventDefault();
+// On Clicks
 
-    $(this).find(".gopro-block").toggle();
-    cam = $(this).data('id')
-});
-
-
-$(document).on('click', '.box-purchase', function(e){
+$(document).on('click', '#gopro-view-camera', function(e){
     e.preventDefault();
     cam = $(this).data('id')
     $.post("https://qb-phone/gopro-viewcam", JSON.stringify({
@@ -25,19 +44,33 @@ $(document).on('click', '.box-purchase', function(e){
     }));
 });
 
-SetupGoPros = function(cams) {
-    $(".gopro-vehicles").html("");
-    if (cams != null) {
-        $.each(cams, function(i, cams){
-            var Element = '<div class="gopro-vehicle" id="vehicle-'+i+'"><span class="gopro-vehicle-icon"><i class="fas fa-camera-retro"></i></span> <span class="gopro-vehicle-name">'+cams.name+'</span> ' +
-            '<div class="gopro-block">' +
-                '<div class="gopro-name"><i class="fas fa-map-marker-alt"></i>'+cams.gopro+'</div>' +
-                '<div class="gopro-fuel"><i class="fas fa-gas-pump"></i>'+JSON.stringify(cams.access)+'</div>' +
-                '<div class="gopro-box"><span class="gopro-box box-purchase" data-id="'+cams.id+'">VIEW</span><span class="gopro-box box-exchange" data-id="'+cams.id+'" style="margin-left: 40%;">TRANSFER</span></div>' +
-                '</div>' +
-            '</div>';
+$(document).on('click', '#gopro-track-camera', function(e){
+    e.preventDefault();
+    cam = $(this).data('id')
+    $.post("https://qb-phone/gopro-viewcam", JSON.stringify({
+        id: cam,
+    }));
+});
 
-            $(".gopro-vehicles").append(Element);
-        });
+$(document).on('click', '#gopro-addto-camera', function(e){
+    e.preventDefault();
+    ClearInputNew()
+    cam = $(this).data('id')
+    $('#gopro-access-menu').fadeIn(350);
+});
+
+$(document).on('click', '#gopro-send-access', function(e){
+    e.preventDefault();
+    var stateid = $(".gopro-stateid-access").val();
+    if(stateid != ""){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post("https://qb-phone/gopro-viewcam", JSON.stringify({
+            id: cam,
+            stateid: stateid,
+        }));
     }
-}
+    ClearInputNew()
+    $('#gopro-access-menu').fadeOut(350);
+});
