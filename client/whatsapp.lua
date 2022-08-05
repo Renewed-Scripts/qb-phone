@@ -53,12 +53,17 @@ RegisterNUICallback('SendMessage', function(data, cb)
                 messages = {},
             }
         end
-    else
-        PhoneData.Chats[data.ChatNumber] = {
-            name = name,
-            number = ChatNumber,
-            messages = {},
-        }
+    end
+
+    if not ChatKey then
+        if not PhoneData.Chats[data.ChatNumber] then
+            PhoneData.Chats[data.ChatNumber] = {
+                name = name,
+                number = ChatNumber,
+                messages = {},
+            }
+        end
+
         PhoneData.Chats[data.ChatNumber].messages[#PhoneData.Chats[data.ChatNumber].messages+1] = {
             date = ChatDate,
             messages = {},

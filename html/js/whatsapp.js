@@ -87,10 +87,6 @@ $(document).on('click', '#whatsapp-openedchat-back', function(e){
 });
 
 QB.Phone.Functions.GetLastMessage = function(messages) {
-    var CurrentDate = new Date();
-    var CurrentMonth = CurrentDate.getMonth();
-    var CurrentDOM = CurrentDate.getDate();
-    var CurrentYear = CurrentDate.getFullYear();
     var LastMessageData = {
         time: "00:00",
         message: "nothing"
@@ -125,7 +121,9 @@ QB.Phone.Functions.LoadWhatsappChats = function(chats) {
         var profilepicture = "./img/default.png";
         var LastMessage = QB.Phone.Functions.GetLastMessage(chat.messages);
         var ChatElement = ChatElement
-        if (chat.name != chat.number) {
+        console.log(chat.name);
+        console.log(chat.number);
+        if (chat.name != undefined && chat.name != chat.number) {
             ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+chat.name+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
         } else {
             ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+formatPhoneNumber(chat.number)+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
@@ -327,7 +325,7 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
         ShitterPicture = "./img/default.png";
         $(".whatsapp-openedchat-picture").css({"background-image":"url("+ShitterPicture+")"});
 
-        if (cData.name != cData.number) {
+        if (cData.name != undefined && cData.name != cData.number) {
             $(".whatsapp-openedchat-number").html("<p>"+cData.name+"</p>");
         } else {
             $(".whatsapp-openedchat-name").html("<p>"+formatPhoneNumber(cData.number)+"</p>");
