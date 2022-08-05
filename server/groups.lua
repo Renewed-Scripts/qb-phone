@@ -36,12 +36,11 @@ end exports('RemoveBlipForGroup', RemoveBlipForGroup)
 
 -- All group functions to get members leaders and size.
 local function GetGroupByMembers(src)
-    if Players[src] then
-        for group, _ in pairs(EmploymentGroup) do
-            for k, v in pairs (EmploymentGroup[group].members) do
-                if v.Player == src then
-                    return group
-                end
+    if not Players[src] then return nil end
+    for group, _ in pairs(EmploymentGroup) do
+        for _, v in pairs (EmploymentGroup[group].members) do
+            if v.Player == src then
+                return group
             end
         end
     end
