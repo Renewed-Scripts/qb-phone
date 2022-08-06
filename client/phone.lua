@@ -23,7 +23,6 @@ PhoneData = {
         lib = nil,
         anim = nil,
     },
-    CryptoTransactions = {},
     Images = {},
 }
 
@@ -99,6 +98,10 @@ exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
 
 local function LoadPhone()
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
+
+        -- Should fix errors with phone not loading correctly --
+        while pData == nil do Wait(25) end
+
         PhoneData.PlayerData = PlayerData
         local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
         PhoneData.MetaData = PhoneMeta
@@ -125,7 +128,7 @@ local function LoadPhone()
         if pData.Hashtags and next(pData.Hashtags) then
             PhoneData.Hashtags = pData.Hashtags
         end
-        print(json.encode(pData.Tweets))
+
         if pData.Tweets and next(pData.Tweets) then
             PhoneData.Tweets = pData.Tweets
         end
@@ -138,9 +141,7 @@ local function LoadPhone()
             PhoneData.Adverts = pData.Adverts
         end
 
-        if pData.CryptoTransactions and next(pData.CryptoTransactions) then
-            PhoneData.CryptoTransactions = pData.CryptoTransactions
-        end
+
         if pData.Images and next(pData.Images) then
             PhoneData.Images = pData.Images
         end
@@ -763,14 +764,9 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerData = QBCore.Functions.GetPlayerData()
+    Wait(250)
     PhoneChecks()
     LoadPhone()
-
-    SendNUIMessage({
-        action = "UpdateApplications",
-        JobData = PlayerData.job,
-        applications = Config.PhoneApplications
-    })
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
@@ -794,39 +790,31 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
             lib = nil,
             anim = nil,
         },
-        CryptoTransactions = {},
     }
 end)
 
 RegisterNetEvent("QBCore:Player:SetPlayerData", function(val)
     PlayerData = val
-    PhoneChecks()
     Wait(250)
+    PhoneChecks()
     CallCheck()
 end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
+    PlayerData.job = JobInfo
     SendNUIMessage({
         action = "UpdateApplications",
         JobData = JobInfo,
         applications = Config.PhoneApplications
     })
-    PlayerData.job = JobInfo
 end)
 
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         PlayerData = QBCore.Functions.GetPlayerData()
-        PhoneChecks()
         Wait(500)
+        PhoneChecks()
         LoadPhone()
-
-        print("ok")
-        SendNUIMessage({
-            action = "UpdateApplications",
-            JobData = PlayerData.job,
-            applications = Config.PhoneApplications
-        })
     end
 end)
 

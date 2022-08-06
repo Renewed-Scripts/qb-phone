@@ -58,13 +58,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         Invoices = {},
         Garage = {},
         Mails = {},
-        Adverts = {},
-        CryptoTransactions = {},
+        Adverts = Adverts,
         Tweets = Tweets,
         Images = {},
     }
-
-    PhoneData.Adverts = Adverts
 
     local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
     if result[1] then
@@ -90,20 +87,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.Mails = mails
     end
 
-    local transactions = exports.oxmysql:executeSync('SELECT * FROM crypto_transactions WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
-    if transactions[1] then
-        for _, v in pairs(transactions) do
-            PhoneData.CryptoTransactions[#PhoneData.CryptoTransactions+1] = {
-                TransactionTitle = v.title,
-                TransactionMessage = v.message
-            }
-        end
-    end
-
     local images = exports.oxmysql:executeSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
     if images and next(images) then
         PhoneData.Images = images
     end
+
     cb(PhoneData)
 end)
 
