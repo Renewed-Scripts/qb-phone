@@ -34,6 +34,8 @@ local function IsNumberInContacts(num)
             return v.name
         end
     end
+
+    return "Unknown"
 end
 
 local function PhoneChecks()
@@ -146,8 +148,6 @@ local function LoadPhone()
             PhoneData.Images = pData.Images
         end
 
-        print(json.encode(PhoneData.PlayerData))
-
         SendNUIMessage({
             action = "LoadPhoneData",
             PhoneData = PhoneData,
@@ -251,9 +251,9 @@ local function CallContact(CallData, AnonymousCall)
     TriggerServerEvent('qb-phone:server:CallContact', PhoneData.CallData.TargetData, PhoneData.CallData.CallId, AnonymousCall)
     TriggerServerEvent('qb-phone:server:SetCallState', true)
 
-    for i = 1, Config.CallRepeats + 1, 1 do
+    for i = 1, Config.CallRepeats, 1 do
         if not PhoneData.CallData.AnsweredCall then
-            if RepeatCount + 1 ~= Config.CallRepeats + 1 then
+            if RepeatCount ~= Config.CallRepeats then
                 if PhoneData.CallData.InCall then
                     RepeatCount += 1
                     TriggerServerEvent("InteractSound_SV:PlayOnSource", "dialing", 0.1)
@@ -289,18 +289,14 @@ local function AnswerCall()
         end
 
         CreateThread(function()
-            while true do
-                if PhoneData.CallData.AnsweredCall then
-                    PhoneData.CallData.CallTime = PhoneData.CallData.CallTime + 1
-                    Wait(2000)
-                    SendNUIMessage({
-                        action = "UpdateCallTime",
-                        Time = PhoneData.CallData.CallTime,
-                        Name = PhoneData.CallData.TargetData.name,
-                    })
-                else
-                    break
-                end
+            while PhoneData.CallData.AnsweredCall do
+                PhoneData.CallData.CallTime = PhoneData.CallData.CallTime + 1
+                Wait(2000)
+                SendNUIMessage({
+                    action = "UpdateCallTime",
+                    Time = PhoneData.CallData.CallTime,
+                    Name = PhoneData.CallData.TargetData.name,
+                })
 
                 Wait(1000)
             end
@@ -648,29 +644,28 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
         name = IsNumberInContacts(CallerNumber),
         anonymous = AnonymousCall
     }
+    if HasPhone then
+        if AnonymousCall then
+            CallData.name = "UNKNOWN CALLER"
+        end
 
-    if AnonymousCall then
-        CallData.name = "UNKNOWN CALLER"
-    end
+        PhoneData.CallData.CallType = "incoming"
+        PhoneData.CallData.InCall = true
+        PhoneData.CallData.AnsweredCall = false
+        PhoneData.CallData.TargetData = CallData
+        PhoneData.CallData.CallId = CallId
 
-    PhoneData.CallData.CallType = "incoming"
-    PhoneData.CallData.InCall = true
-    PhoneData.CallData.AnsweredCall = false
-    PhoneData.CallData.TargetData = CallData
-    PhoneData.CallData.CallId = CallId
+        TriggerServerEvent('qb-phone:server:SetCallState', true)
 
-    TriggerServerEvent('qb-phone:server:SetCallState', true)
+        SendNUIMessage({
+            action = "SetupHomeCall",
+            CallData = PhoneData.CallData,
+        })
 
-    SendNUIMessage({
-        action = "SetupHomeCall",
-        CallData = PhoneData.CallData,
-    })
-
-    for i = 1, Config.CallRepeats + 1, 1 do
-        if not PhoneData.CallData.AnsweredCall then
-            if RepeatCount + 1 ~= Config.CallRepeats + 1 then
-                if PhoneData.CallData.InCall then
-                    if HasPhone then
+        for i = 1, Config.CallRepeats + 1, 1 do
+            if not PhoneData.CallData.AnsweredCall then
+                if RepeatCount + 1 ~= Config.CallRepeats + 1 then
+                    if PhoneData.CallData.InCall then
                         RepeatCount = RepeatCount + 1
                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "ringing", CallVolume)
 
@@ -682,7 +677,17 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
                                 AnonymousCall = AnonymousCall,
                             })
                         end
+                    else
+                        SendNUIMessage({
+                            action = "IncomingCallAlert",
+                            CallData = PhoneData.CallData.TargetData,
+                            Canceled = true,
+                            AnonymousCall = AnonymousCall,
+                        })
+                        TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
+                        break
                     end
+                    Wait(Config.RepeatTimeout)
                 else
                     SendNUIMessage({
                         action = "IncomingCallAlert",
@@ -693,21 +698,19 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
                     TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
                     break
                 end
-                Wait(Config.RepeatTimeout)
             else
-                SendNUIMessage({
-                    action = "IncomingCallAlert",
-                    CallData = PhoneData.CallData.TargetData,
-                    Canceled = true,
-                    AnonymousCall = AnonymousCall,
-                })
                 TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
                 break
             end
-        else
-            TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
-            break
         end
+    else
+        SendNUIMessage({
+            action = "IncomingCallAlert",
+            CallData = PhoneData.CallData.TargetData,
+            Canceled = true,
+            AnonymousCall = AnonymousCall,
+        })
+        TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
     end
 end)
 
@@ -729,17 +732,13 @@ RegisterNetEvent('qb-phone:client:AnswerCall', function()
         end
 
         CreateThread(function()
-            while true do
-                if PhoneData.CallData.AnsweredCall then
-                    PhoneData.CallData.CallTime = PhoneData.CallData.CallTime + 1
-                    SendNUIMessage({
-                        action = "UpdateCallTime",
-                        Time = PhoneData.CallData.CallTime,
-                        Name = PhoneData.CallData.TargetData.name,
-                    })
-                else
-                    break
-                end
+            while PhoneData.CallData.AnsweredCall do
+                PhoneData.CallData.CallTime = PhoneData.CallData.CallTime + 1
+                SendNUIMessage({
+                    action = "UpdateCallTime",
+                    Time = PhoneData.CallData.CallTime,
+                    Name = PhoneData.CallData.TargetData.name,
+                })
 
                 Wait(1000)
             end
