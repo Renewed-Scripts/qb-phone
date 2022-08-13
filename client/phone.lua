@@ -2,9 +2,9 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 --- Global Variables ---
 PlayerData = QBCore.Functions.GetPlayerData()
-local HasPhone = false
 
-local CallVolume = 0.2
+FullyLoaded = LocalPlayer.state.isLoggedIn
+
 PhoneData = {
     MetaData = {},
     isOpen = false,
@@ -23,9 +23,16 @@ PhoneData = {
         lib = nil,
         anim = nil,
     },
-    CryptoTransactions = {},
     Images = {},
 }
+
+
+
+
+-- Localized Variables --
+local HasPhone = false
+local CallVolume = 0.2
+
 
 -- Functions
 
@@ -35,6 +42,8 @@ local function IsNumberInContacts(num)
             return v.name
         end
     end
+
+    return "Unknown"
 end
 
 local function PhoneChecks()
@@ -99,6 +108,10 @@ exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
 
 local function LoadPhone()
     QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
+
+        -- Should fix errors with phone not loading correctly --
+        while pData == nil do Wait(25) end
+
         PhoneData.PlayerData = PlayerData
         local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
         PhoneData.MetaData = PhoneMeta
@@ -125,7 +138,7 @@ local function LoadPhone()
         if pData.Hashtags and next(pData.Hashtags) then
             PhoneData.Hashtags = pData.Hashtags
         end
-        print(json.encode(pData.Tweets))
+
         if pData.Tweets and next(pData.Tweets) then
             PhoneData.Tweets = pData.Tweets
         end
@@ -138,14 +151,10 @@ local function LoadPhone()
             PhoneData.Adverts = pData.Adverts
         end
 
-        if pData.CryptoTransactions and next(pData.CryptoTransactions) then
-            PhoneData.CryptoTransactions = pData.CryptoTransactions
-        end
+
         if pData.Images and next(pData.Images) then
             PhoneData.Images = pData.Images
         end
-
-        print(json.encode(PhoneData.PlayerData))
 
         SendNUIMessage({
             action = "LoadPhoneData",
@@ -250,9 +259,9 @@ local function CallContact(CallData, AnonymousCall)
     TriggerServerEvent('qb-phone:server:CallContact', PhoneData.CallData.TargetData, PhoneData.CallData.CallId, AnonymousCall)
     TriggerServerEvent('qb-phone:server:SetCallState', true)
 
-    for i = 1, Config.CallRepeats + 1, 1 do
+    for i = 1, Config.CallRepeats, 1 do
         if not PhoneData.CallData.AnsweredCall then
-            if RepeatCount + 1 ~= Config.CallRepeats + 1 then
+            if RepeatCount ~= Config.CallRepeats then
                 if PhoneData.CallData.InCall then
                     RepeatCount += 1
                     TriggerServerEvent("InteractSound_SV:PlayOnSource", "dialing", 0.1)
@@ -288,18 +297,14 @@ local function AnswerCall()
         end
 
         CreateThread(function()
-            while true do
-                if PhoneData.CallData.AnsweredCall then
-                    PhoneData.CallData.CallTime = PhoneData.CallData.CallTime + 1
-                    Wait(2000)
-                    SendNUIMessage({
-                        action = "UpdateCallTime",
-                        Time = PhoneData.CallData.CallTime,
-                        Name = PhoneData.CallData.TargetData.name,
-                    })
-                else
-                    break
-                end
+            while PhoneData.CallData.AnsweredCall do
+                PhoneData.CallData.CallTime = PhoneData.CallData.CallTime + 1
+                Wait(2000)
+                SendNUIMessage({
+                    action = "UpdateCallTime",
+                    Time = PhoneData.CallData.CallTime,
+                    Name = PhoneData.CallData.TargetData.name,
+                })
 
                 Wait(1000)
             end
@@ -647,29 +652,28 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
         name = IsNumberInContacts(CallerNumber),
         anonymous = AnonymousCall
     }
+    if HasPhone then
+        if AnonymousCall then
+            CallData.name = "UNKNOWN CALLER"
+        end
 
-    if AnonymousCall then
-        CallData.name = "UNKNOWN CALLER"
-    end
+        PhoneData.CallData.CallType = "incoming"
+        PhoneData.CallData.InCall = true
+        PhoneData.CallData.AnsweredCall = false
+        PhoneData.CallData.TargetData = CallData
+        PhoneData.CallData.CallId = CallId
 
-    PhoneData.CallData.CallType = "incoming"
-    PhoneData.CallData.InCall = true
-    PhoneData.CallData.AnsweredCall = false
-    PhoneData.CallData.TargetData = CallData
-    PhoneData.CallData.CallId = CallId
+        TriggerServerEvent('qb-phone:server:SetCallState', true)
 
-    TriggerServerEvent('qb-phone:server:SetCallState', true)
+        SendNUIMessage({
+            action = "SetupHomeCall",
+            CallData = PhoneData.CallData,
+        })
 
-    SendNUIMessage({
-        action = "SetupHomeCall",
-        CallData = PhoneData.CallData,
-    })
-
-    for i = 1, Config.CallRepeats + 1, 1 do
-        if not PhoneData.CallData.AnsweredCall then
-            if RepeatCount + 1 ~= Config.CallRepeats + 1 then
-                if PhoneData.CallData.InCall then
-                    if HasPhone then
+        for i = 1, Config.CallRepeats + 1, 1 do
+            if not PhoneData.CallData.AnsweredCall then
+                if RepeatCount + 1 ~= Config.CallRepeats + 1 then
+                    if PhoneData.CallData.InCall then
                         RepeatCount = RepeatCount + 1
                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "ringing", CallVolume)
 
@@ -681,7 +685,17 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
                                 AnonymousCall = AnonymousCall,
                             })
                         end
+                    else
+                        SendNUIMessage({
+                            action = "IncomingCallAlert",
+                            CallData = PhoneData.CallData.TargetData,
+                            Canceled = true,
+                            AnonymousCall = AnonymousCall,
+                        })
+                        TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
+                        break
                     end
+                    Wait(Config.RepeatTimeout)
                 else
                     SendNUIMessage({
                         action = "IncomingCallAlert",
@@ -692,21 +706,19 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
                     TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
                     break
                 end
-                Wait(Config.RepeatTimeout)
             else
-                SendNUIMessage({
-                    action = "IncomingCallAlert",
-                    CallData = PhoneData.CallData.TargetData,
-                    Canceled = true,
-                    AnonymousCall = AnonymousCall,
-                })
                 TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
                 break
             end
-        else
-            TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
-            break
         end
+    else
+        SendNUIMessage({
+            action = "IncomingCallAlert",
+            CallData = PhoneData.CallData.TargetData,
+            Canceled = true,
+            AnonymousCall = AnonymousCall,
+        })
+        TriggerServerEvent('qb-phone:server:AddRecentCall', "missed", CallData)
     end
 end)
 
@@ -728,17 +740,13 @@ RegisterNetEvent('qb-phone:client:AnswerCall', function()
         end
 
         CreateThread(function()
-            while true do
-                if PhoneData.CallData.AnsweredCall then
-                    PhoneData.CallData.CallTime = PhoneData.CallData.CallTime + 1
-                    SendNUIMessage({
-                        action = "UpdateCallTime",
-                        Time = PhoneData.CallData.CallTime,
-                        Name = PhoneData.CallData.TargetData.name,
-                    })
-                else
-                    break
-                end
+            while PhoneData.CallData.AnsweredCall do
+                PhoneData.CallData.CallTime = PhoneData.CallData.CallTime + 1
+                SendNUIMessage({
+                    action = "UpdateCallTime",
+                    Time = PhoneData.CallData.CallTime,
+                    Name = PhoneData.CallData.TargetData.name,
+                })
 
                 Wait(1000)
             end
@@ -763,17 +771,14 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerData = QBCore.Functions.GetPlayerData()
+    FullyLoaded = true
+    Wait(250)
     PhoneChecks()
     LoadPhone()
-
-    SendNUIMessage({
-        action = "UpdateApplications",
-        JobData = PlayerData.job,
-        applications = Config.PhoneApplications
-    })
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    FullyLoaded = false
     PlayerData = {}
     PhoneChecks()
     PhoneData = {
@@ -794,39 +799,31 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
             lib = nil,
             anim = nil,
         },
-        CryptoTransactions = {},
     }
 end)
 
 RegisterNetEvent("QBCore:Player:SetPlayerData", function(val)
     PlayerData = val
-    PhoneChecks()
     Wait(250)
+    PhoneChecks()
     CallCheck()
 end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
+    PlayerData.job = JobInfo
     SendNUIMessage({
         action = "UpdateApplications",
         JobData = JobInfo,
         applications = Config.PhoneApplications
     })
-    PlayerData.job = JobInfo
 end)
 
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         PlayerData = QBCore.Functions.GetPlayerData()
-        PhoneChecks()
         Wait(500)
+        PhoneChecks()
         LoadPhone()
-
-        print("ok")
-        SendNUIMessage({
-            action = "UpdateApplications",
-            JobData = PlayerData.job,
-            applications = Config.PhoneApplications
-        })
     end
 end)
 

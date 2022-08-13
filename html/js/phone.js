@@ -598,18 +598,26 @@ IncomingCallAlert = function(CallData, Canceled, AnonymousCall) {
 
 QB.Phone.Functions.SetupCurrentCall = function(cData) {
     if (cData.InCall) {
-        CallData = cData;
+        var CallData = cData;
+        var name = null;
+
+        if (CallData.TargetData.name != null && CallData.TargetData.name != undefined) {
+            name = CallData.name;
+        } else {
+            name = CallData.TargetData.number;
+        }
+
         $(".phone-currentcall-container").css({"display":"block"});
 
         if (!QB.Phone.Data.IsOpen == true) {
             QB.Phone.Animations.BottomSlideUp('.container', 150, -58);
         }
-        if (cData.CallType == "incoming") {
-            $(".phone-currentcall-title").html(cData.TargetData.name);
-            $(".phone-currentcall-contact").html("Incoming Call");
+        if (CallData.CallType == "incoming") {
+            $(".phone-currentcall-title").html("Incoming Call");
+            $(".phone-currentcall-contact").html("From "+name);
             $("#incoming-answer").css({"display":"block"});
-        } else if (cData.CallType == "outgoing") {
-            $(".phone-currentcall-title").html(cData.TargetData.name);
+        } else if (CallData.CallType == "outgoing") {
+            $(".phone-currentcall-title").html("Outgoing Call");
             $(".phone-currentcall-contact").html("Dialing...");
             $("#incoming-deny").css({"right":"block"});
         }

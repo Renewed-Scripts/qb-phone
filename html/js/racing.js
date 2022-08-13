@@ -7,8 +7,8 @@ $(document).ready(function(){
 $(document).on('click', '.racing-race', function(e){
     e.preventDefault();
 
-    var OpenSize = "15vh";
-    var DefaultSize = "9vh";
+    var OpenSize = "6.5vh";
+    var DefaultSize = "6.5vh";
     var RaceData = $(this).data('RaceData');
     var IsRacer = IsInRace(QB.Phone.Data.PlayerData.citizenid, RaceData.RaceData.Racers)
 
@@ -68,18 +68,18 @@ function SetupRaces(Races) {
     if (Races.length > 0) {
         Races = (Races).reverse();
         $.each(Races, function(i, race){
-            var Locked = '<i class="fas fa-unlock"></i> Not started yet';
+            var Locked = '<i></i> Not started yet';
             if (race.RaceData.Started) {
-                Locked = '<i class="fas fa-lock"></i> Started';
+                Locked = '<i></i> Started';
             }
             var LapLabel = "";
             if (race.Laps == 0) {
                 LapLabel = "SPRINT"
             } else {
                 if (race.Laps == 1) {
-                    LapLabel = race.Laps + " Lap";
+                    LapLabel = race.Laps + "";
                 } else {
-                    LapLabel = race.Laps + " Laps";
+                    LapLabel = race.Laps + "";
                 }
             }
             var InRace = IsInRace(QB.Phone.Data.PlayerData.citizenid, race.RaceData.Racers);
@@ -97,13 +97,13 @@ function SetupRaces(Races) {
                 }
             }
             var Racers = GetAmountOfRacers(race.RaceData.Racers);
-            var element = '<div class="racing-race" id="raceid-'+i+'"> <span class="race-name"><i class="fas fa-flag-checkered"></i> '+race.RaceData.RaceName+'</span> <span class="race-track">'+Locked+'</span> <div class="race-infomation"> <div class="race-infomation-tab" id="race-information-laps">'+LapLabel+'</div> <div class="race-infomation-tab" id="race-information-distance">'+race.RaceData.Distance+' m</div> <div class="race-infomation-tab" id="race-information-player"><i class="fas fa-user"></i> '+Racers+'</div> </div> '+Buttons+' </div> </div>';
+            var element = '<div class="racing-race" id="raceid-'+i+'"> <span class="race-name"><i></i> '+race.RaceData.RaceName+'</span> <span class="race-track">'+Locked+'</span> <div class="race-infomation"> <div class="race-infomation-tab" id="race-information-laps">Laps ('+LapLabel+')</div> <div class="race-infomation-tab" id="race-information-player"><i class="fas fa-user"></i> '+Racers+'</div> </div> '+Buttons+' </div> </div>';
             $(".racing-races").append(element);
             $("#raceid-"+i).data('RaceData', race);
             if (!race.RaceData.Started) {
-                $("#raceid-"+i).css({"border-bottom-color":"#34b121"});
+                $("#raceid-"+i).css({"border-bottom-color":"#8495A6"});
             } else {
-                $("#raceid-"+i).css({"border-bottom-color":"#b12121"});
+                $("#raceid-"+i).css({"border-bottom-color":"#3A4868"});
             }
             $('[data-toggle="racetooltip"]').tooltip();
         });
@@ -167,7 +167,7 @@ $(document).on('click', '#quit-race', function(e){
 $(document).on('click', '#start-race', function(e){
     e.preventDefault();
 
-    
+
     var RaceId = $(this).parent().parent().attr('id');
     var Data = $("#"+RaceId).data('RaceData');
 
@@ -229,12 +229,14 @@ $(document).on('click', '.dropdown .dropdown-menu li', function(e) {
 $(document).on('click', '#setup-race', function(e){
     e.preventDefault();
 
-    $(".racing-overview").animate({
-        left: 30+"vh"
-    }, 300);
     $(".racing-setup").animate({
-        left: 0
-    }, 300);
+        left: 38
+    }, 1);
+
+    $(".racing-app-background").animate({
+        left: 9
+    }, 1);
+
 
     $.post('https://qb-phone/GetRaces', JSON.stringify({}), function(Races){
         if (Races !== undefined && Races !== null) {
@@ -258,9 +260,7 @@ $(document).on('click', '#create-race', function(e){
                     check: "race"
                 }), function(InRace){
                     if (!InRace) {
-                        // $(".racing-create").fadeIn(200);
-                        ClearInputNew()
-                        $('#create-race-app-new').fadeIn(350);
+                        $(".racing-create").fadeIn(200);
                     } else {
                         QB.Phone.Notifications.Add("fas fa-flag-checkered", "Racing", "You're in a race..", "#1DA1F2");
                     }
@@ -276,11 +276,11 @@ $(document).on('click', '#create-race', function(e){
 
 $(document).on('click', '#racing-create-accept', function(e){
     e.preventDefault();
-    var TrackName = $("#racing-create-trackname").val();
+    var TrackName = $(".racing-create-trackname").val();
 
     if (TrackName !== "" && TrackName !== undefined && TrackName !== null) {
         TrackName = DOMPurify.sanitize(TrackName , {
-            ALLOWED_TAGS: [], 
+            ALLOWED_TAGS: [],
             ALLOWED_ATTR: []
         });
         if (TrackName == '') TrackName = 'What are you trying?'
@@ -293,7 +293,7 @@ $(document).on('click', '#racing-create-accept', function(e){
                         TrackName: TrackName
                     }));
                     $(".racing-create").fadeOut(200, function(){
-                        $("#racing-create-trackname").val("");
+                        $(".racing-create-trackname").val("");
                     });
                 } else {
                     QB.Phone.Notifications.Add("fas fa-flag-checkered", "Racing", "This name is not available..", "#1DA1F2");
@@ -310,7 +310,7 @@ $(document).on('click', '#racing-create-accept', function(e){
 $(document).on('click', '#racing-create-cancel', function(e){
     e.preventDefault();
     $(".racing-create").fadeOut(200, function(){
-        $("#racing-create-trackname").val("");
+        $(".racing-create-trackname").val("");
     });
 });
 
@@ -335,11 +335,12 @@ $(document).on('click', '#setup-race-accept', function(e){
                                         RaceId: track,
                                         AmountOfLaps: laps,
                                     }))
-                                    $(".racing-overview").animate({
-                                        left: 0+"vh"
-                                    }, 300)
+                                    $(".racing-app-background").animate({
+                                        left: -38+"vh"
+                                    }, 300);
+
                                     $(".racing-setup").animate({
-                                        left: -30+"vh"
+                                        left: -76+"vh"
                                     }, 300, function(){
                                         $(".racing-setup-information-distance").html('Select a Track');
                                         $(".racing-setup-information-creator").html('Select a Track');
@@ -368,16 +369,16 @@ $(document).on('click', '#setup-race-accept', function(e){
 
 $(document).on('click', '#setup-race-cancel', function(e){
     e.preventDefault();
-
-    $(".racing-overview").animate({
-        left: 0+"vh"
-    }, 300);
-    $(".racing-setup").animate({
+    $(".racing-app-background").animate({
         left: -30+"vh"
-    }, 300, function(){
-        $(".racing-setup-information-distance").html('Select a Track');
-        $(".racing-setup-information-creator").html('Select a Track');
-        $(".racing-setup-information-wr").html('Select a Track');
+    }, 1);
+
+    $(".racing-setup").animate({
+        left: -76+"vh"
+    }, 1, function(){
+        $(".racing-setup-information-distance").html('');
+        $(".racing-setup-information-creator").html('');
+        $(".racing-setup-information-wr").html('');
         $(".racing-setup-laps").val("");
         $('.dropdown').find('input').removeAttr('value');
         $('.dropdown').find('span').text("Select a Track");
@@ -419,11 +420,8 @@ $(document).on('click', '.racing-leaderboards-button', function(e){
     e.preventDefault();
 
     $(".racing-leaderboard").animate({
-        left: -30+"vh"
-    }, 300)
-    $(".racing-overview").animate({
-        left: 0+"vh"
-    }, 300)
+        left: -60+"vh"
+    }, 1)
 });
 
 $(document).on('click', '#leaderboards-race', function(e){
@@ -441,11 +439,7 @@ $(document).on('click', '#leaderboards-race', function(e){
             });
         }
     });
-
-    $(".racing-overview").animate({
-        left: 30+"vh"
-    }, 300)
     $(".racing-leaderboard").animate({
         left: 0+"vh"
-    }, 300)
+    }, 1)
 });
