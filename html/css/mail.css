@@ -290,15 +290,25 @@
     color: #FFFFFF;
 }
 
+.nomails {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7vh;
+    font-weight: bold;
+    color: #FFFFFF;
+    line-height: 20vh;
+}
+
+#mail-frown {
+    position: absolute;
+    top: 3.5%;
+    left: 41.5%;
+    font-size: 275%;
+    color: #FFFFFF;
+}
+
 
 /* Advert App */
-
-
-.advert-icon {
-    /* margin-top: -0.1vh; */
-    margin-left: -0.1vh;
-    width: 4.8vh;
-}
 
 .advert-app {
     display: none;
@@ -308,31 +318,16 @@
     overflow: hidden;
 }
 
-
+.advert-home {
+    position: relative;
+    left: 0;
+}
 
 .advert-header {
     position: absolute;
     width: 100%;
     height: 10vh;
     top: 0;
-}
-
-#advert-header-text {
-    position: absolute;
-    top: 6vh;
-    left: 8vh;
-    /* font-family: 'Poppins', sans-serif; */
-    font-size: 1.8vh;
-    color: white;
-}
-
-#advert-header-name {
-    position: absolute;
-    top: 9vh;
-    left: 6vh;
-    /* font-family: 'Poppins', sans-serif; */
-    font-size: 1.4vh;
-    color: white;
 }
 
 .advert-list {
@@ -348,43 +343,80 @@
 .advert-list::-webkit-scrollbar {
     display: none;
 }
+
+/* NEW SHIT */
+
 .advert {
-    position: relative;
-    background-color: #ffd400;
-    height: auto;
-    min-height: 4vh;
-    width: 80%;
-    transition: .05s ease-in-out;
-    margin: 0 auto;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-    border-radius: 2px;
-    text-align: center;
-}
-
-.advert > p {
     margin-top: 1.5vh;
-    /* font-family: 'Poppins', sans-serif; */
-    max-width: 25vh;
-    color: black;
-    font-weight: bolder;
-}
-
-.advert:hover {
-    background-color: #c2b142;
-    transition: .05s ease-in-out;
-}
-
-.advert-sender {
     position: relative;
-    top: .10vh;
-    color: black;
-    font-weight: bolder;
-    /* font-family: 'Poppins', sans-serif; */
-    font-size: 1.3vh;
+    height: auto;
+    width: 80%;
+    margin-bottom: 1.0vh;
+    background-color: #f7e95f;
+    left: 10.0%;
+    color: rgb(0, 0, 0);
 }
 
-.test-slet {
+.advert-message {
+    padding-left: 0.5vh;
+    padding-top: .6vh;
+    padding-bottom: 1.2vh;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.45vh;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    border-bottom: .1vh solid rgb(0, 0, 0);
+}
+
+.advert-message > span {
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.6vh;
+    top: -.1vh;
+}
+
+.advert-contact-info {
+    margin-top: .5vh;
+    padding-left: 0.8vh;
+    top: .4vh;
+    font-size: 12px;
+    font-style: center;
+    text-align: center;
+    padding-bottom: 1.5vh;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.advert-image-attached {
+    margin-top: .5vh;
+    padding-left: 0.8vh;
+    font-size: 1.4vh;
+    bottom: 40vh;
+    padding-bottom: 2.5vh;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.advert-flag {
+    position: absolute;
+    left: 10px;
+    bottom: 0.2vh;
+    color: rgb(0, 0, 0);
+    transition: .05 linear;
+    font-size: 1.0vh;
+}
+
+.advert-trash {
+    position: absolute;
+    left: 33.5px;
+    bottom: 0.2vh;
+    color: rgb(0, 0, 0);
+    transition: .05 linear;
+    font-size: 1.0vh;
+}
+
+.create-advert {
     position: absolute;
     width: 100%;
     height: 4.2vh;
@@ -398,69 +430,14 @@
     /* background-color: rgb(36, 36, 36); */
 }
 
-.test-slet:hover {
+.create-advert:hover {
     transition: .1s ease-in-out;
 }
 
-.test-slet:hover .test-icon {
+.create-advert:hover .test-icon {
     color: #2c465f;
     transition: .1s ease-in-out;
     /* animation: Shake 1s infinite; */
-}
-
-.new-advert {
-    position: absolute;
-    display: block;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    background: rgb(36, 36, 36);
-    overflow: hidden;
-    left: -30vh;
-}
-
-.new-advert-footer {
-    position: absolute;
-    bottom: 50px;
-    width: 100%;
-    height: 5vh;
-}
-
-.new-advert-footer-item {
-    position: relative;
-    float: left;
-    width: 33%;
-    height: 100%;
-    text-align: center;
-    line-height: 5vh;
-    font-size: 2.2vh;
-    transition: .1s linear;
-    color: white;
-}
-
-.new-advert-footer-item:hover {
-    transition: .1s linear;
-}
-
-.new-advert-footer-item:hover .new-advert-icon {
-    color: #ff8f1a;
-    animation: Shake 1s infinite;
-}
-
-.new-advert-header {
-    position: absolute;
-    width: 100%;
-    height: 10vh;
-    top: 0;
-}
-
-#new-advert-header-text {
-    position: absolute;
-    top: 6vh;
-    left: 6vh;
-    /* font-family: 'Poppins', sans-serif; */
-    font-size: 1.8vh;
-    color: white;
 }
 
 #advert-new-url{
@@ -481,6 +458,8 @@
     color: white;
     border: 2px solid rgb(255, 154, 46);
 }
+
+/*Search Area */
 
 #advert-search {
     display: block;
@@ -516,43 +495,42 @@
     display: none;
 }
 
-.new-advert-textarea {
-    position: absolute;
-    margin: 0 auto;
-    left: 0;
-    color: white;
-    right: 0;
-    top: 12vh;
-    height: 30vh;
-    width: 80%;
-    outline: none;
-    resize: none;
-    border-radius: 7px;
-    border: 2px solid rgb(255, 154, 46);
-    background-color: rgba(23, 23, 23, 90%);
-    padding: 1.5vh;
-    /* font-family: 'Poppins', sans-serif; */
-    transition: .1s linear;
-}
+/* Advertisements Image Block */
 
-.advert-home {
+.advert-block {
+    display: block;
     position: relative;
-    left: 0;
+    left: 1.0vh;
+    width: 20.0vh;
+    height: 11.5vh;
+    bottom: 3.0vh;
+    outline: 1.5px ridge rgb(0, 0, 0);
+    background-color: #f7e95f;
 }
 
-.nomails {
-    text-align: center;
-    font-family: 'Arial', sans-serif;
-    font-size: 1.7vh;
-    font-weight: bold;
-    color: #FFFFFF;
-    line-height: 20vh;
-}
-
-#mail-frown {
+.advert-eye {
     position: absolute;
-    top: 3.5%;
-    left: 41.5%;
-    font-size: 275%;
-    color: #FFFFFF;
+    bottom: 6.5vh;
+    left: 7.75vh;
+    color: rgb(0, 0, 0);
+    font-size: 3.9vh;
+}
+
+.advert-image-text {
+    position: absolute;
+    bottom: 5.4vh;
+    left: 5.7vh;
+    color: rgb(0, 0, 0);
+    font-size: 1.5vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+.advert-image-text-other {
+    position: absolute;
+    top: 7.2vh;
+    left: 1.2vh;
+    color: rgb(0, 0, 0);
+    font-size: 1.2vh;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
 }

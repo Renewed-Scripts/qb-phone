@@ -146,7 +146,7 @@ QB.Phone.Functions.SetupMail = function(MailData) {
 
 // Advert JS
 
-$(document).on('click', '.test-slet', function(e){
+$(document).on('click', '.create-advert', function(e){
     e.preventDefault();
 
     ClearInputNew()
@@ -176,77 +176,66 @@ $(document).on('click', '#advert-sendmessage-chat', function(e){
     }
 });
 
-$(document).on('click','#new-advert-photo',function(e){
-    e.preventDefault();
-    $.post('https://qb-phone/TakePhoto',function(url){
-        if(url){
-            $('#advert-new-url').val(url)
-        }
-    })
-    QB.Phone.Functions.Close();
-});
-
-$(document).on('click', '#new-advert-back', function(e){
-    e.preventDefault();
-
-    $(".advert-home").animate({
-        left: 0+"vh"
-    });
-    $(".new-advert").animate({
-        left: -30+"vh"
-    });
-});
-
-$(document).on('click', '#new-advert-submit', function(e){
-    e.preventDefault();
-    var Advert = $(".new-advert-textarea").val();
-    let picture = $('#advert-new-url').val();
-
-    if (Advert !== "") {
-        $(".advert-home").animate({
-            left: 0+"vh"
-        });
-        $(".new-advert").animate({
-            left: -30+"vh"
-        });
-        if (!picture){
-            $.post('https://qb-phone/PostAdvert', JSON.stringify({
-                message: Advert,
-                url: null
-            }));
-        }else {
-            $.post('https://qb-phone/PostAdvert', JSON.stringify({
-                message: Advert,
-                url: picture
-            }));
-        }
-        $('#advert-new-url').val("")
-        $(".new-advert-textarea").val("");
-    } else {
-        QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "You can\'t post an empty ad!", "#ff8f1a", 2000);
+function formatPhoneNumber(phoneNumberString) {
+    var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+    var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return '(' + match[1] + ') ' + match[2] + '-' + match[3];
     }
-});
+    return null;
+}
 
 QB.Phone.Functions.RefreshAdverts = function(Adverts) {
     if (Adverts.length > 0 || Adverts.length == undefined) {
         $(".advert-list").html("");
         $.each(Adverts, function(i, advert){
-            var clean = DOMPurify.sanitize(advert.message , { 
-                ALLOWED_TAGS: [],
-                ALLOWED_ATTR: []
-            });
-
             if (advert.url) {
-                var element = `<div class="advert" data-number=`+advert.number+`><span class="advert-sender"><p>${clean}</p></br><img class="advimage" src=`+advert.url +` style=" border-radius:4px; width: 80%; position:relative; z-index: 0; right:1px;height: auto; bottom:0vh;"></br><span><div class="adv-icon"></div> <br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
+                if (advert.number === QB.Phone.Data.PlayerData.charinfo.phone){
+                    var element = '<div class="advert" id="'+ advert.number +'">'+
+                    '<div class="advert-message">' + advert.message + '</span></div>'+ 
+                    '<div class="advert-contact-info">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+ 
+                    '<div class="advert-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
+                    '<div class="advert-flag"><i class="fas fa-flag"></i></div>'+
+                    '<div class="advert-trash"><i class="fas fa-trash"></i></div>'+
+                    '<img class="image" src= ' + advert.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                        '<div class="advert-block">' +
+                            '<div class="advert-eye"><i class="fas fa-eye"></i></div>'+
+                            '<div class="advert-image-text">Click to View</div>'+
+                            '<div class="advert-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
+                        '</div>'+
+                    '</div>';
+                }else{
+                    var element = '<div class="advert" id="'+ advert.number +'">'+
+                    '<div class="advert-message">' + advert.message + '</span></div>'+ 
+                    '<div class="advert-contact-info">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+ 
+                    '<div class="advert-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
+                    '<div class="advert-flag" id="adv-delete"><i class="fas fa-flag"></i></div>'+
+                    '<img class="image" src= ' + advert.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                        '<div class="advert-block">' +
+                            '<div class="advert-eye"><i class="fas fa-eye"></i></div>'+
+                            '<div class="advert-image-text">Click to View</div>'+
+                            '<div class="advert-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
+                        '</div>'+
+                    '</div>';
+                }
             } else {
-                var element = `<div class="advert" data-number=`+advert.number+`><span class="advert-sender"><p>${clean}<br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>${advert.name} ┃ ${advert.number}</p></span></div>`;
+                if (advert.number === QB.Phone.Data.PlayerData.charinfo.phone){
+                    var element = '<div class="advert" id="'+ advert.number +'">'+
+                        '<div class="advert-message">' + advert.message + '</span></div>'+ 
+                        '<div class="advert-contact-info">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+ 
+                        '<div class="advert-flag"><i class="fas fa-flag"></i></div>'+
+                        '<div class="advert-trash"><i class="fas fa-trash"></i></div>'+
+                    '</div>';
+                }else{
+                    var element = '<div class="advert" id="'+ advert.number +'">'+
+                    '<div class="advert-message">' + advert.message + '</span></div>'+ 
+                    '<div class="advert-contact-info">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+ 
+                    '<div class="advert-flag"><i class="fas fa-flag"></i></div>'+
+                '</div>';
+                }
             }
 
             $(".advert-list").append(element);
-
-            //if (advert.number === QB.Phone.Data.PlayerData.charinfo.phone){
-                //$(".advert").append('<i class="fas fa-trash"style="font-size: 1rem; right:0;" id="adv-delete"></i>')
-            //}
         });
     } else {
         $(".advert-list").html("");
@@ -255,12 +244,12 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
     }
 }
 
-$(document).on('click','.advert-sender',function(e){
+$(document).on('click','.advert-contact-info',function(e){
     e.preventDefault();
-    var Number = $(this).parent().data('number');
+    var Number = $(this).parent().attr('id');
     if (Number != undefined){
         var InputNum = Number;
-
+    
         if (InputNum != ""){
             cData = {
                 number: InputNum,
