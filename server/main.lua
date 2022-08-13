@@ -49,6 +49,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player or not src then return end
+    local CID = Player.PlayerData.citizenid
 
 
     local PhoneData = {
@@ -64,17 +65,22 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         Images = {},
     }
 
-    local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
+    local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {CID})
     if result[1] then
         PhoneData.PlayerContacts = result
     end
 
-    local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE citizenid = ?', {Player.PlayerData.citizenid})
+    local Invoices = exports.oxmysql:executeSync('SELECT * FROM phone_invoices WHERE citizenid = ?', {CID})
+    if Invoices[1] then
+        PhoneData.Invoices = Invoices
+    end
+
+    local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE citizenid = ?', {CID})
     if Note[1] then
         PhoneData.Documents = Note
     end
 
-    local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
+    local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {CID})
     if messages and next(messages) then
         PhoneData.Chats = messages
     end
@@ -83,7 +89,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.Hashtags = Hashtags
     end
 
-    local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+    local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {CID})
     if mails[1] then
         for _, v in pairs(mails) do
             if v.button then
@@ -93,7 +99,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.Mails = mails
     end
 
-    local images = exports.oxmysql:executeSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{Player.PlayerData.citizenid})
+    local images = exports.oxmysql:executeSync('SELECT * FROM phone_gallery WHERE citizenid = ? ORDER BY `date` DESC',{CID})
     if images and next(images) then
         PhoneData.Images = images
     end

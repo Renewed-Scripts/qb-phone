@@ -15,6 +15,7 @@ PhoneData = {
     Chats = {},
     CallData = {},
     RecentCalls = {},
+    Invoices = {},
     Garage = {},
     Mails = {},
     Adverts = {},
@@ -134,6 +135,19 @@ local function LoadPhone()
 
         if pData.Hashtags and next(pData.Hashtags) then
             PhoneData.Hashtags = pData.Hashtags
+        end
+
+        if pData.Invoices and next(pData.Invoices) then
+            for _, v in pairs(pData.Invoices) do
+                PhoneData.Invoices[#PhoneData.Invoices+1] = {
+                    id = v.id,
+                    citizenid = QBCore.Functions.GetPlayerData().citizenid,
+                    sender = v.name,
+                    society = v.job,
+                    sendercitizenid = v.senderCID,
+                    amount = v.amount
+                }
+            end
         end
 
         if pData.Tweets and next(pData.Tweets) then

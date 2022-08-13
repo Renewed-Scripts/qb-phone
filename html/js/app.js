@@ -758,6 +758,9 @@ $(document).ready(function(){
                     }
                 });
                 break;
+            case "refreshInvoice":
+                    QB.Phone.Functions.LoadBankInvoices(event.data.invoices);
+                break;
             case "SetupHomeCall":
                 QB.Phone.Functions.SetupCurrentCall(event.data.CallData);
                 break;
