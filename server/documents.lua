@@ -53,15 +53,7 @@ RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiv
         end
     end
     Wait(100)
-    TriggerClientEvent('qb-phone:RefReshNotes_Free_Documents', src)
-end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetNote_for_Documents_app', function(source, cb)
-    local src = source
-    local Ply = QBCore.Functions.GetPlayer(src)
-    local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE citizenid = ?', {Ply.PlayerData.citizenid})
-    Wait(100)
-    if Note[1] then
-        cb(Note)
-    end
+    local Notes = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE citizenid = ?', {Player.PlayerData.citizenid})
+    TriggerClientEvent('qb-phone:RefReshNotes_Free_Documents', src, Notes)
 end)

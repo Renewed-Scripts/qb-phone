@@ -58,6 +58,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         Invoices = {},
         Garage = {},
         Mails = {},
+        Documents = {},
         Adverts = Adverts,
         Tweets = Tweets,
         Images = {},
@@ -66,6 +67,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
     local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {Player.PlayerData.citizenid})
     if result[1] then
         PhoneData.PlayerContacts = result
+    end
+
+    local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE citizenid = ?', {Player.PlayerData.citizenid})
+    if Note[1] then
+        PhoneData.Documents = Note
     end
 
     local messages = exports.oxmysql:executeSync('SELECT * FROM phone_messages WHERE citizenid = ?', {Player.PlayerData.citizenid})
