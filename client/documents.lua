@@ -48,12 +48,11 @@ RegisterNetEvent("qb-phone:client:sendingDocumentRequest", function(data, Receiv
 end)
 
 RegisterNUICallback('GetNote_for_Documents_app', function(_, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetNote_for_Documents_app', function(Has)
-        cb(Has)
-    end)
+    cb(PhoneData.Documents)
 end)
 
-RegisterNetEvent('qb-phone:RefReshNotes_Free_Documents', function()
+RegisterNetEvent('qb-phone:RefReshNotes_Free_Documents', function(notes)
+    PhoneData.Documents = notes
     SendNUIMessage({
         action = "DocumentRefresh",
     })

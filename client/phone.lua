@@ -18,6 +18,7 @@ PhoneData = {
     Garage = {},
     Mails = {},
     Adverts = {},
+    Documents = {},
     GarageVehicles = {},
     AnimationData = {
         lib = nil,
@@ -141,6 +142,10 @@ local function LoadPhone()
 
         if pData.Tweets and next(pData.Tweets) then
             PhoneData.Tweets = pData.Tweets
+        end
+
+        if pData.Documents and next(pData.Documents) then
+            PhoneData.Documents = pData.Documents
         end
 
         if pData.Mails and next(pData.Mails) then
@@ -782,6 +787,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     PlayerData = {}
     PhoneChecks()
     PhoneData = {
+        Documents = {},
         MetaData = {},
         isOpen = false,
         PlayerData = nil,
