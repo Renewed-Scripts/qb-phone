@@ -76,17 +76,6 @@ $(document).on('click', '#remove-mail', function(e){
     }, 300);
 });
 
-function ConfirmationFrame() {
-    $('.spinner-input-frame').css("display", "flex");
-    setTimeout(function () {
-        $('.spinner-input-frame').css("display", "none");
-        $('.checkmark-input-frame').css("display", "flex");
-        setTimeout(function () {
-            $('.checkmark-input-frame').css("display", "none");
-        }, 2000)
-    }, 1000)
-}
-
 QB.Phone.Functions.SetupMails = function(Mails) {
     var NewDate = new Date();
     var NewHour = NewDate.getHours();
@@ -146,35 +135,18 @@ QB.Phone.Functions.SetupMail = function(MailData) {
 
 // Advert JS
 
-$(document).on('click', '.create-advert', function(e){
-    e.preventDefault();
+// Functions
 
-    ClearInputNew()
-    $('#advert-box-textt').fadeIn(350);
-});
-
-$(document).on('click', '#advert-sendmessage-chat', function(e){
-    e.preventDefault();
-
-    var Advert = $(".advert-box-textt-input").val();
-    let picture = $('.advert-box-image-input').val();
-
-    if (Advert !== "" || picture != "") {
-        if (picture != ""){
-            setTimeout(function(){
-                ConfirmationFrame()
-            }, 150);
-        }
-        $.post('https://qb-phone/PostAdvert', JSON.stringify({
-            message: Advert,
-            url: picture
-        }));
-        ClearInputNew()
-        $('#advert-box-textt').fadeOut(350);
-    } else {
-        QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "You can\'t post an empty ad!", "#ff8f1a", 2000);
-    }
-});
+function ConfirmationFrame() {
+    $('.spinner-input-frame').css("display", "flex");
+    setTimeout(function () {
+        $('.spinner-input-frame').css("display", "none");
+        $('.checkmark-input-frame').css("display", "flex");
+        setTimeout(function () {
+            $('.checkmark-input-frame').css("display", "none");
+        }, 2000)
+    }, 1000)
+}
 
 function formatPhoneNumber(phoneNumberString) {
     var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
@@ -188,7 +160,7 @@ function formatPhoneNumber(phoneNumberString) {
 QB.Phone.Functions.RefreshAdverts = function(Adverts) {
     if (Adverts.length > 0 || Adverts.length == undefined) {
         $(".advert-list").html("");
-        $.each(Adverts, function(i, advert){
+        $.each(Adverts, function(_, advert){
             if (advert.url) {
                 if (advert.number === QB.Phone.Data.PlayerData.charinfo.phone){
                     var element = '<div class="advert" id="'+ advert.number +'">'+
@@ -238,11 +210,41 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
             $(".advert-list").append(element);
         });
     } else {
-        $(".advert-list").html("");
-        var element = '<div class="advert"><span class="advert-sender">There are no advertisements yet!</span></div>';
-        $(".advert-list").append(element);
+        $(".advert-list").html('<p class="noadverts">Nothing Here! <i class="fas fa-frown" id="advert-frown"></i></p>');
     }
 }
+
+// Clicks 
+
+$(document).on('click', '.create-advert', function(e){
+    e.preventDefault();
+
+    ClearInputNew()
+    $('#advert-box-textt').fadeIn(350);
+});
+
+$(document).on('click', '#advert-sendmessage-chat', function(e){
+    e.preventDefault();
+
+    var Advert = $(".advert-box-textt-input").val();
+    let picture = $('.advert-box-image-input').val();
+
+    if (Advert !== "" || picture != "") {
+        if (picture != ""){
+            setTimeout(function(){
+                ConfirmationFrame()
+            }, 150);
+        }
+        $.post('https://qb-phone/PostAdvert', JSON.stringify({
+            message: Advert,
+            url: picture
+        }));
+        ClearInputNew()
+        $('#advert-box-textt').fadeOut(350);
+    } else {
+        QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "You can\'t post an empty ad!", "#ff8f1a", 2000);
+    }
+});
 
 $(document).on('click','.advert-contact-info',function(e){
     e.preventDefault();
@@ -300,11 +302,31 @@ $(document).on('click','.advert-contact-info',function(e){
     }
 })
 
-$(document).on('click','#adv-delete',function(e){
+$(document).on('click', '.advert-eye', function(e){
     e.preventDefault();
-    $.post('https://qb-phone/DeleteAdvert', function(){
-        setTimeout(function(){
-            QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "The ad was deleted", "#ff8f1a", 2000);
-        },400)
-    });
+
+    $(this).parent().parent().find(".image").css({"display":"block"});
+    $(this).parent().parent().find(".advert-block").css({"display":"none"});
+});
+
+$(document).on('click', '.advert-image-attached', function(e){
+    e.preventDefault();
+
+    $(this).parent().parent().find(".image").css({"display":"none"});
+    $(this).parent().parent().find(".advert-block").css({"display":"block"});
+});
+
+$(document).on('click', '.advert-flag', function(e){
+    e.preventDefault();
+    var Number = $(this).parent().attr('id');
+    $.post('https://qb-phone/FlagAdvert', JSON.stringify({number: Number}))
+});
+
+$(document).on('click','.advert-trash',function(e){
+    e.preventDefault();
+    setTimeout(function(){
+        ConfirmationFrame()
+        QB.Phone.Notifications.Add("fas fa-ad", "Advertisement", "The ad was deleted", "#ff8f1a", 2000);
+    }, 150);
+    $.post('https://qb-phone/DeleteAdvert', function(){});
 })

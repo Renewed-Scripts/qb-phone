@@ -534,3 +534,20 @@
     text-align: center;
     font-family: 'Roboto', sans-serif;
 }
+
+.noadverts {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7vh;
+    font-weight: bold;
+    color: #FFFFFF;
+    line-height: 20vh;
+}
+
+#advert-frown {
+    position: absolute;
+    top: 5.5%;
+    left: 41.5%;
+    font-size: 275%;
+    color: #FFFFFF;
+}
