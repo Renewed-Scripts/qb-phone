@@ -128,6 +128,7 @@ end)
 -- Events
 
 RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, delete)
+    if not PhoneData or not FullyLoaded then return end
     PhoneData.Tweets = Tweets
     local MyPlayerId = PhoneData.PlayerData.source
     local NewTweetData = Tweets[#Tweets]

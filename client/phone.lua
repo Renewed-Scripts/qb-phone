@@ -2,9 +2,9 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 --- Global Variables ---
 PlayerData = QBCore.Functions.GetPlayerData()
-local HasPhone = false
 
-local CallVolume = 0.2
+FullyLoaded = LocalPlayer.state.isLoggedIn
+
 PhoneData = {
     MetaData = {},
     isOpen = false,
@@ -25,6 +25,14 @@ PhoneData = {
     },
     Images = {},
 }
+
+
+
+
+-- Localized Variables --
+local HasPhone = false
+local CallVolume = 0.2
+
 
 -- Functions
 
@@ -763,12 +771,14 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerData = QBCore.Functions.GetPlayerData()
+    FullyLoaded = true
     Wait(250)
     PhoneChecks()
     LoadPhone()
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    FullyLoaded = false
     PlayerData = {}
     PhoneChecks()
     PhoneData = {
