@@ -22,6 +22,15 @@ RegisterNetEvent('qb-phone:server:DeleteAdvert', function()
     TriggerClientEvent('qb-phone:client:UpdateAdvertsDel', -1, Adverts)
 end)
 
+RegisterNetEvent('qb-phone:server:flagAdvert', function(number)
+    local src = source
+    local Player = QBCore.Functions.GetPlayerByPhone(tonumber(number))
+    local citizenid = Player.PlayerData.citizenid
+    local name = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
+    -- Add some type of log here for admins to keep track of flagged posts
+    TriggerClientEvent('QBCore:Notify', src, 'Post by '..name.. ' ['..citizenid..'] has been flagged', 'error')
+end)
+
 QBCore.Functions.CreateCallback('qb-phone:serve:GetAdverts', function (_, cb)
     cb(Adverts)
 end)

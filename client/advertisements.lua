@@ -19,6 +19,11 @@ RegisterNUICallback('PostAdvert', function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback('FlagAdvert', function(data, cb)
+    TriggerServerEvent('qb-phone:server:flagAdvert', data.number)
+    cb("ok")
+end)
+
 RegisterNUICallback("DeleteAdvert", function(_, cb)
     TriggerServerEvent("qb-phone:server:DeleteAdvert")
     cb("ok")
