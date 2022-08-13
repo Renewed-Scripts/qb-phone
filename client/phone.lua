@@ -30,7 +30,6 @@ PhoneData = {
 
 
 -- Localized Variables --
-local HasPhone = false
 local CallVolume = 0.2
 
 
@@ -46,19 +45,16 @@ local function IsNumberInContacts(num)
     return "Unknown"
 end
 
-local function PhoneChecks()
-    local _phone = false
+local function hasPhone()
     if PlayerData.items then
         for _, v in pairs(PlayerData.items) do
             if v.name == 'phone' then
-                _phone = true
-                break
+                return true
             end
         end
     end
-
-    HasPhone = _phone
 end
+exports('hasPhone', hasPhone)
 
 local function CalculateTimeToDisplay()
 	local hour = GetClockHours()
@@ -169,7 +165,7 @@ local function LoadPhone()
 end
 
 local function OpenPhone()
-    if HasPhone then
+    if hasPhone() then
         PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
         SendNUIMessage({
@@ -242,7 +238,7 @@ end
 
 local function CallCheck()
     if PhoneData.CallData.CallType == "ongoing" then
-        if not HasPhone or PlayerData.metadata['isdead'] or PlayerData.metadata['inlaststand'] or PlayerData.metadata['ishandcuffed'] then
+        if not hasPhone() or PlayerData.metadata['isdead'] or PlayerData.metadata['inlaststand'] or PlayerData.metadata['ishandcuffed'] then
             CancelCall()
         end
     end
@@ -345,7 +341,7 @@ end) RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
 
 RegisterCommand("+answer", function()
     if (PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing" and not PhoneData.CallData.CallType == "ongoing") then
-        if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() and HasPhone then
+        if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() and hasPhone() then
             AnswerCall()
         else
             QBCore.Functions.Notify("Action not available at the moment..", "error")
@@ -399,7 +395,7 @@ RegisterNUICallback('GetMissedCalls', function(_, cb)
 end)
 
 RegisterNUICallback('HasPhone', function(_, cb)
-    cb(HasPhone)
+    cb(hasPhone())
 end)
 
 RegisterNUICallback('Close', function()
@@ -652,7 +648,7 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
         name = IsNumberInContacts(CallerNumber),
         anonymous = AnonymousCall
     }
-    if HasPhone then
+    if hasPhone() then
         if AnonymousCall then
             CallData.name = "UNKNOWN CALLER"
         end
@@ -773,14 +769,12 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerData = QBCore.Functions.GetPlayerData()
     FullyLoaded = true
     Wait(250)
-    PhoneChecks()
     LoadPhone()
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     FullyLoaded = false
     PlayerData = {}
-    PhoneChecks()
     PhoneData = {
         MetaData = {},
         isOpen = false,
@@ -805,7 +799,6 @@ end)
 RegisterNetEvent("QBCore:Player:SetPlayerData", function(val)
     PlayerData = val
     Wait(250)
-    PhoneChecks()
     CallCheck()
 end)
 
@@ -822,7 +815,6 @@ AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         PlayerData = QBCore.Functions.GetPlayerData()
         Wait(500)
-        PhoneChecks()
         LoadPhone()
     end
 end)
