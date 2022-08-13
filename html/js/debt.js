@@ -1,101 +1,128 @@
-var ENDreason = null
-var ENDamount = null
-var ENDsenderCSN = null
-var ENDsenderName = null
-var ENDKey = null
+let debt
+
+// Search 
 
 $(document).ready(function(){
-    window.addEventListener('message', function(event) {
-        switch(event.data.action) {
-            case "DebtRefresh":
-                LoadDebtJob();
-            break;
-        }
-    })
-});
-
-
-function LoadDebtJob(){
-    $(".debt-list").html("");
-    var AddOption = '<div class="casino-text-clear">Nothing Here!</div>'+
-                    '<div class="casino-text-clear" style="font-size: 500%;color: #0d1218c0;"><i class="fas fa-frown"></i></div>'
-    $('.debt-list').append(AddOption);
-    $.post('https://qb-phone/GetHasBills_debt', JSON.stringify({}), function(HasTable){
-
-        if(HasTable){
-            AddToDebitList(HasTable)
-        }
+    $("#debt-search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $(".debt-list").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
     });
+});
+
+// Functions
+
+var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+
+function ConfirmationFrame() {
+    $('.spinner-input-frame').css("display", "flex");
+    setTimeout(function () {
+        $('.spinner-input-frame').css("display", "none");
+        $('.checkmark-input-frame').css("display", "flex");
+        setTimeout(function () {
+            $('.checkmark-input-frame').css("display", "none");
+        }, 2000)
+    }, 1000)
 }
 
-function AddToDebitList(data){
-    $(".debt-list").html("");
-    if(data){
-        for (const [k, v] of Object.entries(data)) {
-            var AddOption = '<div class="debt-form-style-body" style="color: whitesmoke;"><i style="color: whitesmoke;" class="fas fa-user"></i> '+v.sender+' | '+
-                                '<div style="display: inline; color: #6cac59;"> <i class="fas fa-dollar-sign"></i>'+v.amount+'</div>'+
-                                '<div data-key="'+v.id+'" data-senderN="'+v.sender+'" data-reason="'+v.reason+'" data-amount="'+v.amount+'" data-sendercsn="'+v.sendercitizenid+'" class="debt-btn-for-check-data"><i class="fas fa-search-dollar"></i></div>'+
-                            '</div>'
-            $('.debt-list').append(AddOption);
-        }
+// Debt Shit
+
+// Block
+$(document).on('click', '.debt-list', function(e){
+    e.preventDefault();
+
+    $(this).find(".debt-block").toggle();
+    var Id = $(this).attr('id');
+    debt = Id
+});
+
+// Pay All Tab
+$(document).on('click', '.send-all-box', function(e){
+    e.preventDefault();
+
+    var Id = $(this).parent().parent().parent().attr('id');
+    debt = Id
+    setTimeout(function(){
+        ConfirmationFrame()
+    }, 150);
+    $.post('https://qb-phone/SendAllPayment', JSON.stringify({
+        id: Id,
+    }));
+});
+
+$(document).on('click', '.send-minimum-box', function(e){
+    e.preventDefault();
+
+    var Id = $(this).parent().parent().parent().attr('id');
+    debt = Id
+    $('#debt-pay-minimum-tab').fadeIn(350);
+});
+
+// Pay Minimum Tab
+$(document).on('click', '#debt-send-minimum-payment', function(e){
+    e.preventDefault();
+    var Id = debt;
+    var amount = $(".debt-minimum-amount").val();
+    if(amount != ""){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/SendMinimumPayment', JSON.stringify({
+            id: Id,
+            amount: amount,
+        }));
+    }
+    ClearInputNew()
+    $('#debt-pay-minimum-tab').fadeOut(350);
+});
+
+function LoadDebtJob(data){
+    $(".debts-list").html("");
+    if(data) {
+        Object.keys(data).map(function(element, index){
+            if (element === 'assets'){
+                $(".debts-list").append(`<h1 style="font-size: 1.6vh; padding-left: 0.8vh; padding-bottom: 0.3vh; color:#fff; margin-top:0; width:100%; display:block;">Asset Fees</h1>`);
+            }else if (element === 'loan'){
+                $(".debts-list").append(`<h1 style="font-size: 1.6vh; padding-left: 0.8vh; padding-bottom: 0.3vh; color:#fff; margin-top:0; width:100%; display:block;">Loan Payment</h1>`);
+            }else if (element === 'fine'){
+                $(".debts-list").append(`<h1 style="font-size: 1.6vh; padding-left: 0.8vh; padding-bottom: 0.3vh; color:#fff; margin-top:0; width:100%; display:block;">Bill Payments</h1>`);
+            }
+            Object.keys(data[element]).map(function(element2, _){
+                if (element === 'assets'){
+                    $(".debts-list").append('<div class="debt-list" id="'+data[element][element2].id+'"><span class="debt-icon"><i class="fas fa-car"></i></span> <span class="debt-main-title">'+data[element][element2].car+'</span> <span class="debt-main-fee">'+formatter.format(data[element][element2].totalamount)+'</span>' +
+                        '<div class="debt-block">' +
+                            '<div class="debt-title"><i class="fas fa-inbox"></i>'+data[element][element2].sender+'</div>' +
+                            '<div class="debt-extrainfo"><i class="fas fa-closed-captioning"></i>'+data[element][element2].plate+'</div>' +
+                            '<div class="debt-due"><i class="fas fa-calendar"></i>in '+data[element][element2].display+'</div>' +
+                            '<div class="debt-box"><span class="debt-box send-all-box" style = "margin-left: 6.2vh;">PAY ALL</span></div>' +
+                        '</div>' +
+                    '</div>');
+
+                } else if (element === 'loan'){ 
+                    $(".debts-list").append('<div class="debt-list" id="'+data[element][element2].id+'"><span class="debt-icon"><i class="fas fa-file-invoice-dollar"></i></span> <span class="debt-main-title">'+data[element][element2].car+'</span> <span class="debt-main-fee">'+formatter.format(data[element][element2].totalamount)+'</span>' +
+                        '<div class="debt-block">' +
+                            '<div class="debt-title"><i class="fas fa-inbox"></i>'+data[element][element2].sender+'</div>' +
+                            '<div class="debt-extrainfo"><i class="fas fa-closed-captioning"></i>'+data[element][element2].plate+'</div>' +
+                            '<div class="debt-due"><i class="fas fa-calendar"></i>in '+data[element][element2].display+'</div>' +
+                            '<div class="debt-box"><span class="debt-box send-minimum-box" style = "margin-right: 2.5vh;">PAY MINIMUM</span><span class="debt-box send-all-box" style="margin-left: 3.3vh;">PAY ALL</span></div>' +
+                        '</div>' +
+                    '</div>');
+                } else if (element === 'fine'){ 
+                    $(".debts-list").append('<div class="debt-list" id="'+data[element][element2].id+'"><span class="debt-icon"><i class="fas fa-hand-holding-usd"></i></span> <span class="debt-main-title">'+data[element][element2].sender+'</span> <span class="debt-main-fee">'+formatter.format(data[element][element2].totalamount)+'</span> <span class="debt-remaining-payments">0/10</span>' +
+                        '<div class="debt-block">' +
+                            '<div class="debt-title"><i class="fas fa-inbox"></i>'+data[element][element2].sender+'</div>' +
+                            '<div class="debt-extrainfo"><i class="fas fa-closed-captioning"></i>'+data[element][element2].notes+'</div>' +
+                            '<div class="debt-due"><i class="fas fa-calendar"></i>in '+data[element][element2].display+'</div>' +
+                            '<div class="debt-box"><span class="debt-box send-minimum-box" style = "margin-left: 0.9vh;">PAY MINIMUM</span><span class="debt-box send-all-box" style="margin-left: 1.2vh;">PAY ALL</span></div>' +
+                        '</div>' +
+                    '</div>');
+                }
+                $("#debt-"+data[element][element2].id).data('debtId', element2);
+            })
+        })
     }
 }
-
-$(document).on('click', '.debt-create-bill-btn', function(e){
-    e.preventDefault();
-    ClearInputNew()
-    $('#debt-box-new-for-add').fadeIn(350);
-});
-
-$(document).on('click', '#debt-create-bill-ended', function(e){
-    e.preventDefault();
-    var ID = $(".debt-input-one").val();
-    var Amount = $(".debt-input-two").val();
-    var Reason = $(".debt-input-three").val();
-    if ((ID && Amount && Reason) != "" && (ID && Amount) >= 1){
-        $.post('https://qb-phone/SendBillForPlayer_debt', JSON.stringify({
-            ID: ID,
-            Amount: Amount,
-            Reason: Reason,
-        }));
-        ClearInputNew()
-        $('#debt-box-new-for-add').fadeOut(350);
-    }else{
-        QB.Phone.Notifications.Add("fas fa-exclamation-circle", "System", "Fields are incorrect")
-    }
-
-});
-
-
-
-$(document).on('click', '.debt-btn-for-check-data', function(e){
-    e.preventDefault();
-    ENDreason = $(this).data('reason');
-    ENDamount = $(this).data('amount');
-    ENDsenderCSN = $(this).data('sendercsn');
-    ENDsenderName = $(this).data('sendern');
-    ENDKey = $(this).data('key');
-
-    $(".debt-show-one").html('<i style="color: whitesmoke;" class="fas fa-clipboard"></i> '+ENDreason);
-    $(".debt-show-two").html('<i class="fas fa-dollar-sign"></i>'+ENDamount);
-    $(".debt-show-three").html('<i style="color: whitesmoke;" class="fas fa-user"></i> '+ENDsenderName);
-
-    ClearInputNew()
-    $('#debt-box-new-for-accept').fadeIn(350);
-});
-
-$(document).on('click', '#debt-create-bill-accept', function(e){
-    e.preventDefault();
-    var PlyMoney = QB.Phone.Data.PlayerData.money.bank;
-
-    if(PlyMoney >= ENDamount){
-        $.post('https://qb-phone/debit_AcceptBillForPay', JSON.stringify({
-            id: ENDKey,
-            Amount: ENDamount,
-            CSN: ENDsenderCSN,
-            Reason: ENDreason,
-        }));
-        ClearInputNew()
-        $('#debt-box-new-for-accept').fadeOut(350);
-    }
-});

@@ -251,7 +251,9 @@ $(document).on('click', '.phone-application', function(e){
                     LoadEmploymentApp();
                 }
                 else if (PressedApplication == "debt") {
-                    LoadDebtJob();
+                    $.post('https://qb-finances/GetPlayersDebt', JSON.stringify({}), function(data){
+                        LoadDebtJob(data);
+                    });
                 }
                 else if (PressedApplication == "gopro") {
                     $.post('https://qb-phone/SetupGoPros', JSON.stringify({}), function(Cams){

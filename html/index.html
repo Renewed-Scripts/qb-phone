@@ -610,34 +610,21 @@
                     </div>
 
                     <div class="debt-app">
+                        <span id="whatsapp-search-text">Search</span>
+                        <div class="debts-header">
+                            <i class="fas fa-search" id="debt-search-icon"></i>
+                            <input type="text" id="debt-search" placeholder="" spellcheck="false">
+                        </div>
 
-                        <div class="phone-new-box-body" id="debt-box-new-for-add">
+                        <div class="debts-list"></div>
+
+                        <div class="phone-new-box-body" id="debt-pay-minimum-tab"> <!-- Fade In and Fade Out -->
                             <div class="phone-new-box-main">
-                                <input class="phone-new-input-class debt-input-one" type="number" min="1" placeholder="Player ID">
-                                <input class="phone-new-input-class debt-input-two" type="number" min="1" placeholder="Amount">
-                                <input class="phone-new-input-class debt-input-three" type="text" maxlength="50" placeholder="Reason">
+                                <input class="phone-new-input-class debt-minimum-amount" type="text" maxlength="6" placeholder="Pay Amount">
                                 <p> </p>
                                 <div class="phone-new-box-btn box-new-red" id="box-new-cancel">Cancel</div>
-                                <div class="phone-new-box-btn box-new-green" id="debt-create-bill-ended" data-toggle="tooltip" title="Create Bill">Submit</div>
+                                <div class="phone-new-box-btn box-new-green" id="debt-send-minimum-payment" data-toggle="tooltip" title="Save">Pay</div>
                             </div>
-                        </div>
-
-                        <div class="phone-new-box-body" id="debt-box-new-for-accept">
-                            <div class="phone-new-box-main">
-                                <div class="debt-show-bodyclass debt-show-one" data-toggle="tooltip" title="Reason">a</div>
-                                <div class="debt-show-bodyclass debt-show-two" style="color: #6cac59;" data-toggle="tooltip" title="Amount to be paid">a</div>
-                                <div class="debt-show-bodyclass debt-show-three" data-toggle="tooltip" title="Sender Name">a</div>
-                                <p> </p>
-                                <div class="phone-new-box-btn box-new-red" id="box-new-cancel">Cancel</div>
-                                <div class="phone-new-box-btn box-new-green" id="debt-create-bill-accept">Submit</div>
-                            </div>
-                        </div>
-
-                        <div class="debt-header">
-                            <div class="debt-create-bill-btn" data-toggle="tooltip" title="Create Bill"><i class="fas fa-donate"></i></div>
-                        </div>
-
-                        <div class="debt-list">
                         </div>
                     </div>
 
