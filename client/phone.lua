@@ -3,6 +3,9 @@ local QBCore = exports['qb-core']:GetCoreObject()
 --- Global Variables ---
 PlayerData = QBCore.Functions.GetPlayerData()
 
+local frontCam = false
+local CanDownloadApps = false
+
 FullyLoaded = LocalPlayer.state.isLoggedIn
 
 PhoneData = {
@@ -274,7 +277,7 @@ local function CallContact(CallData, AnonymousCall)
     TriggerServerEvent('qb-phone:server:CallContact', PhoneData.CallData.TargetData, PhoneData.CallData.CallId, AnonymousCall)
     TriggerServerEvent('qb-phone:server:SetCallState', true)
 
-    for i = 1, Config.CallRepeats, 1 do
+    for _ = 1, Config.CallRepeats, 1 do
         if not PhoneData.CallData.AnsweredCall then
             if RepeatCount ~= Config.CallRepeats then
                 if PhoneData.CallData.InCall then
@@ -460,7 +463,7 @@ RegisterNUICallback('EditContact', function(data, cb)
     local OldNumber = data.OldContactNumber
     local OldIban = data.OldContactIban
 
-    for k, v in pairs(PhoneData.Contacts) do
+    for _, v in pairs(PhoneData.Contacts) do
         if v.name == OldName and v.number == OldNumber then
             v.name = NewName
             v.number = NewNumber
@@ -515,7 +518,7 @@ RegisterNUICallback('DeleteContact', function(data, cb)
     TriggerServerEvent('qb-phone:server:RemoveContact', Name, Number)
 end)
 
-RegisterNUICallback('GetServicesWithActivePlayers', function(data, cb)
+RegisterNUICallback('GetServicesWithActivePlayers', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetServicesWithActivePlayers', function(lawyers)
         cb(lawyers)
     end)
@@ -534,7 +537,7 @@ RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
 end)
 
 RegisterNUICallback('CallContact', function(data, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState', function(CanCall, IsOnline, contactData)
+    QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState', function(CanCall, IsOnline)
         local status = {
             CanCall = CanCall,
             IsOnline = IsOnline,
@@ -547,11 +550,11 @@ RegisterNUICallback('CallContact', function(data, cb)
     end, data.ContactData)
 end)
 
-RegisterNUICallback("TakePhoto", function(data,cb)
+RegisterNUICallback("TakePhoto", function(_, cb)
     SetNuiFocus(false, false)
     CreateMobilePhone(1)
     CellCamActivate(true, true)
-    takePhoto = true
+    local takePhoto = true
     while takePhoto do
         if IsControlJustPressed(1, 27) then
             frontCam = not frontCam
@@ -566,8 +569,8 @@ RegisterNUICallback("TakePhoto", function(data,cb)
         elseif IsControlJustPressed(1, 176) then
             QBCore.Functions.TriggerCallback("qb-phone:server:GetWebhook",function(hook)
                 QBCore.Functions.Notify('Touching up photo...', 'primary')
-                exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function(data)
-                    local image = json.decode(data)
+                exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function(uploadData)
+                    local image = json.decode(uploadData)
                     DestroyMobilePhone()
                     CellCamActivate(false, false)
                     TriggerServerEvent('qb-phone:server:addImageToGallery', image.attachments[1].proxy_url)
@@ -648,7 +651,7 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
     )
 end)
 
-RegisterNUICallback('phone-silent-button', function(data,cb)
+RegisterNUICallback('phone-silent-button', function(_, cb)
     if CallVolume == tonumber("0.2") then
         CallVolume = 0
         QBCore.Functions.Notify("Silent Mode On", "success")
@@ -685,7 +688,7 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
             CallData = PhoneData.CallData,
         })
 
-        for i = 1, Config.CallRepeats + 1, 1 do
+        for _ = 1, Config.CallRepeats + 1, 1 do
             if not PhoneData.CallData.AnsweredCall then
                 if RepeatCount + 1 ~= Config.CallRepeats + 1 then
                     if PhoneData.CallData.InCall then
@@ -920,7 +923,7 @@ end)
 
 
 RegisterNetEvent('qb-phone:client:GiveContactDetails', function()
-    local player, distance = GetClosestPlayer()
+    local player, distance = QBCore.Functions.GetClosestPlayer()
     if player ~= -1 and distance < 2.5 then
         local PlayerId = GetPlayerServerId(player)
         TriggerServerEvent('qb-phone:server:GiveContactDetails', PlayerId)
@@ -931,7 +934,7 @@ end)
 
 RegisterNUICallback('InstallApplication', function(data, cb)
     local ApplicationData = Config.StoreApps[data.app]
-    local NewSlot = GetFirstAvailableSlot()
+    local NewSlot = nil
     --  local NewSlot = 17
 
     if not CanDownloadApps then

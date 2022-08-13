@@ -52,7 +52,6 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
     }
 
     local TwitterMessage = data.Message
-    local MentionTag = TwitterMessage:split("@")
     local Hashtag = TwitterMessage:split("#")
     if #Hashtag <= 3 then
         for i = 2, #Hashtag, 1 do
@@ -183,6 +182,6 @@ end)
 
 RegisterNetEvent('qb-phone:client:GetMentioned', function(TweetMessage)
     SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { title = "New mention!", text = TweetMessage.message, icon = "fab fa-twitter", color = "#1DA1F2", }, })
-    local NewMessage = {firstName = TweetMessage.firstName, lastName = TweetMessage.lastName, message = escape_str(TweetMessage.message), time = TweetMessage.time, picture = TweetMessage.picture}
+    --local NewMessage = {firstName = TweetMessage.firstName, lastName = TweetMessage.lastName, message = escape_str(TweetMessage.message), time = TweetMessage.time, picture = TweetMessage.picture}
     SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
 end)

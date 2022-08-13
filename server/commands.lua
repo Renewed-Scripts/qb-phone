@@ -14,7 +14,7 @@ QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, 
     end
 end, "god")
 
-QBCore.Commands.Add("p#", "Provide Phone Number", {}, false, function(source, args)
+QBCore.Commands.Add("p#", "Provide Phone Number", {}, false, function(source)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local PlayerPed = GetPlayerPed(src)

@@ -1,13 +1,11 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- NUI Callback
 
-RegisterNUICallback('SendAllPayment', function(data, cb)
+RegisterNUICallback('SendAllPayment', function(_, cb)
     -- All your cracked code here brains here
     cb("ok")
 end)
 
-RegisterNUICallback('SendMinimumPayment', function(data, cb)
+RegisterNUICallback('SendMinimumPayment', function(_, cb)
     -- All your cracked code here brains here
     cb("ok")
 end)

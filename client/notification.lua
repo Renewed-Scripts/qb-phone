@@ -18,13 +18,6 @@ RegisterNUICallback('DenyNotification', function()
 end)
 
 -- Events
-TriggerEvent('qb-phone:client:CustomNotification',
-    title,
-    text,
-    icon,
-    color,
-    timeout
-)
 
 RegisterNetEvent("qb-phone:client:CustomNotification", function(title, text, icon, color, timeout) -- Send a PhoneNotification to the phone from anywhere
     SendNUIMessage({
@@ -58,7 +51,7 @@ end)
 
 -- Functions
 
-function PhoneNotification(title, text, icon, color, timeout, accept, deny)
+local function PhoneNotification(title, text, icon, color, timeout, accept, deny)
     Result = nil
     test = true
     SendNUIMessage({
@@ -79,3 +72,5 @@ function PhoneNotification(title, text, icon, color, timeout, accept, deny)
     Wait(100)
     return Result
 end
+
+exports("PhoneNotification", PhoneNotification)

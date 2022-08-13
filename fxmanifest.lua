@@ -34,10 +34,6 @@ files {
     'html/img/apps/*.png',
 }
 
-exports {
-    "PhoneNotification"
-}
-
 lua54 'yes'
 
 dependency '/assetpacks'

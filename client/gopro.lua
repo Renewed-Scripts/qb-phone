@@ -1,7 +1,7 @@
 
 
 
-RegisterNUICallback('SetupGoPros', function(data, cb)
+RegisterNUICallback('SetupGoPros', function(_, cb)
     print("camerashit")
     local list = exports['qb-cameras']:GetMyCams()
     print(json.encode(list))

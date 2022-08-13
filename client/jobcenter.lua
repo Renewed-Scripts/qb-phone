@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 -- NUI Callback
 
-RegisterNUICallback('GetJobCentersJobs', function(data, cb)
+RegisterNUICallback('GetJobCentersJobs', function(_, cb)
     cb(Config.JobCenter)
 end)
 

@@ -22,6 +22,6 @@ RegisterNetEvent('qb-phone:server:DeleteAdvert', function()
     TriggerClientEvent('qb-phone:client:UpdateAdvertsDel', -1, Adverts)
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:serve:GetAdverts', function (source, cb)
+QBCore.Functions.CreateCallback('qb-phone:serve:GetAdverts', function (_, cb)
     cb(Adverts)
 end)

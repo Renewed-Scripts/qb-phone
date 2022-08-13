@@ -61,12 +61,12 @@ end)
 
 RegisterNUICallback('IsAuthorizedToCreateRaces', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:IsAuthorizedToCreateRaces', function(IsAuthorized, NameAvailable)
-        local data = {
+        local sendData = {
             IsAuthorized = IsAuthorized,
             IsBusy = exports['qb-lapraces']:IsInEditor(),
             IsNameAvailable = NameAvailable,
         }
-        cb(data)
+        cb(sendData)
     end, data.TrackName)
 end)
 

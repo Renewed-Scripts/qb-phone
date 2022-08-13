@@ -31,4 +31,5 @@ RegisterNUICallback('gps-vehicle-garage', function(data, cb)
     else
         QBCore.Functions.Notify("This vehicle cannot be located", "error")
     end
+    cb("ok")
 end)

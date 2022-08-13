@@ -41,7 +41,7 @@ RegisterNetEvent("groups:createBlip", function(name, data)
         TriggerEvent("groups:removeBlip", name)
     end
 
-    local blip = nil
+    local blip
     if data.entity then
         blip = AddBlipForEntity(data.entity)
     elseif data.netId then
@@ -78,7 +78,7 @@ RegisterNetEvent("groups:createBlip", function(name, data)
 end)
 
 RegisterNUICallback('GetGroupsApp', function (_, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:getAllGroups', function (getGroups, inGroup, currentJob, stages)
+    QBCore.Functions.TriggerCallback('qb-phone:server:getAllGroups', function (getGroups)
         cb(getGroups)
     end)
 end)

@@ -25,7 +25,7 @@ RegisterNetEvent("qb-phone:server:sendDocumentLocal", function(data, playerId)
     TriggerClientEvent("qb-phone:client:sendingDocumentRequest", playerId, data, Receiver, Ply, SenderName)
 end)
 
-RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiver, Ply, SenderName)
+RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiver)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 

@@ -41,7 +41,7 @@ RegisterNetEvent('qb-phone:server:DeleteAndClearTable', function()
     TriggerClientEvent('QBCore:Notify', src, "Done", "primary")
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:CheckHasBetTable', function(source, cb)
+QBCore.Functions.CreateCallback('qb-phone:server:CheckHasBetTable', function(_, cb)
     cb(CasinoTable)
 end)
 
@@ -50,13 +50,13 @@ RegisterNetEvent('qb-phone:server:casino_status', function()
     casino_status = not casino_status
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:CheckHasBetStatus', function(source, cb)
+QBCore.Functions.CreateCallback('qb-phone:server:CheckHasBetStatus', function(_, cb)
     cb(casino_status)
 end)
 
 RegisterNetEvent('qb-phone:server:WineridCasino', function(data)
     local Winer = data.id
-    for k, v in pairs(CasinoBetList) do
+    for _, v in pairs(CasinoBetList) do
         if v.id == Winer then
             local OtherPly = QBCore.Functions.GetPlayerByCitizenId(v.csn)
             if OtherPly then
