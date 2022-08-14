@@ -135,7 +135,7 @@
 
 .crypto-extralabel {
     padding: 3px 18px;
-    padding-top: 1.1vh;
+    padding-top: 0.5vh;
     padding-left: 0vh;
     color: white;
     font-size: 1.3vh;
@@ -150,7 +150,7 @@
 
 .crypto-current {
     padding: 3px 18px;
-    padding-top: 1.1vh;
+    padding-top: 0.5vh;
     padding-left: 0vh;
     color: white;
     font-size: 1.3vh;
@@ -165,12 +165,12 @@
 
 .crypto-cost {
     padding: 3px 18px;
-    padding-top: 1.1vh;
+    padding-top: 0.5vh;
     padding-left: 0vh;
     color: white;
     font-size: 1.3vh;
     border-bottom: .1vh solid #fff;
-    margin-bottom: 5%;
+    margin-bottom: 7%;
 }
 
 .crypto-cost > i {
@@ -184,23 +184,16 @@
     border-radius: 5px;
     color: black;
     font-family: 'Roboto', sans-serif;
-    font-size: 1.2vh;
-}
-
-.crypto-box-other {
-    transition: 0.25s;
-    border-radius: 5px;
-    color: black;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2vh;
+    font-size: 1.1vh;
+    margin-bottom: 4%;
 }
 
 .box-exchange{
-    background:#f6a167;   
-    padding: 1.5%;
+    background:#f6a167;
+    padding: 4.0%;
 }
 
 .box-purchase{
     background:#90e278;
-    padding: 1.5%;
+    padding: 4.0%;
 }
