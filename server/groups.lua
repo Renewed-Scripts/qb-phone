@@ -12,7 +12,7 @@ local function GetPlayerCharName(src)
 end
 
 local function NotifyGroup(group, msg, type)
-    for k, v in pairs(EmploymentGroup[group].members) do
+    for _, v in pairs(EmploymentGroup[group].members) do
         TriggerClientEvent('QBCore:Notify', v.Player, msg, type)
     end
 end exports("NotifyGroup", NotifyGroup)
@@ -49,7 +49,7 @@ end exports("GetGroupByMembers", GetGroupByMembers)
 local function getGroupMembers(groupID)
     if not groupID then return print("getGroupMembers was sent an invalid groupID :"..groupID) end
     local temp = {}
-    for k,v in pairs(EmploymentGroup[groupID].members) do
+    for _,v in pairs(EmploymentGroup[groupID].members) do
         temp[#temp+1] = v.Player
     end
     return temp
@@ -67,7 +67,7 @@ end exports("GetGroupLeader", GetGroupLeader)
 
 local function DestroyGroup(groupID)
     if not EmploymentGroup[groupID] then return print("DestroyGroup was sent an invalid groupID :"..groupID) end
-    for k, v in pairs(EmploymentGroup[groupID].members) do
+    for _, v in pairs(EmploymentGroup[groupID].members) do
         Players[v.Player] = false
     end
     EmploymentGroup[groupID] = nil
@@ -146,7 +146,7 @@ local function getJobStatus(groupID)
     return EmploymentGroup[groupID].status
 end exports('getJobStatus', getJobStatus)
 
-AddEventHandler('playerDropped', function(reason)
+AddEventHandler('playerDropped', function()
 	local src = source
     local groupID = GetGroupByMembers(src)
     if groupID ~= 0 then
@@ -164,7 +164,7 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 
-RegisterNetEvent("qb-phone:server:employment_checkJobStauts", function (data)
+RegisterNetEvent("qb-phone:server:employment_checkJobStauts", function ()
     local src = source
     local checkStatus = GetGroupByMembers(src)
     if checkStatus then
@@ -220,7 +220,7 @@ RegisterNetEvent('qb-phone:server:employment_DeleteGroup', function(data)
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetGroupsApp', function(source, cb)
+QBCore.Functions.CreateCallback('qb-phone:server:GetGroupsApp', function(_, cb)
     cb(EmploymentGroup)
 end)
 
@@ -228,7 +228,7 @@ RegisterNetEvent('qb-phone:server:employment_JoinTheGroup', function(data)
     print(json.encode(data))
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
-    for k, v in pairs(EmploymentGroup[data.id].members) do
+    for _, v in pairs(EmploymentGroup[data.id].members) do
         if v.CID == data.PCSN then
             TriggerClientEvent('QBCore:Notify', src, "You have already joined a group", "error")
             return
@@ -249,7 +249,7 @@ local function GetGroupStages(groupID)
     return EmploymentGroup[groupID].stage
 end exports('GetGroupStages', GetGroupStages)
 
-QBCore.Functions.CreateCallback('qb-phone:server:getAllGroups', function(source, cb, csn)
+QBCore.Functions.CreateCallback('qb-phone:server:getAllGroups', function(source, cb)
     local src = source
 
     if Players[src] then
@@ -261,9 +261,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:getAllGroups', function(source,
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:employment_CheckPlayerNames', function(source, cb, csn)
+QBCore.Functions.CreateCallback('qb-phone:server:employment_CheckPlayerNames', function(_, cb, csn)
     local Names = {}
-    for k, v in pairs(EmploymentGroup[csn].members) do
+    for _, v in pairs(EmploymentGroup[csn].members) do
         Names[#Names+1] = v.name
     end
     cb(Names)

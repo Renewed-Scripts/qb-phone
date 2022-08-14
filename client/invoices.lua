@@ -25,10 +25,9 @@ RegisterNUICallback('PayInvoice', function(data, cb)
 end)
 
 RegisterNUICallback('DeclineInvoice', function(data, cb)
-    local society = data.society
     local amount = data.amount
     local invoiceId = data.invoiceId
-    TriggerServerEvent('qb-phone:server:DeclineMyInvoice', society, amount, invoiceId)
+    TriggerServerEvent('qb-phone:server:DeclineMyInvoice', amount, invoiceId)
     cb("ok")
 end)
 

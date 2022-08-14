@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 Tweets = {}
 
 -- Events
@@ -6,7 +5,7 @@ Tweets = {}
 CreateThread(function()
     MySQL.Async.fetchAll('SELECT * FROM phone_tweets', {}, function(data)
         if data then
-            for k, v in pairs(data) do
+            for _, v in pairs(data) do
                 Tweets[#Tweets+1] = {
                     id = v.id,
                     citizenid = v.citizenid,

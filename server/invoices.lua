@@ -51,7 +51,7 @@ RegisterNetEvent('qb-phone:server:PayMyInvoice', function(society, amount, invoi
     exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
 end)
 
-RegisterNetEvent('qb-phone:server:DeclineMyInvoice', function(society, amount, invoiceId, sendercitizenid, resource)
+RegisterNetEvent('qb-phone:server:DeclineMyInvoice', function(amount, invoiceId, sendercitizenid, resource)
     local Ply = QBCore.Functions.GetPlayer(source)
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
     if not Ply then return end

@@ -129,7 +129,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     end
     local result = exports.oxmysql:executeSync(query)
     if result[1] then
-        for k, v in pairs(result) do
+        for _, v in pairs(result) do
             local charinfo = json.decode(v.charinfo)
             local metadata = json.decode(v.metadata)
             local appiepappie = {}
@@ -158,7 +158,7 @@ end)
 
 
 -- Services
-QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', function(source, cb)
+QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', function(_, cb)
     local Services = {}
 
     for i = 1, #Config.ServiceJobs do
@@ -185,7 +185,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', 
 end)
 
 -- Webhook needs to get fixed, right now anyone can grab this and use it to spam dick pics in Discord servers
-QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(source,cb)
+QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(_, cb)
 	cb(WebHook)
 end)
 

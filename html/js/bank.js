@@ -166,7 +166,6 @@ $(document).on('click', '.decline-invoice', function(event){
     $.post('https://qb-phone/DeclineInvoice', JSON.stringify({
         sender: InvoiceData.sender,
         amount: InvoiceData.amount,
-        society: InvoiceData.society,
         invoiceId: InvoiceData.id,
     }));
     $("#"+InvoiceId).animate({

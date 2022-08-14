@@ -44,7 +44,7 @@ end)
 
 RegisterNetEvent('qb-phone:server:flagAdvert', function(number)
     local src = source
-    local Player = QBCore.Functions.GetPlayerByPhone(tonumber(number))
+    local Player = QBCore.Functions.GetPlayerByPhone(number)
     local citizenid = Player.PlayerData.citizenid
     local name = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
     -- Add some type of log here for admins to keep track of flagged posts
