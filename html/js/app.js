@@ -151,12 +151,6 @@ $(document).on('click', '.phone-application', function(e){
                 QB.Phone.Data.currentApplication = PressedApplication;
 
                 if (PressedApplication == "twitter") {
-                    $.post('https://qb-phone/GetMentionedTweets', JSON.stringify({}), function(MentionedTweets){
-                        QB.Phone.Notifications.LoadMentionedTweets(MentionedTweets)
-                    })
-                    $.post('https://qb-phone/GetHashtags', JSON.stringify({}), function(Hashtags){
-                        QB.Phone.Notifications.LoadHashtags(Hashtags)
-                    })
                     if (QB.Phone.Data.IsOpen) {
                         $.post('https://qb-phone/GetTweets', JSON.stringify({}), function(Tweets){
                             QB.Phone.Notifications.LoadTweets(Tweets);
@@ -722,9 +716,6 @@ $(document).ready(function(){
             case "RefreshAppAlerts":
                 QB.Phone.Functions.SetupAppWarnings(event.data.AppData);
                 break;
-            case "UpdateMentionedTweets":
-                QB.Phone.Notifications.LoadMentionedTweets(event.data.Tweets);
-                break;
             case "UpdateBank":
                 $(".bank-app-account-balance").html("&#36; "+event.data.NewBalance);
                 $(".bank-app-account-balance").data('balance', event.data.NewBalance);
@@ -737,9 +728,6 @@ $(document).ready(function(){
                         QB.Phone.Functions.LoadWhatsappChats(event.data.Chats);
                     }
                 }
-                break;
-            case "UpdateHashtags":
-                QB.Phone.Notifications.LoadHashtags(event.data.Hashtags);
                 break;
             case "RefreshWhatsappAlerts":
                 QB.Phone.Functions.ReloadWhatsappAlerts(event.data.Chats);
@@ -760,9 +748,6 @@ $(document).ready(function(){
                 break;
             case "refreshInvoice":
                     QB.Phone.Functions.LoadBankInvoices(event.data.invoices);
-                break;
-            case "refreshDebt":
-                    LoadDebtJob(event.data.debt);
                 break;
             case "SetupHomeCall":
                 QB.Phone.Functions.SetupCurrentCall(event.data.CallData);
