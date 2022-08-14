@@ -49,6 +49,15 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, delete)
     local MyPlayerId = PhoneData.PlayerData.source
     local NewTweetData = Tweets[#Tweets]
     local newFirst, newLast = NewTweetData.firstName:gsub("[%<>\"()\'$]",""), NewTweetData.lastName:gsub("[%<>\"()\' $]","")
+
+    SendNUIMessage({
+        action = "UpdateTweets",
+        Tweets = PhoneData.Tweets
+    })
+
+
+    if not delete and src == MyPlayerId then return end
+
     if not delete then
         SendNUIMessage({
             action = "PhoneNotification",
@@ -73,9 +82,4 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, delete)
             })
         end
     end
-
-    SendNUIMessage({
-        action = "UpdateTweets",
-        Tweets = PhoneData.Tweets
-    })
 end)
