@@ -178,12 +178,12 @@
 
 .garage-payments {
     padding: 3px 18px;
-    padding-top: 1.1vh;
+    padding-top: 0.5vh;
     padding-left: 0vh;
     color: white;
     font-size: 1.3vh;
     border-bottom: .1vh solid #fff;
-    margin-bottom: 10%;
+    margin-bottom: 7%;
 }
 
 .garage-payments > i {
@@ -194,14 +194,14 @@
 
 .garage-box {
     transition: 0.25s;
-    margin-left: 3.3vh;
     border-radius: 5px;
     color: black;
     font-family: 'Roboto', sans-serif;
-    font-size: 1.2vh;
+    font-size: 1.1vh;
+    margin-bottom: 4%;
 }
 
 .box-track{
     background:#90e278;
-    padding: 2.0%;
+    padding: 4.0%;
 }

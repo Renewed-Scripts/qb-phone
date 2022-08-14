@@ -36,7 +36,7 @@ SetupGarageVehicles = function(Vehicles) {
                 '<div class="garage-plate"><i class="fas fa-closed-captioning"></i>'+vehicle.plate+'</div>' +
                 '<div class="garage-fuel"><i class="fas fa-gas-pump"></i>'+vehicle.fuel+'</div>' +
                 '<div class="garage-payments"><i class="fas fa-hand-holding-usd"></i>'+vehicle.paymentsleft+' Payments Left</div>' +
-                '<div class="garage-box"><span class="garage-box box-track">TRACK</span></div>' +
+                '<div class="garage-box"><span class="garage-box box-track" style="margin-left: 5.8vh;">TRACK</span></div>' +
             '</div>' +
             '</div>';
 

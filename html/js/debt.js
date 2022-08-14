@@ -96,7 +96,7 @@ function LoadDebtJob(data){
                             '<div class="debt-title"><i class="fas fa-inbox"></i>'+data[element][element2].sender+'</div>' +
                             '<div class="debt-extrainfo"><i class="fas fa-closed-captioning"></i>'+data[element][element2].plate+'</div>' +
                             '<div class="debt-due"><i class="fas fa-calendar"></i>in '+data[element][element2].display+'</div>' +
-                            '<div class="debt-box"><span class="debt-box send-minimum-box" style = "margin-right: 2.5vh;">PAY MINIMUM</span><span class="debt-box send-all-box" style="margin-left: 3.3vh;">PAY ALL</span></div>' +
+                            '<div class="debt-box"><span class="debt-box send-minimum-box" style = "margin-left: 0.9vh;">PAY MINIMUM</span><span class="debt-box send-all-box" style="margin-left: 1.2vh;">PAY ALL</span></div>' +
                         '</div>' +
                     '</div>');
                 } else if (element === 'fine'){
