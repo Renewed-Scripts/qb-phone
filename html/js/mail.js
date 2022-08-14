@@ -195,14 +195,14 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
                 if (advert.number === QB.Phone.Data.PlayerData.charinfo.phone){
                     var element = '<div class="advert" id="'+ advert.number +'">'+
                         '<div class="advert-message">' + advert.message + '</span></div>'+
-                        '<div class="advert-contact-info">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+
+                        '<div class="advert-contact-info" style = "padding-bottom: 2.5vh;">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+
                         '<div class="advert-flag"><i class="fas fa-flag"></i></div>'+
                         '<div class="advert-trash"><i class="fas fa-trash"></i></div>'+
                     '</div>';
                 }else{
                     var element = '<div class="advert" id="'+ advert.number +'">'+
                     '<div class="advert-message">' + advert.message + '</span></div>'+
-                    '<div class="advert-contact-info">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+
+                    '<div class="advert-contact-info" style = "padding-bottom: 2.5vh;">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+
                     '<div class="advert-flag"><i class="fas fa-flag"></i></div>'+
                 '</div>';
                 }
@@ -281,10 +281,10 @@ $(document).on('click','.advert-contact-info',function(e){
                                     $(".phone-currentcall-container").css({"display":"block"});
                                     $("#incoming-answer").css({"display":"none"});
                                 }, 450);
-
+        
                                 CallData.name = cData.name;
                                 CallData.number = cData.number;
-
+        
                                 QB.Phone.Data.currentApplication = "phone-call";
                             } else {
                                 QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You're already in a call!");
@@ -299,7 +299,7 @@ $(document).on('click','.advert-contact-info',function(e){
                     QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call yourself!");
                 }
             });
-        }
+        } 
     }
 })
 
