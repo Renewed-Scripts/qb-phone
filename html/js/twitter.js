@@ -204,7 +204,7 @@ $(document).on('click', '.tweet-retweet', function(e){
 
 $(document).on('click', '.tweet-flag', function(e){
     e.preventDefault();
-    var TwtName = $(this).parent().data('twthandler');
+    var TwtName = $(this).parent().parent().data('twthandler');
     var TwtMessage = $(this).parent().data('twtmessage');
     $.post('https://qb-phone/FlagTweet', JSON.stringify({
         name: TwtName,
