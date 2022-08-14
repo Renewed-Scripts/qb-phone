@@ -251,7 +251,7 @@ $(document).on('click', '.phone-application', function(e){
                     LoadEmploymentApp();
                 }
                 else if (PressedApplication == "debt") {
-                    $.post('https://qb-finances/GetPlayersDebt', JSON.stringify({}), function(data){
+                    $.post('https://qb-phone/GetPlayersDebt', JSON.stringify({}), function(data){
                         LoadDebtJob(data);
                     });
                 }
@@ -760,6 +760,9 @@ $(document).ready(function(){
                 break;
             case "refreshInvoice":
                     QB.Phone.Functions.LoadBankInvoices(event.data.invoices);
+                break;
+            case "refreshDebt":
+                    LoadDebtJob(event.data.debt);
                 break;
             case "SetupHomeCall":
                 QB.Phone.Functions.SetupCurrentCall(event.data.CallData);

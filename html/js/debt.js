@@ -1,6 +1,6 @@
 let debt
 
-// Search 
+// Search
 
 $(document).ready(function(){
     $("#debt-search").on("keyup", function() {
@@ -54,30 +54,18 @@ $(document).on('click', '.send-all-box', function(e){
     }));
 });
 
+// Pay Minimum
 $(document).on('click', '.send-minimum-box', function(e){
     e.preventDefault();
 
     var Id = $(this).parent().parent().parent().attr('id');
     debt = Id
-    $('#debt-pay-minimum-tab').fadeIn(350);
-});
-
-// Pay Minimum Tab
-$(document).on('click', '#debt-send-minimum-payment', function(e){
-    e.preventDefault();
-    var Id = debt;
-    var amount = $(".debt-minimum-amount").val();
-    if(amount != ""){
-        setTimeout(function(){
-            ConfirmationFrame()
-        }, 150);
-        $.post('https://qb-phone/SendMinimumPayment', JSON.stringify({
-            id: Id,
-            amount: amount,
-        }));
-    }
-    ClearInputNew()
-    $('#debt-pay-minimum-tab').fadeOut(350);
+    setTimeout(function(){
+        ConfirmationFrame()
+    }, 150);
+    $.post('https://qb-phone/SendMinimumPayment', JSON.stringify({
+        id: Id,
+    }));
 });
 
 function LoadDebtJob(data){
@@ -98,11 +86,11 @@ function LoadDebtJob(data){
                             '<div class="debt-title"><i class="fas fa-inbox"></i>'+data[element][element2].sender+'</div>' +
                             '<div class="debt-extrainfo"><i class="fas fa-closed-captioning"></i>'+data[element][element2].plate+'</div>' +
                             '<div class="debt-due"><i class="fas fa-calendar"></i>in '+data[element][element2].display+'</div>' +
-                            '<div class="debt-box"><span class="debt-box send-all-box" style = "margin-left: 6.2vh;">PAY ALL</span></div>' +
+                            '<div class="debt-box"><span class="debt-box send-all-box" style = "margin-left: 6.2vh;">PAY</span></div>' +
                         '</div>' +
                     '</div>');
 
-                } else if (element === 'loan'){ 
+                } else if (element === 'loan'){
                     $(".debts-list").append('<div class="debt-list" id="'+data[element][element2].id+'"><span class="debt-icon"><i class="fas fa-file-invoice-dollar"></i></span> <span class="debt-main-title">'+data[element][element2].car+'</span> <span class="debt-main-fee">'+formatter.format(data[element][element2].totalamount)+'</span>' +
                         '<div class="debt-block">' +
                             '<div class="debt-title"><i class="fas fa-inbox"></i>'+data[element][element2].sender+'</div>' +
@@ -111,8 +99,8 @@ function LoadDebtJob(data){
                             '<div class="debt-box"><span class="debt-box send-minimum-box" style = "margin-right: 2.5vh;">PAY MINIMUM</span><span class="debt-box send-all-box" style="margin-left: 3.3vh;">PAY ALL</span></div>' +
                         '</div>' +
                     '</div>');
-                } else if (element === 'fine'){ 
-                    $(".debts-list").append('<div class="debt-list" id="'+data[element][element2].id+'"><span class="debt-icon"><i class="fas fa-hand-holding-usd"></i></span> <span class="debt-main-title">'+data[element][element2].sender+'</span> <span class="debt-main-fee">'+formatter.format(data[element][element2].totalamount)+'</span> <span class="debt-remaining-payments">0/10</span>' +
+                } else if (element === 'fine'){
+                    $(".debts-list").append('<div class="debt-list" id="'+data[element][element2].id+'"><span class="debt-icon"><i class="fas fa-hand-holding-usd"></i></span> <span class="debt-main-title">'+data[element][element2].sender+'</span> <span class="debt-main-fee">'+formatter.format(data[element][element2].totalamount)+'</span> <span class="debt-remaining-payments">'+data[element][element2].paybacks+"/"+data[element][element2].totalPays+'</span>' +
                         '<div class="debt-block">' +
                             '<div class="debt-title"><i class="fas fa-inbox"></i>'+data[element][element2].sender+'</div>' +
                             '<div class="debt-extrainfo"><i class="fas fa-closed-captioning"></i>'+data[element][element2].notes+'</div>' +

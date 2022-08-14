@@ -1,25 +1,45 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 Adverts = {}
 
+local function GetAdvertFromNumb(src)
+    for k, v in pairs(Adverts) do
+        if v.source == src then
+            return k
+        end
+    end
+end
+
 RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local CitizenId = Player.PlayerData.citizenid
     local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
-    if not Adverts[CitizenId] then Adverts[CitizenId] = {} end
-    Adverts[CitizenId].message = msg
-    Adverts[CitizenId].name = name
-    Adverts[CitizenId].number = Player.PlayerData.charinfo.phone
-    Adverts[CitizenId].url = url
+    local table = GetAdvertFromNumb(src)
+    if table then
+        Adverts[table] = nil
+        Adverts[#Adverts+1] = {
+            message = msg,
+            name = name,
+            number = Player.PlayerData.charinfo.phone,
+            url = url,
+            source = src,
+        }
+    else
+        Adverts[#Adverts+1] = {
+            message = msg,
+            name = name,
+            number = Player.PlayerData.charinfo.phone,
+            url = url,
+            source = src,
+        }
+    end
 
-    TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, name)
+    TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts, name, src)
 end)
 
 RegisterNetEvent('qb-phone:server:DeleteAdvert', function()
-    local Player = QBCore.Functions.GetPlayer(source)
-    local citizenid = Player.PlayerData.citizenid
-    Adverts[citizenid] = nil
-    TriggerClientEvent('qb-phone:client:UpdateAdvertsDel', -1, Adverts)
+    local table = GetAdvertFromNumb(source)
+    Adverts[table] = nil
+    TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts)
 end)
 
 RegisterNetEvent('qb-phone:server:flagAdvert', function(number)
@@ -29,8 +49,4 @@ RegisterNetEvent('qb-phone:server:flagAdvert', function(number)
     local name = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
     -- Add some type of log here for admins to keep track of flagged posts
     TriggerClientEvent('QBCore:Notify', src, 'Post by '..name.. ' ['..citizenid..'] has been flagged', 'error')
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:serve:GetAdverts', function (_, cb)
-    cb(Adverts)
 end)

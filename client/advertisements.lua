@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- Functions
 
 local function GetKeyByNumber(Number)
@@ -30,13 +28,7 @@ RegisterNUICallback("DeleteAdvert", function(_, cb)
 end)
 
 RegisterNUICallback('LoadAdverts', function(_, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:serve:GetAdverts', function(Adverts)
-        SendNUIMessage({
-        action = "RefreshAdverts",
-        Adverts = Adverts
-    })
-    cb(Adverts)
-    end)
+    cb(PhoneData.Adverts)
 end)
 
 RegisterNUICallback('ClearAlerts', function(data, cb)
@@ -61,16 +53,19 @@ end)
 
 -- Events
 
-RegisterNetEvent('qb-phone:client:UpdateAdvertsDel', function(Adverts)
+RegisterNetEvent('qb-phone:client:UpdateAdverts', function(Adverts, LastAd, src)
+    if not FullyLoaded or not Adverts then return end
     PhoneData.Adverts = Adverts
+
     SendNUIMessage({
         action = "RefreshAdverts",
         Adverts = PhoneData.Adverts
     })
-end)
 
-RegisterNetEvent('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
-    PhoneData.Adverts = Adverts
+    if not LastAd or not src then return end
+    local me = GetPlayerServerId(PlayerId())
+
+    if me == src then return end
 
     TriggerEvent('qb-phone:client:CustomNotification',
         "Advertisement",
@@ -79,9 +74,4 @@ RegisterNetEvent('qb-phone:client:UpdateAdverts', function(Adverts, LastAd)
         "#ff8f1a",
         4500
     )
-
-    SendNUIMessage({
-        action = "RefreshAdverts",
-        Adverts = PhoneData.Adverts
-    })
 end)
