@@ -44,26 +44,61 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                 ALLOWED_TAGS: [],
                 ALLOWED_ATTR: []
             });
-            //if (clean == '') clean = 'Hmm, I shouldn\'t be able to do this...'
+
             var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
             var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
 
             if (Tweet.url == "") {
-                let TweetElement = '<div class="twitter-tweet" data-twtcid="'+Tweet.citizenid+'" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '"><div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
-                    '<div class="twitter-retweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
-                    '<div class="tweet-flag"><i class="fas fa-flag"></i></div>'+
-                    '<div class="tweet-tweeter">' + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + '</span></div>' + //' &middot; '+TimeAgo+'
-                    '<div class="tweet-message">' + TwtMessage + '</div>' +
-                    '<div class="tweet-time">' + TimeAgo + '</div>' +
+                if (Tweet.citizenid === QB.Phone.Data.PlayerData.citizenid){
+                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '">'+
+                        '<div class="tweet-tweeter">' + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + '</span></div>' + // Title
+                        '<div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
+                        '<div class="twitter-retweet" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
+                        '<div class="tweet-flag"><i class="fas fa-flag"></i></div>'+
+                        '<div class="tweet-trash"><i class="fas fa-trash"></i></div>'+
+                        '<div class="tweet-message" style="padding-bottom: 2.5vh;">' + TwtMessage + '</div>' +
+                        '<div class="tweet-time">' + TimeAgo + '</div>' +
                     '</div>';
                     $(".twitter-home-tab").append(TweetElement);
+                }else{
+                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '">'+
+                        '<div class="tweet-tweeter">' + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + '</span></div>' + // Title
+                        '<div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
+                        '<div class="twitter-retweet" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
+                        '<div class="tweet-trash"><i class="fas fa-trash"></i></div>'+
+                        '<div class="tweet-message" style="padding-bottom: 2.5vh;">' + TwtMessage + '</div>' +
+                        '<div class="tweet-time">' + TimeAgo + '</div>' +
+                    '</div>';
+                    $(".twitter-home-tab").append(TweetElement);
+                }
             } else {
-                let TweetElement = '<div class="twitter-tweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'"><div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
-                    '<div class="twitter-retweet" data-twthandler="@'+TwitterHandle.replace(" ", "_")+'" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
+                if (Tweet.citizenid === QB.Phone.Data.PlayerData.citizenid){
+                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@'+TwitterHandle.replace(" ", "_") + '">'+ 
+                            '<div class="tweet-tweeter">' + ' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+ '</span></div>'+ // Title
+                            '<div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
+                            '<div class="twitter-retweet" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
+                            '<div class="tweet-flag"><i class="fas fa-flag"></i></div>'+
+                            '<div class="tweet-trash"><i class="fas fa-trash"></i></div>'+
+                            '<div class="tweet-message"><p>'+TwtMessage+'</p></div>' + 
+                            '<div class="tweet-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
+                            '<div class="tweet-time">' + TimeAgo + '</div>' +
+                            '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                            '<div class="tweet-block">' +
+                                '<div class="tweet-eye"><i class="fas fa-eye"></i></div>'+
+                                '<div class="tweet-image-text">Click to View</div>'+
+                                '<div class="tweet-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
+                            '</div>'+
+                        '</div>';
+                    $(".twitter-home-tab").append(TweetElement);
+                }else{
+                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@'+TwitterHandle.replace(" ", "_") + '">'+ 
+                    '<div class="tweet-tweeter">' + ' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+ '</span></div>'+ // Title
+                    '<div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
+                    '<div class="twitter-retweet" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
                     '<div class="tweet-flag"><i class="fas fa-flag"></i></div>'+
-                    '<div class="tweet-tweeter">' + ' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+ '</span></div>'+ //' &middot; '+TimeAgo+'
-                    '<div class="tweet-message"><p>'+TwtMessage+'</p>Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
+                    '<div class="tweet-message"><p>'+TwtMessage+'</p></div>' + 
+                    '<div class="tweet-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
                     '<div class="tweet-time">' + TimeAgo + '</div>' +
                     '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
                     '<div class="tweet-block">' +
@@ -71,8 +106,9 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                         '<div class="tweet-image-text">Click to View</div>'+
                         '<div class="tweet-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
                     '</div>'+
-                    '</div>';
-                $(".twitter-home-tab").append(TweetElement);
+                '</div>';
+            $(".twitter-home-tab").append(TweetElement);
+                }
 
             }
         });
