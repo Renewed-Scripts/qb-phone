@@ -18,6 +18,15 @@ RegisterNUICallback('GetTweets', function(data, cb)
 end)
 
 RegisterNUICallback('PostNewTweet', function(data, cb)
+
+    local URL
+
+    if data.url ~= "" and string.match(data.url, '[a-z]*://[^ >,;]*') then
+        URL = data.url
+    else
+        URL = ""
+    end
+
     local TweetMessage = {
         firstName = PhoneData.PlayerData.charinfo.firstname,
         lastName = PhoneData.PlayerData.charinfo.lastname,
@@ -25,7 +34,8 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         message = escape_str(data.Message):gsub("[%<>\"()\'$]",""),
         time = data.Date,
         tweetId = GenerateTweetId(),
-        url = data.url
+        type = data.type,
+        url = URL
     }
 
     TriggerServerEvent('qb-phone:server:UpdateTweets', TweetMessage)

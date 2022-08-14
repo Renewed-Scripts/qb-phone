@@ -46,7 +46,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
 
             if (Tweet.url == "") {
                 if (Tweet.citizenid === QB.Phone.Data.PlayerData.citizenid){
-                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '">'+
+                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '" data-type ="'+Tweet.type+'">'+
                         '<div class="tweet-tweeter">' + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + '</span></div>' + // Title
                         '<div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
                         '<div class="twitter-retweet" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
@@ -57,7 +57,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     '</div>';
                     $(".twitter-home-tab").append(TweetElement);
                 }else{
-                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '">'+
+                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@' + TwitterHandle.replace(" ", "_") + '" data-type ="'+Tweet.type+'">'+
                         '<div class="tweet-tweeter">' + ' &nbsp;<span>@' + TwitterHandle.replace(" ", "_") + '</span></div>' + // Title
                         '<div class="tweet-reply"><i class="fas fa-reply"></i></div>' +
                         '<div class="twitter-retweet" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
@@ -69,7 +69,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                 }
             } else {
                 if (Tweet.citizenid === QB.Phone.Data.PlayerData.citizenid){
-                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@'+TwitterHandle.replace(" ", "_") + '">'+ 
+                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@'+TwitterHandle.replace(" ", "_") + '" data-type ="'+Tweet.type+'">'+
                             '<div class="tweet-tweeter">' + ' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+ '</span></div>'+ // Title
                             '<div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
                             '<div class="twitter-retweet" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
@@ -87,7 +87,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                         '</div>';
                     $(".twitter-home-tab").append(TweetElement);
                 }else{
-                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@'+TwitterHandle.replace(" ", "_") + '">'+ 
+                    var TweetElement = '<div class="twitter-tweet" data-twtid ="'+Tweet.tweetId+'" data-twthandler="@'+TwitterHandle.replace(" ", "_") + '" data-type ="'+Tweet.type+'">'+
                     '<div class="tweet-tweeter">' + ' &nbsp;<span>@'+TwitterHandle.replace(" ", "_")+ '</span></div>'+ // Title
                     '<div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
                     '<div class="twitter-retweet" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
@@ -133,7 +133,8 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){ // Submit Button F
         $.post('https://qb-phone/PostNewTweet', JSON.stringify({
             Message: TweetMessage,
             Date: CurrentDate,
-            url: imageURL
+            url: imageURL,
+            type: 'tweet'
         }), function(){
             ClearInputNew();
             $('#twt-box-textt').fadeOut(350);
@@ -177,22 +178,28 @@ $(document).on('click', '.tweet-reply', function(e){
 $(document).on('click', '.tweet-retweet', function(e){
     e.preventDefault();
     var TwtName = $(this).parent().parent().data('twthandler');
+    var isRetweet =  $(this).parent().parent().data('type');
     var TwtMessage = $(this).parent().data('twtmessage');
     var imageURL = $(this).parent().data('imagemessage');
     var CompleteRetweet = "RT " + TwtName + " " + TwtMessage
 
-    var CurrentDate = new Date();
-    if (imageURL == null){
-        imageURL = ""
+    if (isRetweet !== 'retweet'){
+        var CurrentDate = new Date();
+        if (imageURL == null){
+            imageURL = ""
+        }
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/PostNewTweet', JSON.stringify({
+            Message: CompleteRetweet,
+            Date: CurrentDate,
+            url: imageURL,
+            type: 'retweet'
+        }))
+    } else {
+        QB.Phone.Notifications.Add("fab fa-twitter", "Twitter", "Cannot retweet a retweet!", "#1DA1F2");
     }
-    setTimeout(function(){
-        ConfirmationFrame()
-    }, 150);
-    $.post('https://qb-phone/PostNewTweet', JSON.stringify({
-        Message: CompleteRetweet,
-        Date: CurrentDate,
-        url: imageURL
-    }))
 });
 
 $(document).on('click', '.tweet-flag', function(e){

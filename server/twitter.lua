@@ -15,6 +15,7 @@ CreateThread(function()
                     message = v.message,
                     url = v.url,
                     tweetId = v.tweetId,
+                    type = v.type,
                     time = v.time
                 }
 
@@ -38,13 +39,14 @@ end)
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
     local src = source
     print(json.encode(TweetData.url))
-    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, time) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, type, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
         TweetData.citizenid,
         TweetData.firstName:gsub("[%<>\"()\'$]",""),
         TweetData.lastName:gsub("[%<>\"()\'$]",""),
         TweetData.message:gsub("[%<>\"()\'$]",""),
         TweetData.url,
         TweetData.tweetId,
+        TweetData.type,
         time
     }, function(id)
         if id then
@@ -56,6 +58,7 @@ RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
                 message = TweetData.message:gsub("[%<>\"()\'$]",""),
                 url = TweetData.url,
                 tweetId =TweetData.tweetId,
+                type = TweetData.type,
                 time = time
             }
 
@@ -68,13 +71,14 @@ end)
 local function AddNewTweet(TweetData)
     local tweetID = TweetData and TweetData.tweetId or "TWEET-"..math.random(11111111, 99999999)
 
-    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, time) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, type, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
         TweetData.citizenid,
         TweetData.firstName:gsub("[%<>\"()\'$]",""),
         TweetData.lastName:gsub("[%<>\"()\'$]",""),
         TweetData.message:gsub("[%<>\"()\'$]",""),
         TweetData.url,
         tweetID,
+        TweetData.type,
         time
     }, function(id)
         if id then
@@ -86,6 +90,7 @@ local function AddNewTweet(TweetData)
                 message = TweetData.message:gsub("[%<>\"()\'$]",""),
                 url = TweetData.url,
                 tweetId = tweetID,
+                type = TweetData.type,
                 time = time
             }
 
