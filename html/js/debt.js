@@ -100,7 +100,7 @@ function LoadDebtJob(data){
                         '</div>' +
                     '</div>');
                 } else if (element === 'fine'){
-                    $(".debts-list").append('<div class="debt-list" id="'+data[element][element2].id+'"><span class="debt-icon"><i class="fas fa-hand-holding-usd"></i></span> <span class="debt-main-title">'+data[element][element2].sender+'</span> <span class="debt-main-fee">'+formatter.format(data[element][element2].totalamount)+'</span> <span class="debt-remaining-payments">'+data[element][element2].paybacks+"/"+data[element][element2].totalPays+'</span>' +
+                    $(".debts-list").append('<div class="debt-list" id="'+data[element][element2].id+'"><span class="debt-icon"><i class="fas fa-hand-holding-usd"></i></span> <span class="debt-main-title">'+data[element][element2].name+'</span> <span class="debt-main-fee">'+formatter.format(data[element][element2].totalamount)+'</span> <span class="debt-remaining-payments">'+data[element][element2].paybacks+"/"+data[element][element2].totalPays+'</span>' +
                         '<div class="debt-block">' +
                             '<div class="debt-title"><i class="fas fa-inbox"></i>'+data[element][element2].sender+'</div>' +
                             '<div class="debt-extrainfo"><i class="fas fa-closed-captioning"></i>'+data[element][element2].notes+'</div>' +
