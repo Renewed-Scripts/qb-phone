@@ -32,7 +32,7 @@ RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
             break
         end
     end
-    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, TweetData, Tweets, true)
+    TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, true)
 end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
