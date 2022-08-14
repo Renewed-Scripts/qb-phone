@@ -13,9 +13,16 @@ end
 -- NUI Callback
 
 RegisterNUICallback('PostAdvert', function(data, cb)
-    TriggerServerEvent('qb-phone:server:AddAdvert', data.message, data.url)
+    local url
+
+    if data.url and string.match(data.url, '[a-z]*://[^ >,;]*') then
+        url = data.url
+    end
+
+    TriggerServerEvent('qb-phone:server:AddAdvert', data.message, url)
     cb("ok")
 end)
+
 
 RegisterNUICallback('FlagAdvert', function(data, cb)
     TriggerServerEvent('qb-phone:server:flagAdvert', data.number)
