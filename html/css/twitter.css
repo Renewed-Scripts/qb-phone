@@ -59,7 +59,7 @@
     bottom: 0.3vh;
     color: rgb(255, 255, 255);
     transition: .05 linear;
-    font-size: 1.2vh;
+    font-size: 1.0vh;
     z-index: 100;
     pointer-events: all;
 }
@@ -70,33 +70,33 @@
 
 .tweet-retweet {
     position: absolute;
-    left: 33.5px;
+    left: 29.5px;
     bottom: 0.2vh;
     color: rgb(255, 255, 255);
     transition: .05 linear;
-    font-size: 1.2vh;
+    font-size: 1.0vh;
     z-index: 100;
     pointer-events: all;
 }
 
 .tweet-flag {
     position: absolute;
-    left: 60px;
+    left: 51px;
     bottom: 0.2vh;
     color: rgb(255, 255, 255);
     transition: .05 linear;
-    font-size: 1.2vh;
+    font-size: 1.0vh;
     z-index: 100;
     pointer-events: all;
 }
 
 .tweet-trash {
     position: absolute;
-    left: 86px;
+    left: 71.5px;
     bottom: 0.2vh;
     color: rgb(255, 255, 255);
     transition: .05 linear;
-    font-size: 1.2vh;
+    font-size: 1.0vh;
     z-index: 100;
     pointer-events: all;
 }
@@ -129,14 +129,14 @@
     padding-left: 0.5vh;
     padding-top: .6vh;
     font-family: 'Arial', sans-serif;
-    font-size: 1.6vh;
+    font-size: 1.4vh;
     font-weight: 500;
 }
 
 .tweet-tweeter > span {
     position: relative;
     font-family: 'Arial', sans-serif;
-    font-size: 1.6vh;
+    font-size: 1.4vh;
     font-weight: 500;
     top: -.1vh;
 }
@@ -145,14 +145,14 @@
     margin-top: .5vh;
     padding-left: 0.8vh;
     top: .4vh;
-    font-size: 1.4vh;
+    font-size: 1.2vh;
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
 
 .tweet-image-attached {
     padding-left: 0.8vh;
-    font-size: 1.4vh;
+    font-size: 1.3vh;
     padding-bottom: 2.5vh;
     overflow-wrap: break-word;
     word-wrap: break-word;
