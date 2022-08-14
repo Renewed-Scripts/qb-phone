@@ -90,6 +90,17 @@
     pointer-events: all;
 }
 
+.tweet-trash {
+    position: absolute;
+    left: 86px;
+    bottom: 0.2vh;
+    color: rgb(255, 255, 255);
+    transition: .05 linear;
+    font-size: 1.2vh;
+    z-index: 100;
+    pointer-events: all;
+}
+
 .tweet-time {
     position: absolute;
     right: 10px;
@@ -106,6 +117,11 @@
 }
 
 .tweet-flag:hover i {
+    color: rgb(179, 179, 179);
+}
+
+
+.tweet-trash:hover i {
     color: rgb(179, 179, 179);
 }
 
@@ -129,6 +145,13 @@
     margin-top: .5vh;
     padding-left: 0.8vh;
     top: .4vh;
+    font-size: 1.4vh;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.tweet-image-attached {
+    padding-left: 0.8vh;
     font-size: 1.4vh;
     padding-bottom: 2.5vh;
     overflow-wrap: break-word;
