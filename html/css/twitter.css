@@ -237,18 +237,6 @@
     z-index: 105;
 }
 
-.mentioned-tag {
-    color: black;
-    padding-bottom: .3vh;
-    transition: .2s;
-}
-
-.hashtag-tag-text {
-    color: black;
-    padding-bottom: .3vh;
-    transition: .2s;
-}
-
 /* TWITTER IMAGE BLOCK */
 
 .tweet-block {

@@ -40,12 +40,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
     if (Tweets !== null && Tweets !== undefined && Tweets !== "" && Tweets.length > 0) {
         $(".twitter-home-tab").html("");
         $.each(Tweets, function(i, Tweet){
-            var clean = DOMPurify.sanitize(Tweet.message , {
-                ALLOWED_TAGS: [],
-                ALLOWED_ATTR: []
-            });
-
-            var TwtMessage = QB.Phone.Functions.FormatTwitterMessage(clean);
+            var TwtMessage = Tweet.message
             var TimeAgo = moment(Tweet.date).format('MM/DD/YYYY hh:mm');
             var TwitterHandle = Tweet.firstName + ' ' + Tweet.lastName
 
@@ -113,46 +108,6 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
             }
         });
     }
-}
-
-QB.Phone.Functions.FormatTwitterMessage = function(TwitterMessage) {
-    var TwtMessage = TwitterMessage;
-    var res = TwtMessage.split("@");
-    var tags = TwtMessage.split("#");
-    var InvalidSymbols = [
-        "[",
-        "?",
-        "!",
-        "@",
-        "#",
-        "]",
-    ]
-
-    for(i = 1; i < res.length; i++) {
-        var MentionTag = res[i].split(" ")[0];
-        if (MentionTag !== null && MentionTag !== undefined && MentionTag !== "") {
-            TwtMessage = TwtMessage.replace("@"+MentionTag, "<span class='mentioned-tag' data-mentiontag='@"+MentionTag+"''>@"+MentionTag+"</span>");
-        }
-    }
-
-    for(i = 1; i < tags.length; i++) {
-        var Hashtag = tags[i].split(" ")[0];
-
-        for(i = 1; i < InvalidSymbols.length; i++){
-            var symbol = InvalidSymbols[i];
-            var res = Hashtag.indexOf(symbol);
-
-            if (res > -1) {
-                Hashtag = Hashtag.replace(symbol, "");
-            }
-        }
-
-        if (Hashtag !== null && Hashtag !== undefined && Hashtag !== "") {
-            TwtMessage = TwtMessage.replace("#"+Hashtag, "<span class='hashtag-tag-text' data-hashtag='"+Hashtag+"''>#"+Hashtag+"</span>");
-        }
-    }
-
-    return TwtMessage
 }
 
 // Clicks
@@ -255,8 +210,3 @@ $(document).on('click','.tweet-trash',function(e){
     var source = $(this).parent().parent().data('twtid');
     $.post('https://qb-phone/DeleteTweet', JSON.stringify({id: source}))
 })
-
-$(document).on('click', '.mentioned-tag', function(e){
-    e.preventDefault();
-    CopyMentionTag(this);
-});
