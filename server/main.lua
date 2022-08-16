@@ -155,35 +155,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, 
     end
 end)
 
-
-
--- Services
-QBCore.Functions.CreateCallback('qb-phone:server:GetServicesWithActivePlayers', function(_, cb)
-    local Services = {}
-
-    for i = 1, #Config.ServiceJobs do
-        local job = Config.ServiceJobs[i]
-        Services[job.Job] = {}
-        Services[job.Job].Label = QBCore.Shared.Jobs[job.Job].label
-        Services[job.Job].HeaderBackgroundColor = job.HeaderBackgroundColor
-        Services[job.Job].Players = {}
-    end
-
-    for _, v in pairs(QBCore.Functions.GetPlayers()) do
-        local Player = QBCore.Functions.GetPlayer(v)
-        if Player then
-            local job = Player.PlayerData.job.name
-            if Services[job] and Player.PlayerData.job.onduty then
-                Services[job].Players[#(Services[job].Players)+1] = {
-                    Name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
-                    Phone = Player.PlayerData.charinfo.phone,
-                }
-            end
-        end
-    end
-    cb(Services)
-end)
-
 -- Webhook needs to get fixed, right now anyone can grab this and use it to spam dick pics in Discord servers
 QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(_, cb)
 	cb(WebHook)

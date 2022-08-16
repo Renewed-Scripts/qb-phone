@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+.taxi-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: #212832;
+}
+
+.taxi-header {
+    position: absolute;
+    width: 100%;
+    height: 12vh;
+    top: 0;
+    color: white;
+    font-size: 1.8vh;
+}
+
+.taxi-taxi-image {
+    position: absolute;
+    width: 27vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 6vh;
+}
+
+.taxis-list {
+    position: absolute;
+    width: 100%;
+    height: 71%;
+    margin: 0 auto;
+    text-align: center;
+    bottom: 3%;
+}
+
+.taxis-list::-webkit-scrollbar {
+    display: none;
+}
+
+.taxi-list {
+    position: relative;
+    width: 90.0%;
+    height: 6vh;
+    margin: auto;
+    border-bottom: .1vh solid #fff;
+}
+
+.taxi-list-fullname {
+    position: absolute;
+    top: 10%;
+    font-size: 1.3vh;
+    max-width: 14vh;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    color: white;
+}
+
+.taxi-list-phone {
+    position: absolute;
+    top: 50%;
+    font-size: 1.3vh;
+    max-width: 14vh;
+    color: white;
+}
+
+.taxi-list-call {
+    color: white;
+    position: absolute;
+    top: 25%;
+    transform: rotate(0deg);
+    right: 0;
+    font-size: 2vh;
+}
+
+.notaxidrivers {
+    width: 100%;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7vh;
+    font-weight: bold;
+    color: #FFFFFF;
+    line-height: 20vh;
+}
+
+#taxi-frown {
+    position: absolute;
+    top: 15.5%;
+    left: 41.5%;
+    font-size: 275%;
+    color: #FFFFFF;
+}

@@ -89,6 +89,8 @@ QB.Phone.Functions.SetupApplications = function(data) {
                 icon = '<img src="./img/apps/jobcenter.png" style="width: 87%;margin-top: 6%;margin-left: -2%;">';
             } else if (app.app == "crypto"){
                 icon = '<img src="./img/apps/crypto.png" style="width: 85%;margin-top: 7%;">';
+            } else if (app.app == "taxi"){
+                icon = '<img src="./img/apps/taxiapp.png" style="width: 85%;margin-top: 7%;">';
             } else if (app.app == "lsbn"){
                 icon = '<img src="./img/apps/lsbn.png" style="width: 85%;margin-top: 7%;">';
             } else if (app.app == "contacts"){
@@ -211,9 +213,9 @@ $(document).on('click', '.phone-application', function(e){
                     });
                 } else if (PressedApplication == "meos") {
                     SetupMeosHome();
-                } else if (PressedApplication == "services") {
-                    $.post('https://qb-phone/GetServicesWithActivePlayers', JSON.stringify({}), function(data){
-                        SetupServices(data);
+                } else if (PressedApplication == "taxi") {
+                    $.post('https://qb-phone/GetAvailableTaxiDrivers', JSON.stringify({}), function(data){
+                        SetupTaxiDrivers(data);
                     });
                 } else if (PressedApplication == "store") {
                     $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
@@ -825,6 +827,11 @@ $(document).ready(function(){
                     QB.Phone.Data.PlayerData = event.data.PlayerData;
                     LoadCryptoCoins()
                 }
+                break;
+            case "UpdateGarages":
+                $.post('https://qb-phone/SetupGarageVehicles', JSON.stringify({}), function(Vehicles){
+                    SetupGarageVehicles(Vehicles);
+                })
                 break;
             case "UpdateRacingApp":
                 $.post('https://qb-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
