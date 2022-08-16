@@ -1,35 +1,10 @@
 $(document).on('click', '#ping-send', function(e){
     e.preventDefault();
-    var IDPlayer = $("#channel").val();
+    var IDPlayer = $(".ierplol").val();
     if (IDPlayer >= 1){
         $.post('https://qb-phone/SendPingPlayer', JSON.stringify({
             id: IDPlayer
         }));
-        $("#channel").val("");
+        $(".ierplol").val("");
     }
-});
-
-$(document).on('click', '#ping-accept', function(e){
-    e.preventDefault();
-    $.post('https://qb-phone/AcceptPingPlayer', JSON.stringify({}));
-});
-
-$(document).on('click', '#ping-reject', function(e){
-    e.preventDefault();
-    $.post('https://qb-phone/rejectPingPlayer', JSON.stringify({}));
-});
-
-$(document).ready(function(){
-    window.addEventListener('message', function(event) {
-        switch(event.data.action) {
-            case "acceptrejectBlock":
-                $("#ping-accept").css({"display":"block"});
-                $("#ping-reject").css({"display":"block"});
-                break;
-            case "acceptrejectNone":
-                $("#ping-accept").css({"display":"none"});
-                $("#ping-reject").css({"display":"none"});
-                break;  
-        }
-    })
 });

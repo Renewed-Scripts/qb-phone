@@ -20,6 +20,15 @@
     margin: 0 auto;
 }
 
+.erpinger {
+    position: absolute;
+    width: 175%;
+    margin: 0 auto;
+    left: -9.7vh;
+    right: 6vh;
+    top: -6.5vh;
+}
+
 .ping-header > p {
     line-height: 12vh;
     text-indent: 2vh;
@@ -71,39 +80,15 @@
     z-index: 1;
     color: whitesmoke;
 }
-  
-  input[name="channel"]::-webkit-input-placeholder {
-    color: whitesmoke;
-}
-  .channel span {
-    text-align: center;
-    color: rgba(0, 0, 0, 0.75);
-}
 
-.channel input {
-    text-align: center;
-    border: none;
-    border-bottom: .2vh solid whitesmoke;
-    background: none;
-    outline: none;
-    font-family: 'Fira Code', monospace;
-    width: 60%;
-    margin-left: 20%;
-    color: rgb(255, 255, 255);
-    text-shadow: 1px 1px 3px rgb(5, 5, 5);
-    margin-bottom: 5%;
-}
-
-.channel input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
 
 .ping-sender-piinger{
     display: block;
     height: 4.5vh;
-    width: 60%;
+    width: 80%;
+    top: 1.5vh;
     text-align: center;
-    margin-left: 20%;
+    margin-left: 10%;
     background: rgb(49,71,94);
     border-radius: 4px;
     box-shadow: 1px 1px 6px rgb(5, 5, 5);
@@ -112,6 +97,45 @@
     padding: 8px;
 }
 
+.ping-sender-piinger > i{
+    margin-right: 2.5vh;
+}
+
 .ping-sender-piinger:hover{
     background: rgb(37, 68, 111);
+}
+
+.ping-menu-text{
+    position: relative;
+    top: 2.2vh;
+    margin-left: 20%;
+    margin-bottom: 20%;
+    width: 55%;
+    border: none;
+    background: none;
+    outline: none;
+    text-indent: 3vh;
+    text-align: left;
+    line-height: 3.0vh;
+    font-size: 1.45vh;
+    overflow: hidden;
+    color: white;
+    border-bottom: .1vh solid #fff;
+    transition: 0.25s;
+}
+
+#ping-menu-icon{
+    position: relative;
+    top: 2.2vh;
+    right: 13.7vh;
+    font-size: 1.4vh;
+    color: white;
+}
+
+.ping-menu-title{
+    position: relative;
+    bottom: 0.2vh;
+    right: 15.4vh;
+    font-size: 1.1vh;
+    color: white;
 }
