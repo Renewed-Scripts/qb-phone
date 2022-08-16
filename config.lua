@@ -1,22 +1,10 @@
 Config = Config or {}
 
-
-
 Config.TsunamiTweets = 15 -- This is the value of max amount of tweets to go through each restart meaning that no more than these amount of tweets will be loaded between restarts
 Config.DatabaseCleanup = {
     tweets = 0.5, -- This means tweets get cleared from database after 12 hours or 0.5 days
     mails = 2, -- This means mails get cleared from database after 2 days
 }
-
-
-
-
-
-
-
-
-
-
 -- If you have Lions Boosting System, enable this check to NOT produce any vehicle registration for vinscratched vehicles. Disable if you want to produce vehicle registration regardless
 Config.Vinscratch = false
 -- Item name for pings app ( Having a VPN sends an anonymous ping, else sends the players name)
@@ -33,24 +21,12 @@ Config.BlipColor = 4
 Config.BlipIcon = 280
 Config.BlipScale = 0.75
 
-Config.BillingCommissions = { -- This is a percentage (0.10) == 10%
-    mechanic = 0.10
-}
-
 Config.Linux = false -- True if linux
 Config.TweetDuration = 8 -- How many hours to load tweets (12 will load the past 12 hours of tweets)
 Config.RepeatTimeout = 4000
 Config.CallRepeats = 10
 
-
--- Job = the sender of the bills Job, onDuty = if the sender must be on Duty, Comission = the commission the individual gets when someone pays the bill
-Config.DebtJobs = {
-    ["mechanic"] = { onDuty = true, comissionEnabled = true, comission = 0.10 },
-    ["police"] = { onDuty = true, comissionEnabled = true, comission = 0.10 },
-}
-
 Config.ManagementType = "simple-banking" -- put qb-management for qb-management || put simple-banking for simple-banking implementation
-
 
 Config.PhoneApplications = {
     ["details"] = {
@@ -259,12 +235,12 @@ Config.PhoneApplications = {
         slot = 17,
         Alerts = 0,
     },
-    ["services"] = {
-        app = "services",
-        color = "#26d4ce",
-        color2 = "#1e9c98",
+    ["taxi"] = {
+        app = "taxi",
+        color = "#c6c900",
+        color2 = "#abad00",
         icon = "fas fa-briefcase",
-        tooltipText = "Services",
+        tooltipText = "Taxi",
         tooltipPos = "bottom",
         style = "font-size: 3vh";
         job = false,
@@ -404,31 +380,10 @@ Config.JobCenter = {
     },
 }
 
-Config.ServiceJobs = {
-    {
-        Job = "lawyer",
-        HeaderBackgroundColor = "rgb(42, 137, 214)"
-    },
-    {
-        Job = "realestate",
-        HeaderBackgroundColor = "rgb(155, 15, 120)"
-    },
-    {
-        Job = "mechanic",
-        HeaderBackgroundColor = "rgb(0, 204, 102)"
-    },
+Config.TaxiJob = {
     {
         Job = "taxi",
-        HeaderBackgroundColor = "rgb(255, 190, 27)"
     },
-    {
-        Job = "police",
-        HeaderBackgroundColor = "rgb(0, 0, 255)"
-    },
-    {
-        Job = "ambulance",
-        HeaderBackgroundColor = "rgb(255, 0, 0)"
-    }
 }
 
 Config.CryptoCoins = {
