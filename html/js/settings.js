@@ -33,7 +33,7 @@ $(document).on("click", ".settings-app-toggle", function(){
     $('#settings-app-menu').fadeIn(350);
 })
 
-$(document).on('click', '#settings-app-submit', function(e){ // Submit Button For Twitter Message
+$(document).on('click', '#settings-app-submit', function(e){
     e.preventDefault();
 
     var checkbox = document.getElementById("checkbox").checked;

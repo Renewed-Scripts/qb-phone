@@ -95,7 +95,6 @@ $(document).on('click', '.box-exchange', function(e){
     ClearInputNew()
     CryptoMeta = $(this).data('cryptometa')
     CryptoName = $(this).data('label')
-    $(".crypto-name-exchange").val(CryptoName);
     $('#crypto-exchange-tab').fadeIn(350);
 });
 

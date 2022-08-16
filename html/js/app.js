@@ -221,10 +221,6 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
                         SetupAppstore(data);
                     });
-                } else if (PressedApplication == "trucker") {
-                    $.post('https://qb-phone/GetTruckerData', JSON.stringify({}), function(data){
-                        SetupTruckerInfo(data);
-                    });
                 }
                 else if (PressedApplication == "gallery") {
                     $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){
