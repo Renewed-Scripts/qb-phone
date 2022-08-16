@@ -848,12 +848,6 @@ RegisterNUICallback('publicphoneclose', function(_, cb)
     cb('ok')
 end)
 
-RegisterNUICallback('openHelp', function(_, cb)
-    TriggerEvent('qb-cityhall:client:PayTaxes2') -- Custom Tax Script Dependency
-    cb('ok')
-end)
-
-
 --- SHIT THAT IS GONE
 
 RegisterNUICallback('SetupStoreApps', function(_, cb)

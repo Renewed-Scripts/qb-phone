@@ -158,12 +158,12 @@ $(document).on('click', '#phone-recent-start-call', function(e){
 $(document).on('click', "#phone-recent-call-number", function(e){
     e.preventDefault();
     ClearInputNew()
-    $('.phone-new-box-body').fadeIn(350);
+    $('#phone-call-person-menu').fadeIn(350);
 });
 
 $(document).on('click', "#phone-number-call-free-btn", function(e){
     e.preventDefault();
-    var InputNum = $("#phone-number-call-free").val();
+    var InputNum = $(".phone-number-call-free").val();
 
     if (InputNum != ""){
         cData = {
@@ -179,7 +179,7 @@ $(document).on('click', "#phone-number-call-free-btn", function(e){
                 if (status.IsOnline) {
                     if (status.CanCall) {
                         if (!status.InCall) {
-                            $('.phone-new-box-body').fadeOut(350);
+                            $('#phone-call-person-menu').fadeOut(350);
                             ClearInputNew()
                             $(".phone-call-outgoing").css({"display":"none"});
                             $(".phone-call-incoming").css({"display":"none"});
@@ -646,7 +646,8 @@ QB.Phone.Functions.AnswerCall = function(CallData) {
 $(document).on('click', '#box-new-cancel', function(e){
     e.preventDefault();
     ClearInputNew()
-    $('.phone-new-box-body').fadeOut(350);
+    $('.phone-menu-body').fadeOut(350);
+    //$('.phone-new-box-body').fadeOut(350);
 });
 
 function ClearInputNew(){

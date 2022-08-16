@@ -75,6 +75,10 @@
     font-size: 2vh;
 }
 
+.taxi-list-call:hover i {
+    color: rgb(179, 179, 179);
+}
+
 .notaxidrivers {
     width: 100%;
     text-align: center;

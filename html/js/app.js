@@ -845,10 +845,3 @@ $(document).ready(function(){
         }
     })
 });
-
-$(document).on("click", ".triggerHelp", function(){
-    $.ajax({
-        url: 'https://qb-phone/openHelp',
-        method: 'POST',
-    })
-})

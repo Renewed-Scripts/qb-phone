@@ -70,7 +70,6 @@ $(document).on('click', '.box-purchase', function(e){
     ClearInputNew()
     CryptoMeta = $(this).data('cryptometa')
     CryptoName = $(this).data('label')
-    $(".crypto-name").val(CryptoName);
     $('#crypto-purchase-tab').fadeIn(350);
 });
 
