@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+/* Advert App */
+
+.advert-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: #202731;
+    overflow: hidden;
+}
+
+.advert-home {
+    position: relative;
+    left: 0;
+}
+
+.advert-header {
+    position: absolute;
+    width: 100%;
+    height: 10vh;
+    top: 0;
+}
+
+.advert-list {
+    position: absolute;
+    width: 99%;
+    height: 48.5vh;
+    top: 9vh;
+    left: .1vh;
+    overflow-x: hidden !important;
+    overflow-y: scroll;
+}
+
+.advert-list::-webkit-scrollbar {
+    display: none;
+}
+
+/* NEW SHIT */
+
+.advert {
+    margin-top: 1.5vh;
+    position: relative;
+    height: auto;
+    width: 80%;
+    margin-bottom: 1.0vh;
+    background-color: #f7e95f;
+    left: 10.0%;
+    color: rgb(0, 0, 0);
+}
+
+.advert-message {
+    padding-left: 0.5vh;
+    padding-top: .6vh;
+    padding-bottom: 1.2vh;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.45vh;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    border-bottom: .1vh solid rgb(0, 0, 0);
+}
+
+.advert-message > span {
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.6vh;
+    top: -.1vh;
+}
+
+.advert-contact-info {
+    margin-top: .5vh;
+    padding-left: 0.8vh;
+    top: .4vh;
+    font-size: 12px;
+    font-style: center;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.advert-image-attached {
+    margin-top: .5vh;
+    padding-left: 0.8vh;
+    font-size: 1.4vh;
+    bottom: 40vh;
+    padding-bottom: 2.5vh;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.advert-flag {
+    position: absolute;
+    left: 10px;
+    bottom: 0.2vh;
+    color: rgb(0, 0, 0);
+    transition: .05 linear;
+    font-size: 1.0vh;
+}
+
+.advert-trash {
+    position: absolute;
+    left: 33.5px;
+    bottom: 0.2vh;
+    color: rgb(0, 0, 0);
+    transition: .05 linear;
+    font-size: 1.0vh;
+}
+
+.create-advert {
+    position: absolute;
+    width: 100%;
+    height: 4.2vh;
+    top: 3.5vh;
+    transition: .1s ease-in-out;
+    text-align: right;
+    line-height: 4.2vh;
+    font-size: 2.3vh;
+    padding-right: 9%;
+    color: white;
+    /* background-color: rgb(36, 36, 36); */
+}
+
+.create-advert:hover {
+    transition: .1s ease-in-out;
+}
+
+.create-advert:hover .test-icon {
+    color: #2c465f;
+    transition: .1s ease-in-out;
+    /* animation: Shake 1s infinite; */
+}
+
+#advert-new-url{
+    position: absolute;
+    height: 4vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    background-color: rgba(23, 23, 23, 90%);
+    outline: none;
+    resize: none;
+    /* font-family: 'Poppins', sans-serif; */
+    padding: 0.87vh;
+    font-size: 1.4vh;
+    top: 45vh;
+    width: 22vh;
+    border-radius: 7px;
+    color: white;
+    border: 2px solid rgb(255, 154, 46);
+}
+
+/*Search Area */
+
+#advert-search {
+    display: block;
+    position: absolute;
+    background: none;
+    border: none;
+    background: none;
+    top: 6.9vh;
+    width: 77%;
+    margin: 0 auto;
+    left: -2%;
+    right: 0;
+    opacity: 1;
+    height: 2.5vh;
+    /* border-radius: 1vh; */
+    border-bottom: .1vh solid #f5f5f5ad;
+    /* box-shadow: 0 0 .2vh 0 rgba(0, 0, 0, 0.281); */
+    /* font-family: 'Poppins', sans-serif; */
+    outline: none;
+    text-indent: 2.5vh;
+    z-index: 100;
+    color: whitesmoke;
+}
+#advert-search-icon {
+    position: absolute;
+    top: 7.5vh;
+    left: 3.5vh;
+    font-size: 1.4vh;
+    color: #FFFFFF;
+}
+
+#advert-new-url::-webkit-scrollbar {
+    display: none;
+}
+
+/* Advertisements Image Block */
+
+.advert-block {
+    display: block;
+    position: relative;
+    left: 1.0vh;
+    width: 20.0vh;
+    height: 11.5vh;
+    bottom: 3.0vh;
+    outline: 1.5px ridge rgb(0, 0, 0);
+    background-color: #f7e95f;
+}
+
+.advert-eye {
+    position: absolute;
+    bottom: 6.5vh;
+    left: 7.75vh;
+    color: rgb(0, 0, 0);
+    font-size: 3.9vh;
+}
+
+.advert-image-text {
+    position: absolute;
+    bottom: 5.4vh;
+    left: 5.7vh;
+    color: rgb(0, 0, 0);
+    font-size: 1.5vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+.advert-image-text-other {
+    position: absolute;
+    top: 7.2vh;
+    left: 1.2vh;
+    color: rgb(0, 0, 0);
+    font-size: 1.2vh;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.noadverts {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7vh;
+    font-weight: bold;
+    color: #FFFFFF;
+    line-height: 20vh;
+}
+
+#advert-frown {
+    position: absolute;
+    top: 5.5%;
+    left: 41.5%;
+    font-size: 275%;
+    color: #FFFFFF;
+}
