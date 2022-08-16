@@ -94,7 +94,7 @@ local PublicPhoneobject = {
     -1559354806
 }
 
-exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
+exports["5life-eye"]:AddTargetModel(PublicPhoneobject, {
     options = {
         {
             type = "client",
@@ -516,12 +516,6 @@ RegisterNUICallback('DeleteContact', function(data, cb)
         PhoneData.Chats[Number].name = Number
     end
     TriggerServerEvent('qb-phone:server:RemoveContact', Name, Number)
-end)
-
-RegisterNUICallback('GetServicesWithActivePlayers', function(_, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetServicesWithActivePlayers', function(lawyers)
-        cb(lawyers)
-    end)
 end)
 
 RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
