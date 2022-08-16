@@ -34,6 +34,100 @@ $(document).ready(function(){
     })
 });
 
+// Functions
+
+function MainMenu(){
+    $(".documents-list").html("");
+    $(".document-body-class-body-main").html("");
+    $('.documents-tupe-text-btn').fadeIn(50);
+    $('#documents-search-text').fadeIn(50);
+    $('#documents-search-icon').fadeIn(50);
+    $('#documents-search').fadeIn(50);
+    $('.documents-dropdown').fadeIn(50);
+    $('.documents-select').fadeIn(50);
+
+    if (ExtraButtonsOpen) {
+        $(".documents-extra-buttons").animate({
+            right: -60+"%",
+        }, 250, function(){
+            $(".documents-extra-buttons").css({"display":"block"});
+
+            $(".documents-extra-buttons-registration").animate({
+                right: -60+"%",
+            }, 250, function(){
+                $(".documents-extra-buttons-registration").css({"display":"block"});
+            });
+            ExtraButtonsOpen = false;
+        });
+    }
+}
+
+function AddDocuments(data){
+    $(".documents-list").html("");
+
+    DocEndtitle = null
+    DocEndtext = null
+    DocEndid = null
+    DocEndcitizenid = null
+
+    for (const [k, v] of Object.entries(data)) {
+        var firstLetter = v.title.substring(0, 1);  
+        var Fulltext = firstLetter.toUpperCase()+(v.title).replace(firstLetter,'')
+
+        var AddOption = '<div class="documents-test">' + 
+            '<div class="documents-title-title">'+Fulltext+'</div>' +
+            '<div class="documents-title-icon" data-title="'+v.title+'" data-text="'+v.text+'" data-id="'+v.id+'" data-csn="'+v.citizenid+'"><i class="fas fa-eye"></i></div>'+
+        '</div>';
+
+        $('.documents-list').append(AddOption);
+    }
+}
+
+function LoadGetNotes(){
+    $(".documents-dropdown-menu").html("");
+
+    var Shitter = '<li id="documents-docs" data-title="Documents">Documents' +
+        '<li id="documents-licenses" data-title="Licenses">Licenses</li>' +
+        '<li id="documents-vehicle" data-title="Vehicle">Vehicle Registrations</li>' +
+    '</li>';
+
+    $('.documents-dropdown-menu').append(Shitter);
+}
+
+SendDocument = function(title, text) {
+    MainMenu()
+    $(".documents-list").html("");
+
+    $('.documents-tupe-text-btn').fadeOut(50);
+    $('#documents-search-text').fadeOut(50);
+    $('#documents-search-icon').fadeOut(50);
+    $('#documents-search').fadeOut(50);
+    $('.documents-dropdown').fadeOut(50);
+    $('.documents-select').fadeOut(50);
+
+
+    DocEndtitle = title
+    DocEndtext = text
+    DocEndid = $(this).data('id')
+    DocEndcitizenid = $(this).data('csn')
+
+    var AddOption = '<div class="document-body-class-body-main">'+
+                        '<div id="documents-textarea-new" spellcheck="false" required placeholder="Text" maxlength="4000">'+DocEndtext+'</div>'+
+                    '</div>';
+
+    var AnotherOption = '<div class="document-body-class-body-main">'+
+                            '<div class="documents-input-title-list">Title</div>'+
+                            '<div class="documents-input-title-name">'+DocEndtitle+'</div>'+
+                            '<div class="documents-input-tags"><i class="fas fa-tags"></i></div>'+
+                            '<div class="documents-input-back"><i class="fas fa-chevron-left"></i></div>'+
+                        '</div>';
+
+    $('.documents-list').append(AddOption);
+    $('.documents-header').append(AnotherOption);
+}
+
+// Clicks 
+
 $(document).on('click', '.documents-tupe-text-btn', function(e){
     e.preventDefault();
     ClearInputNew()
@@ -342,95 +436,3 @@ $(document).on('click', '#documents-share-perm', function(e){
     ClearInputNew()
     $('#documents-send-stateid').fadeIn(350);
 });
-
-// Functions 
-
-function MainMenu(){
-    $(".documents-list").html("");
-    $(".document-body-class-body-main").html("");
-    $('.documents-tupe-text-btn').fadeIn(50);
-    $('#documents-search-text').fadeIn(50);
-    $('#documents-search-icon').fadeIn(50);
-    $('#documents-search').fadeIn(50);
-    $('.documents-dropdown').fadeIn(50);
-    $('.documents-select').fadeIn(50);
-
-    if (ExtraButtonsOpen) {
-        $(".documents-extra-buttons").animate({
-            right: -60+"%",
-        }, 250, function(){
-            $(".documents-extra-buttons").css({"display":"block"});
-
-            $(".documents-extra-buttons-registration").animate({
-                right: -60+"%",
-            }, 250, function(){
-                $(".documents-extra-buttons-registration").css({"display":"block"});
-            });
-            ExtraButtonsOpen = false;
-        });
-    }
-}
-
-function AddDocuments(data){
-    $(".documents-list").html("");
-
-    DocEndtitle = null
-    DocEndtext = null
-    DocEndid = null
-    DocEndcitizenid = null
-
-    for (const [k, v] of Object.entries(data)) {
-        var firstLetter = v.title.substring(0, 1);  
-        var Fulltext = firstLetter.toUpperCase()+(v.title).replace(firstLetter,'')
-
-        var AddOption = '<div class="documents-test">' + 
-            '<div class="documents-title-title">'+Fulltext+'</div>' +
-            '<div class="documents-title-icon" data-title="'+v.title+'" data-text="'+v.text+'" data-id="'+v.id+'" data-csn="'+v.citizenid+'"><i class="fas fa-eye"></i></div>'+
-        '</div>';
-
-        $('.documents-list').append(AddOption);
-    }
-}
-
-function LoadGetNotes(){
-    $(".documents-dropdown-menu").html("");
-
-    var Shitter = '<li id="documents-docs" data-title="Documents">Documents' +
-        '<li id="documents-licenses" data-title="Licenses">Licenses</li>' +
-        '<li id="documents-vehicle" data-title="Vehicle">Vehicle Registrations</li>' +
-    '</li>';
-
-    $('.documents-dropdown-menu').append(Shitter);
-}
-
-SendDocument = function(title, text) {
-    MainMenu()
-    $(".documents-list").html("");
-
-    $('.documents-tupe-text-btn').fadeOut(50);
-    $('#documents-search-text').fadeOut(50);
-    $('#documents-search-icon').fadeOut(50);
-    $('#documents-search').fadeOut(50);
-    $('.documents-dropdown').fadeOut(50);
-    $('.documents-select').fadeOut(50);
-
-
-    DocEndtitle = title
-    DocEndtext = text
-    DocEndid = $(this).data('id')
-    DocEndcitizenid = $(this).data('csn')
-
-    var AddOption = '<div class="document-body-class-body-main">'+
-                        '<div id="documents-textarea-new" spellcheck="false" required placeholder="Text" maxlength="4000">'+DocEndtext+'</div>'+
-                    '</div>';
-
-    var AnotherOption = '<div class="document-body-class-body-main">'+
-                            '<div class="documents-input-title-list">Title</div>'+
-                            '<div class="documents-input-title-name">'+DocEndtitle+'</div>'+
-                            '<div class="documents-input-tags"><i class="fas fa-tags"></i></div>'+
-                            '<div class="documents-input-back"><i class="fas fa-chevron-left"></i></div>'+
-                        '</div>';
-
-    $('.documents-list').append(AddOption);
-    $('.documents-header').append(AnotherOption);
-}

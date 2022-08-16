@@ -51,9 +51,9 @@
 
 .documents-test {
     position: relative;
-    width: 80%;
+    width: 86%;
     height: 3.5vh;
-    margin-left: 10%;
+    margin-left: 7%;
     margin-bottom: 7px;
     color: white;
     background-color: rgb(44, 70, 95);
@@ -76,7 +76,7 @@
 .documents-title-icon {
     position: relative;
     top: -1.2vh;
-    left: 17.5vh;
+    left: 18.5vh;
     font-size: 1.6vh;
     color: white;
     max-width: 17vh;
@@ -89,7 +89,7 @@
 .documents-title-icon-registration {
     position: relative;
     top: -1.2vh;
-    left: 17.5vh;
+    left: 18.5vh;
     font-size: 1.6vh;
     color: white;
     max-width: 17vh;
@@ -106,7 +106,7 @@
     display: inline;
     border-radius: 4px;
     top: 77%;
-    left: 85%;
+    left: 88%;
 }
 .documents-tupe-text-btn:hover{
     color: rgb(187, 187, 187);
@@ -230,7 +230,7 @@
     border: none;
     background: none;
     top: 6.9vh;
-    width: 82%;
+    width: 90%;
     margin: 0 auto;
     left: 0%;
     right: 0;
@@ -248,14 +248,14 @@
 #documents-search-icon {
     position: absolute;
     top: 7.5vh;
-    left: 2.5vh;
+    left: 1.3vh;
     font-size: 1.4vh;
     color: #FFFFFF;
 }
 #documents-search-text {
     position: absolute;
     top: 4.7vh;
-    left: 2.5vh;
+    left: 1.3vh;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2vh;
     color: #FFFFFF;
@@ -265,14 +265,14 @@
 
 .documents-dropdown {
     position: relative;
-    width: 20vh;
+    width: 90%;
     display: inline-block;
     border-bottom: 0.1vh solid rgba(245, 245, 245, 0.68);
     transition: all .5s ease;
     font-size: 14px;
     text-align: left;
     top: 190%;
-    left: 8.5%;
+    left: 5.2%;
     color: whitesmoke;
     background-color: none;
     outline: none;
