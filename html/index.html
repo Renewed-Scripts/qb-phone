@@ -26,7 +26,6 @@
     <link rel="stylesheet" href="./css/houses.css">
     <link rel="stylesheet" href="./css/taxi.css">
     <link rel="stylesheet" href="./css/qstore.css">
-    <link rel="stylesheet" href="./css/trucker.css">
     <link rel="stylesheet" href="./css/gallery.css">
     <link rel="stylesheet" href="./css/camera.css">
     <link rel="stylesheet" href="./css/details.css">
@@ -425,25 +424,6 @@
                         </div>
                     </div>
 
-                    <div class="trucker-app">
-                        <div class="trucker-header">
-                            <span class="trucker-header-name"><span style="font-size: 1vh; color: rgba(255, 255, 255, 0.6);">Welcome</span><br><span id="trucker-name">Jay Yay</span></span>
-                            <div class="trucker-header-progress">
-                                <div class="trucker-header-progress-fill"></div>
-                                <span class="trucker-header-progress-text" id="trucker-header-progress-current" style="float: left;">Current: 100 REP</span>
-                                <span class="trucker-header-progress-text" id="trucker-header-progress-next" style="float: right;">Next: 200 REP</span>
-                            </div>
-                            <span class="trucker-header-description">Your current progression<br><span id="trucker-header-tier">Tier 1</span></span>
-                        </div>
-
-                        <div class="trucker-jobinfo">
-                            <div class="trucker-jobinfo-nojob">
-                                <i class="fas fa-ban"></i>
-                                <span id="trucker-jobinfo-nojob-text">You are currently not working</span>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="taxi-app">
                         <div class="taxi-header">
                             <img src="./img/taxi.png" class="taxi-taxi-image">
@@ -697,10 +677,9 @@
                     <div class="ping-app">
                         <div class="ping-header">
                             <div class="channel">
-                                <input id="channel" type="number" min="1" name="channel" placeholder="Player ID">
-                                <div style="display: block;" id="ping-send" class="ping-sender-piinger"><i class="fas fa-map-pin"></i> SEND PING</div>
-                                <div style="display: none;" id="ping-accept" class="ping-sender-piinger"><i class="far fa-check-circle"></i> Accept Ping Req.</div>
-                                <div style="display: none;" id="ping-reject" class="ping-sender-piinger"><i class="far fa-times-circle"></i> Reject Ping Req.</div>
+                                <img src="./img/erpinger.png" class="erpinger">
+                                <input class="ping-menu-text ierplol" type="text"><i class="fas fa-id-card-alt" id="ping-menu-icon"></i><span class="ping-menu-title">Paypal ID</span>
+                                <div style="display: block;" id="ping-send" class="ping-sender-piinger"><i class="fas fa-map-pin"></i>SEND PING</div>
                             </div>
                         </div>
 
@@ -758,6 +737,16 @@
                                 <p> </p>
                                 <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
                                 <div class="phone-menu-button phone-menu-accept" id="crypto-send-purchase">Buy</div>
+                            </div>
+                        </div>
+
+                        <div class="phone-menu-body" id="crypto-exchange-tab">
+                            <div class="phone-menu-main">
+                                <input class="phone-menu-text crypto-stateid-exchange" type="text" maxlength="3"><i class="fas fa-id-card" id="phone-menu-icon"></i><span class="phone-menu-title">State ID</span>
+                                <input class="phone-menu-text crypto-amount-exchange" type="text" maxlength="4"><i class="fas fa-dollar-sign" id="phone-menu-icon"></i><span class="phone-menu-title">Amount</span>
+                                <p> </p>
+                                <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
+                                <div class="phone-menu-button phone-menu-accept" id="crypto-send-exchange">Exchange</div>
                             </div>
                         </div>
                     </div>
@@ -1209,7 +1198,6 @@
         <script src="./js/houses.js"></script>
         <script src="./js/taxi.js"></script>
         <script src="./js/qstore.js"></script>
-        <script src="./js/trucker.js"></script>
         <script src="./js/gallery.js"></script>
         <script src="./js/camera.js"></script>
         <script src="./js/details.js"></script>

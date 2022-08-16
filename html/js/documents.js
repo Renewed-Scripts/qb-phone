@@ -3,6 +3,7 @@ var DocEndtext = null
 var DocEndid = null
 var DocEndcitizenid = null
 var ExtraButtonsOpen = false;
+var MonthFormatting = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 $(document).ready(function(){
     $("#documents-search").on("keyup", function() {
