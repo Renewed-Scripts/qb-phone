@@ -904,6 +904,123 @@
                                     supported by Chrome, Opera and Firefox */
 }
 
+/* Check Box Input */
+
+.phone-menu-checkbox-title{
+    position: relative;
+    bottom: 2.5vh;
+    left: 0.5vh;
+    font-size: 1.0vh;
+    color: white;
+}
+
+.phone-menu-checkbox{
+    position: relative;
+    margin-left: 35%;
+    margin-bottom: -10%;
+    width: 100%;
+    border: none;
+    background: none;
+    outline: none;
+    text-indent: 3vh;
+    text-align: left;
+    line-height: 3.0vh;
+    font-size: 1.45vh;
+    overflow: hidden;
+    color: white;
+    border-bottom: .1vh solid #fff;
+    transition: 0.25s;
+}
+
+/* Regular Input Menu */
+
+.phone-menu-body{
+    display: none;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 200%;
+    background-color: rgba(0, 0, 0, 0.624);
+    z-index: 700;
+}
+
+.phone-menu-main{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    padding-top: 10%;
+    padding-bottom: 5%;
+    width: 73%;
+    background-color: rgb(44, 70, 95);
+}
+
+.phone-menu-text{
+    position: relative;
+    margin-left: 10%;
+    margin-bottom: -10%;
+    width: 80%;
+    border: none;
+    background: none;
+    outline: none;
+    text-indent: 3vh;
+    text-align: left;
+    line-height: 3.0vh;
+    font-size: 1.45vh;
+    overflow: hidden;
+    color: white;
+    border-bottom: .1vh solid #fff;
+    transition: 0.25s;
+}
+
+#phone-menu-icon{
+    position: relative;
+    top: 0.2vh;
+    right: 16.2vh;
+    font-size: 1.4vh;
+    color: white;
+}
+
+.phone-menu-title{
+    position: relative;
+    bottom: 4.3vh;
+    left: 2.0vh;
+    font-size: 1.0vh;
+    color: white;
+}
+
+.phone-menu-button{
+    display: inline;
+    transition: 0.25s;
+    padding: 2%;
+    border-radius: 5px;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1vh;
+    margin-bottom: 4%;
+}
+
+.phone-menu-cancel{
+    background:#f6a167;
+    margin-left: 15%;
+    padding: 4.0%;
+}
+.phone-menu-cancel:hover{
+    background: #c27e47;
+}
+
+.phone-menu-accept{
+    background:#90e278;
+    margin-left: 15%;
+    padding: 4.0%;
+}
+.phone-menu-accept:hover{
+    background: #6cac59;
+}
+
+/* SDfDFSDFSF */
 
 .phone-new-box-body{
     display: none;

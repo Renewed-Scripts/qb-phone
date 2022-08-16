@@ -311,19 +311,6 @@ Config.PhoneApplications = {
         slot = 23,
         Alerts = 0,
     },
-    ["settings"] = {
-        app = "settings",
-        color = "#636e72",
-        color2 = "#4c5558",
-        icon = "fas fa-cog",
-        tooltipText = "Settings",
-        tooltipPos = "top",
-        style = "padding-right: .08vh; font-size: 3.3vh";
-        job = false,
-        blockedjobs = {},
-        slot = 24,
-        Alerts = 0,
-    },
     ["gopro"] = {
         app = "gopro",
         color = "#008FFF",
@@ -334,7 +321,7 @@ Config.PhoneApplications = {
         style = "padding-right: .08vh; font-size: 3.3vh";
         job = false,
         blockedjobs = {},
-        slot = 25,
+        slot = 24,
         Alerts = 0,
     },
     ["meos"] = {
@@ -345,7 +332,7 @@ Config.PhoneApplications = {
         tooltipText = "MDT",
         job = "police",
         blockedjobs = {},
-        slot = 26,
+        slot = 25,
         Alerts = 0,
     },
 }
