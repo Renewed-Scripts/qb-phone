@@ -163,7 +163,18 @@ local function LoadPhone()
         end
 
         if pData.Mails and next(pData.Mails) then
-            PhoneData.Mails = pData.Mails
+            for _, v in pairs(pData.Mails) do
+                PhoneData.Mails[#PhoneData.Mails+1] = {
+                    citizenid = v.citizenid,
+                    sender = v.sender,
+                    subject = v.subject,
+                    message = v.message,
+                    read = v.read,
+                    mailid = v.mailId,
+                    date = v.date,
+                    button = type(v.button) == "string" and json.decode(v.button) or v.button
+                }
+            end
         end
 
         if pData.Adverts and next(pData.Adverts) then

@@ -92,11 +92,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
 
     local mails = exports.oxmysql:executeSync('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {CID})
     if mails[1] then
-        for _, v in pairs(mails) do
-            if v.button then
-                v.button = json.decode(v.button)
-            end
-        end
         PhoneData.Mails = mails
     end
 

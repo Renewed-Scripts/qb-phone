@@ -19,13 +19,6 @@ RegisterNetEvent('qb-phone:server:RemoveMail', function(MailId)
     MySQL.query('DELETE FROM player_mails WHERE mailid = ? AND citizenid = ?', {MailId, CID})
     SetTimeout(100, function()
         local mails = MySQL.query.await('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {CID})
-        if mails[1] then
-            for _, v in pairs(mails) do
-                if v.button then
-                    v.button = json.decode(v.button)
-                end
-            end
-        end
         TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
     end)
 end)
