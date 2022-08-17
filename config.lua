@@ -324,6 +324,19 @@ Config.PhoneApplications = {
         slot = 24,
         Alerts = 0,
     },
+    ["group-chats"] = {
+        app = "group-chats",
+        color = "#7289da",
+        color2 = "#7289da",
+        icon = "fab fa-discord",
+        tooltipText = "Discord",
+        tooltipPos = "top",
+        style = "padding-right: .08vh; font-size: 3.3vh";
+        job = false,
+        blockedjobs = {},
+        slot = 25,
+        Alerts = 0,
+    },
     ["meos"] = {
         app = "meos",
         color = "#004682",
@@ -332,7 +345,7 @@ Config.PhoneApplications = {
         tooltipText = "MDT",
         job = "police",
         blockedjobs = {},
-        slot = 25,
+        slot = 26,
         Alerts = 0,
     },
 }

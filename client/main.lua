@@ -29,6 +29,7 @@ PhoneData = {
         anim = nil,
     },
     Images = {},
+    ChatRooms = {},
 }
 
 
@@ -94,11 +95,11 @@ local PublicPhoneobject = {
     -1559354806
 }
 
-exports["5life-eye"]:AddTargetModel(PublicPhoneobject, {
+exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
     options = {
         {
             type = "client",
-            event = "stx-phone:client:publocphoneopen",
+            event = "qb-phone:client:publocphoneopen",
             icon = "fas fa-phone-alt",
             label = "Public Phone",
         },
@@ -174,6 +175,10 @@ local function LoadPhone()
             PhoneData.Images = pData.Images
         end
 
+        if pData.ChatRooms ~= nil and next(pData.ChatRooms) ~= nil then
+            PhoneData.ChatRooms = pData.ChatRooms
+        end
+        
         SendNUIMessage({
             action = "LoadPhoneData",
             PhoneData = PhoneData,
@@ -838,7 +843,7 @@ end)
 
 -- Public Phone Shit
 
-RegisterNetEvent('stx-phone:client:publocphoneopen',function()
+RegisterNetEvent('qb-phone:client:publocphoneopen',function()
     SetNuiFocus(true, true)
     SendNUIMessage({type = 'publicphoneopen'})
 end)

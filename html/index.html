@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="./css/documents.css">
     <link rel="stylesheet" href="./css/lsbn.css">
     <link rel="stylesheet" href="./css/publicphone.css">
+    <link rel="stylesheet" href="./css/group-chats.css">
 
     <!-- CDN's -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!-- JQuery -->
@@ -48,6 +49,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> <!-- Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="./js/jquery.timeago.js"></script>
 </head>
     <body style="background-color: transparent !important";>
         <div id="popup">
@@ -1125,6 +1128,109 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="group-chats-app">
+                        <div class="chat-room-header">
+                            <div class="chat-room-view-rooms" id="open-owned-rooms"><i class="fa fa-book-reader"></i></div>
+                            <div class="chat-room-title"><i class="fab fa-discord"></i> Discord</div>
+                            <div class="chat-room-join-room" id="open-private-rooms"><i class="fa fa-plus-square"></i></div>
+                        </div>
+
+                        <h5 class="group-chats-title">OFFICIAL CHANNELS</h5>
+                        <div class="pinned-chats" id="pinned-rooms-list"></div>
+
+                        <div id="joined-rooms-container">
+                            <h5 class="group-chats-title">YOUR JOINED CHANNELS</h5>
+                            <div class="group-chats" id="joined-rooms-list"></div>
+                        </div>
+
+                        <h5 class="group-chats-title">PUBLIC CHANNELS</h5>
+                        <div id="no-public-rooms-notice">There are currently no registered channels! <br>You may rent some at the cyberbar!</div>
+                        <div class="group-chats" id="public-rooms-list"></div>
+
+                        <div class="chat-room-view" style="display: none;">
+                            <div class="chat-room-header">
+                                <div class="chat-room-back"><i class="fa fa-align-justify"></i></div>
+                                <div class="chat-room-pin" id="search-messages"><i class="fa fa-search"></i></div>
+                                <div class="chat-room-title"><i class="fa fa-hashtag"></i>  <span></span></div>
+                                <div class="chat-room-pin" id="pinned-messages"><i class="fa fa-thumbtack"></i></div>
+                                <div class="chat-room-memberslist"><i class="fa fa-users"></i></div>
+                            </div>
+                            <div class="secured-banner">This channel is operating under a secured VPN</div>  
+                            <div class="chat-room-container">
+                                <div class="search-results">
+                                    <a href="#" id="close-search"><i class="fa fa-times"></i></a>
+                                    <input type="text" class="button-outlined" id="search-message" placeholder="Search for a message." style="padding-right: 25px">
+                
+                                    <div id="no-search-notice">There are no messages matching your search.</div>
+                                    <div class="search-contents" id="search-messages-content"></div>
+                                </div>
+                                <div class="pinned-results">
+                                    <div id="no-pinned-notice">There are currently no pinned messages in this channel.</div>
+
+                                    <div class="search-contents" id="pinned-messages-content"></div>
+                                </div>
+                                <div class="chat-view-container">
+                                    <div class="chat-view"></div>
+                                </div>
+                                <div class="chat-send-message">
+                                    <a href="#" id="send-message"><i class="fa fa-paper-plane"></i></a>
+                                    <input type="text" class="send-chat-message" id="submit-message" placeholder="Press [Enter] to send.">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-members-view" style="display:none;">
+                            <div class="members-list-actions">
+                                <div id="members-back-btn"><i class="fas fa-arrow-circle-left"></i> Back</div> 
+                                <div class="chat-room-join"><a href="#" id="join-room"><i class="fa fa-plus"></i> Join</a></div> 
+                                <div class="chat-room-leave"><a href="#" id="leave-room"><i class="fas fa-minus-circle"></i> Leave</a></div> 
+                            </div>
+                            <h5 style="text-align: center;">Members</h5>
+                            <div id="members-list">
+                            </div>
+                        </div>
+
+                        <div class="chat-modal" id="owned-rooms-list" style="display: none;">
+                            <div class="close-button" id="owned-rooms-list-close"><i class="fa fa-times"></i></div>
+                            <h4 class="group-chats-title" style="text-align: center;">YOUR CHANNELS</h4>
+                            
+                            <div id="no-owned-rooms-notice">You do not own any rooms. <br>You may purchase some at the internet café!</div>
+
+                            <div id="owned-room-items"></div>
+                        </div>
+                        <div class="chat-modal" id="join-room-code" style="display: none;">
+                            <div class="close-button" id="join-room-code-close"><i class="fa fa-times"></i></div>
+
+                            <h4 class="group-chats-title">JOIN A CHANNEL BY CODE</h4>
+
+                            <div class="room-join-code">
+                                <input type="text" class="button-outlined room-input-code" maxlength=5 placeholder="42069">
+                                <h5 class="group-chats-title">Enter A Code</h5>
+                            </div> 
+                        </div>
+                        <div class="chat-modal" id="enter-room-pin" style="display: none;">
+                            <div class="close-button" id="enter-room-pin-close"><i class="fa fa-times"></i></div>
+
+                            <h4 class="group-chats-title">Enter Passcode: <span id="room-name-pin"></span></h4>
+
+                            <div class="room-join-code">
+                                <input type="password" class="button-outlined room-input-code" id="room-pin-input" maxlength=50 placeholder="XXXXXX">
+                                <h5 style="text-align: center">This room is private, please enter the passcode.</h5>
+                            </div> 
+                        </div>
+                        <div class="chat-modal" id="confirm-deactivation" style="display: none;">
+                            <div class="close-button" id="confirm-deactivation-close"><i class="fa fa-times"></i></div>
+
+                            <h4 class="group-chats-title" style="text-align: center;">Are you sure you want to close this channel? Messages will be lost forever.</h4>
+
+                            <div class="confirm-buttons">
+                                <a href="#" class="confirm">Confirm</a>
+                                <a href="#" class="reject">Cancel</a>
+                            </div> 
+                        </div>
+                        <div class="modal-overlay" style="display: none;"></div>
+                    </div>
                 </div>
 
                 <div class="phone-currentcall-container">
@@ -1211,6 +1317,7 @@
         <script src="./js/documents.js"></script>
         <script src="./js/lsbn.js"></script>
         <script src="./js/publicphone.js"></script>
+        <script src="./js/group-chats.js"></script>
         <script type="text/javascript">$('#whatsapp-openedchat-message').emojioneArea({inline: true, searchPosition: "bottom", shortnames: true})</script>
     </body>
 </html>

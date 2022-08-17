@@ -63,6 +63,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         Adverts = Adverts,
         Tweets = Tweets,
         Images = {},
+        ChatRooms = {},
     }
 
     local result = exports.oxmysql:executeSync('SELECT * FROM player_contacts WHERE citizenid = ? ORDER BY name ASC', {CID})
@@ -104,6 +105,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.Images = images
     end
 
+    local chat_rooms = MySQL.query.await("SELECT id, room_code, room_name, room_owner_id, room_owner_name, room_members, is_masked, is_pinned, IF(room_pin = '' or room_pin IS NULL, false, true) AS protected FROM phone_chatrooms")
+    if chat_rooms[1] then
+        PhoneData.ChatRooms = chat_rooms
+        ChatRooms = chat_rooms
+    end
     cb(PhoneData)
 end)
 

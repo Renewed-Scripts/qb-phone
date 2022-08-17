@@ -263,7 +263,12 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/ClearGeneralAlerts', JSON.stringify({
                         app: "contacts"
                     }));
-                }
+                } else if(PressedApplication == "group-chats") {
+                    $.post('https://qb-phone/GetChatRooms', JSON.stringify({}), function(ChatRooms){
+                        QB.Phone.Functions.HeaderTextColor("white", 100);
+                        QB.Phone.Functions.LoadChatRooms(ChatRooms)
+                    })
+                } 
             }
         }
     } else {
@@ -842,6 +847,12 @@ $(document).ready(function(){
                 break;
             case "RefreshAlerts":
                 QB.Phone.Functions.SetupAppWarnings(event.data.AppData);
+                break;
+            case "RefreshChatRooms":
+                let rooms = $.map(event.data.Rooms, (r) => {
+                    return r
+                })
+                QB.Phone.Functions.LoadChatRooms(rooms)
                 break;
 
         }
