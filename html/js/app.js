@@ -808,6 +808,12 @@ $(document).ready(function(){
                     QB.Phone.Notifications.LoadTweets(event.data.Tweets);
                 }
                 break;
+
+            case "refreshDebt":
+                if (QB.Phone.Data.currentApplication == "debt") {
+                    LoadDebtJob(event.data.debt);
+                }
+                break;
             case "AddPoliceAlert":
                 AddPoliceAlert(event.data)
                 break;

@@ -127,5 +127,6 @@ RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiv
     end
 
     local Notes = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE citizenid = ?', {CID})
+    Wait(100)
     TriggerClientEvent('qb-phone:RefReshNotes_Free_Documents', src, Notes)
 end)
