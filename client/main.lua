@@ -178,7 +178,7 @@ local function LoadPhone()
         if pData.ChatRooms ~= nil and next(pData.ChatRooms) ~= nil then
             PhoneData.ChatRooms = pData.ChatRooms
         end
-        
+
         SendNUIMessage({
             action = "LoadPhoneData",
             PhoneData = PhoneData,
@@ -553,8 +553,7 @@ RegisterNUICallback("TakePhoto", function(_, cb)
     SetNuiFocus(false, false)
     CreateMobilePhone(1)
     CellCamActivate(true, true)
-    local takePhoto = true
-    while takePhoto do
+    while true do
         if IsControlJustPressed(1, 27) then
             frontCam = not frontCam
             CellFrontCamActivate(frontCam)
@@ -563,7 +562,6 @@ RegisterNUICallback("TakePhoto", function(_, cb)
             CellCamActivate(false, false)
             cb(json.encode({ url = nil }))
             OpenPhone()
-            takePhoto = false
             break
         elseif IsControlJustPressed(1, 176) then
             QBCore.Functions.TriggerCallback("qb-phone:server:GetWebhook",function(hook)
@@ -580,17 +578,16 @@ RegisterNUICallback("TakePhoto", function(_, cb)
                     OpenPhone()
                 end)
             end)
-
-            takePhoto = false
+            break
         end
-          HideHudComponentThisFrame(7)
-          HideHudComponentThisFrame(8)
-          HideHudComponentThisFrame(9)
-          HideHudComponentThisFrame(6)
-          HideHudComponentThisFrame(19)
-          HideHudAndRadarThisFrame()
-          EnableAllControlActions(0)
-          Wait(0)
+        HideHudComponentThisFrame(7)
+        HideHudComponentThisFrame(8)
+        HideHudComponentThisFrame(9)
+        HideHudComponentThisFrame(6)
+        HideHudComponentThisFrame(19)
+        HideHudAndRadarThisFrame()
+        EnableAllControlActions(0)
+        Wait(0)
     end
 end)
 

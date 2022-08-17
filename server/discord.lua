@@ -4,7 +4,7 @@ ChatRooms = {}
 -- Generates a random letter
 --
 -- @returns string
-local charset = {}  do 
+local charset = {}  do
     for c = 97, 122 do table.insert(charset, string.char(c)) end
 end
 
@@ -28,7 +28,7 @@ local function doesRoomExist(id, code)
                 return room
             end
         end
-    elseif code and not id then 
+    elseif code and not id then
         -- Find a room based on the room code
         for _, room in pairs(ChatRooms) do
             if room.room_code == code then
@@ -52,7 +52,7 @@ local function isMemberOfRoom(citizenid, roomID)
             memberList = json.decode(room.room_members)
 
             if next(memberList) then
-                for _, memberData in pairs(memberList) do 
+                for _, memberData in pairs(memberList) do
                     if citizenid == memberData.cid  then
                         return true
                     end
@@ -61,7 +61,7 @@ local function isMemberOfRoom(citizenid, roomID)
                 return false
             end
         end
-    end   
+    end
     return false
 end
 
@@ -76,7 +76,7 @@ local function isOwnerOfRoom(citizenid, roomID)
         if (room.id == roomID) and (citizenid == room.room_owner_id) then
             return true
         end
-    end   
+    end
     return false
 end
 
@@ -85,11 +85,11 @@ end
 -- @param roomid int
 --
 -- @returns boolean
-local function isRoomMasked(roomID) 
+local function isRoomMasked(roomID)
     for k, room in pairs(ChatRooms) do
         if (room.id == roomID) and (room.is_masked) then
             return true
-        end       
+        end
     end
 
     return false
@@ -183,7 +183,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGroupChatMessages', function
 
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:SearchGroupChatMessages', function(source, cb, roomID, searchTerm) 
+QBCore.Functions.CreateCallback('qb-phone:server:SearchGroupChatMessages', function(source, cb, roomID, searchTerm)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local search = escape_sqli(searchTerm)
@@ -207,10 +207,10 @@ QBCore.Functions.CreateCallback('qb-phone:server:SearchGroupChatMessages', funct
                 cb(messages)
             else
                 cb(false)
-            end   
+            end
         end
     else
-        TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to search.') 
+        TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to search.')
         cb(false)
     end
 end)
@@ -228,20 +228,20 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPinnedMessages', function(so
             cb(false)
         end
     else
-        TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to fetch that.') 
+        TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to fetch that.')
         cb(false)
     end
 end)
 
 
-QBCore.Functions.CreateCallback('qb-phone:server:TryPinCode', function(source, cb, pinCode, roomID) 
+QBCore.Functions.CreateCallback('qb-phone:server:TryPinCode', function(source, cb, pinCode, roomID)
     local room = MySQL.scalar.await("SELECT 1 FROM phone_chatrooms WHERE id=@roomID AND room_pin=@roomPin", {['@roomID'] = roomID, ['roomPin'] = pinCode})
 
     cb(room)
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:IsRoomOwner', function(source, cb, roomID) 
-    local Player = QBCore.Functions.GetPlayer(source) 
+QBCore.Functions.CreateCallback('qb-phone:server:IsRoomOwner', function(source, cb, roomID)
+    local Player = QBCore.Functions.GetPlayer(source)
     local room = MySQL.scalar.await("SELECT 1 FROM phone_chatrooms WHERE id=@roomID AND room_owner_id=@owner", {['@roomID'] = roomID, ['owner'] = Player.PlayerData.citizenid})
 
     if room then
@@ -251,7 +251,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:IsRoomOwner', function(source, 
     end
 end)
 
-RegisterNetEvent('qb-phone:server:SendGroupChatMessage', function(messageData, systemMessage, roomID) 
+RegisterNetEvent('qb-phone:server:SendGroupChatMessage', function(messageData, systemMessage, roomID)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local permitted = true
@@ -276,7 +276,6 @@ RegisterNetEvent('qb-phone:server:SendGroupChatMessage', function(messageData, s
                 end
             elseif(permitted) then
                 local message = escape_sqli(messageData.message)
-            
                 local msg = MySQL.insert.await("INSERT INTO phone_chatroom_messages (room_id, member_id, message, member_name) VALUES (?,?,?,?)", {
                     messageData.room_id,
                     Player.PlayerData.citizenid,
@@ -288,7 +287,7 @@ RegisterNetEvent('qb-phone:server:SendGroupChatMessage', function(messageData, s
                 TriggerEvent("qb-log:server:CreateLog", "phone-chatrooms", "Message Posted (room: ".. messageData.room_id .. ", from: ".. Player.PlayerData.citizenid ..")", "blue", messageData.message)
             end
         else
-            TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to send messages.') 
+            TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to send messages.')
         end
     else
         local message = escape_sqli(systemMessage.message)
@@ -307,7 +306,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:JoinGroupChat', function(source
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local permitted = true
-  
     if isRoomMasked(roomID) then
         if not isPhoneHacked then
             permitted = false
@@ -316,25 +314,21 @@ QBCore.Functions.CreateCallback('qb-phone:server:JoinGroupChat', function(source
             cb(false)
         end
     end
-    
     if permitted and not isMemberOfRoom(Player.PlayerData.citizenid, roomID) then
         ChatRooms = updatedRooms
         local members
-    
         for k, v in pairs(ChatRooms) do
             if(v.id == roomID) then
                 members = v.room_members
                 break
             end
         end
-    
         if members then
             MySQL.update("UPDATE phone_chatrooms SET room_members = ? WHERE id = ?", {
                 members,
                 roomID
             })
         end
-    
         TriggerClientEvent('qb-phone:client:RefreshChatRooms', -1, ChatRooms)
         cb(true)
     end
@@ -366,7 +360,7 @@ RegisterNetEvent('qb-phone:server:LeaveGroupChat', function(updatedRooms, roomID
     end
 end)
 
-RegisterNetEvent('qb-phone:server:ChangeRoomPin', function(updatedRooms, roomID, pin) 
+RegisterNetEvent('qb-phone:server:ChangeRoomPin', function(updatedRooms, roomID, pin)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
@@ -388,7 +382,7 @@ RegisterNetEvent('qb-phone:server:DeactivateRoom', function(updatedRooms, roomID
     if isOwnerOfRoom(Player.PlayerData.citizenid, roomID) then
         MySQL.query("DELETE FROM phone_chatrooms WHERE id = ?", {
             roomID
-        })  
+        })
 
         ChatRooms = updatedRooms
         TriggerClientEvent('qb-phone:client:RefreshChatRooms', -1, ChatRooms)
@@ -437,10 +431,8 @@ end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:PurchaseRoom', function(source, cb, price)
 	local Player = QBCore.Functions.GetPlayer(source)
-
 	if Player.PlayerData.money.cash >= price then
         Player.Functions.RemoveMoney('cash', price)
-
 		TriggerClientEvent('QBCore:Notify', source, "You have purchased the channel.", 'success')
 		cb(true)
 	else

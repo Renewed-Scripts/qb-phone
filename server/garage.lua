@@ -10,7 +10,7 @@ end
 
 -- Events
 
-RegisterNetEvent('qb-phone:server:sendVehicleRequest', function(data, type)
+RegisterNetEvent('qb-phone:server:sendVehicleRequest', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local Asshole = tonumber(data.id)

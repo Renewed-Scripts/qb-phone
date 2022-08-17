@@ -14,7 +14,7 @@ local function doesRoomExist(id, code)
                 return room
             end
         end
-    elseif code and not id then 
+    elseif code and not id then
         -- Find a room based on the room code
         for _, room in pairs(PhoneData.ChatRooms) do
             if room.room_code == code then
@@ -30,14 +30,14 @@ end
 -- @params string citizenid
 -- @params int roomID
 --
--- @returns boolean 
+-- @returns boolean
 local function isMemberOfRoom(citizenid, roomID)
     for k, room in pairs(PhoneData.ChatRooms) do
         if room.id == roomID then
             memberList = json.decode(room.room_members)
 
             if next(memberList) then
-                for _, memberData in pairs(memberList) do 
+                for _, memberData in pairs(memberList) do
                     if citizenid == memberData.cid  then
                         return true
                     end
@@ -46,7 +46,7 @@ local function isMemberOfRoom(citizenid, roomID)
                 return false
             end
         end
-    end   
+    end
 
     return false
 end
@@ -56,14 +56,14 @@ local function getChatRoomData(id)
         if room.id == tonumber(id) then
             return room
         end
-    end   
+    end
 end
 
 local function slugCase(s)
     return string.lower(s):gsub(" ", "-")
 end
 
-RegisterNetEvent('qb-phone:client:notification', function(app, message) 
+RegisterNetEvent('qb-phone:client:notification', function(app, message)
     SendNUIMessage({
         action = "PhoneNotification",
         PhoneNotify = {
@@ -105,29 +105,28 @@ RegisterNUICallback('GetGroupChatMessages', function(data, cb)
     local Player = PhoneData.PlayerData.citizenid
 
     for k, room in pairs(PhoneData.ChatRooms) do
-        if room.id == data.roomID then 
+        if room.id == data.roomID then
             memberList = json.decode(room.room_members)
 
             if not room.room_pin then
-                QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupChatMessages', function(messages) 
+                QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupChatMessages', function(messages)
                     cb(messages)
                 end, data.roomID)
             else
                 if next(memberList) then
-                    for id, memberData in pairs(memberList) do 
+                    for id, memberData in pairs(memberList) do
                         if Player == memberData.cid or Player == room.room_owner_id then
-                            QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupChatMessages', function(messages) 
+                            QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupChatMessages', function(messages)
                                 cb(messages)
                             end, data.roomID)
-                            
                             break
                         end
                     end
                 else
-                    if Player == room.room_owner_id then                  
-                        QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupChatMessages', function(messages) 
+                    if Player == room.room_owner_id then
+                        QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupChatMessages', function(messages)
                             cb(messages)
-                        end, data.roomID)      
+                        end, data.roomID)
                     end
                 end
             end
@@ -141,22 +140,20 @@ RegisterNUICallback('SearchGroupChatMessages', function(data, cb)
     local SearchTerm = data.searchTerm
 
     for k, room in pairs(PhoneData.ChatRooms) do
-        if(room.id == Room) then 
+        if(room.id == Room) then
             memberList = json.decode(room.room_members)
-            
             if next(memberList) then
-                for _, memberData in pairs(memberList) do 
+                for _, memberData in pairs(memberList) do
                     if Player == memberData.cid or Player == room.room_owner_id then
-                        QBCore.Functions.TriggerCallback('qb-phone:server:SearchGroupChatMessages', function(messages) 
+                        QBCore.Functions.TriggerCallback('qb-phone:server:SearchGroupChatMessages', function(messages)
                             cb(messages)
                         end, Room, SearchTerm)
-                        
                         break
                     end
                 end
             else
                 if Player == room.room_owner_id then
-                    QBCore.Functions.TriggerCallback('qb-phone:server:SearchGroupChatMessages', function(messages) 
+                    QBCore.Functions.TriggerCallback('qb-phone:server:SearchGroupChatMessages', function(messages)
                         cb(messages)
                     end, Room, SearchTerm)
                 end
@@ -170,24 +167,23 @@ RegisterNUICallback('GetPinnedMessages', function(data, cb)
     local Room   = data.roomID
 
     for k, room in pairs(PhoneData.ChatRooms) do
-        if(room.id == Room) then 
+        if(room.id == Room) then
             memberList = json.decode(room.room_members)
 
             if next(memberList) then
-                for _, memberData in pairs(memberList) do 
+                for _, memberData in pairs(memberList) do
                     if Player == memberData.cid or Player == room.room_owner_id then
-                        QBCore.Functions.TriggerCallback('qb-phone:server:GetPinnedMessages', function(messages) 
+                        QBCore.Functions.TriggerCallback('qb-phone:server:GetPinnedMessages', function(messages)
                             cb(messages)
-                        end, Room)                   
+                        end, Room)
                     end
-
                     break
                 end
             else
                 if Player == room.room_owner_id then
-                    QBCore.Functions.TriggerCallback('qb-phone:server:GetPinnedMessages', function(messages) 
+                    QBCore.Functions.TriggerCallback('qb-phone:server:GetPinnedMessages', function(messages)
                         cb(messages)
-                    end, Room)                   
+                    end, Room)
                 end
             end
         end
@@ -207,21 +203,20 @@ RegisterNUICallback('SendGroupChatMessage', function(data, cb)
             memberList = json.decode(room.room_members)
 
             if next(memberList) then
-                for _, memberData in pairs(memberList) do 
+                for _, memberData in pairs(memberList) do
                     if Player == memberData.cid or Player == room.room_owner_id then
                         TriggerServerEvent("qb-phone:server:SendGroupChatMessage", Message, nil, data.roomID)
-                        
+
                         cb(true)
                         break
                     end
                 end
             else
                 if Player == room.room_owner_id then
-                    TriggerServerEvent("qb-phone:server:SendGroupChatMessage", Message, nil, data.roomID)   
-                     
-                    cb(true)  
+                    TriggerServerEvent("qb-phone:server:SendGroupChatMessage", Message, nil, data.roomID)
+                    cb(true)
                 end
-            end          
+            end
         end
     end
 end)
@@ -241,7 +236,7 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
             cb(false)
         else
             if roomPin then
-                QBCore.Functions.TriggerCallback('qb-phone:server:TryPinCode', function(result) 
+                QBCore.Functions.TriggerCallback('qb-phone:server:TryPinCode', function(result)
                     if result then
                         members = json.decode(room.room_members)
 
@@ -256,58 +251,55 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
                             for k, v in pairs(member) do
                                 members[k] = v
                             end
-        
+
                             for k, room in pairs(PhoneData.ChatRooms) do
                                 if(room.id == roomID) then
                                     PhoneData.ChatRooms[k].room_members = json.encode(members)
                                     break
                                 end
                             end
-                            QBCore.Functions.TriggerCallback("qb-phone:server:JoinGroupChat",function(success) 
+                            QBCore.Functions.TriggerCallback("qb-phone:server:JoinGroupChat",function(success)
                                 if success then
                                     TriggerServerEvent("qb-phone:server:SendGroupChatMessage", nil, {
                                         room_id = roomID,
                                         messageType = "SYSTEM",
                                         message = playerName .. " has joined the channel, welcome!",
                                         roomID = data.roomID,
-                                        name = "Member Activity"                  
+                                        name = "Member Activity"
                                     })
                                     cb(true)
-                                end                          
+                                end
                             end, PhoneData.ChatRooms, roomID)
                         else
                             member = {}
-        
                             member[Player] = {
                                 cid = PhoneData.PlayerData.citizenid,
                                 name = PhoneData.PlayerData.charinfo.firstname .. " " .. PhoneData.PlayerData.charinfo.lastname,
                                 notify = true
                             }
-        
                             for k, room in pairs(PhoneData.ChatRooms) do
                                 if(room.id == roomID) then
                                     PhoneData.ChatRooms[k].room_members = json.encode(member)
                                     break
                                 end
                             end
-                            
-                            QBCore.Functions.TriggerCallback("qb-phone:server:JoinGroupChat",function(success) 
+                            QBCore.Functions.TriggerCallback("qb-phone:server:JoinGroupChat",function(success)
                                 if success then
                                     TriggerServerEvent("qb-phone:server:SendGroupChatMessage", nil, {
                                         room_id = roomID,
                                         messageType = "SYSTEM",
                                         message = playerName .. " has joined the channel, welcome!",
                                         roomID = data.roomID,
-                                        name = "Member Activity"                  
+                                        name = "Member Activity"
                                     })
                                     cb(true)
-                                end                          
+                                end
                             end, PhoneData.ChatRooms, roomID)
-                        end                   
+                        end
                     else
                         cb(false)
                     end
-                end, roomPin, roomID) 
+                end, roomPin, roomID)
             else
                 members = json.decode(room.room_members)
 
@@ -330,17 +322,17 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
                         end
                     end
 
-                    QBCore.Functions.TriggerCallback("qb-phone:server:JoinGroupChat",function(success) 
+                    QBCore.Functions.TriggerCallback("qb-phone:server:JoinGroupChat",function(success)
                         if success then
                             TriggerServerEvent("qb-phone:server:SendGroupChatMessage", nil, {
                                 room_id = roomID,
                                 messageType = "SYSTEM",
                                 message = playerName .. " has joined the channel, welcome!",
                                 roomID = data.roomID,
-                                name = "Member Activity"                  
+                                name = "Member Activity"
                             })
                             cb(true)
-                        end                          
+                        end
                     end, PhoneData.ChatRooms, roomID)
                 else
                     member = {}
@@ -358,18 +350,18 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
                         end
                     end
 
-                    QBCore.Functions.TriggerCallback("qb-phone:server:JoinGroupChat",function(success) 
+                    QBCore.Functions.TriggerCallback("qb-phone:server:JoinGroupChat",function(success)
                         if success then
                             TriggerServerEvent("qb-phone:server:SendGroupChatMessage", nil, {
                                 room_id = roomID,
                                 messageType = "SYSTEM",
                                 message = playerName .. " has joined the channel, welcome!",
                                 roomID = data.roomID,
-                                name = "Member Activity"                  
+                                name = "Member Activity"
                             })
 
                             cb(true)
-                        end                          
+                        end
                     end, PhoneData.ChatRooms, roomID)
                 end
             end
@@ -407,11 +399,11 @@ RegisterNUICallback('LeaveGroupChat', function(data, cb)
                 messageType = "SYSTEM",
                 message = memberName .. " has left the channel, goodbye lad.",
                 roomID = data.roomID,
-                name = "Member Activity"                 
+                name = "Member Activity"
             })
 
-            TriggerServerEvent('qb-phone:server:LeaveGroupChat', PhoneData.ChatRooms, roomID)    
-            cb(true)       
+            TriggerServerEvent('qb-phone:server:LeaveGroupChat', PhoneData.ChatRooms, roomID)
+            cb(true)
         else
             cb(false)
         end
@@ -428,16 +420,15 @@ RegisterNUICallback('ChangeRoomPin', function(data, cb)
         cb(false)
     else
         if pin then
-            QBCore.Functions.TriggerCallback('qb-phone:server:IsRoomOwner', function(isOwner) 
+            QBCore.Functions.TriggerCallback('qb-phone:server:IsRoomOwner', function(isOwner)
                 if isOwner then
                     for k, v in pairs(PhoneData.ChatRooms) do
                         if(v.id == roomID) then
-                            if pin == '' then 
+                            if pin == '' then
                                 PhoneData.ChatRooms[k].protected = false
                             else
                                 PhoneData.ChatRooms[k].protected = true
                             end
-                            
                             break
                         end
                     end
@@ -447,7 +438,7 @@ RegisterNUICallback('ChangeRoomPin', function(data, cb)
                 else
                     cb(false)
                 end
-            end, roomID) 
+            end, roomID)
         end
     end
 end)
@@ -458,8 +449,8 @@ end)
 
 RegisterNUICallback('DeactivateRoom', function(data, cb)
     for k, room in pairs(PhoneData.ChatRooms) do
-        if room.id == data.roomID then 
-            QBCore.Functions.TriggerCallback('qb-phone:server:IsRoomOwner', function(isOwner) 
+        if room.id == data.roomID then
+            QBCore.Functions.TriggerCallback('qb-phone:server:IsRoomOwner', function(isOwner)
                 if isOwner then
                     for k, v in pairs(PhoneData.ChatRooms) do
                         if(v.id == data.roomID) then
@@ -473,8 +464,7 @@ RegisterNUICallback('DeactivateRoom', function(data, cb)
                 else
                     cb(false)
                 end
-            end, data.roomID) 
-            
+            end, data.roomID)
             break
         end
     end
@@ -485,7 +475,7 @@ RegisterNUICallback('ToggleMessagePin', function(data, cb)
     local messageID = tonumber(data.messageID)
 
     for k, room in pairs(PhoneData.ChatRooms) do
-        if room.id == roomID then  
+        if room.id == roomID then
             QBCore.Functions.TriggerCallback('qb-phone:server:IsRoomOwner', function(isOwner)
                 if isOwner then
                     TriggerServerEvent('qb-phone:server:ToggleMessagePin', messageID, roomID)

@@ -93,7 +93,7 @@ local function AddNewTweet(TweetData)
                 time = time
             }
 
-            TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, false)
+            TriggerClientEvent('qb-phone:client:UpdateTweets', -1, 0, Tweets, false)
         end
     end)
 end exports("AddNewTweet", AddNewTweet)

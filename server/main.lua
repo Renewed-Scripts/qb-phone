@@ -115,7 +115,7 @@ end)
 
 
 -- Can't even wrap my head around this lol diffently needs a good old rewrite
-QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(source, cb, search)
+QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(_, cb, search)
     local search = escape_sqli(search)
     local searchData = {}
     local ApaData = {}

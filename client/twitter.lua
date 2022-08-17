@@ -13,7 +13,7 @@ end
 
 -- NUI Callback
 
-RegisterNUICallback('GetTweets', function(data, cb)
+RegisterNUICallback('GetTweets', function(_, cb)
     cb(PhoneData.Tweets)
 end)
 

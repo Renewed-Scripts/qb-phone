@@ -34,12 +34,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:hasHackedPhone', function(sourc
         for _, phone in pairs(phones) do
             if phone.info.hacked then
                 isHacked = true
-
                 break
             end
         end
-    else
-        cb(false)
     end
 
     cb(isHacked)
