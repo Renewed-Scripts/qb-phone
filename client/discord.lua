@@ -32,9 +32,9 @@ end
 --
 -- @returns boolean
 local function isMemberOfRoom(citizenid, roomID)
-    for k, room in pairs(PhoneData.ChatRooms) do
+    for _, room in pairs(PhoneData.ChatRooms) do
         if room.id == roomID then
-            memberList = json.decode(room.room_members)
+            local memberList = json.decode(room.room_members)
 
             if next(memberList) then
                 for _, memberData in pairs(memberList) do
@@ -52,7 +52,7 @@ local function isMemberOfRoom(citizenid, roomID)
 end
 
 local function getChatRoomData(id)
-    for k, room in pairs(PhoneData.ChatRooms) do
+    for _, room in pairs(PhoneData.ChatRooms) do
         if room.id == tonumber(id) then
             return room
         end
@@ -104,9 +104,9 @@ end)
 RegisterNUICallback('GetGroupChatMessages', function(data, cb)
     local Player = PhoneData.PlayerData.citizenid
 
-    for k, room in pairs(PhoneData.ChatRooms) do
+    for _, room in pairs(PhoneData.ChatRooms) do
         if room.id == data.roomID then
-            memberList = json.decode(room.room_members)
+            local memberList = json.decode(room.room_members)
 
             if not room.room_pin then
                 QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupChatMessages', function(messages)
@@ -114,7 +114,7 @@ RegisterNUICallback('GetGroupChatMessages', function(data, cb)
                 end, data.roomID)
             else
                 if next(memberList) then
-                    for id, memberData in pairs(memberList) do
+                    for _, memberData in pairs(memberList) do
                         if Player == memberData.cid or Player == room.room_owner_id then
                             QBCore.Functions.TriggerCallback('qb-phone:server:GetGroupChatMessages', function(messages)
                                 cb(messages)
@@ -139,9 +139,9 @@ RegisterNUICallback('SearchGroupChatMessages', function(data, cb)
     local Room   = data.roomID
     local SearchTerm = data.searchTerm
 
-    for k, room in pairs(PhoneData.ChatRooms) do
+    for _, room in pairs(PhoneData.ChatRooms) do
         if(room.id == Room) then
-            memberList = json.decode(room.room_members)
+            local memberList = json.decode(room.room_members)
             if next(memberList) then
                 for _, memberData in pairs(memberList) do
                     if Player == memberData.cid or Player == room.room_owner_id then
@@ -166,9 +166,9 @@ RegisterNUICallback('GetPinnedMessages', function(data, cb)
     local Player = PhoneData.PlayerData.citizenid
     local Room   = data.roomID
 
-    for k, room in pairs(PhoneData.ChatRooms) do
+    for _, room in pairs(PhoneData.ChatRooms) do
         if(room.id == Room) then
-            memberList = json.decode(room.room_members)
+            local memberList = json.decode(room.room_members)
 
             if next(memberList) then
                 for _, memberData in pairs(memberList) do
@@ -198,9 +198,9 @@ RegisterNUICallback('SendGroupChatMessage', function(data, cb)
         room_id = data.roomID
     }
 
-    for k, room in pairs(PhoneData.ChatRooms) do
+    for _, room in pairs(PhoneData.ChatRooms) do
         if(room.id == Message.room_id) then
-            memberList = json.decode(room.room_members)
+            local memberList = json.decode(room.room_members)
 
             if next(memberList) then
                 for _, memberData in pairs(memberList) do
@@ -225,7 +225,7 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
     local roomID = data.roomID
     local roomPin = data.roomPin
     local Player = PhoneData.PlayerData.citizenid
-    local room   = doesRoomExist(roomID)
+    local room = doesRoomExist(roomID)
     local members, member
     local playerName = PhoneData.PlayerData.charinfo.firstname .. " " .. PhoneData.PlayerData.charinfo.lastname
 
@@ -252,8 +252,8 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
                                 members[k] = v
                             end
 
-                            for k, room in pairs(PhoneData.ChatRooms) do
-                                if(room.id == roomID) then
+                            for k, room2 in pairs(PhoneData.ChatRooms) do
+                                if(room2.id == roomID) then
                                     PhoneData.ChatRooms[k].room_members = json.encode(members)
                                     break
                                 end
@@ -277,8 +277,8 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
                                 name = PhoneData.PlayerData.charinfo.firstname .. " " .. PhoneData.PlayerData.charinfo.lastname,
                                 notify = true
                             }
-                            for k, room in pairs(PhoneData.ChatRooms) do
-                                if(room.id == roomID) then
+                            for k, room2 in pairs(PhoneData.ChatRooms) do
+                                if(room2.id == roomID) then
                                     PhoneData.ChatRooms[k].room_members = json.encode(member)
                                     break
                                 end
@@ -315,8 +315,8 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
                         members[k] = v
                     end
 
-                    for k, room in pairs(PhoneData.ChatRooms) do
-                        if(room.id == roomID) then
+                    for k, room2 in pairs(PhoneData.ChatRooms) do
+                        if(room2.id == roomID) then
                             PhoneData.ChatRooms[k].room_members = json.encode(members)
                             break
                         end
@@ -343,8 +343,8 @@ RegisterNUICallback('JoinGroupChat', function(data, cb)
                         notify = true
                     }
 
-                    for k, room in pairs(PhoneData.ChatRooms) do
-                        if(room.id == roomID) then
+                    for k, room2 in pairs(PhoneData.ChatRooms) do
+                        if(room2.id == roomID) then
                             PhoneData.ChatRooms[k].room_members = json.encode(member)
                             break
                         end
@@ -412,7 +412,6 @@ end)
 
 RegisterNUICallback('ChangeRoomPin', function(data, cb)
     local roomID = data.roomID
-    local Player = PhoneData.PlayerData.citizenid
     local room   = doesRoomExist(roomID)
     local pin    = data.pinCode
 
@@ -443,7 +442,7 @@ RegisterNUICallback('ChangeRoomPin', function(data, cb)
     end
 end)
 
-RegisterNUICallback('GetChatRooms', function(data, cb)
+RegisterNUICallback('GetChatRooms', function(_, cb)
     cb(PhoneData.ChatRooms)
 end)
 
@@ -452,13 +451,7 @@ RegisterNUICallback('DeactivateRoom', function(data, cb)
         if room.id == data.roomID then
             QBCore.Functions.TriggerCallback('qb-phone:server:IsRoomOwner', function(isOwner)
                 if isOwner then
-                    for k, v in pairs(PhoneData.ChatRooms) do
-                        if(v.id == data.roomID) then
-                            PhoneData.ChatRooms[k] = nil
-                            break
-                        end
-                    end
-
+                    PhoneData.ChatRooms[k] = nil
                     TriggerServerEvent('qb-phone:server:DeactivateRoom', PhoneData.ChatRooms, data.roomID)
                     cb(true)
                 else
@@ -474,7 +467,7 @@ RegisterNUICallback('ToggleMessagePin', function(data, cb)
     local roomID = tonumber(data.roomID)
     local messageID = tonumber(data.messageID)
 
-    for k, room in pairs(PhoneData.ChatRooms) do
+    for _, room in pairs(PhoneData.ChatRooms) do
         if room.id == roomID then
             QBCore.Functions.TriggerCallback('qb-phone:server:IsRoomOwner', function(isOwner)
                 if isOwner then
