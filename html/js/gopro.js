@@ -1,6 +1,6 @@
 let cam
 
-// Functions 
+// Functions
 
 function ConfirmationFrame() {
     $('.spinner-input-frame').css("display", "flex");
@@ -49,7 +49,7 @@ $(document).on('click', '#gopro-view-camera', function(e){
 $(document).on('click', '#gopro-track-camera', function(e){
     e.preventDefault();
     cam = $(this).data('id')
-    $.post("https://qb-phone/gopro-viewcam", JSON.stringify({
+    $.post("https://qb-phone/gopro-track", JSON.stringify({
         id: cam,
     }));
 });
@@ -68,7 +68,7 @@ $(document).on('click', '#gopro-send-access', function(e){
         setTimeout(function(){
             ConfirmationFrame()
         }, 150);
-        $.post("https://qb-phone/gopro-viewcam", JSON.stringify({
+        $.post("https://qb-phone/gopro-transfer", JSON.stringify({
             id: cam,
             stateid: stateid,
         }));

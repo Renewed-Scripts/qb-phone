@@ -28,20 +28,18 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source,
     local Target = QBCore.Functions.GetPlayerByPhone(number)
     local Player = QBCore.Functions.GetPlayer(source)
 
+    if not Target then return cb(false, false) end
+
     if Target.PlayerData.citizenid == Player.PlayerData.citizenid then return cb(false, false) end
 
-    if Target then
-        if Calls[Target.PlayerData.citizenid] then
-            if Calls[Target.PlayerData.citizenid].inCall then
-                cb(false, true)
-            else
-                cb(true, true)
-            end
+    if Calls[Target.PlayerData.citizenid] then
+        if Calls[Target.PlayerData.citizenid].inCall then
+            cb(false, true)
         else
             cb(true, true)
         end
     else
-        cb(false, false)
+        cb(true, true)
     end
 end)
 
