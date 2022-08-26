@@ -1,11 +1,6 @@
-
-
-
 RegisterNUICallback('SetupGoPros', function(_, cb)
-    print("camerashit")
-    local list = exports['qb-cameras']:GetMyCams()
-    print(json.encode(list))
-    cb(exports['qb-cameras']:GetMyCams())
+    local list = exports['qb-cameras']:GetMyCams() or {}
+    cb(list)
 end)
 
 RegisterNUICallback('gopro-viewcam', function(data, cb)
@@ -15,16 +10,13 @@ RegisterNUICallback('gopro-viewcam', function(data, cb)
 end)
 
 RegisterNUICallback('gopro-track', function(data, cb)
-    print("TRACK")
-    print(json.encode(data))
     TriggerEvent('Renewed-Cameras:client:TrackCam', data.id)
     if not data then return end
     cb("ok")
 end)
 
 RegisterNUICallback('gopro-transfer', function(data, cb)
-    print("TRANSFER")
-    print(json.encode(data))
     if not data then return end
+    TriggerEvent("Renewed-Cameras:client:GrantAccess", tonumber(data.id), tonumber(data.stateid))
     cb("ok")
 end)

@@ -13,7 +13,7 @@ $(document).ready(function(){
     });
 });
 
-// Functions 
+// Functions
 
 function ConfirmationFrame() {
     $('.spinner-input-frame').css("display", "flex");
@@ -75,7 +75,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                             '<div class="twitter-retweet" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
                             '<div class="tweet-flag"><i class="fas fa-flag"></i></div>'+
                             '<div class="tweet-trash"><i class="fas fa-trash"></i></div>'+
-                            '<div class="tweet-message"><p>'+TwtMessage+'</p></div>' + 
+                            '<div class="tweet-message"><p>'+TwtMessage+'</p></div>' +
                             '<div class="tweet-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
                             '<div class="tweet-time">' + TimeAgo + '</div>' +
                             '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
@@ -92,7 +92,7 @@ QB.Phone.Notifications.LoadTweets = function(Tweets) {
                     '<div class="tweet-reply"><i class="fas fa-reply"></i></div>'+
                     '<div class="twitter-retweet" data-imagemessage="'+Tweet.url+'" data-twtmessage="'+TwtMessage+'"><div class="tweet-retweet"><i class="fas fa-retweet"></i></div>'+
                     '<div class="tweet-flag"><i class="fas fa-flag"></i></div>'+
-                    '<div class="tweet-message"><p>'+TwtMessage+'</p></div>' + 
+                    '<div class="tweet-message"><p>'+TwtMessage+'</p></div>' +
                     '<div class="tweet-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
                     '<div class="tweet-time">' + TimeAgo + '</div>' +
                     '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +

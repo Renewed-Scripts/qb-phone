@@ -27,7 +27,7 @@ RegisterNetEvent('qb-phone:server:PayMyInvoice', function(society, amount, invoi
     local Player = QBCore.Functions.GetPlayer(src)
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
 
-    if SenderPly and Config.BillingCommissions[society] then
+    if SenderPly and Config.BillingCommissions and Config.BillingCommissions[society] then
         local commission = math.ceil(amount * Config.BillingCommissions[society])
         SenderPly.Functions.AddMoney('bank', commission)
     end
@@ -54,10 +54,11 @@ end)
 RegisterNetEvent('qb-phone:server:DeclineMyInvoice', function(amount, invoiceId, sendercitizenid, resource)
     local Ply = QBCore.Functions.GetPlayer(source)
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
+    print(amount, invoiceId, sendercitizenid, resource)
     if not Ply then return end
 
     exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-
+    print(SenderPly)
     if SenderPly then
         TriggerClientEvent('qb-phone:client:CustomNotification', SenderPly.PlayerData.source,
             "Invoice Declined by " .. SenderPly.PlayerData.charinfo.firstname .. ".",
@@ -90,7 +91,7 @@ RegisterNetEvent('qb-phone:server:CreateInvoice', function(billed, biller, amoun
         billerInfo.PlayerData.citizenid
     }, function(id)
         if id then
-            TriggerClientEvent('qb-phone:client:AcceptorDenyInvoice', billedCID.PlayerData.source, id, billerInfo.PlayerData.charinfo.firstname, billerInfo.PlayerData.job.name, billerInfo.PlayerData.citizenid, amount, resource)
+            TriggerClientEvent('qb-phone:client:AcceptorDenyInvoice', billedCID.PlayerData.source, id, billerInfo.PlayerData.charinfo.firstname, billerInfo.PlayerData.job.name, billerInfo.PlayerData.citizenid, cash, resource)
         end
     end)
 end)

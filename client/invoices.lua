@@ -52,7 +52,7 @@ RegisterNetEvent('qb-phone:client:AcceptorDenyInvoice', function(id, name, job, 
     else
         local table = GetInvoiceFromID(id)
         if table then
-            TriggerServerEvent('qb-phone:server:DeclineMyInvoice', job, amount, id, senderCID, resource)
+            TriggerServerEvent('qb-phone:server:DeclineMyInvoice', amount, id, senderCID, resource)
         end
     end
 end)

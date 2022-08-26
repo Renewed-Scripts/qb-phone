@@ -56,14 +56,31 @@ end)
 RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, delete)
     if not PhoneData or not FullyLoaded then return end
     PhoneData.Tweets = Tweets
-    local MyPlayerId = PhoneData.PlayerData.source
-    local NewTweetData = Tweets[#Tweets]
-    local newFirst, newLast = NewTweetData.firstName:gsub("[%<>\"()\'$]",""), NewTweetData.lastName:gsub("[%<>\"()\' $]","")
+    local MyPlayerId = PlayerData.source or -1
+
+
+    if delete and src == MyPlayerId then
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "Twitter",
+                text = "Tweet deleted!",
+                icon = "fab fa-twitter",
+                color = "#1DA1F2",
+                timeout = 1000,
+            },
+        })
+    end
 
     SendNUIMessage({
         action = "UpdateTweets",
         Tweets = PhoneData.Tweets
     })
+
+    if delete then return end
+
+    local NewTweetData = Tweets[#Tweets]
+    local newFirst, newLast = NewTweetData.firstName:gsub("[%<>\"()\'$]",""), NewTweetData.lastName:gsub("[%<>\"()\' $]","")
 
 
     if not delete and src == MyPlayerId then return end
@@ -78,18 +95,5 @@ RegisterNetEvent('qb-phone:client:UpdateTweets', function(src, Tweets, delete)
                 color = "#1DA1F2",
             },
         })
-    else
-        if src == MyPlayerId then
-            SendNUIMessage({
-                action = "PhoneNotification",
-                PhoneNotify = {
-                    title = "Twitter",
-                    text = "Tweet deleted!",
-                    icon = "fab fa-twitter",
-                    color = "#1DA1F2",
-                    timeout = 1000,
-                },
-            })
-        end
     end
 end)

@@ -38,6 +38,7 @@ end)
 
 RegisterNetEvent('qb-phone:server:DeleteAdvert', function()
     local table = GetAdvertFromNumb(source)
+    if not table then return end
     Adverts[table] = nil
     TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts)
 end)

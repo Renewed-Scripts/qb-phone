@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
-local Adverts = {} -- Located in the advertisements File as well ??
 local WebHook = "https://discord.com/api/webhooks/881102998498074664/60jhrJkGkIGr6AUSvvFGXskwyr-rq5F5bBGfACqEiaeZerbW2A-w4MSjbFiippSTiGxR"
 
 -- Functions
