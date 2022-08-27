@@ -600,9 +600,9 @@ QB.Phone.Functions.SetupCurrentCall = function(cData) {
     if (cData.InCall) {
         var CallData = cData;
         var name = null;
-
-        if (CallData.TargetData.name != null && CallData.TargetData.name != undefined) {
-            name = CallData.name;
+        console.log(JSON.stringify(CallData.TargetData))
+        if (CallData.TargetData.name != null && CallData.TargetData.name != undefined && CallData.TargetData.name != "Unknown") {
+            name = CallData.TargetData.name;
         } else {
             name = CallData.TargetData.number;
         }
@@ -612,6 +612,7 @@ QB.Phone.Functions.SetupCurrentCall = function(cData) {
         if (!QB.Phone.Data.IsOpen == true) {
             QB.Phone.Animations.BottomSlideUp('.container', 150, -58);
         }
+        console.log(name)
         if (CallData.CallType == "incoming") {
             $(".phone-currentcall-title").html("Incoming Call");
             $(".phone-currentcall-contact").html("From "+name);

@@ -268,7 +268,7 @@ $(document).on('click', '.phone-application', function(e){
                         QB.Phone.Functions.HeaderTextColor("white", 100);
                         QB.Phone.Functions.LoadChatRooms(ChatRooms)
                     })
-                } 
+                }
             }
         }
     } else {

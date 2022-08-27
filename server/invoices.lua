@@ -33,6 +33,13 @@ RegisterNetEvent('qb-phone:server:PayMyInvoice', function(society, amount, invoi
     end
 
     Player.Functions.RemoveMoney('bank', amount, "paid-invoice")
+
+    if Config.RenewedBanking then
+        local cid = Player.PlayerData.citizenid
+        local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
+        exports['Renewed-Banking']:handleTransaction(cid, "Phone Invoice", amount, "Paid off phone invoice of $"..amount, name, name, "withdraw")
+    end
+
     TriggerEvent("qb-bossmenu:server:addAccountMoney", society, amount)
 
     if SenderPly then
@@ -54,11 +61,9 @@ end)
 RegisterNetEvent('qb-phone:server:DeclineMyInvoice', function(amount, invoiceId, sendercitizenid, resource)
     local Ply = QBCore.Functions.GetPlayer(source)
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
-    print(amount, invoiceId, sendercitizenid, resource)
     if not Ply then return end
 
     exports.oxmysql:execute('DELETE FROM phone_invoices WHERE id = ?', {invoiceId})
-    print(SenderPly)
     if SenderPly then
         TriggerClientEvent('qb-phone:client:CustomNotification', SenderPly.PlayerData.source,
             "Invoice Declined by " .. SenderPly.PlayerData.charinfo.firstname .. ".",

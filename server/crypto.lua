@@ -73,7 +73,8 @@ RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
     local cashAmount = tonumber(amount) * v.value
 
     if Player.PlayerData.money.bank and Player.PlayerData.money.bank >= cashAmount then
-        Player.Functions.RemoveMoney('bank', cashAmount, "Crypto Purchased: "..v.abbrev)
+        local txt = "Purchased " .. amount .. "x " .. v.abbrev
+        Player.Functions.RemoveMoney('bank', cashAmount, txt)
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
             "WALLET",
             "You Purchased "..amount.." "..type.."!",
@@ -81,6 +82,13 @@ RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
             "#D3B300",
             7500
         )
+
+        if Config.RenewedBanking then
+            local cid = Player.PlayerData.citizenid
+            local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
+            exports['Renewed-Banking']:handleTransaction(cid, "Crypto Purchase", cashAmount, txt, "Los Santos Crypto", name, "withdraw")
+        end
+
         AddCrypto(src, type, amount)
     else
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
