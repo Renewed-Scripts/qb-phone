@@ -191,7 +191,7 @@ end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:ScanPlate', function(source, cb, plate)
     local src = source
-    local vehicleData = {}
+    local vehicleData
     if plate then
         local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE plate = ?', {plate})
         if result[1] then

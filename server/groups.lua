@@ -228,6 +228,7 @@ RegisterNetEvent('qb-phone:server:employment_JoinTheGroup', function(data)
     print(json.encode(data))
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
+    -- luacheck: ignore
     for _, v in pairs(EmploymentGroup[data.id].members) do
         if v.CID == data.PCSN then
             TriggerClientEvent('QBCore:Notify', src, "You have already joined a group", "error")
