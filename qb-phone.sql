@@ -52,10 +52,10 @@ CREATE TABLE IF NOT EXISTS `phone_tweets` (
   `message` text DEFAULT NULL,
   `url` text DEFAULT NULL,
   `tweetId` varchar(25) NOT NULL,
-  `time` int(11) DEFAULT NULL,
+  `date` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`)
-) ENGINE=InnoDB AUTO_INCREMENT=266 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=289 DEFAULT CHARSET=UTF8;
 
 DROP TABLE IF EXISTS `player_contacts`;
 CREATE TABLE IF NOT EXISTS `player_contacts` (
@@ -79,10 +79,9 @@ CREATE TABLE IF NOT EXISTS `player_mails` (
   `mailid` int(11) DEFAULT NULL,
   `date` timestamp NULL DEFAULT current_timestamp(),
   `button` text DEFAULT NULL,
-  `time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `phone_chatrooms`;
