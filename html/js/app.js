@@ -249,7 +249,6 @@ $(document).on('click', '.phone-application', function(e){
                 }
                 else if (PressedApplication == "gopro") {
                     $.post('https://qb-phone/SetupGoPros', JSON.stringify({}), function(Cams){
-                        console.log(JSON.stringify(Cams));
                         SetupGoPros(Cams);
                     })
                 }

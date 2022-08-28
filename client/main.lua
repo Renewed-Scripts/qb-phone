@@ -59,8 +59,7 @@ local function hasPhone()
             end
         end
     end
-end
-exports('hasPhone', hasPhone)
+end exports('hasPhone', hasPhone)
 
 local function CalculateTimeToDisplay()
 	local hour = GetClockHours()
@@ -463,7 +462,6 @@ RegisterNUICallback('AddNewContact', function(data, cb)
         iban = data.ContactIban
     }
     Wait(100)
-    print(PhoneData.Contacts)
     cb(PhoneData.Contacts)
     if PhoneData.Chats[data.ContactNumber] and next(PhoneData.Chats[data.ContactNumber]) then
         PhoneData.Chats[data.ContactNumber].name = data.ContactName

@@ -150,6 +150,5 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
         Config.PhoneApplications['whatsapp'].Alerts = Config.PhoneApplications['whatsapp'].Alerts + 1
     end
 
-    if not PhoneData.Chats[NumberKey].Unread then PhoneData.Chats[NumberKey].Unread = 1 end
-    if PhoneData.Chats[NumberKey].Unread then PhoneData.Chats[NumberKey].Unread += 1 end
+    if not PhoneData.Chats[NumberKey].Unread then PhoneData.Chats[NumberKey].Unread = 1 else PhoneData.Chats[NumberKey].Unread += 1 end
 end)

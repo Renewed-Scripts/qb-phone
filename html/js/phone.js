@@ -49,7 +49,6 @@ $(document).on('click', '#phone-recent-chat', function(e){
     var RecentId = $(this).parent().parent().data('recentid');
     var RecentData = $("[data-recentid='"+RecentId+"']").data('recentData');
 
-    console.log(RecentData.number)
     if (RecentData.number !== QB.Phone.Data.PlayerData.charinfo.phone) {
         $.post('https://qb-phone/GetWhatsappChats', JSON.stringify({}), function(chats){
             QB.Phone.Functions.LoadWhatsappChats(chats);
@@ -600,7 +599,6 @@ QB.Phone.Functions.SetupCurrentCall = function(cData) {
     if (cData.InCall) {
         var CallData = cData;
         var name = null;
-        console.log(JSON.stringify(CallData.TargetData))
         if (CallData.TargetData.name != null && CallData.TargetData.name != undefined && CallData.TargetData.name != "Unknown") {
             name = CallData.TargetData.name;
         } else {
@@ -612,7 +610,7 @@ QB.Phone.Functions.SetupCurrentCall = function(cData) {
         if (!QB.Phone.Data.IsOpen == true) {
             QB.Phone.Animations.BottomSlideUp('.container', 150, -58);
         }
-        console.log(name)
+
         if (CallData.CallType == "incoming") {
             $(".phone-currentcall-title").html("Incoming Call");
             $(".phone-currentcall-contact").html("From "+name);

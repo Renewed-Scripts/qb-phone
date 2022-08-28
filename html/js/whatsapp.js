@@ -121,8 +121,6 @@ QB.Phone.Functions.LoadWhatsappChats = function(chats) {
         var profilepicture = "./img/default.png";
         var LastMessage = QB.Phone.Functions.GetLastMessage(chat.messages);
         var ChatElement = ChatElement
-        console.log(chat.name);
-        console.log(chat.number);
         if (chat.name != undefined && chat.name != chat.number) {
             ChatElement = '<div class="whatsapp-chat" id="whatsapp-chat-'+i+'"><div class="whatsapp-chat-picture" style="background-image: url('+profilepicture+');"></div><div class="whatsapp-chat-name"><p>'+chat.name+'</p></div><div class="whatsapp-chat-lastmessage"><p>'+LastMessage.message+'</p></div><div class="whatsapp-chat-unreadmessages unread-chat-id-'+i+'">1</div></div>';
         } else {

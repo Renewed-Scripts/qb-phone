@@ -25,8 +25,8 @@ $(document).on('click', '#employment-sbmit-for-create-group', function(e){
                 pass: pass,
             }));
 
-            
-            
+
+
 
             $('#employment-box-new-dashboard').fadeOut(350);
         }else{
@@ -58,7 +58,6 @@ $(document).ready(function(){
         switch(event.data.action) {
             case "GroupAddDIV":
                 if(event.data.showPage && event.data.job != "WAITING"){
-                    console.log(JSON.stringify(event.data.stage))
                     AddGroupJobs(event.data.stage)
                 } else {
                     AddDIV(event.data.data)
@@ -124,7 +123,6 @@ function AddDIV(data){
 
 function AddGroupJobs(data){
     var AddOption;
-    console.log(data)
     $(".employment-Groupjob").html("");
     $(".employment-list").html("");
     $(".employment-list").css({"display": "none"});
@@ -133,7 +131,6 @@ function AddGroupJobs(data){
     if(data) {
 
         for (const [k, v] of Object.entries(data)) {
-            console.log(JSON.stringify(data))
             if (v.isDone) {
                 AddOption =
                 `
@@ -154,7 +151,6 @@ function AddGroupJobs(data){
             $('.employment-Groupjob').append(AddOption);
         }
     } else {
-        console.log("Error")
         $(".employment-list").css({"display": "block"});
         $(".empolyment-btn-create-group").css({"display": "block"});
         $(".empolyment-text-header").css({"display": "block"});

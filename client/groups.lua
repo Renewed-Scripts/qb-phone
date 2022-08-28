@@ -94,7 +94,6 @@ end)
 
 RegisterNetEvent('qb-phone:client:AddGroupStage', function(status, stage)
     inJob = true
-    print(status, json.encode(stage))
     SendNUIMessage({
         action = "addGroupStage",
         status =  stage

@@ -5,25 +5,8 @@ Tweets = {}
 -- Events
 
 CreateThread(function()
-    MySQL.Async.fetchAll('SELECT * FROM phone_tweets', {}, function(data)
-        if data then
-            for _, v in pairs(data) do
-                Tweets[#Tweets+1] = {
-                    id = v.id,
-                    citizenid = v.citizenid,
-                    firstName = v.firstName,
-                    lastName = v.lastName,
-                    message = v.message,
-                    url = v.url,
-                    tweetId = v.tweetId,
-                    type = v.type,
-                    time = v.time
-                }
-
-                if #Tweets >= Config.TsunamiTweets then break end
-            end
-        end
-    end)
+    local tweetsSelected = MySQL.query.await('SELECT * FROM phone_tweets WHERE `date` > NOW() - INTERVAL ? hour', {Config.TweetDuration})
+    Tweets = tweetsSelected
 end)
 
 RegisterNetEvent('qb-phone:server:DeleteTweet', function(tweetId)
@@ -44,7 +27,7 @@ end)
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
     local src = source
     print(json.encode(TweetData.url))
-    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, type, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, type) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         TweetData.citizenid,
         TweetData.firstName:gsub("[%<>\"()\'$]",""),
         TweetData.lastName:gsub("[%<>\"()\'$]",""),
@@ -52,7 +35,6 @@ RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
         TweetData.url,
         TweetData.tweetId,
         TweetData.type,
-        time
     }, function(id)
         if id then
             Tweets[#Tweets+1] = {
@@ -64,7 +46,7 @@ RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
                 url = TweetData.url,
                 tweetId =TweetData.tweetId,
                 type = TweetData.type,
-                time = time
+                date = os.date('%Y-%m-%d %H:%M:%S')
             }
 
             TriggerClientEvent('qb-phone:client:UpdateTweets', -1, src, Tweets, false)
@@ -76,7 +58,7 @@ end)
 local function AddNewTweet(TweetData)
     local tweetID = TweetData and TweetData.tweetId or "TWEET-"..math.random(11111111, 99999999)
 
-    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, type, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+    MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, type) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         TweetData.citizenid,
         TweetData.firstName:gsub("[%<>\"()\'$]",""),
         TweetData.lastName:gsub("[%<>\"()\'$]",""),
@@ -84,7 +66,6 @@ local function AddNewTweet(TweetData)
         TweetData.url,
         tweetID,
         TweetData.type or "tweet",
-        time
     }, function(id)
         if id then
             Tweets[#Tweets+1] = {
@@ -96,7 +77,7 @@ local function AddNewTweet(TweetData)
                 url = TweetData.url or "",
                 tweetId = tweetID,
                 type = TweetData.type or "tweet",
-                time = time
+                date = os.date('%Y-%m-%d %H:%M:%S')
             }
 
             TriggerClientEvent('qb-phone:client:UpdateTweets', -1, 0, Tweets, false)
