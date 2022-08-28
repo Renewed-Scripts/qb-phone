@@ -35,8 +35,8 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData, citizenID)
         Player = QBCore.Functions.GetPlayer(source)
     end
 
+    local CID = Player.PlayerData.citizenid
     if Player then
-        local CID = Player.PlayerData.citizenid
         if not mailData.button then
             MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {CID, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
         else

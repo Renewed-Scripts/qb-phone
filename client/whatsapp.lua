@@ -40,7 +40,6 @@ RegisterNUICallback('SendMessage', function(data, cb)
     local ChatTime = data.ChatTime
     local ChatType = data.ChatType
     local ChatKey = GetKeyByDate(data.ChatNumber, ChatDate)
-    local name = IsNumberInContacts(SenderNumber) or SenderNumber
 
     if PhoneData.Chats[data.ChatNumber] then
         if not PhoneData.Chats[data.ChatNumber].messages then
@@ -48,7 +47,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
         end
     else
         PhoneData.Chats[data.ChatNumber] = {
-            name = name,
+            name = IsNumberInContacts(ChatNumber),
             number = ChatNumber,
             messages = {},
         }
