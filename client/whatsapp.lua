@@ -18,6 +18,18 @@ local function GetKeyByDate(Number, Date)
     end
 end
 
+local function ReorganizeChats(key)
+    if not PhoneData.Chats[key] then return end
+    local ReorganizedChats = {}
+    ReorganizedChats[#ReorganizedChats+1] = PhoneData.Chats[key]
+    for k, chat in pairs(PhoneData.Chats) do
+        if k ~= key then
+            ReorganizedChats[#ReorganizedChats+1] = chat
+        end
+    end
+    PhoneData.Chats = ReorganizedChats
+end
+
 -- NUI Callback
 
 RegisterNUICallback('GetWhatsappChat', function(data, cb)
@@ -33,29 +45,28 @@ RegisterNUICallback('GetWhatsappChats', function(_, cb)
 end)
 
 RegisterNUICallback('SendMessage', function(data, cb)
-    print(json.encode(data))
     local ChatMessage = data.ChatMessage
     local ChatDate = data.ChatDate
     local ChatNumber = data.ChatNumber
     local ChatTime = data.ChatTime
     local ChatType = data.ChatType
-    local ChatKey = GetKeyByDate(data.ChatNumber, ChatDate)
+    local ChatKey = GetKeyByDate(ChatNumber, ChatDate)
 
-    if PhoneData.Chats[data.ChatNumber] then
-        if not PhoneData.Chats[data.ChatNumber].messages then
-            PhoneData.Chats[data.ChatNumber].messages = {}
+    if PhoneData.Chats[ChatNumber] then
+        if not PhoneData.Chats[ChatNumber].messages then
+            PhoneData.Chats[ChatNumber].messages = {}
         end
     else
-        PhoneData.Chats[data.ChatNumber] = {
+        PhoneData.Chats[ChatNumber] = {
             name = IsNumberInContacts(ChatNumber),
             number = ChatNumber,
             messages = {},
         }
     end
 
-    if not ChatKey or (ChatKey and not PhoneData.Chats[data.ChatNumber].messages[ChatKey]) then
-        local temp = #PhoneData.Chats[data.ChatNumber].messages+1
-        PhoneData.Chats[data.ChatNumber].messages[temp] = {
+    if not ChatKey or (ChatKey and not PhoneData.Chats[ChatNumber].messages[ChatKey]) then
+        local temp = #PhoneData.Chats[ChatNumber].messages+1
+        PhoneData.Chats[ChatNumber].messages[temp] = {
             date = ChatDate,
             messages = {},
         }
@@ -64,7 +75,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
     end
 
     if ChatMessage then
-        PhoneData.Chats[data.ChatNumber].messages[ChatKey].messages[#PhoneData.Chats[data.ChatNumber].messages[ChatKey].messages+1] = {
+        PhoneData.Chats[ChatNumber].messages[ChatKey].messages[#PhoneData.Chats[ChatNumber].messages[ChatKey].messages+1] = {
             message = ChatMessage,
             time = ChatTime,
             sender = PhoneData.PlayerData.citizenid,
@@ -72,7 +83,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
             data = {},
         }
     else
-        PhoneData.Chats[data.ChatNumber].messages[ChatKey].messages[#PhoneData.Chats[data.ChatNumber].messages[ChatKey].messages+1] = {
+        PhoneData.Chats[ChatNumber].messages[ChatKey].messages[#PhoneData.Chats[ChatNumber].messages[ChatKey].messages+1] = {
             message = "Photo",
             time = ChatTime,
             sender = PhoneData.PlayerData.citizenid,
@@ -83,7 +94,9 @@ RegisterNUICallback('SendMessage', function(data, cb)
         }
     end
 
-    TriggerServerEvent('qb-phone:server:UpdateMessages', PhoneData.Chats[data.ChatNumber].messages, ChatNumber)
+    ReorganizeChats(ChatKey)
+
+    TriggerServerEvent('qb-phone:server:UpdateMessages', PhoneData.Chats[ChatNumber].messages, ChatNumber)
     SendNUIMessage({
         action = "UpdateChat",
         chatData = PhoneData.Chats[ChatNumber],
@@ -97,13 +110,12 @@ end)
 -- Events
 
 RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, SenderNumber, New)
-    local NumberKey = tostring(SenderNumber)
+    if not ChatMessages or not SenderNumber then return end
 
+    local NumberKey = type(SenderNumber) ~= "string" and tostring(SenderNumber) or SenderNumber
     local name = IsNumberInContacts(SenderNumber) or SenderNumber
-    print(json.encode(PhoneData.PlayerData))
+
     if SenderNumber == PhoneData.PlayerData.charinfo.phone then return end
-    if not ChatMessages then return end
-    if New == nil then return end
 
     if New then
         PhoneData.Chats[NumberKey] = {
@@ -114,6 +126,8 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
     else
         PhoneData.Chats[NumberKey].messages = ChatMessages
     end
+
+    ReorganizeChats(NumberKey)
 
     SendNUIMessage({
         action = "PhoneNotification",

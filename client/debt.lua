@@ -17,15 +17,17 @@ end)
 
 
 RegisterNUICallback('GetPlayersDebt', function(_, cb)
-    cb(exports['qb-finances']:getDebt())
+    local debtData = Config.RenewedFinances and exports['qb-finances']:getDebt() or {}
+    cb(debtData)
 end)
 
 
 -- refresh the shit
 
 RegisterNetEvent('qb-phone:client:refreshDebt', function()
+    local debtData = Config.RenewedFinances and exports['qb-finances']:getDebt() or {}
     SendNUIMessage({
         action = "refreshDebt",
-        debt = exports['qb-finances']:getDebt(),
+        debt = debtData,
     })
 end)

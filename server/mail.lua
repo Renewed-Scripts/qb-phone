@@ -37,15 +37,13 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData, citizenID)
 
     if Player then
         local CID = Player.PlayerData.citizenid
-        if not mailData.button then
-            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {CID, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
-        else
+        if mailData.button then
             MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {CID, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+        else
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {CID, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
         end
 
-
         TriggerClientEvent('qb-phone:client:NewMailNotify', Player.PlayerData.source, mailData)
-
 
         SetTimeout(200, function()
             local mails = MySQL.query.await('SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {CID})
@@ -59,11 +57,11 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData, citizenID)
 
             TriggerClientEvent('qb-phone:client:UpdateMails', Player.PlayerData.source, mails)
         end)
-    else
-        if not mailData.button then
-            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenID, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
-        else
+    elseif citizenID then
+        if mailData.button then
             MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenID, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+        else
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenID, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
         end
     end
 end)

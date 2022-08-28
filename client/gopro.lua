@@ -1,5 +1,5 @@
 RegisterNUICallback('SetupGoPros', function(_, cb)
-    local list = exports['qb-cameras']:GetMyCams() or {}
+    local list = Config.RenewedCameras and exports['qb-cameras']:GetMyCams() or {}
     cb(list)
 end)
 

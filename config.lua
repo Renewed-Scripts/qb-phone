@@ -4,7 +4,8 @@ Config = Config or {}
 
 
 Config.RenewedBanking = false -- Either put this to true or false if you use Renewed Banking or not
-
+Config.RenewedFinances = false -- Either put this to true or false if you use Renewed Finances or not
+Config.RenewedCameras = false -- Either put this to true or false if you use Renewed Cameras or not
 
 Config.TsunamiTweets = 15 -- This is the value of max amount of tweets to go through each restart meaning that no more than these amount of tweets will be loaded between restarts
 Config.DatabaseCleanup = {
