@@ -25,6 +25,9 @@ $(document).on('click', '#employment-sbmit-for-create-group', function(e){
                 pass: pass,
             }));
 
+            
+            
+
             $('#employment-box-new-dashboard').fadeOut(350);
         }else{
             QB.Phone.Notifications.Add("fas fa-exclamation-circle", "System", "The password entered is incorrect")
@@ -38,6 +41,9 @@ $(document).ready(function(){
     window.addEventListener('message', function(event) {
         switch(event.data.action) {
             case "refreshApp":
+                $(".employment-list").css({"display": "inline"});
+                $(".empolyment-btn-create-group").css({"display": "inline"});
+                $(".empolyment-text-header").css({"display": "block"});
             AddDIV(event.data.data)
             break;
             case "addGroupStage":
@@ -121,6 +127,9 @@ function AddGroupJobs(data){
     console.log(data)
     $(".employment-Groupjob").html("");
     $(".employment-list").html("");
+    $(".employment-list").css({"display": "none"});
+    $(".empolyment-btn-create-group").css({"display": "none"});
+    $(".empolyment-text-header").css({"display": "none"});
     if(data) {
 
         for (const [k, v] of Object.entries(data)) {
@@ -129,16 +138,16 @@ function AddGroupJobs(data){
                 AddOption =
                 `
                 <div class="employment-div-active-stagee isDone">
-                    <input type="checkbox" id="job${v.name}" checked disabled>
-                    <i  class="employment-div-active-stage${v.id}">${v.name}</i>
+                    <p class="employment-job-value"> 1/1 </p>
+                    <i style="margin-bottom:15px;" class="employment-div-active-stage${v.id}">${v.name}</i>
                 </div>
                 `
             } else {
                 AddOption =
                 `
                 <div class="employment-div-active-stagee">
-                    <input type="checkbox" id="job${v.name}" disabled>
-                    <i  class="employment-div-active-stage${v.id}">${v.name}</i>
+                    <p class="employment-job-value"> 0/1 </p>
+                    <i style="margin-bottom:15px;" class="employment-div-active-stage${v.id}">${v.name}</i>
                 </div>
                 `
             }
@@ -146,6 +155,9 @@ function AddGroupJobs(data){
         }
     } else {
         console.log("Error")
+        $(".employment-list").css({"display": "block"});
+        $(".empolyment-btn-create-group").css({"display": "block"});
+        $(".empolyment-text-header").css({"display": "block"});
     }
 }
 
@@ -175,7 +187,7 @@ $(document).on('click', '#employment-sbmit-for-join-group', function(e){
             id: JoinID,
         }));
         ClearInputNew()
-    $('#employment-box-new-join').fadeOut(350);
+        $('#employment-box-new-join').fadeOut(350);
     }
 });
 
@@ -189,13 +201,12 @@ $(document).on('click', '#employment-list-group', function(e){
            $('#employment-box-new-player-name').fadeIn(350);
            $("#phone-new-box-main-playername").html("");
             for (const [k, v] of Object.entries(Data)) {
-                var AddOption = `<div class="casino-text-clear">${v}</div>`
+                var AddOption = `<div style=" margin-top: 10px; height: 6vh; font-size: 2vh; border-bottom: 1px white solid; background: #2c465f;" class="casino-text-clear icon"><div style="position: absolute;"><i class="fas fa-user" style="font-size: 4.2vh; margin-left: 15px; margin-top: 10px;"></i></div class="employment-playerlist-name" style="color: black;"><div class="employment-playerlist-name">${v}</div></div>`
 
                 $('#phone-new-box-main-playername').append(AddOption);
             }
 
-           var AddOption2 = '<p> </p>'+
-           '<div class="phone-new-box-btn box-new-red" id="box-new-cancel">Cancel</div>'
+           var AddOption2 = '<p> </p>'
 
            $('#phone-new-box-main-playername').append(AddOption2);
     });
