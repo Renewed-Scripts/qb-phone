@@ -94,7 +94,7 @@ RegisterNUICallback('SendMessage', function(data, cb)
         }
     end
 
-    ReorganizeChats(ChatKey)
+    ReorganizeChats(ChatNumber)
 
     TriggerServerEvent('qb-phone:server:UpdateMessages', PhoneData.Chats[ChatNumber].messages, ChatNumber)
     SendNUIMessage({
