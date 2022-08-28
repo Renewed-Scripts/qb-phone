@@ -171,6 +171,7 @@ RegisterNUICallback('GetPinnedMessages', function(data, cb)
             local memberList = json.decode(room.room_members)
 
             if next(memberList) then
+                -- luacheck: ignore
                 for _, memberData in pairs(memberList) do
                     if Player == memberData.cid or Player == room.room_owner_id then
                         QBCore.Functions.TriggerCallback('qb-phone:server:GetPinnedMessages', function(messages)

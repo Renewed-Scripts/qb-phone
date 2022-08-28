@@ -107,8 +107,8 @@ end)
 
 
 -- Can't even wrap my head around this lol diffently needs a good old rewrite
-QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(_, cb, search)
-    local search = escape_sqli(search)
+QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(_, cb, input)
+    local search = escape_sqli(input)
     local searchData = {}
     local ApaData = {}
     local query = 'SELECT * FROM `players` WHERE `citizenid` = "' .. search .. '"'

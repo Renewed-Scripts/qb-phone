@@ -15,31 +15,6 @@ local function generateRoomCode()
     return string.upper(charset[math.random(1, 26)] ..  charset[math.random(1, 26)] .. math.random(1, 9) .. math.random(1, 9) .. charset[math.random(1, 26)])
 end
 
--- Find a room loaded in memory by room id or by room code.
--- @params int id
--- @params string code
---
--- @returns boolean | table
-local function doesRoomExist(id, code)
-    if id and not code then
-        -- Find a room based on the room id
-        for _, room in pairs(ChatRooms) do
-            if room.id == id then
-                return room
-            end
-        end
-    elseif code and not id then
-        -- Find a room based on the room code
-        for _, room in pairs(ChatRooms) do
-            if room.room_code == code then
-                return room
-            end
-        end
-    end
-
-    return false
-end
-
 -- Check if a citizen id is a member of a room.
 --
 -- @param cid string
@@ -295,7 +270,7 @@ RegisterNetEvent('qb-phone:server:SendGroupChatMessage', function(messageData, s
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:JoinGroupChat', function(source, cb, updatedRooms, roomID, password)
+QBCore.Functions.CreateCallback('qb-phone:server:JoinGroupChat', function(source, cb, updatedRooms, roomID)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local permitted = true

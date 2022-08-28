@@ -51,6 +51,8 @@ end)
 QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
+    local vehdata
+    local vinscratched
     local result = exports.oxmysql:executeSync('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid})
     if result[1] then
         for _, v in pairs(result) do
@@ -79,7 +81,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                 VehicleState = "Impounded"
             end
 
-            local vehdata = {}
             if Config.Vinscratch then
                 vinscratched = v.vinscratched
             else
