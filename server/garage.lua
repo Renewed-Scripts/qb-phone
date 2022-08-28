@@ -1,7 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local GaragesConfig = Garages
-local GangGaragesConfig = GangGarages
-local JobGaragesConfig = JobGarages
 
 RegisterNetEvent('qb-phone:server:sendVehicleRequest', function(data)
     local src = source
@@ -52,12 +49,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
             local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
             local VehicleGarage = "None"
             if v.garage then
-                if GaragesConfig[v.garage] then
-                    VehicleGarage = GaragesConfig[v.garage]["label"]
-                elseif GangGaragesConfig[v.garage] then
-                    VehicleGarage = GangGaragesConfig[v.garage]["label"]
-                elseif JobGaragesConfig[v.garage] then
-                    VehicleGarage = JobGaragesConfig[v.garage]["label"]
+                if Garages[v.garage] then
+                    VehicleGarage = Garages[v.garage]["label"]
                 else
                     VehicleGarage = v.garage
                 end
