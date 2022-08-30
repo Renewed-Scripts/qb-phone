@@ -11,7 +11,7 @@ local function RemoveCrypto(src, type, amount)
     local Crypto = Player.PlayerData.metadata.crypto
 
     if not Crypto then return end
-    if Crypto[type] - tonumber(amount) > 0 then
+    if Crypto[type] - tonumber(amount) >= 0 then
         Crypto[type] = Crypto[type] - tonumber(amount)
         Player.Functions.SetMetaData("crypto", Crypto)
         TriggerClientEvent('qb-phone:client:UpdateCrypto', src)
