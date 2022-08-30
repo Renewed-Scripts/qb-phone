@@ -230,11 +230,11 @@ $(document).on('click', '#setup-race', function(e){
     e.preventDefault();
 
     $(".racing-setup").animate({
-        left: 38
+        left: 26.5
     }, 1);
 
     $(".racing-app-background").animate({
-        left: 9
+        left: 0
     }, 1);
 
 
