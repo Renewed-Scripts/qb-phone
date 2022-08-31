@@ -18,18 +18,6 @@ local function GetKeyByDate(Number, Date)
     end
 end
 
-local function ReorganizeChats(key)
-    if not PhoneData.Chats[key] then return end
-    local ReorganizedChats = {}
-    ReorganizedChats[#ReorganizedChats+1] = PhoneData.Chats[key]
-    for k, chat in pairs(PhoneData.Chats) do
-        if k ~= key then
-            ReorganizedChats[#ReorganizedChats+1] = chat
-        end
-    end
-    PhoneData.Chats = ReorganizedChats
-end
-
 -- NUI Callback
 
 RegisterNUICallback('GetWhatsappChat', function(data, cb)
@@ -94,8 +82,6 @@ RegisterNUICallback('SendMessage', function(data, cb)
         }
     end
 
-    ReorganizeChats(ChatNumber)
-
     TriggerServerEvent('qb-phone:server:UpdateMessages', PhoneData.Chats[ChatNumber].messages, ChatNumber)
     SendNUIMessage({
         action = "UpdateChat",
@@ -126,8 +112,6 @@ RegisterNetEvent('qb-phone:client:UpdateMessages', function(ChatMessages, Sender
     else
         PhoneData.Chats[NumberKey].messages = ChatMessages
     end
-
-    ReorganizeChats(NumberKey)
 
     SendNUIMessage({
         action = "PhoneNotification",

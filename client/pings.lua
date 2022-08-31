@@ -14,9 +14,10 @@ RegisterNetEvent("qb-phone:client:sendPing", function(Name, pos)
     EndTextCommandSetBlipName(Blip)
 
     TriggerEvent('qb-phone:client:CustomNotification', Name..'\'s Location Marked', "Ping Available For 5 Minutes", 'fas fa-map-pin', '#b3e0f2', 7500)
-
+    if Blip then RemoveBlip(Blip) Blip = nil end
     SetTimeout(60000*5, function()
         RemoveBlip(Blip)
+        Blip = nil
         TriggerEvent('qb-phone:client:CustomNotification', Name..'\'s Location Removed', "Ping No Longer Available", 'fas fa-map-pin', '#b3e0f2', 7500)
     end)
 end)

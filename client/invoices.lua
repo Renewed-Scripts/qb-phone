@@ -68,7 +68,3 @@ RegisterNetEvent('qb-phone:client:RemoveInvoiceFromTable', function(id)
         })
     end
 end)
-
-RegisterCommand('invoice', function()
-    TriggerServerEvent('qb-phone:server:CreateInvoice', 1, 1, 1000)
-end, false)
