@@ -80,13 +80,13 @@ QB.Phone.Functions.SetupApplications = function(data) {
             } else if (app.app == "calculator"){
                 icon = '<img src="./img/apps/calcilator.png" class="calc-icon">';
             } else if (app.app == "employment"){
-                icon = '<img src="./img/apps/employment.png" class="calc-icon">';
+                icon = '<img src="./img/apps/employment.png" style="width: 87%;margin-top: 6%;margin-left: -2%;">';
             } else if (app.app == "debt"){
                 icon = '<img src="./img/apps/debt.png">';
             } else if (app.app == "wenmo"){
                 icon = '<img src="./img/apps/wenmo.png" class="calc-icon">';
             } else if (app.app == "jobcenter"){
-                icon = '<img src="./img/apps/jobcenter.png" style="width: 87%;margin-top: 6%;margin-left: -2%;">';
+                icon = '<img src="./img/apps/jobcenter.png" class="calc-icon">';
             } else if (app.app == "crypto"){
                 icon = '<img src="./img/apps/crypto.png" style="width: 85%;margin-top: 7%;">';
             } else if (app.app == "taxi"){
@@ -234,10 +234,10 @@ $(document).on('click', '.phone-application', function(e){
                     LoadCasinoJob();
                 }
                 else if (PressedApplication == "jobcenter") {
-                    LoadJobCenter();
+                    LoadJobCenterApp();
                 }
                 else if (PressedApplication == "crypto") {
-                    LoadCryptoCoins()
+                    LoadCryptoCoins();
                 }
                 else if (PressedApplication == "employment") {
                     LoadEmploymentApp();
