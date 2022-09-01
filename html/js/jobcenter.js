@@ -20,7 +20,7 @@ $(document).on('click', '#jobcenter-submit-create-group', function(e){
     var pass2 = $(".jobcenter-input-password2").val();
     if (Name != "" && pass != "" && pass2 != ""){
         if(pass == pass2){
-            $.post('https://qb-phone/employment_CreateJobGroup', JSON.stringify({
+            $.post('https://qb-phone/jobcenter_CreateJobGroup', JSON.stringify({
                 name: Name,
                 pass: pass,
             }));
@@ -160,7 +160,7 @@ function AddGroupJobs(data){
 $(document).on('click', '#jobcenter-delete-group', function(e){
     e.preventDefault();
     var Delete = $(this).data('delete')
-    $.post('https://qb-phone/employment_DeleteGroup', JSON.stringify({
+    $.post('https://qb-phone/jobcenter_DeleteGroup', JSON.stringify({
         delete: Delete,
     }));
 });
@@ -178,7 +178,7 @@ $(document).on('click', '#jobcenter-submit-join-group', function(e){
     var EnterPass = $(".jobcenter-input-join-password").val();
     if(EnterPass == JoinPass){
         var CSN = QB.Phone.Data.PlayerData.citizenid;
-        $.post('https://qb-phone/employment_JoinTheGroup', JSON.stringify({
+        $.post('https://qb-phone/jobcenter_JoinTheGroup', JSON.stringify({
             PCSN: CSN,
             id: JoinID,
         }));
@@ -190,7 +190,7 @@ $(document).on('click', '#jobcenter-submit-join-group', function(e){
 $(document).on('click', '#jobcenter-list-group', function(e){
     e.preventDefault();
     var id = $(this).data('id')
-    $.post('https://qb-phone/employment_CheckPlayerNames', JSON.stringify({
+    $.post('https://qb-phone/jobcenter_CheckPlayerNames', JSON.stringify({
         id: id,
         }), function(Data){
            ClearInputNew()
@@ -212,7 +212,7 @@ $(document).on('click', '#jobcenter-leave-grouped', function(e){
     e.preventDefault();
     var CSN = QB.Phone.Data.PlayerData.citizenid;
     var id = $(this).data('id')
-    $.post('https://qb-phone/employment_leave_grouped', JSON.stringify({
+    $.post('https://qb-phone/jobcenter_leave_grouped', JSON.stringify({
         id: id,
         csn: CSN,
     }));

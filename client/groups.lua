@@ -101,29 +101,29 @@ RegisterNetEvent('qb-phone:client:AddGroupStage', function(_, stage)
 end)
 
 
-RegisterNUICallback('employment_CreateJobGroup', function(data, cb) --employment
-    TriggerServerEvent('qb-phone:server:employment_CreateJobGroup', data)
+RegisterNUICallback('jobcenter_CreateJobGroup', function(data, cb) --employment
+    TriggerServerEvent('qb-phone:server:jobcenter_CreateJobGroup', data)
     cb("ok")
 end)
 
-RegisterNUICallback('employment_JoinTheGroup', function(data, cb) --employment
-    TriggerServerEvent('qb-phone:server:employment_JoinTheGroup', data)
+RegisterNUICallback('jobcenter_JoinTheGroup', function(data, cb) --employment
+    TriggerServerEvent('qb-phone:server:jobcenter_JoinTheGroup', data)
     cb("ok")
 end)
 
-RegisterNUICallback('employment_leave_grouped', function(data, cb) --employment
-    TriggerServerEvent('qb-phone:server:employment_leave_grouped', data)
+RegisterNUICallback('jobcenter_leave_grouped', function(data, cb) --employment
+    TriggerServerEvent('qb-phone:server:jobcenter_leave_grouped', data)
     cb("ok")
 end)
 
-RegisterNUICallback('employment_DeleteGroup', function(data, cb) --employment
-    TriggerServerEvent('qb-phone:server:employment_DeleteGroup', data)
+RegisterNUICallback('jobcenter_DeleteGroup', function(data, cb) --employment
+    TriggerServerEvent('qb-phone:server:jobcenter_DeleteGroup', data)
     cb("ok")
 end)
 
 
-RegisterNUICallback('employment_CheckPlayerNames', function(data, cb) --employment
-    QBCore.Functions.TriggerCallback('qb-phone:server:employment_CheckPlayerNames', function(HasName)
+RegisterNUICallback('jobcenter_CheckPlayerNames', function(data, cb) --employment
+    QBCore.Functions.TriggerCallback('qb-phone:server:jobcenter_CheckPlayerNames', function(HasName)
         cb(HasName)
     end, data.id)
 end)

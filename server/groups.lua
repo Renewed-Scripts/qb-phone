@@ -174,7 +174,7 @@ RegisterNetEvent("qb-phone:server:employment_checkJobStauts", function ()
     end
 end)
 
-RegisterNetEvent("qb-phone:server:employment_CreateJobGroup", function(data)
+RegisterNetEvent("qb-phone:server:jobcenter_CreateJobGroup", function(data)
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
     if not Players[src] then
@@ -209,7 +209,7 @@ RegisterNetEvent("TestGroups", function()
     setJobStatus((GetGroupByMembers(src)), "garbage", TestTable)
 end)
 
-RegisterNetEvent('qb-phone:server:employment_DeleteGroup', function(data)
+RegisterNetEvent('qb-phone:server:jobcenter_DeleteGroup', function(data)
     local src = source
     print(json.encode(data))
     if not Players[src] then return print("You are not in a group?!?") end
@@ -224,7 +224,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGroupsApp', function(_, cb)
     cb(EmploymentGroup)
 end)
 
-RegisterNetEvent('qb-phone:server:employment_JoinTheGroup', function(data)
+RegisterNetEvent('qb-phone:server:jobcenter_JoinTheGroup', function(data)
     print(json.encode(data))
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
@@ -262,7 +262,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:getAllGroups', function(source,
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:employment_CheckPlayerNames', function(_, cb, csn)
+QBCore.Functions.CreateCallback('qb-phone:server:jobcenter_CheckPlayerNames', function(_, cb, csn)
     local Names = {}
     for _, v in pairs(EmploymentGroup[csn].members) do
         Names[#Names+1] = v.name
@@ -271,7 +271,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:employment_CheckPlayerNames', f
 end)
 
 
-RegisterNetEvent('qb-phone:server:employment_leave_grouped', function(data)
+RegisterNetEvent('qb-phone:server:jobcenter_leave_grouped', function(data)
     local src = source
     print("leave")
     if not Players[src] then return end
