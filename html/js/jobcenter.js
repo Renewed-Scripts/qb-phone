@@ -44,6 +44,7 @@ $(document).ready(function(){
                 $(".jobcenter-list").css({"display": "inline"});
                 $(".jobcenter-btn-create-group").css({"display": "inline"});
                 $(".jobcenter-text-header").css({"display": "block"});
+                $(".jobcenter-Groupjob").css({"margin-top": "47%"});
             AddDIV(event.data.data)
             break;
             case "addGroupStage":
@@ -124,26 +125,27 @@ function AddDIV(data){
 function AddGroupJobs(data){
     var AddOption;
     $(".jobcenter-Groupjob").html("");
+    $(".jobcenter-Groupjob").css({"margin-top": "23%"});
     $(".jobcenter-list").html("");
     $(".jobcenter-list").css({"display": "none"});
     $(".jobcenter-btn-create-group").css({"display": "none"});
-    $(".jobcenter-text-header").css({"display": "none"});
+    $(".jobcenter-text-header").css({"display": "none"}); 
     if(data) {
 
         for (const [k, v] of Object.entries(data)) {
             if (v.isDone) {
                 AddOption =
                 `
-                <div class="jobcenter-div-active-stagee isDone">
-                    <p class="jobcenter-job-value"> 1/1 </p>
-                    <i style="margin-bottom:15px;" class="jobcenter-div-active-stage${v.id}">${v.name}</i>
+                <div style="height: 30px;" class="jobcenter-div-active-stagee isDone">
+                    <p class="jobcenter-job-value"> </p>
+                    <i class="jobcenter-div-active-stage${v.id}">${v.name}</i>
                 </div>
                 `
             } else {
                 AddOption =
                 `
                 <div class="jobcenter-div-active-stagee">
-                    <p class="jobcenter-job-value"> 0/1 </p>
+                    <p class="jobcenter-job-value"> 0 / 1 </p>
                     <i style="margin-bottom:15px;" class="jobcenter-div-active-stage${v.id}">${v.name}</i>
                 </div>
                 `

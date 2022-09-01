@@ -73,18 +73,16 @@
 }
 
 .jobcenter-div-active-stage{
-    width: 98%;
-    margin-left: 2%;
-    margin-bottom: 20%;
-    margin-top: 12%;
-    padding-left: 5%;
-    background-color: #2c465f;
-    transition: 0.2s;
-    color: whitesmoke;
-    border-bottom: .1vh solid #f5f5f5ad;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    font-size: 125%;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 1.5vh;
+    position: relative;
+    height: auto;
+    font: -webkit-control;
 }
 
 
@@ -189,11 +187,12 @@
  }
  
  .isDone {
-     text-decoration: line-through;
-     background: #2c465f !important;
-     position: relative;
+    text-decoration: line-through;
+    background: #2c465f !important;
+    position: relative;
  }
  .isDone::after {
+    height: 30px;
     background: #008685 !important;
  }
  .jobcenter-div-active-stagee::after {
