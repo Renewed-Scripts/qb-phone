@@ -194,6 +194,7 @@ local function LoadPhone()
             PhoneData = PhoneData,
             PlayerData = PlayerData,
             PlayerJob = PlayerData,
+            PhoneJobs = QBCore.Shared.Jobs,
             applications = Config.PhoneApplications,
             PlayerId = GetPlayerServerId(PlayerId())
         })

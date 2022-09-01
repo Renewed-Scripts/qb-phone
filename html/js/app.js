@@ -602,6 +602,7 @@ QB.Phone.Functions.LoadPhoneData = function(data) {
     QB.Phone.Data.PlayerData = data.PlayerData;
     QB.Phone.Data.PlayerJob = data.PlayerJob;
     QB.Phone.Data.MetaData = data.PhoneData.MetaData;
+    QB.Phone.Data.PhoneJobs = data.PhoneJobs
     QB.Phone.Functions.LoadMetaData(data.PhoneData.MetaData);
     QB.Phone.Functions.LoadContacts(data.PhoneData.Contacts);
     QB.Phone.Functions.SetupApplications(data);
@@ -660,7 +661,10 @@ QB.Screen.Notification = function(title, content, icon, timeout, color) {
 $(document).on('keydown', function() {
     switch(event.keyCode) {
         case 27: // ESCAPE
-        if (up){
+        if (dropdownOpen){
+            $('#employment-dropdown').fadeOut(350);
+            dropdownOpen = false
+        }else if (up){
             $('#popup').fadeOut('slow');
             $('.popupclass').fadeOut('slow');
             $('.popupclass').html("");
