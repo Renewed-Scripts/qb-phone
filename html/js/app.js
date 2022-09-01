@@ -240,9 +240,10 @@ $(document).on('click', '.phone-application', function(e){
                     LoadCryptoCoins();
                 }
                 else if (PressedApplication == "employment") {
-                    LoadEmploymentApp();
-                }
-                else if (PressedApplication == "debt") {
+                    $.post('https://qb-phone/GetJobs', JSON.stringify({}), function(data){
+                        LoadEmploymentApp(data)
+                    });
+                } else if (PressedApplication == "debt") {
                     $.post('https://qb-phone/GetPlayersDebt', JSON.stringify({}), function(data){
                         LoadDebtJob(data);
                     });
