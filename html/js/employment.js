@@ -1,4 +1,5 @@
 var dropdownOpen = false
+var cid = ''
 
 // Right now only the first search bar works, then breaks when you click into a job and back out. Second page doesn't work at all. SHIT DEV
 $(document).ready(function(){
@@ -18,6 +19,17 @@ $(document).ready(function(){
         });
     });
 });
+
+function ConfirmationFrame() {
+    $('.spinner-input-frame').css("display", "flex");
+    setTimeout(function () {
+        $('.spinner-input-frame').css("display", "none");
+        $('.checkmark-input-frame').css("display", "flex");
+        setTimeout(function () {
+            $('.checkmark-input-frame').css("display", "none");
+        }, 2000)
+    }, 1000)
+}
 
 function LoadEmploymentApp(data){
     var jobs = data;
@@ -44,7 +56,9 @@ function changePage(){
 
     $('.employment-header').append(HeaderOption); // Creates the original header
     // Load Home Page
-    LoadEmploymentApp()
+    $.post('https://qb-phone/GetJobs', JSON.stringify({}), function(data){
+        LoadEmploymentApp(data)
+    });
 }
 
 $(document).on('click', '.employment-list', function(e){
@@ -56,15 +70,20 @@ $(document).on('click', '.employment-list', function(e){
     // Fade out the old header to create the new header
     $(".employment-header").html("");
 
-    // Option for creating the list of players having that job listed above
-    var AddOption = '<div class="employment-job-list"><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
-    '<span class="employment-label">Dev with Benefits</span> <span class="employment-grade">Owner</span>'+
-    '<div class="employment-action-buttons">' +
-        '<i class="fas fa-user-tag" data-csn="INSERT-CSN-DATA-HERE" id="employment-view-camera" data-toggle="tooltip" title="Change Role"></i>'+
-        '<i class="fas fa-hand-holding-usd" data-csn="INSERT-CSN-DATA-HERE" id="employment-track-camera" data-toggle="tooltip" title="Pay"></i>' +
-        '<i class="fas fa-user-alt-slash" data-csn="INSERT-CSN-DATA-HERE" id="employment-addto-camera" data-toggle="tooltip" title="Remove Employee"></i>' +
-        '<i class="fas fa-university" data-csn="INSERT-CSN-DATA-HERE" id="employment-addto-camera" data-toggle="tooltip" title="Bank Access"></i>' +
-    '</div></div>';
+    $.post('https://qb-phone/GetEmployees', JSON.stringify({job: job}), function(data){
+        for (const [k, v] of Object.entries(data)) {
+            // Option for creating the list of players having that job listed above
+            var AddOption = '<div class="employment-job-list" data-csn='+v.cid+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
+            '<span class="employment-label">'+v.name+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[job].grades[v.grade].name+'</span>'+
+            '<div class="employment-action-buttons">' +
+                '<i class="fas fa-hand-holding-usd" id="employment-pay-employee" data-toggle="tooltip" title="Pay"></i>' +
+                '<i class="fas fa-user-alt-slash" id="employment-remove-employee" data-toggle="tooltip" title="Remove Employee"></i>' +
+                '<i class="fas fa-university" id="employment-bank-access" data-toggle="tooltip" title="Bank Access"></i>' +
+            '</div></div>';
+
+            $('.employment-lists').append(AddOption); // Creates the new screen
+        }
+    });
 
     // Creates the new header
     var HeaderOption = '<span id="employment-job-search-text">Search</span>' +
@@ -73,7 +92,6 @@ $(document).on('click', '.employment-list', function(e){
     '<i class="fas fa-ellipsis-v" id="employment-job-extras-icon"></i>' +
     '<input type="text" id="employment-job-search" placeholder="" spellcheck="false">'
 
-    $('.employment-lists').append(AddOption); // Creates the new screen
     $('.employment-header').append(HeaderOption); // Creates the new header
 });
 
@@ -84,9 +102,53 @@ $(document).on('click', '#employment-job-back-icon', function(e){
 
 $(document).on('click', '#employment-job-extras-icon', function(e){
     e.preventDefault();
-    console.log('DROP DOWN')
     dropdownOpen = true
-
     $('#employment-dropdown').fadeIn(350);
     // Gonna work on the dropdown menu here later
+});
+
+// Main Employee Buttons
+
+$(document).on('click', '#employment-pay-employee', function(e){
+    e.preventDefault();
+    cid = $(this).parent().parent().data('csn');
+    $('#pay-employee-menu').fadeIn(350);
+});
+
+$(document).on('click', '#send-employee-payment', function(e){
+    var amount = $(".pay-employee-amount").val();
+    if(amount != ""){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/SendEmployeePayment', JSON.stringify({
+            cid: cid,
+            amount: amount,
+        }));
+    }
+    ClearInputNew()
+    $('#pay-employee-menu').fadeOut(350);
+    $(".pay-employee-amount").val(''); // Resets amount input
+});
+
+$(document).on('click', '#employment-remove-employee', function(e){
+    e.preventDefault();
+    cid = $(this).parent().parent().data('csn');
+    setTimeout(function(){
+        ConfirmationFrame()
+    }, 150);
+    $.post('https://qb-phone/RemoveEmployee', JSON.stringify({
+        cid: cid,
+    }));
+});
+
+$(document).on('click', '#employment-bank-access', function(e){
+    e.preventDefault();
+    cid = $(this).parent().parent().data('csn');
+    setTimeout(function(){
+        ConfirmationFrame()
+    }, 150);
+    $.post('https://qb-phone/GiveBankAccess', JSON.stringify({
+        cid: cid,
+    }));
 });

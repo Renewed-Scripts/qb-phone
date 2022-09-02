@@ -511,7 +511,6 @@
                     </div>
 
                     <div class="employment-app">
-
                         <div class="employment-header">
                             <span id="employment-search-text">Search</span>
                             <i class="fas fa-search" id="employment-search-icon"></i>
@@ -520,12 +519,18 @@
                         <div class="employment-lists"></div>
 
                         <div class="phone-dropdown-menu" id="employment-dropdown">
+                            <div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
                             <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
-                            <div class="list-content" id='pay-external' ><i class="fas fa-hand-holding-usd"></i>Pay External</div>
                             <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>
-                            <div class="list-content" id='create-role'><i class="fas fa-user-tag"></i>Create Role</div>
-                            <div class="list-content" id='edit-role'><i class="fas fa-user-tag"></i>Edit Role</div>
-                            <div class="list-content" id='delete-role'><i class="fas fa-user-tag"></i>Delete Role</div>
+                        </div>
+
+                        <div class="phone-menu-body" id="pay-employee-menu">
+                            <div class="phone-menu-main">
+                                <input class="phone-menu-text pay-employee-amount" type="text" maxlength="6"><i class="fas fa-dollar-sign" id="phone-menu-icon"></i><span class="phone-menu-title">Payment Amount</span>
+                                <p> </p>
+                                <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
+                                <div class="phone-menu-button phone-menu-accept" id="send-employee-payment">Pay</div>
+                            </div>
                         </div>
                     </div>
 
