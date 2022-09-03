@@ -1160,7 +1160,7 @@
                         </div>
 
                         <h5 class="group-chats-title">PUBLIC CHANNELS</h5>
-                        <div id="no-public-rooms-notice">There are currently no registered channels! <br>You may rent some at the cyberbar!</div>
+                        <div id="no-public-rooms-notice">There are currently no registered channels!</div>
                         <div class="group-chats" id="public-rooms-list"></div>
 
                         <div class="chat-room-view" style="display: none;">
@@ -1210,9 +1210,27 @@
                             <div class="close-button" id="owned-rooms-list-close"><i class="fa fa-times"></i></div>
                             <h4 class="group-chats-title" style="text-align: center;">YOUR CHANNELS</h4>
                             
-                            <div id="no-owned-rooms-notice">You do not own any rooms. <br>You may purchase some at the internet café!</div>
+                            <div id="no-owned-rooms-notice">You do not own any rooms.</div>
 
                             <div id="owned-room-items"></div>
+                        </div>
+                        <div class="chat-modal" id="options-room-code" style="display: none;">
+                            <div class="close-button" id="options-room-code-close"style="margin-top: 10px;">
+                                <div class="phone-menu-button phone-menu-info" id="disc-create-channel">Create</div>
+                                <div class="phone-menu-button phone-menu-info" id="disc-join-channel" style="margin-right: 40px;">Join</div>
+                                <i class="fa fa-times"style="margin-top: -10px;"></i>
+                            </div>
+                        </div>
+                        <div class="chat-modal" id="create-room-code" style="display: none;">
+                            <div class="close-button" id="create-room-code-close">
+                                <span style="font-size: 1.0rem; margin-right: 2.2rem;">Channel Name</span>
+                                <input class="phone-menu-text create-room-name" style="left:-1rem;" type="text">
+                                <span style="font-size: 0.8rem; margin-right: 0.6rem; white-space: nowrap; margin-top: 1.5rem;">Channel Password(Optional)</span>
+                                <input class="phone-menu-text create-room-passcode" style="left:-1rem;" type="text">
+                                <p> </p>
+                                <div class="phone-menu-button phone-menu-cancel" id="create-room-cancel" style="margin-top: 1.9rem;">Cancel</div>
+                                <div class="phone-menu-button phone-menu-accept" id="create-room-confirm" style="margin-top: 1.9rem;">Submit</div>
+                            </div>
                         </div>
                         <div class="chat-modal" id="join-room-code" style="display: none;">
                             <div class="close-button" id="join-room-code-close"><i class="fa fa-times"></i></div>

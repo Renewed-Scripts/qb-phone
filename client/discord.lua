@@ -482,3 +482,16 @@ RegisterNUICallback('ToggleMessagePin', function(data, cb)
         end
     end
 end)
+
+RegisterNUICallback('CreateDiscordRoom', function(data, cb)
+    local roomData = {
+        room_owner_name = PhoneData.PlayerData.charinfo.firstname .. " " .. PhoneData.PlayerData.charinfo.lastname,
+        room_name = data.name,
+        room_pin = data.pass and data.pass ~= '' and data.pass or false,
+        is_masked = data.masked or false
+    }
+
+    QBCore.Functions.TriggerCallback("qb-phone:server:PurchaseRoom",function(status)
+        cb(status)
+    end, 250, roomData)
+end)

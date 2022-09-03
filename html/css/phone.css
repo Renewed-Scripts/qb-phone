@@ -1002,6 +1002,16 @@
     margin-bottom: 4%;
 }
 
+.phone-menu-info{
+    background:#5a7bd6;
+    color: white;
+    margin-left: 15%;
+    padding: 4.0%;
+}
+.phone-menu-info:hover{
+    background: #324373;
+}
+
 .phone-menu-cancel{
     background:#f6a167;
     margin-left: 15%;

@@ -240,7 +240,7 @@ RegisterNetEvent('qb-phone:server:SendGroupChatMessage', function(messageData, s
                     })
                     messageData.messageID = msg
                     TriggerClientEvent('qb-phone:client:RefreshGroupChat', -1, src, messageData)
-                    TriggerEvent("qb-log:server:CreateLog", "phone-chatrooms", "Message Posted (room: ".. messageData.room_id .. ", from: ".. Player.PlayerData.citizenid ..")", "blue", messageData.message)
+                    TriggerEvent("qb-log:server:CreateLog", "discord", "Message Posted (room: ".. messageData.room_id .. ", from: ".. Player.PlayerData.citizenid ..")", "blue", messageData.message)
                 end
             else
                 local message = escape_sqli(messageData.message)
@@ -252,7 +252,7 @@ RegisterNetEvent('qb-phone:server:SendGroupChatMessage', function(messageData, s
                 })
                 messageData.messageID = msg
                 TriggerClientEvent('qb-phone:client:RefreshGroupChat', -1, src, messageData)
-                TriggerEvent("qb-log:server:CreateLog", "phone-chatrooms", "Message Posted (room: ".. messageData.room_id .. ", from: ".. Player.PlayerData.citizenid ..")", "blue", messageData.message)
+                TriggerEvent("qb-log:server:CreateLog", "discord", "Message Posted (room: ".. messageData.room_id .. ", from: ".. Player.PlayerData.citizenid ..")", "blue", messageData.message)
             end
         else
             TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to send messages.')
@@ -357,54 +357,49 @@ RegisterNetEvent('qb-phone:server:DeactivateRoom', function(updatedRooms, roomID
     end
 end)
 
-RegisterNetEvent('qb-phone:server:CreateRoom', function(source, roomData, isSecured)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local roomCode = generateRoomCode()
-    local protected = false
 
-    if isSecured then
-        roomData.is_masked = true
-    end
-
-    if roomData.room_pin and roomData.room_pin ~= '' then
-        protected = true
-    end
-
-    local roomID = MySQL.insert.await("INSERT INTO phone_chatrooms (room_code, room_name, room_owner_id, room_owner_name, room_pin, is_masked) VALUES(?, ?, ?, ?, ?, ?)", {
-        roomCode,
-        roomData.room_name,
-        Player.PlayerData.citizenid,
-        roomData.room_owner_name,
-        roomData.room_pin or "",
-        roomData.is_masked or false,
-    })
-
-    local ChatRoom = {
-        id = roomID,
-        room_code = roomCode,
-        room_name  = roomData.room_name,
-        room_owner_id = Player.PlayerData.citizenid,
-        room_owner_name = roomData.room_owner_name,
-        is_masked = roomData.is_masked or false,
-        room_members = '{}',
-        protected = protected
-    }
-
-    ChatRooms[#ChatRooms + 1] = ChatRoom
-
-    TriggerClientEvent('qb-phone:client:RefreshChatRooms', -1, ChatRooms)
-    TriggerEvent("qb-log:server:CreateLog", "phone-chatrooms", "Channel Created:  ".. roomData.room_name .."(id: ".. roomID.. ", by: "..Player.PlayerData.citizenid..")", "blue")
-end)
-
-QBCore.Functions.CreateCallback('qb-phone:server:PurchaseRoom', function(source, cb, price)
+QBCore.Functions.CreateCallback('qb-phone:server:PurchaseRoom', function(source, cb, price, roomData)
 	local Player = QBCore.Functions.GetPlayer(source)
-	if Player.PlayerData.money.cash >= price then
-        Player.Functions.RemoveMoney('cash', price)
-		TriggerClientEvent('QBCore:Notify', source, "You have purchased the channel.", 'success')
+	if Player.Functions.RemoveMoney('bank', price) then
+        local cid = Player.PlayerData.citizenid
+
+        if Config.RenewedBanking then
+            exports['Renewed-Banking']:handleTransaction(cid, "Discord App", price, "Discord Channel Purchase", roomData.room_owner_name, "Discord", "withdraw")
+        end
+
+        local roomCode = generateRoomCode()
+        local protected = false
+
+        if roomData.room_pin then
+            protected = true
+        end
+
+        local roomID = MySQL.insert.await("INSERT INTO phone_chatrooms (room_code, room_name, room_owner_id, room_owner_name, room_pin, is_masked) VALUES(?, ?, ?, ?, ?, ?)", {
+            roomCode,
+            roomData.room_name,
+            cid,
+            roomData.room_owner_name,
+            roomData.room_pin or "",
+            roomData.is_masked or false,
+        })
+
+        local ChatRoom = {
+            id = roomID,
+            room_code = roomCode,
+            room_name  = roomData.room_name,
+            room_owner_id = cid,
+            room_owner_name = roomData.room_owner_name,
+            is_masked = roomData.is_masked or false,
+            room_members = '{}',
+            protected = protected
+        }
+
+        ChatRooms[#ChatRooms + 1] = ChatRoom
+
+        TriggerClientEvent('qb-phone:client:RefreshChatRooms', -1, ChatRooms)
+        TriggerEvent("qb-log:server:CreateLog", "discord", "Channel Created:  ".. roomData.room_name .."(id: ".. roomID.. ", by: "..Player.PlayerData.citizenid..")", "blue")
 		cb(true)
 	else
-		TriggerClientEvent('QBCore:Notify', source, "You do not have enough money to buy the room.", 'success')
 		cb(false)
 	end
 end)

@@ -858,7 +858,9 @@ $(document).ready(function(){
                 })
                 QB.Phone.Functions.LoadChatRooms(rooms)
                 break;
-
+            case "RefreshGroupChat":
+                QB.Phone.Functions.RefreshGroupChat(event.data.messageData)
+                break;
         }
     })
 });

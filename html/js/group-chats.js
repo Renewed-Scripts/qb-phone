@@ -955,15 +955,63 @@ $(document).on('click', '.room-list-name', function(e){
  * Opens the input room code modal window for joining rooms by code
  */
 $(document).on('click', '#open-private-rooms', function(e) {
-    $("#join-room-code").fadeIn(100, () => {
+    $("#options-room-code").fadeIn(100, () => {
         $(".modal-overlay").show()
     })
 
-    $("#join-room-code-close").on('click', function(e) {
+    $("#options-room-code-close").on('click', function(e) {
         e.preventDefault();
 
+        $("#options-room-code").fadeOut(100);
+        $(".modal-overlay").fadeOut(100);
+    })
+})
+
+function closeCreateChannel(){
+    $("#create-room-code").fadeOut(100);
+    $(".modal-overlay").fadeOut(100);
+}
+
+$(document).on('click', '#disc-create-channel', function(e) {
+    $("#options-room-code").fadeOut(100);
+    $("#create-room-code").fadeIn(100, () => {
+        $(".modal-overlay").show()
+    })
+
+    $("#create-room-cancel").on('click', function(e) {
+        closeCreateChannel()
+    })
+})
+
+$("#create-room-cancel").on('click', function(e) {
+    e.preventDefault();
+    closeCreateChannel()
+})
+
+$("#create-room-confirm").on('click', function(e) {
+    let channelName = $('.create-room-name').val()
+    let channelPass = $('.create-room-passcode').val()
+    $.post("https://qb-phone/CreateDiscordRoom", JSON.stringify({name: channelName, pass: channelPass}), function(status) {
+        if(status) {
+            QB.Phone.Notifications.Add("fab fa-discord", "Discord", "You have sucsesfully purchased a room!", "#1DA1F2", 2500)
+        } else {
+            QB.Phone.Notifications.Add("fab fa-discord", "Discord", "You can\'t afford a room!", "#1DA1F2", 2500)
+        }
+        e.preventDefault();
+        closeCreateChannel()
+    })
+})
+$("#disc-join-channel").on("click", function(e) {
+    $("#options-room-code").fadeOut(100);
+    $("#join-room-code").fadeIn(100, () => {
+        $(".modal-overlay").show()
+    })
+    
+    $("#join-room-code-close").on('click', function(e) {
+        e.preventDefault();
         $("#join-room-code").fadeOut(100);
         $(".modal-overlay").fadeOut(100);
+    
     })
 })
 
