@@ -113,37 +113,19 @@ RenderJoinedChatRooms = (JoinedChatRooms) => {
         $('#joined-rooms-container').show()
 
         $.each(JoinedChatRooms, function (i, Room) {
-            if( ! Room.is_masked) {
-                let element = `
-                    <div class="group-chat-listing" data-roomID="${Room.id}">
-                        <div class="chat-name">
-                            <span><i class="fa fa-hashtag"></i></span> ${Room.room_name} (${Room.room_code})
-                        </div>
-
-                        <div class="chat-meta">
-                            <div class="chat-owner"><i class="fas fa-crown"></i> <span>${Room.room_owner_name}</span></div>
-                        </div>
+            let element = `
+                <div class="group-chat-listing" data-roomID="${Room.id}">
+                    <div class="chat-name">
+                        <span><i class="fa fa-hashtag"></i></span> ${Room.room_name} (${Room.room_code})
                     </div>
-                `;
 
-                container.append(element)
-            }
-
-            if(QB.Phone.Data.IsHacked && Room.is_masked) {
-                let element = `
-                    <div class="group-chat-listing" data-roomID="${Room.id}">
-                        <div class="chat-name">
-                            <span><i class="fas fa-user-secret"></i></span> ${Room.room_name}
-                        </div>
-
-                        <div class="chat-meta">
-                            <div class="chat-owner private-vpn"><i class="fas fa-crown"></i> <span>${Room.room_owner_name}</span></div>
-                        </div>
+                    <div class="chat-meta">
+                        <div class="chat-owner"><i class="fas fa-crown"></i> <span>${Room.room_owner_name}</span></div>
                     </div>
-                `;
+                </div>
+            `;
 
-                container.append(element)
-            }
+            container.append(element)
         })
     } else {
         $('#joined-rooms-container').hide()
@@ -155,33 +137,31 @@ RenderPinnedChatRooms = (PinnedChatRooms) => {
     let container = $("#pinned-rooms-list")
     if( ! $.isEmptyObject(PinnedChatRooms)) {
         $.each(PinnedChatRooms, function (i, Room) {
-            if( ! Room.is_masked) {
-                switch(Room.room_name) {
-                    case "Events":
-                        icon = '<i class="far fa-calendar-alt"></i>'
-                    break
-                    case "411":
-                        icon = '<i class="fas fa-hands-helping"></i>'
-                    break
-                    case "The Lounge":
-                        icon = '<i class="fas fa-couch"></i>'
-                    break
-                }
-
-                let element = `
-                    <div class="pinned-chat-listing" data-roomID="${Room.id}">
-                        <div class="pinned-chat-name">
-                            ${Room.room_name}
-                        </div>
-
-                        <div class="pinned-chat-icon">
-                            ${icon}
-                        </div>
-                    </div>
-                `;
-
-                container.append(element)
+            switch(Room.room_name) {
+                case "Events":
+                    icon = '<i class="far fa-calendar-alt"></i>'
+                break
+                case "411":
+                    icon = '<i class="fas fa-hands-helping"></i>'
+                break
+                case "The Lounge":
+                    icon = '<i class="fas fa-couch"></i>'
+                break
             }
+
+            let element = `
+                <div class="pinned-chat-listing" data-roomID="${Room.id}">
+                    <div class="pinned-chat-name">
+                        ${Room.room_name}
+                    </div>
+
+                    <div class="pinned-chat-icon">
+                        ${icon}
+                    </div>
+                </div>
+            `;
+
+            container.append(element)
         })
     }
 }
@@ -194,36 +174,19 @@ RenderPublicChatRooms = (PublicChatRooms) => {
         container.show()
 
         $.each(PublicChatRooms, function (i, Room) {
-            if( ! QB.Phone.Data.isHacked && ! Room.is_masked) {
-                let element = `
-                    <div class="group-chat-listing" data-roomid="${Room.id}">
-                        <div class="chat-name">
-                            <span><i class="fa fa-hashtag"></i></span> ${Room.room_name}
-                        </div>
-
-                        <div class="chat-meta">
-                            <div class="chat-owner"><i class="fas fa-crown"></i> <span>${Room.room_owner_name}</span></div>
-                        </div>
+            let element = `
+                <div class="group-chat-listing" data-roomid="${Room.id}">
+                    <div class="chat-name">
+                        <span><i class="fa fa-hashtag"></i></span> ${Room.room_name}
                     </div>
-                `;
 
-                container.append(element)
-            }
-            if(QB.Phone.Data.IsHacked && Room.is_masked) {
-                let element = `
-                    <div class="group-chat-listing" data-roomid="${Room.id}">
-                        <div class="chat-name">
-                            <span><i class="fas fa-user-secret"></i></span> ${Room.room_name}
-                        </div>
-
-                        <div class="chat-meta">
-                            <div class="chat-owner private-vpn"><i class="fas fa-crown"></i> <span>${Room.room_owner_name}</span></div>
-                        </div>
+                    <div class="chat-meta">
+                        <div class="chat-owner"><i class="fas fa-crown"></i> <span>${Room.room_owner_name}</span></div>
                     </div>
-                `;
+                </div>
+            `;
 
-                container.append(element)                
-            }
+            container.append(element)
         });
     } else {
         $("#no-public-rooms-notice").show()
@@ -635,18 +598,6 @@ $("#close-pinned").on('click', e => {
 function openChatRoom(id) {
     currentRoom = id
     let data = getChatRoomData()
-    if(data.is_masked && ! QB.Phone.Data.IsHacked) {
-        QB.Phone.Notifications.Add("fa fa-times", "Discord", "This room is using a private VPN, your phone cannot connect.", "#1DA1F2", 2500)
-        return;
-    } else if(data.is_masked && QB.Phone.Data.IsHacked) {
-        $('.secured-banner').slideDown({
-            start: function () {
-                $(this).css({
-                    display: "flex"
-                })
-                }
-        }).delay(3500).slideUp()
-    }
 
     roomOpen = true
 
@@ -721,13 +672,6 @@ $("#submit-message").on('keypress', (e) => {
         let messageData = {
             roomID: currentRoom,
             message: messageContent
-        }
-
-        if(getChatRoomData().is_masked && ! QB.Phone.Data.IsHacked) {
-            $('.chat-room-back').trigger('click')
-            QB.Phone.Notifications.Add("fa fa-times", "Discord", "This room is using a private VPN, your phone cannot connect.", "#1DA1F2", 2500)
-
-            return;
         }
 
         $.post("https://qb-phone/SendGroupChatMessage", JSON.stringify(messageData), function() {
@@ -1027,11 +971,7 @@ $('.room-input-code').keypress((e) => {
         })
 
         if(chatroom) {
-            if(chatroom.is_masked && ! QB.Phone.Data.IsHacked) {
-                QB.Phone.Notifications.Add("fa fa-times", "Discord", "This room is using a private VPN, your phone cannot connect.", "#1DA1F2", 2500)
-                $("#join-room-code-close").trigger('click')
-                $('.room-input-code').val("")
-            } else if(chatroom.room_owner_id === QB.Phone.Data.PlayerData.citizenid) {
+            if(chatroom.room_owner_id === QB.Phone.Data.PlayerData.citizenid) {
                 $("#join-room-code-close").trigger('click')
 
                 QB.Phone.Notifications.Add("fa fa-times", "Discord", "You are already the owner of this room.", "#1DA1F2", 4000)

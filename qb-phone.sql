@@ -94,7 +94,6 @@ CREATE TABLE `phone_chatrooms` (
     `room_members` TEXT DEFAULT '{}',
     `room_pin` VARCHAR(50),
     `unpaid_balance` DECIMAL(10,2) DEFAULT 0,
-    `is_masked` BOOLEAN DEFAULT 0,
     `is_pinned` BOOLEAN DEFAULT 0,
     `created` DATETIME DEFAULT NOW(),
     PRIMARY KEY (`id`)

@@ -488,7 +488,6 @@ RegisterNUICallback('CreateDiscordRoom', function(data, cb)
         room_owner_name = PhoneData.PlayerData.charinfo.firstname .. " " .. PhoneData.PlayerData.charinfo.lastname,
         room_name = data.name,
         room_pin = data.pass and data.pass ~= '' and data.pass or false,
-        is_masked = data.masked or false
     }
 
     QBCore.Functions.TriggerCallback("qb-phone:server:PurchaseRoom",function(status)
