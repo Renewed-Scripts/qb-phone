@@ -73,7 +73,7 @@ $(document).on('click', '.employment-list', function(e){
     $.post('https://qb-phone/GetEmployees', JSON.stringify({job: job}), function(data){
         for (const [k, v] of Object.entries(data)) {
             // Option for creating the list of players having that job listed above
-            var AddOption = '<div class="employment-job-list" data-csn='+v.cid+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
+            var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
             '<span class="employment-label">'+v.name+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[job].grades[v.grade].name+'</span>'+
             '<div class="employment-action-buttons">' +
                 '<i class="fas fa-hand-holding-usd" id="employment-pay-employee" data-toggle="tooltip" title="Pay"></i>' +
@@ -112,6 +112,7 @@ $(document).on('click', '#employment-job-extras-icon', function(e){
 $(document).on('click', '#employment-pay-employee', function(e){
     e.preventDefault();
     cid = $(this).parent().parent().data('csn');
+    job = $(this).parent().parent().data('job');
     $('#pay-employee-menu').fadeIn(350);
 });
 
@@ -123,6 +124,7 @@ $(document).on('click', '#send-employee-payment', function(e){
         }, 150);
         $.post('https://qb-phone/SendEmployeePayment', JSON.stringify({
             cid: cid,
+            job: job,
             amount: amount,
         }));
     }
@@ -134,11 +136,13 @@ $(document).on('click', '#send-employee-payment', function(e){
 $(document).on('click', '#employment-remove-employee', function(e){
     e.preventDefault();
     cid = $(this).parent().parent().data('csn');
+    job = $(this).parent().parent().data('job');
     setTimeout(function(){
         ConfirmationFrame()
     }, 150);
     $.post('https://qb-phone/RemoveEmployee', JSON.stringify({
         cid: cid,
+        job: job,
     }));
 });
 

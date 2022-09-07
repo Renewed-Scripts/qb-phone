@@ -20,11 +20,22 @@ RegisterNUICallback('GetEmployees', function(data, cb)
 end)
 
 RegisterNUICallback('SendEmployeePayment', function(data, cb)
+    if not data.job or not data.cid or not data.amount then return end
     -- params ( data.cid / data.amount -- amount sent to employee )
+    TriggerServerEvent('qb-phone:server:SendEmploymentPayment', data.job, data.cid, data.amount)
+    cb("ok")
 end)
 
 RegisterNUICallback('RemoveEmployee', function(data, cb)
+    if data.cid == PlayerData.citizenid then return print("Cant fire yourself") end
+    if not data or not data.job or not data.cid then return end
     -- params ( data.cid )
+    print(json.encode(data))
+
+
+    TriggerServerEvent('qb-phone:server:fireUser', data.job, data.cid)
+
+    cb("ok")
 end)
 
 RegisterNUICallback('GiveBankAccess', function(data, cb)
@@ -37,19 +48,20 @@ RegisterNetEvent('qb-phone:client:JobsHandler', function(job, employees)
 
     if not cachedEmployees[job] then return end
 
-    cachedEmployees[job].employees = employees
+    cachedEmployees[job] = employees
 
-    table.sort(cachedEmployees[job].employees, function(a, b)
+    table.sort(cachedEmployees[job], function(a, b)
         return a.grade.level > b.grade.level
     end)
 end)
 
 
-RegisterNetEvent('qb-phone:client:MyJobsHandler', function(job, table)
+RegisterNetEvent('qb-phone:client:MyJobsHandler', function(job, table, employees)
     print(job, table)
     if not QBCore.Shared.Jobs[job] then return end
 
     myJobs[job] = table
+    cachedEmployees[job] = employees
 end)
 
 AddEventHandler('onResourceStart', function(resource)

@@ -15,8 +15,7 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
     local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
     local table = GetAdvertFromNumb(src)
     if table then
-        Adverts[table] = nil
-        Adverts[#Adverts+1] = {
+        Adverts[table] = {
             message = msg,
             name = name,
             number = Player.PlayerData.charinfo.phone,
@@ -37,9 +36,9 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
 end)
 
 RegisterNetEvent('qb-phone:server:DeleteAdvert', function()
-    local table = GetAdvertFromNumb(source)
-    if not table then return end
-    Adverts[table] = nil
+    local k = GetAdvertFromNumb(source)
+    if not k then return end
+    table.remove(Adverts, k)
     TriggerClientEvent('qb-phone:client:UpdateAdverts', -1, Adverts)
 end)
 
