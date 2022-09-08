@@ -27,7 +27,7 @@ RegisterNUICallback('SendEmployeePayment', function(data, cb)
 end)
 
 RegisterNUICallback('RemoveEmployee', function(data, cb)
-    if data.cid == PlayerData.citizenid then return print("Cant fire yourself") end
+    --if data.cid == PlayerData.citizenid then return print("Cant fire yourself") end
     if not data or not data.job or not data.cid then return end
     -- params ( data.cid )
     print(json.encode(data))
