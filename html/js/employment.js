@@ -81,7 +81,7 @@ $(document).on('click', '.employment-list', function(e){
                 '<div class="employment-action-buttons">' +
                     '<i class="fas fa-hand-holding-usd" id="employment-pay-employee" data-toggle="tooltip" title="Pay"></i>' +
                     '<i class="fas fa-user-alt-slash" id="employment-remove-employee" data-toggle="tooltip" title="Remove Employee"></i>' +
-                    '<i class="fas fa-university" id="employment-bank-access" data-toggle="tooltip" title="Bank Access"></i>' +
+                    '<i class="fas fa-users" id="employment-changerole" data-toggle="tooltip" title="Change Role"></i>' +
                 '</div></div>';
             }else{
                 var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
@@ -231,13 +231,24 @@ $(document).on('click', '#employment-remove-employee', function(e){
     }));
 });
 
-$(document).on('click', '#employment-bank-access', function(e){
+$(document).on('click', '#employment-changerole', function(e){
     e.preventDefault();
     cid = $(this).parent().parent().data('csn');
-    setTimeout(function(){
-        ConfirmationFrame()
-    }, 150);
-    $.post('https://qb-phone/GiveBankAccess', JSON.stringify({
-        cid: cid,
-    }));
+    $('#employment-changerole-menu').fadeIn(350);
+});
+
+$(document).on('click', '#employment-changerole-submit', function(e){
+    var grade = $(".employment-changerole-grade").val();
+    if(grade != ""){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/ChangeRole', JSON.stringify({
+            cid: cid,
+            grade: grade,
+        }));
+    }
+    ClearInputNew()
+    $('#employment-changerole-menu').fadeOut(350);
+    $(".employment-changerole-grade").val(''); // Resets amount input
 });

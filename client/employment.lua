@@ -38,8 +38,8 @@ RegisterNUICallback('RemoveEmployee', function(data, cb)
     cb("ok")
 end)
 
-RegisterNUICallback('GiveBankAccess', function(data, cb)
-    -- params ( data.cid ) This will be toggable since there is not a 'remove bank access' button
+RegisterNUICallback('ChangeRole', function(data, cb)
+    -- params ( data.cid / data.grade) This will be toggable since there is not a 'remove bank access' button
     -- Maybe we can get some data sent to the java script where it can define if someone has bank access or not
 end)
 
