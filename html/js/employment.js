@@ -1,5 +1,6 @@
 var dropdownOpen = false
 var cid = ''
+var job = ''
 
 // Right now only the first search bar works, then breaks when you click into a job and back out. Second page doesn't work at all. SHIT DEV
 $(document).ready(function(){
@@ -63,7 +64,7 @@ function changePage(){
 
 $(document).on('click', '.employment-list', function(e){
     e.preventDefault();
-    var job = $(this).data('job'); // Job Name
+    job = $(this).data('job'); // Job Name
     var grade = $(this).data('grade'); // Job Grade Level
     $(".employment-lists").html(""); // Resets the old screen
 
@@ -102,9 +103,81 @@ $(document).on('click', '#employment-job-back-icon', function(e){
 
 $(document).on('click', '#employment-job-extras-icon', function(e){
     e.preventDefault();
+    $('#employment-dropdown').html('')
     dropdownOpen = true
+
+    var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
+    <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
+    <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+
+    $('#employment-dropdown').append(AddOption);
     $('#employment-dropdown').fadeIn(350);
     // Gonna work on the dropdown menu here later
+});
+
+// Drop Down Menu Options
+
+$(document).on('click', '#clock-in', function(e){
+    e.preventDefault();
+    console.log(job)
+    $.post('https://qb-phone/ClockIn', JSON.stringify({
+        job: job,
+    }));
+    $('.phone-dropdown-menu').fadeOut(350);
+});
+
+$(document).on('click', '#hire-fucker', function(e){
+    e.preventDefault();
+    console.log(job)
+    $('#hire-worker-menu').fadeIn(350);
+    $('.phone-dropdown-menu').fadeOut(350);
+});
+
+$(document).on('click', '#hire-worker-submit', function(e){
+    var stateid = $(".hire-worker-stateid").val();
+    var grade = $(".hire-worker-grade").val();
+    if(stateid != "" && grade != ""){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/HireFucker', JSON.stringify({
+            stateid: stateid,
+            grade: grade,
+            job: job,
+        }));
+    }
+    ClearInputNew()
+    $('#hire-worker-menu').fadeOut(350);
+    $(".hire-worker-stateid").val(''); // Resets amount input
+    $(".hire-worker-grade").val(''); // Resets amount input
+});
+
+$(document).on('click', '#charge-mf', function(e){
+    e.preventDefault();
+    console.log(job)
+    $('#employment-chargemf-menu').fadeIn(350);
+    $('.phone-dropdown-menu').fadeOut(350);
+});
+
+$(document).on('click', '#employment-chargemf-submit', function(e){
+    var stateid = $(".employment-chargemf-stateid").val();
+    var amount = $(".employment-chargemf-amount").val();
+    var note = $("#employment-chargemf-note").val();
+    if(stateid != "" && amount != "" && note != ""){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/ChargeMF', JSON.stringify({
+            stateid: stateid,
+            amount: amount,
+            note: note,
+        }));
+    }
+    ClearInputNew()
+    $('#employment-chargemf-menu').fadeOut(350);
+    $(".employment-chargemf-stateid").val(''); // Resets input
+    $(".employment-chargemf-amount").val(''); // Resets input
+    $(".employment-chargemf-note").val(''); // Resets input
 });
 
 // Main Employee Buttons

@@ -249,3 +249,43 @@
     background: #0d1218c0;
     visibility: visible;
 }
+
+/* Employment Text Area BS */ 
+
+#employment-chargemf-note {
+    border: none;
+    height: 15vh;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    outline: none;
+    resize: none;
+    padding: 0.87vh;
+    font-size: 1.4vh;
+    top: 12vh;
+    width: 80%;
+    margin-left: 10%;
+    background: none;
+    border-bottom: .1vh solid #f5f5f5ad;
+    color: whitesmoke;
+    font-size: 1.75vh;
+}
+
+#employment-chargemf-note:focus {
+    border-bottom: .1vh solid #8ee074;
+}
+
+
+#employment-chargemf-note::-webkit-inner-spin-button,
+#employment-chargemf-note::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#employment-chargemf-note::-webkit-scrollbar {
+	width: 0.2vh;
+}
+
+#employment-chargemf-note::-webkit-scrollbar-thumb {
+    background: whitesmoke;
+}

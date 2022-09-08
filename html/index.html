@@ -518,11 +518,7 @@
                         </div>
                         <div class="employment-lists"></div>
 
-                        <div class="phone-dropdown-menu" id="employment-dropdown">
-                            <div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
-                            <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
-                            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>
-                        </div>
+                        <div class="phone-dropdown-menu" id="employment-dropdown"></div>
 
                         <div class="phone-menu-body" id="pay-employee-menu">
                             <div class="phone-menu-main">
@@ -532,6 +528,28 @@
                                 <div class="phone-menu-button phone-menu-accept" id="send-employee-payment">Pay</div>
                             </div>
                         </div>
+
+                        <div class="phone-menu-body" id="hire-worker-menu">
+                            <div class="phone-menu-main">
+                                <input class="phone-menu-text hire-worker-stateid" type="text"><i class="fas fa-id-card" id="phone-menu-icon"></i><span class="phone-menu-title">State ID</span>
+                                <input class="phone-menu-text hire-worker-grade" type="text" maxlength="2"><i class="fas fa-user" id="phone-menu-icon"></i><span class="phone-menu-title">Grade</span>
+                                <p> </p>
+                                <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
+                                <div class="phone-menu-button phone-menu-accept" id="hire-worker-submit">Hire</div>
+                            </div>
+                        </div>
+
+                        <div class="phone-menu-body" id="employment-chargemf-menu">
+                            <div class="phone-menu-main">
+                                <input class="phone-menu-text employment-chargemf-stateid" type="text"><i class="fas fa-id-card" id="phone-menu-icon"></i><span class="phone-menu-title">State ID</span>
+                                <input class="phone-menu-text employment-chargemf-amount" type="text"><i class="fas fa-dollar-sign" id="phone-menu-icon"></i><span class="phone-menu-title">Amount</span>
+                                <textarea id="employment-chargemf-note" spellcheck="false" required placeholder="" maxlength="4000"></textarea>
+                                <p> </p>
+                                <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
+                                <div class="phone-menu-button phone-menu-accept" id="employment-chargemf-submit">Submit</div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="debt-app">

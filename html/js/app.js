@@ -663,7 +663,7 @@ $(document).on('keydown', function() {
     switch(event.keyCode) {
         case 27: // ESCAPE
         if (dropdownOpen){
-            $('#employment-dropdown').fadeOut(350);
+            $('.phone-dropdown-menu').fadeOut(350);
             dropdownOpen = false
         }else if (up){
             $('#popup').fadeOut('slow');

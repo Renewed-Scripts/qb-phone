@@ -43,6 +43,28 @@ RegisterNUICallback('GiveBankAccess', function(data, cb)
     -- Maybe we can get some data sent to the java script where it can define if someone has bank access or not
 end)
 
+RegisterNUICallback('ClockIn', function(data, cb)
+    -- ( data.job )  is the job to click into here
+end)
+
+RegisterNUICallback('HireFucker', function(data, cb)
+    -- ( data.stateid - as source right now but we can change if needed )
+    -- ( data.job ) job to be hired to
+    -- ( data.grade ) grade level to be hired to
+    print(data.stateid)
+    print(data.job)
+    print(data.grade)
+end)
+
+RegisterNUICallback('ChargeMF', function(data, cb)
+    -- ( data.stateid - as source right now but we can change if needed )
+    -- ( data.amount ) amount billed
+    -- ( data.note ) note that comes with the invoice/ bill
+    print(data.stateid)
+    print(data.amount)
+    print(data.note)
+end)
+
 RegisterNetEvent('qb-phone:client:JobsHandler', function(job, employees)
     if not job or not employees then return end
 
