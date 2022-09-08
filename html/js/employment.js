@@ -126,20 +126,25 @@ $(document).on('click', '#employment-job-extras-icon', function(e){
 
 // Drop Down Menu Options
 
+function closeDropDown(){
+    dropdownOpen = false
+    $('.phone-dropdown-menu').fadeOut(350);
+}
+
 $(document).on('click', '#clock-in', function(e){
     e.preventDefault();
     console.log(job)
     $.post('https://qb-phone/ClockIn', JSON.stringify({
         job: job,
     }));
-    $('.phone-dropdown-menu').fadeOut(350);
+    closeDropDown()
 });
 
 $(document).on('click', '#hire-fucker', function(e){
     e.preventDefault();
     console.log(job)
     $('#hire-worker-menu').fadeIn(350);
-    $('.phone-dropdown-menu').fadeOut(350);
+    closeDropDown()
 });
 
 $(document).on('click', '#hire-worker-submit', function(e){
@@ -165,7 +170,7 @@ $(document).on('click', '#charge-mf', function(e){
     e.preventDefault();
     console.log(job)
     $('#employment-chargemf-menu').fadeIn(350);
-    $('.phone-dropdown-menu').fadeOut(350);
+    closeDropDown()
 });
 
 $(document).on('click', '#employment-chargemf-submit', function(e){
