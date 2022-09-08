@@ -191,7 +191,8 @@ $(document).on('click', '#employment-pay-employee', function(e){
 
 $(document).on('click', '#send-employee-payment', function(e){
     var amount = $(".pay-employee-amount").val();
-    if(amount != ""){
+    var note = $(".pay-employee-note").val();
+    if(amount != "" && note != ""){
         setTimeout(function(){
             ConfirmationFrame()
         }, 150);
@@ -199,11 +200,13 @@ $(document).on('click', '#send-employee-payment', function(e){
             cid: cid,
             job: job,
             amount: amount,
+            note: note,
         }));
     }
     ClearInputNew()
     $('#pay-employee-menu').fadeOut(350);
     $(".pay-employee-amount").val(''); // Resets amount input
+    $(".pay-employee-note").val(''); // Resets amount input
 });
 
 $(document).on('click', '#employment-remove-employee', function(e){
