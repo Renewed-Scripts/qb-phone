@@ -171,7 +171,7 @@ $(document).on('click', '#charge-mf', function(e){
 $(document).on('click', '#employment-chargemf-submit', function(e){
     var stateid = $(".employment-chargemf-stateid").val();
     var amount = $(".employment-chargemf-amount").val();
-    var note = $("#employment-chargemf-note").val();
+    var note = $(".employment-chargemf-note").val();
     if(stateid != "" && amount != "" && note != ""){
         setTimeout(function(){
             ConfirmationFrame()
