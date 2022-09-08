@@ -1,6 +1,7 @@
 var dropdownOpen = false
 var cid = ''
 var job = ''
+var grade = ''
 
 // Right now only the first search bar works, then breaks when you click into a job and back out. Second page doesn't work at all. SHIT DEV
 $(document).ready(function(){
@@ -65,7 +66,7 @@ function changePage(){
 $(document).on('click', '.employment-list', function(e){
     e.preventDefault();
     job = $(this).data('job'); // Job Name
-    var grade = $(this).data('grade'); // Job Grade Level
+    grade = $(this).data('grade'); // Job Grade Level
     $(".employment-lists").html(""); // Resets the old screen
 
     // Fade out the old header to create the new header
@@ -74,13 +75,18 @@ $(document).on('click', '.employment-list', function(e){
     $.post('https://qb-phone/GetEmployees', JSON.stringify({job: job}), function(data){
         for (const [k, v] of Object.entries(data)) {
             // Option for creating the list of players having that job listed above
-            var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
-            '<span class="employment-label">'+v.name+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[job].grades[v.grade].name+'</span>'+
-            '<div class="employment-action-buttons">' +
-                '<i class="fas fa-hand-holding-usd" id="employment-pay-employee" data-toggle="tooltip" title="Pay"></i>' +
-                '<i class="fas fa-user-alt-slash" id="employment-remove-employee" data-toggle="tooltip" title="Remove Employee"></i>' +
-                '<i class="fas fa-university" id="employment-bank-access" data-toggle="tooltip" title="Bank Access"></i>' +
-            '</div></div>';
+            if (QB.Phone.Data.PhoneJobs[job].grades[grade].isboss){
+                var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
+                '<span class="employment-label">'+v.name+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[job].grades[v.grade].name+'</span>'+
+                '<div class="employment-action-buttons">' +
+                    '<i class="fas fa-hand-holding-usd" id="employment-pay-employee" data-toggle="tooltip" title="Pay"></i>' +
+                    '<i class="fas fa-user-alt-slash" id="employment-remove-employee" data-toggle="tooltip" title="Remove Employee"></i>' +
+                    '<i class="fas fa-university" id="employment-bank-access" data-toggle="tooltip" title="Bank Access"></i>' +
+                '</div></div>';
+            }else{
+                var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
+                '<span class="employment-label">'+v.name+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[job].grades[v.grade].name+'</span></div>';
+            }
 
             $('.employment-lists').append(AddOption); // Creates the new screen
         }
@@ -106,13 +112,16 @@ $(document).on('click', '#employment-job-extras-icon', function(e){
     $('#employment-dropdown').html('')
     dropdownOpen = true
 
-    var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
-    <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
-    <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
-
+    if (QB.Phone.Data.PhoneJobs[job].grades[grade].isboss){
+        var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
+        <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
+        <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+    }else{
+        var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
+        <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+    }
     $('#employment-dropdown').append(AddOption);
     $('#employment-dropdown').fadeIn(350);
-    // Gonna work on the dropdown menu here later
 });
 
 // Drop Down Menu Options
