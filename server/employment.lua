@@ -73,24 +73,34 @@ CreateThread(function()
                     maxEmployee = v.maxEmployee
                 }
             end
-
-            table.sort(CachedJobs[v.jobname].employees, function(a, b)
-                return a.grade.level > b.grade.level
-            end)
         end
     end
 end)
 
 
+local function notifyPlayer(src, message)
+    if not src or not message then return end
 
--- Change User Data --
+    TriggerClientEvent('qb-phone:client:CustomNotification', src,
+        "Employment",
+        message,
+        "fas fa-network-wired",
+        "#FFFC00",
+        10000
+    )
+
+end
+
+
+-- ** Fire someone in the business the player firing someone MUST be boss ** --
 RegisterNetEvent('qb-phone:server:fireUser', function(Job, CID)
-    local srcPlayer = QBCore.Functions.GetPlayer(source)
+    local src = source
+    local srcPlayer = QBCore.Functions.GetPlayer(src)
 
-    if not Job or not CID then return print("Not all arguments filled") end
-    if not CachedJobs[Job] then return print("Not Cached job") end
-    if not CachedJobs[Job].employees[CID] then return print("Player is not employed LOL") end
-    if not srcPlayer then return print("Player not found") end
+    if not Job or not CID then return end
+    if not CachedJobs[Job] then return end
+    if not CachedJobs[Job].employees[CID] then return notifyPlayer(src, "Citizen is not Employed...") end
+    if not srcPlayer then return notifyPlayer(src, "Citizen not found.") end
 
     local srcCID = srcPlayer.PlayerData.citizenid
 
@@ -107,26 +117,34 @@ RegisterNetEvent('qb-phone:server:fireUser', function(Job, CID)
     CachedJobs[Job].employees[CID] = nil
     MySQL.update('UPDATE player_jobs SET employees = ? WHERE jobname = ?',{json.encode(CachedJobs[Job].employees), Job})
 
-    TriggerClientEvent("qb-phone:client:JobsHandler", -1, job, CachedJobs[Job].employees)
+    TriggerClientEvent("qb-phone:client:JobsHandler", -1, Job, CachedJobs[Job].employees)
 
+    notifyPlayer(src, "Successfully fired Employee...")
 
-    if CachedPlayers[CID][Job] then
-        local Player = QBCore.Functions.GetPlayerByCitizenId(CID)
-        if Player.PlayerData.job.name == Job then
-            Player.Functions.SetJob("unemployed")
-        end
+    if not CachedPlayers[CID] then return end
+    if not CachedPlayers[CID][Job] then return end
+    CachedPlayers[CID][Job] = nil
 
-        CachedPlayers[CID][Job] = nil
+    local Player = QBCore.Functions.GetPlayerByCitizenId(CID)
+    if not Player then return end
 
-        if Player.PlayerData.source then
-            TriggerClientEvent('qb-phone:client:MyJobsHandler', Player.PlayerData.source, Job, nil, nil)
-        end
+    if Player.PlayerData.job.name == Job then
+        Player.Functions.SetJob("unemployed")
+    end
+
+    if Player.PlayerData.source then
+        TriggerClientEvent('qb-phone:client:MyJobsHandler', Player.PlayerData.source, Job, nil, nil)
     end
 end)
 
+
+
+
+
+---- ** Can give any employee x amount of money out of the bank account, must be boss ** ----
 RegisterNetEvent('qb-phone:server:SendEmploymentPayment', function(Job, CID, amount)
     local src = source
-    if not Job or not CID or not amount or not CachedJobs[Job] or Job == "unemployed" then return print("lacking args") end
+    if not Job or not CID or not amount or not CachedJobs[Job] or Job == "unemployed" then return end
     local Player = QBCore.Functions.GetPlayer(src)
 
     if not Player then return end
@@ -138,14 +156,14 @@ RegisterNetEvent('qb-phone:server:SendEmploymentPayment', function(Job, CID, amo
     if not CachedJobs[Job].employees[srcCID].grade then return end
 
     local grade = tostring(CachedJobs[Job].employees[srcCID].grade)
-    if not QBCore.Shared.Jobs[Job].grades[grade].isboss then return print("Is not boss") end
+    if not QBCore.Shared.Jobs[Job].grades[grade].isboss then return notifyPlayer(src, "You aren't a manager...") end
 
     local Reciever = QBCore.Functions.GetPlayerByCitizenId(CID)
-    if not Reciever then return print("Reciever offline") end
+    if not Reciever then return notifyPlayer(src, "Employee not found...") end
 
     local amt = tonumber(amount)
     if Config.RenewedBanking then
-        if not exports['Renewed-Banking']:removeAccountMoney(Job, amt) then return print("Not enough society money") end
+        if not exports['Renewed-Banking']:removeAccountMoney(Job, amt) then return notifyPlayer(src, "Insufficient Funds...") end
         local title = QBCore.Shared.Jobs[Job].label.." // Employee Payment"
 
         ---- Business Account ----
@@ -156,44 +174,58 @@ RegisterNetEvent('qb-phone:server:SendEmploymentPayment', function(Job, CID, amo
         ---- Player Account ----
         exports['Renewed-Banking']:handleTransaction(Reciever.PlayerData.citizenid, title, amt, "Payment recieved of $"..amt.." recieved from Business "..QBCore.Shared.Jobs[Job].label.. " and Manager "..BusinessName, BusinessName, RecieverName, "deposit")
     else
-        if not exports['qb-management']:RemoveMoney(Job, amt) then return print("Not enough society money") end
+        if not exports['qb-management']:RemoveMoney(Job, amt) then return notifyPlayer(src, "Insufficient Funds...") end
     end
     Player.Functions.AddMoney('bank', amt)
 end)
 
-RegisterNetEvent('qb-phone:server:hireUser', function(Job, CID, grade)
-    if not Job or not CID or not CachedJobs[Job] or Job == "unemployed" then return end
-    local Player = QBCore.Functions.GetPlayerByCitizenId(CID)
 
-    if CachedJobs[Job].employees[CID] then return print("Already hired") end
+
+
+---- ** Player can hire someone aslong as they are boss within the group
+RegisterNetEvent('qb-phone:server:hireUser', function(Job, id, grade)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local hiredPlayer = QBCore.Functions.GetPlayer(tonumber(id))
+
+    local pCID = Player.PlayerData.citizenid
+    local CID = hiredPlayer.PlayerData.citizenid
+    if not hiredPlayer then return notifyPlayer(src, "Citizen not found...") end
+    if not Job or not CID or not CachedJobs[Job] or Job == "unemployed" then return end
+
+    if CachedJobs[Job].employees[CID] then return notifyPlayer(src, "Citizen Already Hired...") end
+
+    if not CachedJobs[Job].employees[pCID] or not CachedJobs[Job].employees[pCID].grade then return end
+
+    local bossGrade = tostring(CachedJobs[Job].employees[pCID].grade)
+    if not QBCore.Shared.Jobs[Job].grades[bossGrade].isboss then return notifyPlayer(src, "You arent a manager // boss...") end
 
     CachedJobs[Job].employees[CID] = {
         cid = CID,
         grade = grade or 0,
-        name = Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
+        name = hiredPlayer.PlayerData.charinfo.firstname .. ' ' .. hiredPlayer.PlayerData.charinfo.lastname
     }
 
     MySQL.update('UPDATE player_jobs SET employees = ? WHERE jobname = ?',{json.encode(CachedJobs[Job].employees), Job})
 
-    if Player and CachedPlayers[CID] then
-        CachedPlayers[CID][Job] = CachedJobs[Job].employees[CID]
-        TriggerClientEvent('qb-phone:client:MyJobsHandler', Player.PlayerData.source, Job, CachedPlayers[CID][Job], CachedJobs[Job].employees)
-    end
-
     TriggerClientEvent("qb-phone:client:JobsHandler", -1, Job, CachedJobs[Job].employees)
-    print("Hired")
+
+    if hiredPlayer and CachedPlayers[CID] then
+        CachedPlayers[CID][Job] = CachedJobs[Job].employees[CID]
+        TriggerClientEvent('qb-phone:client:MyJobsHandler', hiredPlayer.PlayerData.source, Job, CachedPlayers[CID][Job], CachedJobs[Job].employees)
+    end
 end)
+
+
+
+---- ** Handles the changing of someone grade within the job ** ----
 
 RegisterNetEvent('qb-phone:server:gradesHandler', function(Job, CID, grade)
     if not Job or not CID or not CachedJobs[Job] then return end
     local Player = QBCore.Functions.GetPlayerByCitizenId(CID)
-    if not CachedJobs[Job].employees[CID] then return print("Not apart of the group") end
+    if not CachedJobs[Job].employees[CID] then return notifyPlayer(src, "Citizen is not employed at the job...") end
 
-    CachedJobs[Job].employees[CID] = {
-        cid = CID,
-        grade = grade,
-        name = Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
-    }
+    CachedJobs[Job].employees[CID].grade = tonumber(grade)
 
     MySQL.update('UPDATE player_jobs SET employees = ? WHERE jobname = ?',{json.encode(CachedJobs[Job].employees), Job})
 
@@ -209,6 +241,22 @@ end)
 
 
 
+
+RegisterNetEvent('qb-phone:server:clockOnDuty', function(Job)
+    local src = source
+    if not Job then return end
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
+
+    local CID = Player.PlayerData.citizenid
+
+    if CachedPlayers[CID][Job] and CachedJobs[Job].employees[CID] then
+        local grade = type(CachedJobs[Job].employees[CID].grade0) ~= "number" and tonumber(CachedJobs[Job].employees[CID].grade) or CachedJobs[Job].employees[CID].grade
+        Player.Functions.SetJob(Job, grade)
+        Wait(50)
+        Player.Functions.SetJobDuty(true)
+    end
+end)
 
 
 
@@ -236,3 +284,136 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb
     cb(employees, CachedPlayers[CID])
 end)
 
+
+
+---- Functions and Exports people can use across script to hire and fire people to sync ----
+
+
+---- Use this to hire anyone through scripts DO NOT use this through exploitable events since its meant to not be the securest ----
+local function hireUser(Job, CID, grade)
+    if not Job or not CID or not CachedJobs[Job] or Job == "unemployed" then return end
+    local Player = QBCore.Functions.GetPlayerByCitizenId(CID)
+
+    if not Player then return print("Player offline") end
+
+    if CachedJobs[Job].employees[CID] then return print("Already hired") end
+
+    CachedJobs[Job].employees[CID] = {
+        cid = CID,
+        grade = grade or 0,
+        name = Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
+    }
+
+    MySQL.update('UPDATE player_jobs SET employees = ? WHERE jobname = ?',{json.encode(CachedJobs[Job].employees), Job})
+
+    if CachedPlayers[CID] then
+        CachedPlayers[CID][Job] = CachedJobs[Job].employees[CID]
+        TriggerClientEvent('qb-phone:client:MyJobsHandler', Player.PlayerData.source, Job, CachedPlayers[CID][Job], CachedJobs[Job].employees)
+    end
+
+    TriggerClientEvent("qb-phone:client:JobsHandler", -1, Job, CachedJobs[Job].employees)
+end exports("hireUser", hireUser)
+
+
+---- Use this to fire anyone through scripts DO NOT use this through exploitable events since its meant to not be the securest ----
+local function fireUser(Job, CID)
+    if not CachedJobs[Job] then return print("Not Cached job") end
+    if not CachedJobs[Job].employees[CID] then return print("Player is not employed LOL") end
+
+    CachedJobs[Job].employees[CID] = nil
+    MySQL.update('UPDATE player_jobs SET employees = ? WHERE jobname = ?',{json.encode(CachedJobs[Job].employees), Job})
+
+    TriggerClientEvent("qb-phone:client:JobsHandler", -1, Job, CachedJobs[Job].employees)
+
+    if not CachedPlayers[CID] then return end
+    if not CachedPlayers[CID][Job] then return end
+    CachedPlayers[CID][Job] = nil
+
+    local Player = QBCore.Functions.GetPlayerByCitizenId(CID)
+    if not Player then return end
+
+    if Player.PlayerData.job.name == Job then
+        Player.Functions.SetJob("unemployed")
+    end
+
+    if Player.PlayerData.source then
+        TriggerClientEvent('qb-phone:client:MyJobsHandler', Player.PlayerData.source, Job, nil, nil)
+    end
+end exports("fireUser", fireUser)
+
+
+
+
+
+
+
+
+
+local bills = {}
+
+---- ** Invoices // Charging People ** ----
+RegisterNetEvent('qb-phone:server:ChargeCustomer', function(id, amount, notes, job)
+    if not id or not amount or not job then return end
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
+    if not CachedJobs[job].employees[Player.PlayerData.citizenid] then return notifyPlayer(src, "You're not an employee at this business...") end
+
+
+    local note = notes or ""
+    local amt = tonumber(amount)
+
+    bills[tonumber(id)] = {
+        amount = amt,
+        job = job,
+        notes = note,
+        coords = GetEntityCoords(GetPlayerPed(src)),
+        name = Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
+    }
+
+    TriggerEvent('qb-phone:server:CreateInvoice', tonumber(id), src, amt)
+end)
+
+AddEventHandler('qb-phone:server:InvoiceHandler', function(paid, amount, source, resource)
+    if not bills[source] then return end
+    if resource ~= GetCurrentResourceName() then return end
+
+    if paid then
+        if amount == bills[source].amount then
+            local Player = QBCore.Functions.GetPlayer(source)
+            if Config.RenewedBanking then
+                local cid = Player.PlayerData.citizenid
+                local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
+                local text = "You paid off an invoice for $"..amount.." from "..bills[source].name.." for "..bills[source].notes
+                exports['Renewed-Banking']:handleTransaction(cid, "Personal // Invoice Transaction", amount, text, bills[source].name, name, "withdraw")
+
+                local text2 = "A invoice issued by "..bills[source].name.." Worth $"..amount.." was paid off by "..name.." for "..bills[source].notes
+                exports['Renewed-Banking']:handleTransaction(bills[source].job, "Business // Invoice Transaction", amount, text2, bills[source].name, name, "deposit")
+                exports['Renewed-Banking']:addAccountMoney(bills[source].job, amount)
+            else
+                exports['qb-management']:AddMoney(bills[source].job, amount)
+            end
+
+            if amount >= 450 then
+                local DutySrcs, count = QBCore.Functions.GetPlayersOnDuty(bills[source].job)
+                if count > 0 then
+                    for i  = 1, count do
+                        local ped = GetPlayerPed(DutySrcs[i])
+                        local coords = GetEntityCoords(ped)
+
+                        if #(coords - bills[source].coords) < 10.0 then
+                            local tempPlayer = QBCore.Functions.GetPlayer(DutySrcs[i])
+                            tempPlayer.Functions.AddItem('payticket', 1)
+                            TriggerClientEvent('inventory:client:ItemBox', DutySrcs[i], QBCore.Shared.Items['payticket'], "add", 1)
+                            TriggerClientEvent('QBCore:Notify', DutySrcs[i], 'Receipt received', 'success')
+                        end
+                    end
+                end
+            end
+
+            bills[source] = nil
+        end
+    elseif not paid then
+        bills[source] = nil
+    end
+end)

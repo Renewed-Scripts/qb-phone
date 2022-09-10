@@ -38,9 +38,6 @@ function LoadEmploymentApp(data){
     $(".employment-lists").html("");
     for (const [k, v] of Object.entries(jobs)) {
         console.log(k)
-        console.log(JSON.stringify(v))
-        console.log(v.grade)
-        console.log(JSON.stringify(QB.Phone.Data.PhoneJobs))
         var AddOption = '<div class="employment-list" data-job="'+k+'" data-grade="'+v.grade+'"><span class="employment-icon"><i class="fas fa-business-time"></i></span> <span class="employment-label">'+QB.Phone.Data.PhoneJobs[k].label+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[k].grades[v.grade].name+'</span>' +
         '</div>';
 
@@ -185,6 +182,7 @@ $(document).on('click', '#employment-chargemf-submit', function(e){
             stateid: stateid,
             amount: amount,
             note: note,
+            job: job,
         }));
     }
     ClearInputNew()

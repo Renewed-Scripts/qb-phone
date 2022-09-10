@@ -44,6 +44,15 @@ RegisterNUICallback('ChangeRole', function(data, cb)
 end)
 
 RegisterNUICallback('ClockIn', function(data, cb)
+    if not data or not data.job then return end
+    print("clock in")
+
+    print(json.encode(data))
+
+
+    TriggerServerEvent('qb-phone:server:clockOnDuty', data.job)
+
+    cb("ok")
     -- ( data.job )  is the job to click into here
 end)
 
@@ -54,46 +63,76 @@ RegisterNUICallback('HireFucker', function(data, cb)
     print(data.stateid)
     print(data.job)
     print(data.grade)
+
+    TriggerServerEvent('qb-phone:server:hireUser', data.stateid, data.job, data.grade)
+
+    cb("ok")
 end)
 
 RegisterNUICallback('ChargeMF', function(data, cb)
-    -- ( data.stateid - as source right now but we can change if needed )
-    -- ( data.amount ) amount billed
-    -- ( data.note ) note that comes with the invoice/ bill
-    print(data.stateid)
-    print(data.amount)
-    print(data.note)
+    if not data or not data.stateid or not data.amount or not data.job then return end
+
+    TriggerServerEvent('qb-phone:server:ChargeCustomer', data.stateid, data.amount, data.note, data.job)
 end)
 
 RegisterNetEvent('qb-phone:client:JobsHandler', function(job, employees)
     if not job or not employees then return end
-
     if not cachedEmployees[job] then return end
 
-    cachedEmployees[job] = employees
-
-    table.sort(cachedEmployees[job], function(a, b)
-        return a.grade.level > b.grade.level
-    end)
+    cachedEmployees[job] = {}
+    for _, v in pairs(employees) do
+        cachedEmployees[job][#cachedEmployees[job]+1] = {
+            cid = v.cid,
+            name = v.name,
+            grade = v.grade,
+        }
+        table.sort(cachedEmployees[job], function(a, b)
+            return a.grade > b.grade
+        end)
+    end
 end)
 
 
-RegisterNetEvent('qb-phone:client:MyJobsHandler', function(job, table, employees)
-    print(job, table)
+RegisterNetEvent('qb-phone:client:MyJobsHandler', function(job, jobTable, employees)
     if not QBCore.Shared.Jobs[job] then return end
 
-    myJobs[job] = table
-    cachedEmployees[job] = employees
+    myJobs[job] = jobTable
+
+    if employees then
+        cachedEmployees[job] = {}
+        for _, v in pairs(employees) do
+            cachedEmployees[job][#cachedEmployees[job]+1] = {
+                cid = v.cid,
+                name = v.name,
+                grade = v.grade,
+            }
+            table.sort(cachedEmployees[job], function(a, b)
+                return a.grade > b.grade
+            end)
+        end
+    else
+        cachedEmployees[job] = nil
+    end
 end)
 
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         Wait(300)
         QBCore.Functions.TriggerCallback('qb-phone:server:GetMyJobs', function(employees, myShit)
-            print(json.encode(employees), json.encode(myShit))
-            cachedEmployees = employees
+            for k, _ in pairs(employees) do
+                for _, v in pairs(employees[k]) do
+                    if not cachedEmployees[k] then cachedEmployees[k] = {} end
+                    cachedEmployees[k][#cachedEmployees[k]+1] = {
+                        cid = v.cid,
+                        name = v.name,
+                        grade = v.grade,
+                    }
+                end
+                table.sort(cachedEmployees[k], function(a, b)
+                    return a.grade > b.grade
+                end)
+            end
 
-            print(json.encode(cachedEmployees))
 
             if myShit then
                 for k, v in pairs(myShit) do
