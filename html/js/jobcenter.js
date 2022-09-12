@@ -48,7 +48,7 @@ $(document).ready(function(){
             AddDIV(event.data.data)
             break;
             case "addGroupStage":
-            AddGroupJobs(event.data.status)
+                AddGroupJobs(event.data.status)
             break;
         }
     })

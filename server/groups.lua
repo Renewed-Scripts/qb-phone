@@ -82,13 +82,20 @@ end exports("GetGroupLeader", GetGroupLeader)
 
 local function DestroyGroup(groupID)
     if not EmploymentGroup[groupID] then return print("DestroyGroup was sent an invalid groupID :"..groupID) end
-    for _, v in pairs(EmploymentGroup[groupID].members) do
-        Players[v.Player] = false
+    local members = getGroupMembers(groupID)
+    if members and #members > 0 then
+        for i = 1, #members do
+            if members[i] then
+                Players[members[i]] = false
+                exports['qb-phone']:resetJobStatus(groupID)
+            end
+        end
     end
-    TriggerEvent('qb-phone:server:GroupDeleted', group, getGroupMembers(groupID))
+
     EmploymentGroup[groupID] = nil
     TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
-end
+
+end exports("DestroyGroup", DestroyGroup)
 
 local function RemovePlayerFromGroup(src, groupID)
     if not Players[src] or not EmploymentGroup[groupID] then return print("RemovePlayerFromGroup was sent an invalid groupID :"..groupID) end
@@ -283,3 +290,31 @@ RegisterNetEvent('qb-phone:server:jobcenter_leave_grouped', function(data)
     if not Players[src] then return end
     RemovePlayerFromGroup(src, data.id)
 end)
+
+local function isGroupTemp(groupID)
+    if not groupID or not EmploymentGroup[groupID] then return print("isGroupTemp was sent an invalid groupID :"..groupID) end
+    return EmploymentGroup[groupID].ScriptCreated or false
+end exports('isGroupTemp', isGroupTemp)
+
+
+local function CreateGroup(src, name, password)
+    if not src or not name then return end
+    local Player = QBCore.Functions.GetPlayer(src)
+    Players[src] = true
+    local id = #EmploymentGroup+1
+    EmploymentGroup[id] = {
+        status = "WAITING",
+        GName = name,
+        GPass = password or QBCore.Shared.RandomInt(7),
+        Users = 1,
+        leader = src,
+        members = {
+            {name = GetPlayerCharName(src), CID = Player.PlayerData.citizenid, Player = src}
+        },
+        stage = {},
+        ScriptCreated = true,
+    }
+
+    TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
+    return id
+end exports('CreateGroup', CreateGroup)
