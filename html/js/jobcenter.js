@@ -100,8 +100,8 @@ function AddDIV(data){
                 </i><div class="jobcenter-option-class-body">
                 <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends">${data[element].Users}</i>
                 </div></div></div>`
-                Object.keys(data[element].members).map(function(element2,index){
-                    if(data[element].members[element2].CID == CSN) {
+                Object.keys(data[element].members).map(function(element2, _){
+                    if(data[element].members[element2].Player == CSN) {
                         AddOption = `
                         <div class="jobcenter-div-job-group">
                         <div class="jobcenter-div-job-group-image">
@@ -129,7 +129,7 @@ function AddGroupJobs(data){
     $(".jobcenter-list").html("");
     $(".jobcenter-list").css({"display": "none"});
     $(".jobcenter-btn-create-group").css({"display": "none"});
-    $(".jobcenter-text-header").css({"display": "none"}); 
+    $(".jobcenter-text-header").css({"display": "none"});
     if(data) {
 
         for (const [k, v] of Object.entries(data)) {
