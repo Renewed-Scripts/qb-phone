@@ -115,3 +115,12 @@ CREATE TABLE `phone_chatroom_messages` (
      `created` DATETIME DEFAULT NOW(),
     PRIMARY KEY (`id`)
 );
+
+DROP TABLE IF EXISTS `player_jobs`;
+CREATE TABLE IF NOT EXISTS `player_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `jobname` varchar(50) DEFAULT NULL,
+  `employees` text DEFAULT NULL,
+  `maxEmployee` tinyint(11) DEFAULT 15,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;

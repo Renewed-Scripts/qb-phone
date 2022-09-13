@@ -1,4 +1,42 @@
+# Installation steps
+ (needs to be organized - rephrased)
+- When launching this resource for the first time set FirstRun to true: - provide location of it
+```lua
+    local FirstRun = true
+```
+and then set it to false:
+```lua
+    local FirstRun = false
+```
 
+- replace commands below:
+setjob command - add the location of it
+```lua
+QBCore.Commands.Add('setjob', 'Set A Players Job (Admin Only)', { { name = 'id', help = 'Player ID' }, { name = 'job', help = 'Job name' }, { name = 'grade', help = 'Grade' } }, true, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    if Player then
+        Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
+        exports['qb-phone']:hireUser(tostring(args[2]), Player.PlayerData.citizenid, tonumber(args[3]))
+    else
+        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+    end
+end, 'admin')
+```
+
+removejob command - add the location of it
+```lua
+QBCore.Commands.Add('removejob', 'Removes A Players Job (Admin Only)', { { name = 'id', help = 'Player ID' }, { name = 'job', help = 'Job name' } }, true, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    if Player then
+        if Player.PlayerData.job.name == tostring(args[2]) then
+            Player.Functions.SetJob("unemployed", 0)
+        end
+        exports['qb-phone']:fireUser(tostring(args[2]), Player.PlayerData.citizenid)
+    else
+        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+    end
+end, 'admin')
+```
 
 
 # Contributors
