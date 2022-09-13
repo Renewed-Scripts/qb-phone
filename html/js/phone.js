@@ -163,8 +163,8 @@ $(document).on('click', "#phone-recent-call-number", function(e){
 $(document).on('click', "#phone-number-call-free-btn", function(e){
     e.preventDefault();
     var InputNum = $(".phone-number-call-free").val();
-
-    if (InputNum != ""){
+    var regExp = /[a-zA-Z]/g;
+    if (InputNum != "" && !regExp.test(InputNum)){
         cData = {
             number: InputNum,
             name: InputNum,
@@ -344,8 +344,9 @@ $(document).on('click', '#phone-number-savecontact-edit', function(e){
     if (ContactName == '') ContactName = 'Hmm, I shouldn\'t be able to do this...'
     var ContactNumber = $(".phone-number-call-number-edit").val();
     var ContactIban = $(".phone-edit-contact-iban").val();
+    var regExp = /[a-zA-Z]/g;
 
-    if (ContactName != "" && ContactNumber != "") {
+    if (ContactName != "" && ContactNumber != "" && !regExp.test(ContactNumber)) {
         ConfirmationFrame()
         $.post('https://qb-phone/EditContact', JSON.stringify({
             CurrentContactName: ContactName,
@@ -419,8 +420,9 @@ $(document).on('click', '#phone-number-savecontact', function(e){
     if (ContactName == '') ContactName = 'Hmm, I shouldn\'t be able to do this...'
     var ContactNumber = $(".phone-number-call-number").val();
     var ContactIban = $(".phone-add-contact-iban").val();
+    var regExp = /[a-zA-Z]/g;
 
-    if (ContactName != "" && ContactNumber != "") {
+    if (ContactName != "" && ContactNumber != "" && !regExp.test(ContactNumber)) {
         ConfirmationFrame()
         $.post('https://qb-phone/AddNewContact', JSON.stringify({
             ContactName: ContactName,

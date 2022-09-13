@@ -27,7 +27,7 @@ function formatPhoneNumber(phoneNumberString) {
       var intlCode = (match[1] ? '+1 ' : '');
       return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
     }
-    return null;
+    return phoneNumberString;
 }
 
 $(document).on('click', '#whatsapp-newconvo-icon', function(e){
@@ -191,8 +191,8 @@ $(document).on('click', '#whatsapp-save-note-for-doc', function(e){
     e.preventDefault();
     var Message = $(".whatsapp-input-message").val();
     var Number = $(".whatsapp-input-number").val();
-
-    if ((Message &&Number ) != ""){
+    var regExp = /[a-zA-Z]/g;
+    if ((Message &&Number ) != "" && !regExp.test(Number)){
         $.post('https://qb-phone/SendMessage', JSON.stringify({
             ChatNumber: Number,
             ChatDate: GetCurrentDateKey(),

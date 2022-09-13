@@ -51,18 +51,12 @@
     display: none;
 }
 
-
-
-
-
-
-
 .details-money-types{
     display: inline-block;
     position: relative;
     width: 100%;
     color: whitesmoke;
-    font-size: 2vh;
+    font-size: 1.8vh;
 }
 
 .details-moneys-body-main{
