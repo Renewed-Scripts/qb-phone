@@ -2,11 +2,11 @@
  (needs to be organized - rephrased)
 - When launching this resource for the first time set FirstRun to true: - provide location of it
 ```lua
-    local FirstRun = true
+    local FirstStart = true
 ```
 and then set it to false:
 ```lua
-    local FirstRun = false
+    local FirstStart = false
 ```
 
 - replace commands below:
