@@ -203,8 +203,9 @@ RegisterNetEvent("qb-phone:server:jobcenter_CreateJobGroup", function(data)
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
     if Players[src] then TriggerClientEvent('QBCore:Notify', src, "You have already created a group", "error") return end
+    if not data or not data.pass or not data.name then return end
     Players[src] = true
-    local ID = EmploymentGroup[#EmploymentGroup+1]
+    local ID = #EmploymentGroup+1
     EmploymentGroup[ID] = {
         id = ID,
         status = "WAITING",
