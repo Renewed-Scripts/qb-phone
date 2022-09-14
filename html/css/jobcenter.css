@@ -171,8 +171,13 @@
     align-content: center;
     align-items: center;
     margin-left: 6%;
-    height: auto;
+    height: 560px;
+    overflow: auto;
  }
+
+ .jobcenter-Groupjob::-webkit-scrollbar {
+    display: none;
+  }
  
  .jobcenter-div-active-stagee {
     width: 100%;
@@ -183,7 +188,8 @@
     color: white;
     font-size: 1.5vh;
     position: relative;
-    height: 50px;
+    height: auto;
+    word-break: break-all;
  }
  
  .isDone {
@@ -311,5 +317,12 @@
 .jobcenter-job-value {
     position: absolute;
     right: 10px;
-    margin-top: 30px;
+    bottom: -10px;
+}
+
+.jobcenter-groupstatus {
+    display: none;
+    color: white;
+    position: absolute;
+    font-size: 30px;
 }

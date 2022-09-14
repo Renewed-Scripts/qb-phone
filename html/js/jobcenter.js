@@ -136,9 +136,9 @@ function AddGroupJobs(data){
             if (v.isDone) {
                 AddOption =
                 `
-                <div style="height: 30px;" class="jobcenter-div-active-stagee isDone">
-                    <p class="jobcenter-job-value"> </p>
-                    <i class="jobcenter-div-active-stage${v.id}">${v.name}</i>
+                <div class="jobcenter-div-active-stagee isDone">
+                    <p class="jobcenter-job-value"> 1 / 1</p>
+                    <i style="margin-bottom:15px; class="jobcenter-div-active-stage${v.id}">${v.name}</i>
                 </div>
                 `
             } else {
