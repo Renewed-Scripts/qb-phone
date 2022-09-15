@@ -142,3 +142,30 @@ AddEventHandler('onResourceStart', function(resource)
         end)
     end
 end)
+
+
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    QBCore.Functions.TriggerCallback('qb-phone:server:GetMyJobs', function(employees, myShit)
+        for k, _ in pairs(employees) do
+            for _, v in pairs(employees[k]) do
+                if not cachedEmployees[k] then cachedEmployees[k] = {} end
+                cachedEmployees[k][#cachedEmployees[k]+1] = {
+                    cid = v.cid,
+                    name = v.name,
+                    grade = v.grade,
+                }
+            end
+            table.sort(cachedEmployees[k], function(a, b)
+                return a.grade > b.grade
+            end)
+        end
+
+
+        if myShit then
+            for k, v in pairs(myShit) do
+                if not myJobs[k] then myJobs[k] = v end
+            end
+        end
+    end)
+end)

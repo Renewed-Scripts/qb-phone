@@ -6,11 +6,15 @@ RegisterNetEvent('qb-phone:server:wenmo_givemoney_toID', function(data)
     local OtherPly = QBCore.Functions.GetPlayer(tonumber(data.ID))
     local Amount = tonumber(data.Amount)
     local Reason = data.Reason
+
+    if src == tonumber(data.ID) then return end
+
+    if #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(tonumber(data.ID)))) >= 15 then return TriggerClientEvent('QBCore:Notify', src, 'Out of range...', "error") end
+
     if not OtherPly then return TriggerClientEvent('QBCore:Notify', src, 'Player not Online', "error") end
 
-    if Ply.PlayerData.money.bank and Ply.PlayerData.money.bank >= Amount then
+    if Ply.Functions.RemoveMoney('bank', Amount, txt) then
         local txt = "Wenmo: "..Reason
-        Ply.Functions.RemoveMoney('bank', Amount, txt)
         OtherPly.Functions.AddMoney('bank', Amount, txt)
 
         if Config.RenewedBanking then
