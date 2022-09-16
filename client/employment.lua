@@ -136,7 +136,7 @@ AddEventHandler('onResourceStart', function(resource)
 
             if myShit then
                 for k, v in pairs(myShit) do
-                    if not myJobs[k] then myJobs[k] = v end
+                    if QBCore.Shared.Jobs[k] and not myJobs[k] then myJobs[k] = v end
                 end
             end
         end)
@@ -164,7 +164,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 
         if myShit then
             for k, v in pairs(myShit) do
-                if not myJobs[k] then myJobs[k] = v end
+                if QBCore.Shared.Jobs[k] and not myJobs[k] then myJobs[k] = v end
             end
         end
     end)

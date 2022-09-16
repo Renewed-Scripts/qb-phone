@@ -37,7 +37,6 @@ function LoadEmploymentApp(data){
     var jobs = data;
     $(".employment-lists").html("");
     for (const [k, v] of Object.entries(jobs)) {
-        console.log(k)
         var AddOption = '<div class="employment-list" data-job="'+k+'" data-grade="'+v.grade+'"><span class="employment-icon"><i class="fas fa-business-time"></i></span> <span class="employment-label">'+QB.Phone.Data.PhoneJobs[k].label+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[k].grades[v.grade].name+'</span>' +
         '</div>';
 
@@ -71,9 +70,16 @@ $(document).on('click', '.employment-list', function(e){
 
     $.post('https://qb-phone/GetEmployees', JSON.stringify({job: job}), function(data){
         for (const [k, v] of Object.entries(data)) {
-            // Option for creating the list of players having that job listed above
+            var icon
+
+            if (QB.Phone.Data.PhoneJobs[job].grades[v.grade].isboss) {
+                icon = "fas fa-user-secret"
+            } else {
+                icon = "fas fa-user"
+            }
+
             if (QB.Phone.Data.PhoneJobs[job].grades[grade].isboss){
-                var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
+                var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="'+icon+'"></i></span>' +
                 '<span class="employment-label">'+v.name+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[job].grades[v.grade].name+'</span>'+
                 '<div class="employment-action-buttons">' +
                     '<i class="fas fa-hand-holding-usd" id="employment-pay-employee" data-toggle="tooltip" title="Pay"></i>' +
@@ -81,7 +87,7 @@ $(document).on('click', '.employment-list', function(e){
                     '<i class="fas fa-users" id="employment-changerole" data-toggle="tooltip" title="Change Role"></i>' +
                 '</div></div>';
             }else{
-                var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="fas fa-user-secret"></i></span>' +
+                var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="'+icon+'"></i></span>' +
                 '<span class="employment-label">'+v.name+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[job].grades[v.grade].name+'</span></div>';
             }
 
