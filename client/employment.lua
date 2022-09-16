@@ -64,7 +64,7 @@ RegisterNUICallback('HireFucker', function(data, cb)
     print(data.job)
     print(data.grade)
 
-    TriggerServerEvent('qb-phone:server:hireUser', data.stateid, data.job, data.grade)
+    TriggerServerEvent('qb-phone:server:hireUser',data.job, data.stateid, data.grade)
 
     cb("ok")
 end)

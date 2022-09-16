@@ -188,6 +188,8 @@ RegisterNetEvent('qb-phone:server:hireUser', function(Job, id, grade)
     local Player = QBCore.Functions.GetPlayer(src)
     local hiredPlayer = QBCore.Functions.GetPlayer(tonumber(id))
 
+    if not hiredPlayer then return notifyPlayer(src, "Citizen not found...") end
+
     local pCID = Player.PlayerData.citizenid
     local CID = hiredPlayer.PlayerData.citizenid
     if not hiredPlayer then return notifyPlayer(src, "Citizen not found...") end

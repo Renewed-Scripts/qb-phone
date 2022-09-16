@@ -71,6 +71,4 @@ local function PhoneNotification(title, text, icon, color, timeout, accept, deny
     end
     Wait(100)
     return Result
-end
-
-exports("PhoneNotification", PhoneNotification)
+end exports("PhoneNotification", PhoneNotification)
