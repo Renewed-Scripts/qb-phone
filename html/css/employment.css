@@ -249,3 +249,81 @@
     background: #0d1218c0;
     visibility: visible;
 }
+
+/* Grade Dropdown Shit */
+
+.grade-dropdown {
+    position: relative;
+    margin-left: 10%;
+    margin-bottom: 10%;
+    width: 80%;
+    line-height: 3.0vh;
+    transition: all .5s ease;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: left;
+    background-color: rgb(44, 70, 95);
+    outline: none;
+    border-bottom: .1vh solid #fff;
+}
+
+.grade-dropdown .select {
+    cursor: pointer;
+    display: block;
+    padding: 10px
+}
+
+.grade-dropdown .select > i {
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    line-height: 34px
+}
+
+.grade-dropdown:active {
+    background-color: #3F607D
+}
+
+.grade-dropdown.active:hover,
+.grade-dropdown.active {
+    background-color: #3F607D
+}
+
+.grade-dropdown.active .select > i {
+    transform: rotate(-90deg)
+}
+
+.grade-dropdown .grade-dropdown-menu {
+    position: absolute;
+    background-color: #333943;
+    color: white;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    overflow: hidden;
+    display: none;
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 9
+}
+
+.grade-dropdown .grade-dropdown-menu li {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    cursor: pointer
+}
+
+.grade-dropdown .grade-dropdown-menu {
+    padding: 0;
+    list-style: none
+}
+
+.grade-dropdown .grade-dropdown-menu li:hover {
+    background-color: #505969
+}
+
+.grade-dropdown .grade-dropdown-menu li:active {
+    background-color: #505969
+}

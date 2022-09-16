@@ -3,6 +3,9 @@ var cid = ''
 var job = ''
 var grade = ''
 
+// Hiring & Changing Role var
+var gradeLevel = ''
+
 // Right now only the first search bar works, then breaks when you click into a job and back out. Second page doesn't work at all. SHIT DEV
 $(document).ready(function(){
     $("#employment-search").on("keyup", function() {
@@ -64,6 +67,7 @@ $(document).on('click', '.employment-list', function(e){
     job = $(this).data('job'); // Job Name
     grade = $(this).data('grade'); // Job Grade Level
     $(".employment-lists").html(""); // Resets the old screen
+    $(".grade-dropdown-menu").html("");
 
     // Fade out the old header to create the new header
     $(".employment-header").html("");
@@ -90,8 +94,16 @@ $(document).on('click', '.employment-list', function(e){
                 var AddOption = '<div class="employment-job-list" data-csn='+v.cid+' data-job='+job+'><span class="employment-job-icon"><i class="'+icon+'"></i></span>' +
                 '<span class="employment-label">'+v.name+'</span> <span class="employment-grade">'+QB.Phone.Data.PhoneJobs[job].grades[v.grade].name+'</span></div>';
             }
-
             $('.employment-lists').append(AddOption); // Creates the new screen
+        }
+
+        // Drop Down Data
+
+        for (const [k, v] of Object.entries(QB.Phone.Data.PhoneJobs[job].grades)) {
+
+            var element = '<li data-gradelevel="'+k+'">'+v.name+'</li>';
+            console.log(k)
+            $(".grade-dropdown-menu").append(element);
         }
     });
 
@@ -152,7 +164,7 @@ $(document).on('click', '#hire-fucker', function(e){
 
 $(document).on('click', '#hire-worker-submit', function(e){
     var stateid = $(".hire-worker-stateid").val();
-    var grade = $(".hire-worker-grade").val();
+    var grade = gradeLevel
     if(stateid != "" && grade != ""){
         setTimeout(function(){
             ConfirmationFrame()
@@ -166,7 +178,6 @@ $(document).on('click', '#hire-worker-submit', function(e){
     ClearInputNew()
     $('#hire-worker-menu').fadeOut(350);
     $(".hire-worker-stateid").val(''); // Resets amount input
-    $(".hire-worker-grade").val(''); // Resets amount input
 });
 
 $(document).on('click', '#charge-mf', function(e){
@@ -247,7 +258,7 @@ $(document).on('click', '#employment-changerole', function(e){
 });
 
 $(document).on('click', '#employment-changerole-submit', function(e){
-    var grade = $(".employment-changerole-grade").val();
+    var grade = gradeLevel
     if(grade != ""){
         setTimeout(function(){
             ConfirmationFrame()
@@ -259,5 +270,25 @@ $(document).on('click', '#employment-changerole-submit', function(e){
     }
     ClearInputNew()
     $('#employment-changerole-menu').fadeOut(350);
-    $(".employment-changerole-grade").val(''); // Resets amount input
+});
+
+/* Dropdown Menu */
+
+$('.grade-dropdown').click(function () {
+    $(this).attr('tabindex', 1).focus();
+    $(this).toggleClass('active');
+    $(this).find('.grade-dropdown-menu').slideToggle(300);
+});
+
+$('.grade-dropdown').focusout(function () {
+    $(this).removeClass('active');
+    $(this).find('.grade-dropdown-menu').slideUp(300);
+});
+
+$(document).on('click', '.grade-dropdown .grade-dropdown-menu li', function(e) {
+    console.log($(this).data('gradelevel'))
+    gradeLevel = $(this).data('gradelevel')
+
+    $(this).parents('.grade-dropdown').find('span').text($(this).text());
+    $(this).parents('.grade-dropdown').find('input').attr('value', $(this).data('gradelevel'));
 });

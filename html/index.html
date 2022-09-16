@@ -533,7 +533,14 @@
                         <div class="phone-menu-body" id="hire-worker-menu">
                             <div class="phone-menu-main">
                                 <input class="phone-menu-text hire-worker-stateid" type="text"><i class="fas fa-id-card" id="phone-menu-icon"></i><span class="phone-menu-title">State ID</span>
-                                <input class="phone-menu-text hire-worker-grade" type="text" maxlength="2"><i class="fas fa-user" id="phone-menu-icon"></i><span class="phone-menu-title">Grade</span>
+                                <div class="grade-dropdown">
+                                    <div class="select">
+                                      <span>Grade</span>
+                                      <i class="fa fa-chevron-left"></i>
+                                    </div>
+                                    <input type="hidden" name="gender">
+                                    <ul class="grade-dropdown-menu"></ul>
+                                </div>
                                 <p> </p>
                                 <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
                                 <div class="phone-menu-button phone-menu-accept" id="hire-worker-submit">Hire</div>
@@ -553,7 +560,14 @@
 
                         <div class="phone-menu-body" id="employment-changerole-menu">
                             <div class="phone-menu-main">
-                                <input class="phone-menu-text employment-changerole-grade" type="text"><i class="fas fa-user" id="phone-menu-icon"></i><span class="phone-menu-title">Grade</span>
+                                <div class="grade-dropdown">
+                                    <div class="select">
+                                      <span>Grade</span>
+                                      <i class="fa fa-chevron-left"></i>
+                                    </div>
+                                    <input type="hidden" name="gender">
+                                    <ul class="grade-dropdown-menu"></ul>
+                                </div>
                                 <p> </p>
                                 <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
                                 <div class="phone-menu-button phone-menu-accept" id="employment-changerole-submit">Submit</div>
