@@ -72,9 +72,11 @@ RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
     local v = Config.CryptoCoins[GetConfig(type)]
     local cashAmount = tonumber(amount) * v.value
 
-    if Player.PlayerData.money.bank and Player.PlayerData.money.bank >= cashAmount then
-        local txt = "Purchased " .. amount .. "x " .. v.abbrev
-        Player.Functions.RemoveMoney('bank', cashAmount, txt)
+    if not v.purchase then return end -- Only modders should be only to do this so no need to send a message to client
+
+    local txt = "Purchased " .. amount .. "x " .. v.abbrev
+
+    if Player.Functions.RemoveMoney('bank', cashAmount, txt) then
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
             "WALLET",
             "You Purchased "..amount.." "..type.."!",
