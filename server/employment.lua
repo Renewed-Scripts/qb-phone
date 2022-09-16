@@ -204,7 +204,7 @@ RegisterNetEvent('qb-phone:server:hireUser', function(Job, id, grade)
 
     CachedJobs[Job].employees[CID] = {
         cid = CID,
-        grade = grade or 0,
+        grade = tonumber(grade) or 0,
         name = hiredPlayer.PlayerData.charinfo.firstname .. ' ' .. hiredPlayer.PlayerData.charinfo.lastname
     }
 

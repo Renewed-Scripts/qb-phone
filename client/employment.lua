@@ -84,7 +84,7 @@ RegisterNetEvent('qb-phone:client:JobsHandler', function(job, employees)
         cachedEmployees[job][#cachedEmployees[job]+1] = {
             cid = v.cid,
             name = v.name,
-            grade = v.grade,
+            grade = tonumber(v.grade),
         }
         table.sort(cachedEmployees[job], function(a, b)
             return a.grade > b.grade
@@ -104,7 +104,7 @@ RegisterNetEvent('qb-phone:client:MyJobsHandler', function(job, jobTable, employ
             cachedEmployees[job][#cachedEmployees[job]+1] = {
                 cid = v.cid,
                 name = v.name,
-                grade = v.grade,
+                grade = tonumber(v.grade),
             }
             table.sort(cachedEmployees[job], function(a, b)
                 return a.grade > b.grade
@@ -125,7 +125,7 @@ AddEventHandler('onResourceStart', function(resource)
                     cachedEmployees[k][#cachedEmployees[k]+1] = {
                         cid = v.cid,
                         name = v.name,
-                        grade = v.grade,
+                        grade = tonumber(v.grade),
                     }
                 end
                 table.sort(cachedEmployees[k], function(a, b)
@@ -153,7 +153,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
                 cachedEmployees[k][#cachedEmployees[k]+1] = {
                     cid = v.cid,
                     name = v.name,
-                    grade = v.grade,
+                    grade = tonumber(v.grade),
                 }
             end
             table.sort(cachedEmployees[k], function(a, b)
