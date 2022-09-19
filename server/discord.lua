@@ -89,7 +89,7 @@ AddEventHandler('onResourceStart', function(resource)
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetGroupChatMessages', function(source, cb, roomID)
+QBCore.Functions.CreateCallback('qb-phone:server:GetGroupChatMessages', function(_, cb, roomID)
     local messages = MySQL.query.await("SELECT * FROM phone_chatroom_messages WHERE room_id=@roomID ORDER BY created DESC LIMIT 40", {['@roomID'] = roomID})
     if messages[1] then
         cb(messages)
