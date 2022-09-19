@@ -13,8 +13,9 @@ RegisterNetEvent('qb-phone:server:wenmo_givemoney_toID', function(data)
 
     if not OtherPly then return TriggerClientEvent('QBCore:Notify', src, 'Player not Online', "error") end
 
+    local txt = "Wenmo: "..Reason
+
     if Ply.Functions.RemoveMoney('bank', Amount, txt) then
-        local txt = "Wenmo: "..Reason
         OtherPly.Functions.AddMoney('bank', Amount, txt)
 
         if Config.RenewedBanking then

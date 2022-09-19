@@ -39,6 +39,10 @@ RegisterNUICallback('RemoveEmployee', function(data, cb)
 end)
 
 RegisterNUICallback('ChangeRole', function(data, cb)
+    if not data then return end
+
+    cb("ok")
+
     -- params ( data.cid / data.grade) This will be toggable since there is not a 'remove bank access' button
     -- Maybe we can get some data sent to the java script where it can define if someone has bank access or not
 end)
@@ -73,6 +77,8 @@ RegisterNUICallback('ChargeMF', function(data, cb)
     if not data or not data.stateid or not data.amount or not data.job then return end
 
     TriggerServerEvent('qb-phone:server:ChargeCustomer', data.stateid, data.amount, data.note, data.job)
+
+    cb("ok")
 end)
 
 RegisterNetEvent('qb-phone:client:JobsHandler', function(job, employees)

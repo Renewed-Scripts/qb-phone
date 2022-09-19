@@ -54,27 +54,6 @@ local function isOwnerOfRoom(citizenid, roomID)
     return false
 end
 
--- Check if the player's phone is hacked.
---
--- @param Player table (QBCore.Functions.GetPlayer())
---
--- @returns boolean
-local function isPhoneHacked(Player)
-    local phones = Player.Functions.GetItemsByName('phone')
-    local isHacked = false
-
-    if phones then
-        for _, phone in pairs(phones) do
-            if phone.info.hacked then
-                isHacked = true
-                break
-            end
-        end
-    end
-
-    return isHacked
-end
-
 local function escape_sqli(source)
     local replacements = {
         ['"'] = '\\"',
@@ -111,9 +90,6 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetGroupChatMessages', function(source, cb, roomID)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-
     local messages = MySQL.query.await("SELECT * FROM phone_chatroom_messages WHERE room_id=@roomID ORDER BY created DESC LIMIT 40", {['@roomID'] = roomID})
     if messages[1] then
         cb(messages)

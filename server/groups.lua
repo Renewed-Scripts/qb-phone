@@ -254,7 +254,7 @@ RegisterNetEvent('qb-phone:server:jobcenter_JoinTheGroup', function(data)
     if Players[src] then return TriggerClientEvent('QBCore:Notify', src, "You are already a part of a group!", "success") end
 
     local name = GetPlayerCharName(src)
-    pNotifyGroup(groupID, "Job Center", name.." Has left the group", "fas fa-users", "#FFBF00", 7500)
+    pNotifyGroup(data.id, "Job Center", name.." Has left the group", "fas fa-users", "#FFBF00", 7500)
     EmploymentGroup[data.id].members[#EmploymentGroup[data.id].members+1] = {name = name, CID = player.PlayerData.citizenid, Player = src}
     EmploymentGroup[data.id].Users += 1
     Players[src] = true

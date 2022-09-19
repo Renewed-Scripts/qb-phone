@@ -223,6 +223,7 @@ end)
 ---- ** Handles the changing of someone grade within the job ** ----
 
 RegisterNetEvent('qb-phone:server:gradesHandler', function(Job, CID, grade)
+    local src = source
     if not Job or not CID or not CachedJobs[Job] then return end
     local Player = QBCore.Functions.GetPlayerByCitizenId(CID)
     if not CachedJobs[Job].employees[CID] then return notifyPlayer(src, "Citizen is not employed at the job...") end
@@ -274,7 +275,7 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb
     local job = Player.PlayerData.job.name
 
     local CID = Player.PlayerData.citizenid
-    local employees = {}
+    local employees
     CachedPlayers[CID], employees = getMyJobs(CID)
 
     ---- If you were fired while being offline it will remove the job --
