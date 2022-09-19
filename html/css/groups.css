@@ -189,7 +189,7 @@
     font-size: 1.5vh;
     position: relative;
     height: auto;
-    word-break: break-all;
+    word-break: break-word;
  }
  
  .isDone {
@@ -325,4 +325,15 @@
     color: white;
     position: absolute;
     font-size: 30px;
+}
+
+.jobcenter-groupjob-timer {
+    display: none;
+    width: 100%;
+    font-size: 25px;
+    top: 0px;
+    position: absolute;
+    color: white;
+    margin-top: 30px;
+    margin-left: 190px;
 }
