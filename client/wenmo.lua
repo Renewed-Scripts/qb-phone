@@ -11,14 +11,14 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus, rea
                 action = "ChangeMoney_Wenmo",
                 Color = "#f5a15b",
                 Amount = "-$"..amount,
-                Reason = reason,
+                Reason = reason or "",
             })
         else
             SendNUIMessage({
                 action = "ChangeMoney_Wenmo",
                 Color = "#8ee074",
                 Amount = "+$"..amount,
-                Reason = reason,
+                Reason = reason or "",
             })
         end
     end
