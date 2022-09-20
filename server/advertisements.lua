@@ -16,18 +16,18 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
     local table = GetAdvertFromNumb(src)
     if table then
         Adverts[table] = {
-            message = msg,
+            message = msg:gsub("[%<>\"()\'$]",""),
             name = name,
             number = Player.PlayerData.charinfo.phone,
-            url = url,
+            url = url:gsub("[%<>\"()\'$]",""),
             source = src,
         }
     else
         Adverts[#Adverts+1] = {
-            message = msg,
+            message = msg:gsub("[%<>\"()\'$]",""),
             name = name,
             number = Player.PlayerData.charinfo.phone,
-            url = url,
+            url = url:gsub("[%<>\"()\'$]",""),
             source = src,
         }
     end
