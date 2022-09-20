@@ -435,7 +435,7 @@ end)
 
 RegisterNUICallback('AllowMoving', function()
     if not Config.AllowWalking then return end
-    SetNuiFocusKeepInput(true) 
+    SetNuiFocusKeepInput(true)
 end)
 
 
