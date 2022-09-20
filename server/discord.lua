@@ -269,8 +269,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:PurchaseRoom', function(source,
 	local Player = QBCore.Functions.GetPlayer(source)
     if Player.PlayerData.money.bank >= price then
         Player.Functions.RemoveMoney('bank', price. 'Discord Channel Purchase')
-        local cid = Player.PlayerData.citizenid
 
+        local cid = Player.PlayerData.citizenid
         if Config.RenewedBanking then
             exports['Renewed-Banking']:handleTransaction(cid, "Discord App", price, "Discord Channel Purchase", roomData.room_owner_name, "Discord", "withdraw")
         end
