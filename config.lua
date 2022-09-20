@@ -6,8 +6,7 @@ Config = Config or {}
 Config.RenewedBanking = true -- Either put this to true or false if you use Renewed Banking or not
 Config.RenewedFinances = false -- Either put this to true or false if you use Renewed Finances or not
 Config.RenewedCameras = false -- Either put this to true or false if you use Renewed Cameras or not
--- If you have Lions Boosting System, enable this check to NOT produce any vehicle registration for vinscratched vehicles. Disable if you want to produce vehicle registration regardless
-Config.Vinscratch = false
+
 -- Item name for pings app ( Having a VPN sends an anonymous ping, else sends the players name)
 Config.VPNItem = 'vpn'
 

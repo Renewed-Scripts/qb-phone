@@ -63,18 +63,11 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                 VehicleState = "Impounded"
             end
 
-            if Config.Vinscratch then
-                vinscratched = v.vinscratched
-            else
-                vinscratched = 'false'
-            end
-
             if VehicleData["brand"] then
                 vehdata = {
                     fullname = VehicleData["brand"] .. " " .. VehicleData["name"],
                     brand = VehicleData["brand"],
                     model = VehicleData["name"],
-                    vinscratched = vinscratched,
                     plate = v.plate,
                     garage = VehicleGarage,
                     state = VehicleState,
@@ -88,7 +81,6 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     fullname = VehicleData["name"],
                     brand = VehicleData["name"],
                     model = VehicleData["name"],
-                    vinscratched = vinscratched,
                     plate = v.plate,
                     garage = VehicleGarage,
                     state = VehicleState,
