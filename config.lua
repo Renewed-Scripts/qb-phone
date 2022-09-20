@@ -30,7 +30,7 @@ Config.MailDuration = 72 -- How many hours to load Mails (72 will load the past 
 
 Config.RepeatTimeout = 4000
 Config.CallRepeats = 10
-Config.AllowWalking = false
+Config.AllowWalking = false -- Allow walking and driving with phone out
 
 
 Config.PhoneApplications = {
