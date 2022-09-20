@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
-local WebHook = "" -- PUT UR OWN WEBHOOK HERE
+local WebHook = Config.Webhook
 
 -- Functions
 local function escape_sqli(source)

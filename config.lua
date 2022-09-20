@@ -4,6 +4,9 @@ Config.RenewedBanking = true -- Either put this to true or false if you use Rene
 Config.RenewedFinances = false -- Either put this to true or false if you use Renewed Finances or not
 Config.RenewedCameras = false -- Either put this to true or false if you use Renewed Cameras or not
 
+-- Web hook for camera ( NOT GO PRO )
+Config.Webhook = ''
+
 -- Item name for pings app ( Having a VPN sends an anonymous ping, else sends the players name)
 Config.VPNItem = 'vpn'
 
