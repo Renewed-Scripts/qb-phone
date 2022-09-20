@@ -121,6 +121,7 @@ RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiv
     elseif data.Type == "PermSend" then
         local Note = exports.oxmysql:executeSync('SELECT * FROM phone_note WHERE id = ?', {ID})
         if Note[1] then
+            Wait(400)
             exports.oxmysql:insert('INSERT INTO phone_note (citizenid, title,  text, lastupdate) VALUES (?, ?, ?, ?)',{Receiver.PlayerData.citizenid, data.Title, data.Text, data.Time})
             TriggerClientEvent('qb-phone:client:CustomNotification', tonumber(data.StateID), 'DOCUMENTS', 'New Document', 'fas fa-folder', '#d9d9d9', 5000)
         end

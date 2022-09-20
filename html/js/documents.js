@@ -205,10 +205,12 @@ $(document).on('click', '#documents-vehicle', function(e) {
         
                         var firstLetter = vehicle.fullname.substring(0, 1);  
                         var Fulltext = firstLetter.toUpperCase()+(vehicle.fullname).replace(firstLetter,'')
+                        var FirstName = QB.Phone.Data.PlayerData.charinfo.firstname;
+                        var LastName = QB.Phone.Data.PlayerData.charinfo.lastname;
                 
                         var AddOption = '<div class="documents-test">' + 
                             '<div class="documents-title-title">'+Fulltext+'</div>' +
-                            '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b><center>Official State Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
+                            '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b>Owner: </b>'+FirstName+' '+LastName+'</p><p><b><center>Official State Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
                         '</div>';
                 
                         $('.documents-list').append(AddOption);
