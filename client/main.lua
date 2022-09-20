@@ -226,7 +226,7 @@ local function OpenPhone()
     if hasPhone() then
         PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
-        SetNuiFocusKeepInput(true)
+        
         SendNUIMessage({
             action = "open",
             Tweets = PhoneData.Tweets,
@@ -235,12 +235,15 @@ local function OpenPhone()
             PlayerData = PhoneData.PlayerData,
         })
         PhoneData.isOpen = true
+        if Config.AllowWalking then
+        SetNuiFocusKeepInput(true)
         CreateThread(function()
             while PhoneData.isOpen do
                 DisableDisplayControlActions()
                 Wait(1)
             end
         end)
+    end
         if not PhoneData.CallData.InCall then
             DoPhoneAnimation('cellphone_text_in')
         else
@@ -426,12 +429,15 @@ end) RegisterKeyMapping('+decline', 'Decline Phone Call', 'keyboard', 'J')
 -- NUI Callbacks
 
 RegisterNUICallback('DissalowMoving', function()
+    if not Config.AllowWalking then return end
     SetNuiFocusKeepInput(false)
 end)
 
 RegisterNUICallback('AllowMoving', function()
-    SetNuiFocusKeepInput(true)
+    if not Config.AllowWalking then return end
+    SetNuiFocusKeepInput(true) 
 end)
+
 
 RegisterNUICallback('CancelOutgoingCall', function()
     CancelCall()

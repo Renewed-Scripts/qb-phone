@@ -27,7 +27,7 @@ Config.MailDuration = 72 -- How many hours to load Mails (72 will load the past 
 
 Config.RepeatTimeout = 4000
 Config.CallRepeats = 10
-
+Config.AllowWalking = false
 Config.ManagementType = "simple-banking" -- put qb-management for qb-management || put simple-banking for simple-banking implementation
 
 Config.PhoneApplications = {
