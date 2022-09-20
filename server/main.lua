@@ -247,3 +247,20 @@ RegisterNetEvent('qb-phone:server:SaveMetaData', function(MData)
 
     Player.Functions.SetMetaData("phone", MData)
 end)
+
+QBCore.Commands.Add("p#", "Provide Phone Number", {}, false, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local number = Player.PlayerData.charinfo.phone
+    local PlayerPed = GetPlayerPed(source)
+	local PlayerCoords = GetEntityCoords(PlayerPed)
+    for k, v in pairs(QBCore.Functions.GetPlayers()) do
+		local TargetPed = GetPlayerPed(v)
+		local dist = #(PlayerCoords - GetEntityCoords(TargetPed))
+		if dist < 3.0 then
+            TriggerClientEvent('chat:addMessage', v,  {
+                template = '<div class="chat-message" style="background-color: rgba(234, 135, 23, 0.50);">Number : <b>{0}</b></div>',
+                args = {number}
+            })
+        end
+    end
+end)
