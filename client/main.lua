@@ -201,11 +201,32 @@ local function LoadPhone()
 
     end)
 end
+local function DisableDisplayControlActions()
+    DisableControlAction(0, 1, true) -- disable mouse look
+    DisableControlAction(0, 2, true) -- disable mouse look
+    DisableControlAction(0, 3, true) -- disable mouse look
+    DisableControlAction(0, 4, true) -- disable mouse look
+    DisableControlAction(0, 5, true) -- disable mouse look
+    DisableControlAction(0, 6, true) -- disable mouse look
+    DisableControlAction(0, 263, true) -- disable melee
+    DisableControlAction(0, 264, true) -- disable melee
+    DisableControlAction(0, 257, true) -- disable melee
+    DisableControlAction(0, 140, true) -- disable melee
+    DisableControlAction(0, 141, true) -- disable melee
+    DisableControlAction(0, 142, true) -- disable melee
+    DisableControlAction(0, 143, true) -- disable melee
+    DisableControlAction(0, 177, true) -- disable escape
+    DisableControlAction(0, 200, true) -- disable escape
+    DisableControlAction(0, 202, true) -- disable escape
+    DisableControlAction(0, 322, true) -- disable escape
+    DisableControlAction(0, 245, true) -- disable chat
+end
 
 local function OpenPhone()
     if hasPhone() then
         PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
+        
         SendNUIMessage({
             action = "open",
             Tweets = PhoneData.Tweets,
@@ -214,7 +235,15 @@ local function OpenPhone()
             PlayerData = PhoneData.PlayerData,
         })
         PhoneData.isOpen = true
-
+        if Config.AllowWalking then
+        SetNuiFocusKeepInput(true)
+        CreateThread(function()
+            while PhoneData.isOpen do
+                DisableDisplayControlActions()
+                Wait(1)
+            end
+        end)
+    end
         if not PhoneData.CallData.InCall then
             DoPhoneAnimation('cellphone_text_in')
         else
@@ -399,6 +428,17 @@ end) RegisterKeyMapping('+decline', 'Decline Phone Call', 'keyboard', 'J')
 
 -- NUI Callbacks
 
+RegisterNUICallback('DissalowMoving', function()
+    if not Config.AllowWalking then return end
+    SetNuiFocusKeepInput(false)
+end)
+
+RegisterNUICallback('AllowMoving', function()
+    if not Config.AllowWalking then return end
+    SetNuiFocusKeepInput(true)
+end)
+
+
 RegisterNUICallback('CancelOutgoingCall', function()
     CancelCall()
 end)
@@ -452,6 +492,7 @@ RegisterNUICallback('Close', function()
     end
     SetTimeout(300, function()
         SetNuiFocus(false, false)
+        SetNuiFocusKeepInput(false)
         PhoneData.isOpen = false
     end)
 end)

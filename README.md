@@ -18,15 +18,17 @@ If you already have a multijob system and you do not wish to use this then you c
 ```lua
     local FirstStart = true
 ```
-and then set it to false:
+
+2. Start the script and make sure it's fully done, it can take a while depending on your current playerbase (ensure qb-phone in console or f8)
+
+3. Head over to qb-phone/server/employment.lua again and change the FirstStart to false
+
+Like so:
 ```lua
     local FirstStart = false
 ```
 
-2. Now restart your server and wait untill its FULLY started up. In the meanwhile do the following steps
-
-
-3. Headover to your qb-core/server/commands.lua and find the follow command 'setjob'
+4. Headover to your qb-core/server/commands.lua and find the follow command 'setjob'
 
 replace the commands with the code below:
 ```lua
@@ -41,7 +43,7 @@ QBCore.Commands.Add('setjob', 'Set A Players Job (Admin Only)', { { name = 'id',
 end, 'admin')
 ```
 
-4. Now below that add the new command called 'removejob' like shown below
+5. Now below that add the new command called 'removejob' like shown below
 
 ```lua
 QBCore.Commands.Add('removejob', 'Removes A Players Job (Admin Only)', { { name = 'id', help = 'Player ID' }, { name = 'job', help = 'Job name' } }, true, function(source, args)
@@ -56,6 +58,8 @@ QBCore.Commands.Add('removejob', 'Removes A Players Job (Admin Only)', { { name 
     end
 end, 'admin')
 ```
+
+6. Restart your server fully to get the new commands working and also to get the phone fully working.
 
 
 It should now look like this

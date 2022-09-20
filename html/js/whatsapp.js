@@ -2,6 +2,21 @@ var WhatsappSearchActive = false;
 var OpenedChatPicture = null;
 var ExtraButtonsOpen = false;
 
+$( "input[type=text], textarea, input[type=number]" ).focusin(function(e) {
+    e.preventDefault();
+    $.post('https://qb-phone/DissalowMoving');
+});
+$(".whatsapp-openedchat").focusin(function(e) {
+    e.preventDefault();
+    $.post('https://qb-phone/DissalowMoving');
+});
+
+$( "input[type=text], textarea, input[type=number]" ).focusout(function(e) {
+    e.preventDefault();
+    $.post('https://qb-phone/AllowMoving');
+});
+
+
 $(document).ready(function(){
     $("#whatsapp-contact-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
