@@ -1,14 +1,14 @@
 Config = Config or {}
 
-
-
-
 Config.RenewedBanking = true -- Either put this to true or false if you use Renewed Banking or not
 Config.RenewedFinances = false -- Either put this to true or false if you use Renewed Finances or not
 Config.RenewedCameras = false -- Either put this to true or false if you use Renewed Cameras or not
 
 -- Item name for pings app ( Having a VPN sends an anonymous ping, else sends the players name)
 Config.VPNItem = 'vpn'
+
+-- The garage the vehicle goes to when you sell a car to a player
+Config.SellGarage = 'altastreet'
 
 -- How Long Does The Player Have To Accept The Ping - This Is In Seconds
 Config.Timeout = 30
@@ -28,7 +28,7 @@ Config.MailDuration = 72 -- How many hours to load Mails (72 will load the past 
 Config.RepeatTimeout = 4000
 Config.CallRepeats = 10
 Config.AllowWalking = false
-Config.ManagementType = "simple-banking" -- put qb-management for qb-management || put simple-banking for simple-banking implementation
+
 
 Config.PhoneApplications = {
     ["details"] = {
