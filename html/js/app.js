@@ -581,16 +581,18 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
 
 $(document).on('click', ".phone-notification-container", function() {
     QB.Phone.Animations.TopSlideUp(".phone-notification-container", 150, -8);
+    QB.Phone.Notifications.Timeout = null
 
     if (!QB.Phone.Data.IsOpen == true) {
     QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
     }
 })
 
-$(".notification-accept").click(function(e) {
-    $.post('https://qb-phone/AcceptNotification', JSON.stringify({})),
 
+$(document).on('click', ".notification-accept", function() {
+    $.post('https://qb-phone/AcceptNotification', JSON.stringify({})),
     QB.Phone.Animations.TopSlideUp(".phone-notification-container-new", 150, -8);
+    QB.Phone.Notifications.Timeout = null
 
     if (!QB.Phone.Data.IsOpen == true) {
     QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
@@ -599,6 +601,7 @@ $(".notification-accept").click(function(e) {
 
 $(document).on('click', ".notification-deny", function() {
     $.post('https://qb-phone/DenyNotification', JSON.stringify({})),
+    QB.Phone.Notifications.Timeout = null
 
     QB.Phone.Animations.TopSlideUp(".phone-notification-container-new", 150, -8);
 
