@@ -198,6 +198,7 @@ $(document).on('click', '#documents-vehicle', function(e) {
         if(Vehicles != null){
             $.each(Vehicles, function(i, vehicle){
                 if (vehicle.vinscratched != 'false'){
+                    if (vehicle.vinscratched == 0){
                         DocEndtitle = null
                         DocEndtext = null
                         DocEndid = null
@@ -213,6 +214,22 @@ $(document).on('click', '#documents-vehicle', function(e) {
                 
                         $('.documents-list').append(AddOption);
                     }
+                } else {
+                    DocEndtitle = null
+                    DocEndtext = null
+                    DocEndid = null
+                    DocEndcitizenid = null
+    
+                    var firstLetter = vehicle.fullname.substring(0, 1);  
+                    var Fulltext = firstLetter.toUpperCase()+(vehicle.fullname).replace(firstLetter,'')
+            
+                    var AddOption = '<div class="documents-test">' + 
+                        '<div class="documents-title-title">'+Fulltext+'</div>' +
+                        '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b><center>Official Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
+                    '</div>';
+            
+                    $('.documents-list').append(AddOption);
+                }
             });
         } else {
             var AddOption = '<div class="casino-text-clear">Nothing Here!</div>'+
