@@ -35,14 +35,22 @@ CreateThread(function()
             local players = MySQL.query.await("SELECT * FROM `players` WHERE `job` LIKE '%".. k .."%'", {})
             if players[1] then
                 for _, v in pairs(players) do
-                    print(json.decode(v.job).grade.level)
-                    if not CachedJobs[k].employees then CachedJobs[k].employees = {} end
-                    if not CachedJobs[k].employees[v.citizenid] then
-                        CachedJobs[k].employees[v.citizenid] = {
-                            cid = v.citizenid,
-                            grade = json.decode(v.job).grade.level,
-                            name = json.decode(v.charinfo).firstname .. ' ' .. json.decode(v.charinfo).lastname
-                        }
+                    if v.job then
+                        local grade = json.decode(v.job).grade.level or false
+                        local FirstName = json.decode(v.charinfo) and json.decode(v.charinfo).firstname or false
+                        local LastName = json.decode(v.charinfo) and json.decode(v.charinfo).lastname or false
+
+                        if grade and QBCore.Shared.Jobs[k].grades and QBCore.Shared.Jobs[k].grades[tostring(grade)] and v.citizenid and v.charinfo and FirstName and LastName then
+                            if not CachedJobs[k].employees then CachedJobs[k].employees = {} end
+                            if not CachedJobs[k].employees[v.citizenid] then
+
+                                CachedJobs[k].employees[v.citizenid] = {
+                                    cid = v.citizenid,
+                                    grade = json.decode(v.job).grade.level,
+                                    name = json.decode(v.charinfo).firstname .. ' ' .. json.decode(v.charinfo).lastname
+                                }
+                            end
+                        end
                     end
                 end
 
@@ -56,6 +64,7 @@ CreateThread(function()
                     json.encode({})
                 })
             end
+            Wait(10)
         end
     end
 end)
