@@ -76,7 +76,7 @@ RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
 
     local txt = "Purchased " .. amount .. "x " .. v.abbrev
 
-    if Player.Functions.GetMoney('bank') >= cashAmount then
+    if Player.PlayerData.money.bank >= cashAmount then
         Player.Functions.RemoveMoney('bank', cashAmount, txt)
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
             "WALLET",
