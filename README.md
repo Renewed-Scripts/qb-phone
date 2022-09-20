@@ -178,6 +178,17 @@ This is pretty much everything to do with setting up the phone. If you encounter
 </details>
 
 <details>
+    <summary><b>Devyn</b></summary>
+        <p>Thanks to devyn for allowing us to use his original Group Backend code for the phone.</p>
+        <p>
+            <a href="https://github.com/darktrovx">
+                <img alt="GitHub" src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png"
+                width="150" height="70">
+            </a>
+        </p>
+</details>
+
+<details>
     <summary><b>ST4LTH</b></summary>
         <p>
             <a href="https://github.com/ST4LTH">

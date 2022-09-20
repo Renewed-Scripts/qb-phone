@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
-local WebHook = "https://discord.com/api/webhooks/881102998498074664/60jhrJkGkIGr6AUSvvFGXskwyr-rq5F5bBGfACqEiaeZerbW2A-w4MSjbFiippSTiGxR"
+local WebHook = "" -- PUT UR OWN WEBHOOK HERE
 
 -- Functions
 local function escape_sqli(source)
