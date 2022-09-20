@@ -93,9 +93,10 @@ end
 
 
 -- ** Fire someone in the business the player firing someone MUST be boss ** --
-RegisterNetEvent('qb-phone:server:fireUser', function(Job, CID)
+RegisterNetEvent('qb-phone:server:fireUser', function(Job, sCID)
     local src = source
     local srcPlayer = QBCore.Functions.GetPlayer(src)
+    local CID = tostring(sCID) -- For some reason my CIDs are returning as a number and not a string so hotfix incase urs do the same
 
     if not Job or not CID then return end
     if not CachedJobs[Job] then return end
@@ -104,7 +105,7 @@ RegisterNetEvent('qb-phone:server:fireUser', function(Job, CID)
 
     local srcCID = srcPlayer.PlayerData.citizenid
 
-    --if srcCID == CID then return end
+    if srcCID == CID then return end
 
     if not CachedJobs[Job].employees[srcCID].grade then return end
 
@@ -169,10 +170,10 @@ RegisterNetEvent('qb-phone:server:SendEmploymentPayment', function(Job, CID, amo
         ---- Business Account ----
         local BusinessName = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
         local RecieverName = ("%s %s"):format(Reciever.PlayerData.charinfo.firstname, Reciever.PlayerData.charinfo.lastname)
-        exports['Renewed-Banking']:handleTransaction(Job, title, amt, "Payment given of $"..amt.." given to "..RecieverName, BusinessName, RecieverName, "withdraw")
+        local trans = exports['Renewed-Banking']:handleTransaction(Job, title, amt, "Payment given of $"..amt.." given to "..RecieverName, BusinessName, RecieverName, "withdraw")
 
         ---- Player Account ----
-        exports['Renewed-Banking']:handleTransaction(Reciever.PlayerData.citizenid, title, amt, "Payment recieved of $"..amt.." recieved from Business "..QBCore.Shared.Jobs[Job].label.. " and Manager "..BusinessName, BusinessName, RecieverName, "deposit")
+        exports['Renewed-Banking']:handleTransaction(Reciever.PlayerData.citizenid, title, amt, "Payment recieved of $"..amt.." recieved from Business "..QBCore.Shared.Jobs[Job].label.. " and Manager "..BusinessName, BusinessName, RecieverName, "deposit", trans.trans_id)
     else
         if not exports['qb-management']:RemoveMoney(Job, amt) then return notifyPlayer(src, "Insufficient Funds...") end
     end
@@ -188,11 +189,11 @@ RegisterNetEvent('qb-phone:server:hireUser', function(Job, id, grade)
     local Player = QBCore.Functions.GetPlayer(src)
     local hiredPlayer = QBCore.Functions.GetPlayer(tonumber(id))
 
-    if not hiredPlayer then return notifyPlayer(src, "Citizen not found...") end
-
     local pCID = Player.PlayerData.citizenid
     local CID = hiredPlayer.PlayerData.citizenid
+
     if not hiredPlayer then return notifyPlayer(src, "Citizen not found...") end
+
     if not Job or not CID or not CachedJobs[Job] or Job == "unemployed" then return end
 
     if CachedJobs[Job].employees[CID] then return notifyPlayer(src, "Citizen Already Hired...") end
@@ -224,9 +225,22 @@ end)
 
 RegisterNetEvent('qb-phone:server:gradesHandler', function(Job, CID, grade)
     local src = source
+    local srcPlayer = QBCore.Functions.GetPlayer(src)
+
+    if not srcPlayer then return print("no source") end
+
+    local srcCID = srcPlayer.PlayerData.citizenid
+
     if not Job or not CID or not CachedJobs[Job] then return end
     local Player = QBCore.Functions.GetPlayerByCitizenId(CID)
     if not CachedJobs[Job].employees[CID] then return notifyPlayer(src, "Citizen is not employed at the job...") end
+
+    if not CachedJobs[Job].employees[srcCID] then return  end
+
+    if tonumber(grade) > tonumber(CachedJobs[Job].employees[srcCID].grade) then return notifyPlayer(src, "You cannot promote someone higher than you...") end
+
+    local bossGrade = tostring(CachedJobs[Job].employees[srcCID].grade)
+    if not QBCore.Shared.Jobs[Job].grades[bossGrade].isboss then return notifyPlayer(src, "You arent a manager // boss...") end
 
     CachedJobs[Job].employees[CID].grade = tonumber(grade)
 
@@ -236,6 +250,10 @@ RegisterNetEvent('qb-phone:server:gradesHandler', function(Job, CID, grade)
 
     if Player and CachedPlayers[CID] then
         CachedPlayers[CID][Job] = CachedJobs[Job].employees[CID]
+
+        local newGrade = type(CachedJobs[Job].employees[CID].grade) ~= "number" and tonumber(CachedJobs[Job].employees[CID].grade) or CachedJobs[Job].employees[CID].grade
+        Player.Functions.SetJob(Job, newGrade)
+
         TriggerClientEvent('qb-phone:client:MyJobsHandler', Player.PlayerData.source, Job, CachedPlayers[CID][Job], CachedJobs[Job].employees)
     end
 end)
@@ -254,7 +272,7 @@ RegisterNetEvent('qb-phone:server:clockOnDuty', function(Job)
     local CID = Player.PlayerData.citizenid
 
     if CachedPlayers[CID][Job] and CachedJobs[Job].employees[CID] then
-        local grade = type(CachedJobs[Job].employees[CID].grade0) ~= "number" and tonumber(CachedJobs[Job].employees[CID].grade) or CachedJobs[Job].employees[CID].grade
+        local grade = type(CachedJobs[Job].employees[CID].grade) ~= "number" and tonumber(CachedJobs[Job].employees[CID].grade) or CachedJobs[Job].employees[CID].grade
         Player.Functions.SetJob(Job, grade)
         Wait(50)
         Player.Functions.SetJobDuty(true)
@@ -388,10 +406,10 @@ AddEventHandler('qb-phone:server:InvoiceHandler', function(paid, amount, source,
                 local cid = Player.PlayerData.citizenid
                 local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
                 local text = "You paid off an invoice for $"..amount.." from "..bills[source].name.." for "..bills[source].notes
-                exports['Renewed-Banking']:handleTransaction(cid, "Personal // Invoice Transaction", amount, text, bills[source].name, name, "withdraw")
+                local trans = exports['Renewed-Banking']:handleTransaction(cid, "Personal // Invoice Transaction", amount, text, bills[source].name, name, "withdraw")
 
                 local text2 = "A invoice issued by "..bills[source].name.." Worth $"..amount.." was paid off by "..name.." for "..bills[source].notes
-                exports['Renewed-Banking']:handleTransaction(bills[source].job, "Business // Invoice Transaction", amount, text2, bills[source].name, name, "deposit")
+                exports['Renewed-Banking']:handleTransaction(bills[source].job, "Business // Invoice Transaction", amount, text2, bills[source].name, name, "deposit", trans.trans_id)
                 exports['Renewed-Banking']:addAccountMoney(bills[source].job, amount)
             else
                 exports['qb-management']:AddMoney(bills[source].job, amount)
