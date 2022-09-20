@@ -28,8 +28,8 @@ RegisterNetEvent('qb-phone:server:PayMyInvoice', function(society, amount, invoi
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local SenderPly = QBCore.Functions.GetPlayerByCitizenId(sendercitizenid)
-
-    if Player.Functions.RemoveMoney('bank', amount, "paid-invoice") then
+    if Player.PlayerData.money.bank >= amount then
+        Player.Functions.RemoveMoney('bank', amount, "paid-invoice")
         if SenderPly and Config.BillingCommissions and Config.BillingCommissions[society] then
             local commission = math.ceil(amount * Config.BillingCommissions[society])
             SenderPly.Functions.AddMoney('bank', commission)
