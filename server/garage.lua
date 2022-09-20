@@ -24,7 +24,7 @@ RegisterNetEvent('qb-phone:server:sellVehicle', function(data, Seller, type)
             SellerData.Functions.AddMoney('bank', data.price)
             TriggerClientEvent('qb-phone:client:CustomNotification', src, "VEHICLE SALE", "You purchased the vehicle for $"..data.price, "fas fa-chart-line", "#D3B300", 5500)
             TriggerClientEvent('qb-phone:client:CustomNotification', Seller.PlayerData.source, "VEHICLE SALE", "Your vehicle was successfully purchased!", "fas fa-chart-line", "#D3B300", 5500)
-            MySQL.update('UPDATE player_vehicles SET citizenid = ?, garage = ?, state = ? WHERE plate = ?',{Player.PlayerData.citizenid, 'altastreet', 1, data.plate})
+            MySQL.update('UPDATE player_vehicles SET citizenid = ?, garage = ?, state = ? WHERE plate = ?',{Player.PlayerData.citizenid, Config.SellGarage, 1, data.plate})
             -- Update Garages
             TriggerClientEvent('qb-phone:client:updateGarages', src)
             TriggerClientEvent('qb-phone:client:updateGarages', Seller.PlayerData.source)
