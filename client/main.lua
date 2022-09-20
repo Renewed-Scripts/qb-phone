@@ -206,6 +206,7 @@ local function OpenPhone()
     if hasPhone() then
         PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
+        SetNuiFocusKeepInput(true)
         SendNUIMessage({
             action = "open",
             Tweets = PhoneData.Tweets,
@@ -399,6 +400,14 @@ end) RegisterKeyMapping('+decline', 'Decline Phone Call', 'keyboard', 'J')
 
 -- NUI Callbacks
 
+RegisterNUICallback('DissalowMoving', function()
+    SetNuiFocusKeepInput(false)
+end)
+
+RegisterNUICallback('AllowMoving', function()
+    SetNuiFocusKeepInput(true)
+end)
+
 RegisterNUICallback('CancelOutgoingCall', function()
     CancelCall()
 end)
@@ -452,6 +461,7 @@ RegisterNUICallback('Close', function()
     end
     SetTimeout(300, function()
         SetNuiFocus(false, false)
+        SetNuiFocusKeepInput(false)
         PhoneData.isOpen = false
     end)
 end)

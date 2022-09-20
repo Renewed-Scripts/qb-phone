@@ -6,6 +6,16 @@ var SelectedSuggestion = null;
 var AmountOfSuggestions = 0;
 var keyPadHTML;
 
+$( "input[type=text], textarea, input[type=number]" ).focusin(function(e) {
+    e.preventDefault();
+    $.post('https://qb-phone/DissalowMoving');
+});
+
+$( "input[type=text], textarea, input[type=number]" ).focusout(function(e) {
+    e.preventDefault();
+    $.post('https://qb-phone/AllowMoving');
+});
+
 $(document).ready(function(){
     $("#phone-recent-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
