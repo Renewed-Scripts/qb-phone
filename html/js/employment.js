@@ -266,6 +266,7 @@ $(document).on('click', '#employment-changerole-submit', function(e){
         $.post('https://qb-phone/ChangeRole', JSON.stringify({
             cid: cid,
             grade: grade,
+            job: job
         }));
     }
     ClearInputNew()

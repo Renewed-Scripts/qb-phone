@@ -21,16 +21,14 @@ end)
 
 RegisterNUICallback('SendEmployeePayment', function(data, cb)
     if not data.job or not data.cid or not data.amount then return end
-    -- params ( data.cid / data.amount / data.note -- amount sent to employee )
+
     TriggerServerEvent('qb-phone:server:SendEmploymentPayment', data.job, data.cid, data.amount)
     cb("ok")
 end)
 
 RegisterNUICallback('RemoveEmployee', function(data, cb)
-    --if data.cid == PlayerData.citizenid then return print("Cant fire yourself") end
     if not data or not data.job or not data.cid then return end
-    -- params ( data.cid )
-    print(json.encode(data))
+
 
 
     TriggerServerEvent('qb-phone:server:fireUser', data.job, data.cid)
@@ -41,34 +39,22 @@ end)
 RegisterNUICallback('ChangeRole', function(data, cb)
     if not data then return end
 
+    TriggerServerEvent('qb-phone:server:gradesHandler', data.job, tostring(data.cid), data.grade)
     cb("ok")
-
-    -- params ( data.cid / data.grade) This will be toggable since there is not a 'remove bank access' button
-    -- Maybe we can get some data sent to the java script where it can define if someone has bank access or not
 end)
 
 RegisterNUICallback('ClockIn', function(data, cb)
     if not data or not data.job then return end
-    print("clock in")
-
-    print(json.encode(data))
-
 
     TriggerServerEvent('qb-phone:server:clockOnDuty', data.job)
-
     cb("ok")
-    -- ( data.job )  is the job to click into here
 end)
 
 RegisterNUICallback('HireFucker', function(data, cb)
-    -- ( data.stateid - as source right now but we can change if needed )
-    -- ( data.job ) job to be hired to
-    -- ( data.grade ) grade level to be hired to
-    print(data.stateid)
-    print(data.job)
-    print(data.grade)
+    if not data then return end
+    if not data.job or not data.stateid or not data.grade then return end
 
-    TriggerServerEvent('qb-phone:server:hireUser',data.job, data.stateid, data.grade)
+    TriggerServerEvent('qb-phone:server:hireUser', data.job, data.stateid, data.grade)
 
     cb("ok")
 end)
@@ -77,7 +63,6 @@ RegisterNUICallback('ChargeMF', function(data, cb)
     if not data or not data.stateid or not data.amount or not data.job then return end
 
     TriggerServerEvent('qb-phone:server:ChargeCustomer', data.stateid, data.amount, data.note, data.job)
-
     cb("ok")
 end)
 
