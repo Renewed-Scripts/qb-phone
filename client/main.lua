@@ -206,6 +206,7 @@ local function OpenPhone()
     if hasPhone() then
         PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
+	SetNuiFocusKeepInput(true)
         SendNUIMessage({
             action = "open",
             Tweets = PhoneData.Tweets,
