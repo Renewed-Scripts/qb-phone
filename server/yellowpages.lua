@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentyellowpages', function(data, cb)
-    print("1234")
+QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentyellowpages', function(_, cb)
     local yellowpages = {}
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
