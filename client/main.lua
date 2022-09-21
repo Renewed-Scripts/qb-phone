@@ -490,7 +490,7 @@ RegisterNUICallback('callJob', function(data, cb)
             end, result.source)
         else
             SendNUIMessage({ action = "PhoneNotification",
-            PhoneNotify = { 
+            PhoneNotify = {
                 timeout= 3000,
                 title = "Yellow Pages",
                 text = "No one in service currently!",
