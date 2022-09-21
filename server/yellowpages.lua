@@ -3,7 +3,7 @@ local Calls = {}
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentyellowpages', function(_, cb)
     local yellowpages = {}
-    for k, v in pairs(QBCore.Functions.GetPlayers()) do
+    for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then
             if Player.PlayerData.job.onduty then

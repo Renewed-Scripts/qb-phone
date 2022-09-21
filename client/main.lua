@@ -454,7 +454,7 @@ RegisterNUICallback('callJob', function(data, cb)
         else
             SendNUIMessage({ action = "PhoneNotification",
             PhoneNotify = {
-                timeout= 3000, 
+                timeout= 3000,
                 title = "Yellow Pages",
                 text = "No one in service currently!",
                 icon = "fas fa-phone",
@@ -463,7 +463,7 @@ RegisterNUICallback('callJob', function(data, cb)
     end, data.job)
 end)
 
-RegisterNUICallback('GetCurrentyellowpages', function(data, cb)
+RegisterNUICallback('GetCurrentyellowpages', function(_, cb)
     QBCore.Functions.TriggerCallback('qb-phone:server:GetCurrentyellowpages', function(yellowpages)
         cb(yellowpages)
     end)
@@ -474,7 +474,7 @@ RegisterNUICallback('callJob', function(data, cb)
     QBCore.Functions.TriggerCallback("qb-phone:server:getRandomJobContact", function(result)
         if result ~= nil then
             QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState2', function(CanCall, IsOnline)
-                local status = { 
+                local status = {
                     CanCall = CanCall,
                     IsOnline = IsOnline,
                     InCall = PhoneData.CallData.InCall,
@@ -491,7 +491,7 @@ RegisterNUICallback('callJob', function(data, cb)
         else
             SendNUIMessage({ action = "PhoneNotification",
             PhoneNotify = { 
-                timeout= 3000, 
+                timeout= 3000,
                 title = "Yellow Pages",
                 text = "No one in service currently!",
                 icon = "fas fa-phone",
