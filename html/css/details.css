@@ -6,6 +6,11 @@
     width: 100%;
     overflow: hidden;
     background: #242833;
+    -moz-user-select: -moz-text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    -o-user-select: text;
+    user-select: text;
 }
 
 .details-header {
