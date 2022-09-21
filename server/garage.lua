@@ -1,9 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local function round(num, numDecimalPlaces)
-    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
-end
-
 RegisterNetEvent('qb-phone:server:sendVehicleRequest', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -42,6 +38,10 @@ RegisterNetEvent('qb-phone:server:sellVehicle', function(data, Seller, type)
     end
 end)
 
+local function round(num, numDecimalPlaces)
+    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+end
+
 QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
@@ -77,8 +77,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     garage = VehicleGarage,
                     state = VehicleState,
                     fuel = v.fuel,
-                    engine = round(v.engine / 10, 0),
-                    body = round(v.body / 10, 0),
+                    engine = enginePercent,
+                    body = bodyPercent,
                     paymentsleft = v.paymentsleft
                 }
             else
