@@ -60,7 +60,7 @@
     left: 0vh;
     padding-top: 1.1vh;
     padding-bottom: 1.1vh;
-    padding-left: 1.6vh;
+    padding-left: 1.0vh;
     padding-right: 2.6vh;
     color: white;
     font-size: 4.0vh;
@@ -171,6 +171,36 @@
 }
 
 .garage-fuel > i {
+    padding-right: 0.8vh;
+    font-size: 1.3vh;
+    color: white;
+}
+
+.garage-engine {
+    padding: 3px 18px;
+    padding-top: 1.1vh;
+    padding-left: 0vh;
+    color: white;
+    font-size: 1.3vh;
+    border-bottom: .1vh solid #fff;
+}
+
+.garage-engine > i {
+    padding-right: 0.8vh;
+    font-size: 1.3vh;
+    color: white;
+}
+
+.garage-body {
+    padding: 3px 18px;
+    padding-top: 1.1vh;
+    padding-left: 0vh;
+    color: white;
+    font-size: 1.3vh;
+    border-bottom: .1vh solid #fff;
+}
+
+.garage-body > i {
     padding-right: 0.8vh;
     font-size: 1.3vh;
     color: white;

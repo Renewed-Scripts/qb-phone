@@ -1,5 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
+local function round(num, numDecimalPlaces)
+    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+end
+
 RegisterNetEvent('qb-phone:server:sendVehicleRequest', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -47,6 +51,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
         for _, v in pairs(result) do
             local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
             local VehicleGarage = "None"
+            local enginePercent = round(v.engine / 10, 0)
+            local bodyPercent = round(v.body / 10, 0)
             if v.garage then
                 if Garages[v.garage] then
                     VehicleGarage = Garages[v.garage]["label"]
@@ -71,8 +77,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     garage = VehicleGarage,
                     state = VehicleState,
                     fuel = v.fuel,
-                    engine = v.engine,
-                    body = v.body,
+                    engine = round(v.engine / 10, 0),
+                    body = round(v.body / 10, 0),
                     paymentsleft = v.paymentsleft
                 }
             else
@@ -84,8 +90,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
                     garage = VehicleGarage,
                     state = VehicleState,
                     fuel = v.fuel,
-                    engine = v.engine,
-                    body = v.body,
+                    engine = enginePercent,
+                    body = bodyPercent,
                     paymentsleft = v.paymentsleft
                 }
             end
