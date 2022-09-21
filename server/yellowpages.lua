@@ -1,4 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local Calls = {}
 
 QBCore.Functions.CreateCallback('qb-phone:server:GetCurrentyellowpages', function(_, cb)
     local yellowpages = {}
@@ -21,7 +22,7 @@ QBCore.Functions.CreateCallback("qb-phone:server:getRandomJobContact", function(
     local Players = QBCore.Functions.GetPlayers()
     local Player = QBCore.Functions.GetPlayer(source)
     local plrs = {}
-    for i,v in pairs(Players) do
+    for _,v in pairs(Players) do
         local Plr = QBCore.Functions.GetPlayer(v)
         if Plr.PlayerData.job.name == job and Plr.PlayerData.job.onduty and Plr.PlayerData.source ~= Player.PlayerData.source and (Plr.PlayerData.metadata.FlightMode == nil or Plr.PlayerData.metadata.FlightMode == false) then
             table.insert(plrs,v)
