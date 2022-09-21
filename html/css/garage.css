@@ -73,6 +73,9 @@
     color: white;
     line-height: 8.5vh;
     font-size: 1.2vh;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .garage-plate-name {
