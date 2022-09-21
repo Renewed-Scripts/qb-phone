@@ -83,8 +83,7 @@ function AddDIV(data){
     if(data) {
         Object.keys(data).map(function(element,index){
             if(data[element].leader == CSN) {
-                AddOption =
-                `
+                AddOption = `
                 <div class="jobcenter-div-job-group">
                 <div class="jobcenter-div-job-group-image">
                 <i class="fas fa-users"></i>
@@ -95,8 +94,8 @@ function AddDIV(data){
                 class="fas fa-sign-in-alt">
                 </i>
                 <div class="jobcenter-option-class-body">
-                <i id="jobcenter-list-group" data-id="${data[element].id}" style="padding-right: 5%;" class="fas fa-list-ul">
-                </i><i id="jobcenter-delete-group" data-delete="${data[element].id}" class="fas fa-trash-alt"></i>
+                <i id="jobcenter-list-group" data-id="${data[element].id}" style="padding-right: 5%;" class="fas fa-list-ul"></i>
+                <i id="jobcenter-delete-group" data-delete="${data[element].id}" class="fas fa-trash-alt"></i>
                 <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends"> ${data[element].Users}</i></div></div></div>
                 `
             } else {
@@ -107,17 +106,24 @@ function AddDIV(data){
                 <div class="jobcenter-div-job-group-body-main">${data[element].GName}<i id="jobcenter-join-grouped" data-id="${data[element].id}" data-pass="${data[element].GPass}" class="fas fa-sign-in-alt">
                 </i><div class="jobcenter-option-class-body">
                 <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends">${data[element].Users}</i>
-                </div></div></div>`
+                </div></div></div>
+                `
                 Object.keys(data[element].members).map(function(element2, _){
                     if(data[element].members[element2].Player == CSN) {
                         AddOption = `
                         <div class="jobcenter-div-job-group">
                         <div class="jobcenter-div-job-group-image">
-                        <i class="fas fa-users"></i></div>
-                        <div class="jobcenter-div-job-group-body-main">${data[element].GName}<i id="jobcenter-leave-grouped"
-                         data-id="${data[element].id}" data-pass="${data[element].GPass}" class="fas fa-sign-out-alt" style="transform: rotate(180deg);">
-                         </i><div class="jobcenter-option-class-body">
-                         <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends">${data[element].Users}</i></div></div></div>`
+                        <i class="fas fa-users"></i>
+                        </div><div class="jobcenter-div-job-group-body-main">
+                        ${data[element].GName}<i id="jobcenter-leave-grouped"
+                        data-id="${data[element].id}" 
+                        data-pass="${data[element].GPass}" 
+                        class="fas fa-sign-out-alt" style="transform: rotate(180deg);">
+                        </i>
+                        <div class="jobcenter-option-class-body">
+                        <i id="jobcenter-list-group" data-id="${data[element].id}" style="padding-right: 5%;" class="fas fa-list-ul"></i>
+                        <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends">${data[element].Users}</i></div></div></div>
+                        `
                     }
                 })
             }
