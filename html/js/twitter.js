@@ -136,6 +136,9 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){ // Submit Button F
             url: imageURL,
             type: 'tweet'
         }), function(){
+            setTimeout(function(){
+                ConfirmationFrame()
+            }, 150);
             ClearInputNew();
             $('#twt-box-textt').fadeOut(350);
         });
