@@ -95,6 +95,8 @@ QB.Phone.Functions.SetupApplications = function(data) {
                 icon = '<img src="./img/apps/lsbn.png" style="width: 85%;margin-top: 7%;">';
             } else if (app.app == "contacts"){
                 icon = '<img src="./img/apps/contacts.png" style="width: 85%;margin-top: 7%;">';
+            } else if (app.app == "yellowpages"){
+                icon = '<img src="./img/apps/yellow-pages.png" style="width: 85%;margin-top: 7%;">';
             }
 
 
@@ -151,7 +153,7 @@ $(document).on('click', '.phone-application', function(e){
                 }
 
                 QB.Phone.Data.currentApplication = PressedApplication;
-
+                
                 if (PressedApplication == "twitter") {
                     if (QB.Phone.Data.IsOpen) {
                         $.post('https://qb-phone/GetTweets', JSON.stringify({}), function(Tweets){
@@ -197,6 +199,10 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/GetAvailableRaces', JSON.stringify({}), function(Races){
                         SetupRaces(Races);
                     });
+                } else if (PressedApplication == "yellowpages") {
+                    $.post('https://qb-phone/GetCurrentyellowpages', JSON.stringify({}), function(data){
+                        SetupYellowPages(data);
+                    });
                 } else if (PressedApplication == "houses") {
                     $.post('https://qb-phone/GetPlayerHouses', JSON.stringify({}), function(Houses){
                         SetupPlayerHouses(Houses);
@@ -226,9 +232,6 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){
                         setUpGalleryData(data);
                     });
-                }
-                else if (PressedApplication == "details") {
-                    LoadPlayerMoneys();
                 }
                 else if (PressedApplication == "casino") {
                     LoadCasinoJob();

@@ -342,6 +342,19 @@ Config.PhoneApplications = {
         slot = 25,
         Alerts = 0,
     },
+    ["yellowpages"] = {
+        app = "yellowpages",
+        color = "#f6ff6e",
+        color2 = "#ffe94c",
+        icon = "fas fa-briefcase",
+        tooltipText = "Yellow Pages",
+        tooltipPos = "bottom",
+        style = "font-size: 3vh";
+        job = false,
+        blockedjobs = {},
+        slot = 26,
+        Alerts = 0,
+    },
     ["meos"] = {
         app = "meos",
         color = "#004682",
@@ -350,7 +363,7 @@ Config.PhoneApplications = {
         tooltipText = "MDT",
         job = "police",
         blockedjobs = {},
-        slot = 26,
+        slot = 27,
         Alerts = 0,
     },
 }

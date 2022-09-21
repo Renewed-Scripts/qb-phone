@@ -1,0 +1,188 @@
+.yellowpages-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: #232A38;
+    overflow: hidden;
+}
+
+.yellowpages-header {
+    position: absolute;
+    width: 90%;
+    margin-left: 5%;
+    height: 10vh;
+    /* background-color: #26d4ce; */
+    top: 0;
+    /* border-bottom: .3vh solid #26d4ce; */
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.8vh;
+    color: black;
+    margin-top: 40px;
+}
+
+.yellowpages-img {
+    width: 8vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+
+.yellowpages-header > p {
+    line-height: 12vh;
+    text-indent: 2vh;
+    font-size: 2.5vh;
+}
+
+.yellowpages-header > span {
+    position: absolute;
+    top: 9vh;
+    left: 2vh;
+    font-size: 1.2vh;
+    height: 2vh;
+    /* color: rgba(255, 255, 255, 0.842); */
+}
+
+.yellowpages-list {
+    position: absolute;
+    background-color: rgb(28, 35, 49);
+    width: 80%;
+    height: 67.5%;
+    
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: 7.5%;
+
+    border-radius: .5vh;
+
+    overflow-y: scroll;
+}
+
+.call-btn {
+    width: 85%;
+    margin-left: 7.5%;
+    background-color: #282f3e!important;
+    color: #fff!important;
+
+}
+
+.btn:hover, .btn-large:hover, .btn-small:hover {
+    background-color: rgb(46,54,72)!important;
+    text-decoration: none!important;
+    color: white!important;
+    outline: none!important;
+}
+
+.yellowpages-list h1 {
+    border-top-left-radius: .5vh;
+    border-top-right-radius: .5vh;
+    width: calc(100% - 75px);
+    display: block;
+    color: white;
+    font-family: 'Samsung Sans Bold';
+    font-weight: bold;
+    font-size: 25px;
+    margin-left: 7.5px;
+    float: left;
+    margin-top: 30px;
+    transform: translateY(-50%);
+    letter-spacing: 1px;
+    overflow-wrap: break-word;
+}
+
+.yellowpages-list::-webkit-scrollbar {
+    display: none;
+}
+
+.yellowpages-job-img {
+    height: 45px;
+    width: 45px;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.lawyer-list {
+    position: relative;
+    width: 95%;
+    height: 6vh;
+    background-color: rgb(200,200,200);
+    margin: 2.5%;
+    margin-top: 65px;
+
+    border-radius: .5vh;
+}
+
+.lawyer-list-firstletter {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3.5vh;
+    height: 3.5vh;
+    /* background-color: rgb(42, 137, 214); */
+    text-align: center;
+    left: 1vh;
+    line-height: 3.5vh;
+    border-radius: 50%;
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.8vh;
+
+    color: rgb(255, 255, 255);
+}
+
+.lawyer-list-fullname {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 5.5vh;
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.5vh;
+
+    max-width: 14vh;
+
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+
+    color: rgb(255, 255, 255);
+}
+
+.no-yellowpages {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Samsung Sans Medium';
+    font-size: 1.3vh;
+
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    max-width: 14vh;
+
+    color: rgb(255, 255, 255);
+}
+
+.lawyer-list-call {
+    color: white;
+    position: absolute;
+    top: 25%;
+    transform: translateY(-50%);
+
+    right: 2vh;
+    font-size: 2vh;
+    transform: rotate(90deg);
+
+    transition: .08s ease-in-out;
+}
+
+.lawyer-list-call:hover {
+    color: rgb(49, 214, 60);
+    opacity: .8;
+
+    transform: rotate(0deg);
+
+    cursor: pointer;
+}

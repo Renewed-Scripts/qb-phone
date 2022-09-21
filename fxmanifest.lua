@@ -32,6 +32,7 @@ files {
     'html/fonts/*.woff',
     'html/img/backgrounds/*.png',
     'html/img/apps/*.png',
+    'html/img/joblogos/*.png',
 }
 
 lua54 'yes'
