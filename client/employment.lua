@@ -11,6 +11,14 @@ RegisterNUICallback('GetJobs', function(_, cb)
     cb(myJobs)
 end)
 
+RegisterNUICallback('dutyStatus', function(_, cb)
+    cb({
+        job = QBCore.Functions.GetPlayerData().job.name,
+        duty = QBCore.Functions.GetPlayerData().job.onduty
+    })
+end)
+
+
 RegisterNUICallback('GetEmployees', function(data, cb)
     if not data.job then return end
 

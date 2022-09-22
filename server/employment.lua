@@ -268,10 +268,6 @@ RegisterNetEvent('qb-phone:server:gradesHandler', function(Job, CID, grade)
 end)
 
 
-
-
-
-
 RegisterNetEvent('qb-phone:server:clockOnDuty', function(Job)
     local src = source
     if not Job then return end
@@ -284,12 +280,15 @@ RegisterNetEvent('qb-phone:server:clockOnDuty', function(Job)
         local grade = type(CachedJobs[Job].employees[CID].grade) ~= "number" and tonumber(CachedJobs[Job].employees[CID].grade) or CachedJobs[Job].employees[CID].grade
         Player.Functions.SetJob(Job, grade)
         Wait(50)
-        Player.Functions.SetJobDuty(true)
+        if Player.PlayerData.job.onduty then
+            notifyPlayer(src, "You have signed off duty")
+            Player.Functions.SetJobDuty(false)
+        else
+            notifyPlayer(src, "You have signed on duty")
+            Player.Functions.SetJobDuty(true)
+        end
     end
 end)
-
-
-
 
 
 ---- Gets the client side cache for players ----
