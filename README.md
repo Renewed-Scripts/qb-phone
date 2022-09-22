@@ -78,7 +78,7 @@ TriggerClientEvent('QBCore:Notify', src, Lang:t('info.new_job', {job = JobInfo.l
 end)
 ```
 
-6. Restart your server fully to get the new commands working and also to get the phone fully working.
+7. Restart your server fully to get the new commands working and also to get the phone fully working.
 
 
 It should now look like this
