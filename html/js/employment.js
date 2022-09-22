@@ -3,6 +3,9 @@ var cid = ''
 var job = ''
 var grade = ''
 
+var onDuty = true
+var currentJob = ''
+
 // Hiring & Changing Role var
 var gradeLevel = ''
 
@@ -102,7 +105,6 @@ $(document).on('click', '.employment-list', function(e){
         for (const [k, v] of Object.entries(QB.Phone.Data.PhoneJobs[job].grades)) {
 
             var element = '<li data-gradelevel="'+k+'">'+v.name+'</li>';
-            console.log(k)
             $(".grade-dropdown-menu").append(element);
         }
     });
@@ -127,13 +129,33 @@ $(document).on('click', '#employment-job-extras-icon', function(e){
     $('#employment-dropdown').html('')
     dropdownOpen = true
 
+    $.post('https://qb-phone/dutyStatus', JSON.stringify({}), function(data) {
+        currentJob = data["job"]
+        if (data["duty"]) {
+            onDuty = true
+        } else {
+            onDuty = false
+        }
+    });
+
     if (QB.Phone.Data.PhoneJobs[job].grades[grade].isboss){
-        var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
-        <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
-        <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+        if (onDuty && currentJob == job) {
+            var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go Off Duty</div>
+            <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
+            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+        } else {
+            var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
+            <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
+            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+        }
     }else{
-        var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
-        <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+        if (onDuty && currentJob == job) {
+            var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go Off Duty</div>
+            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+        } else {
+            var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
+            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+        }
     }
     $('#employment-dropdown').append(AddOption);
     $('#employment-dropdown').fadeIn(350);
@@ -148,9 +170,9 @@ function closeDropDown(){
 
 $(document).on('click', '#clock-in', function(e){
     e.preventDefault();
-    console.log(job)
+
     $.post('https://qb-phone/ClockIn', JSON.stringify({
-        job: job,
+        job: job
     }));
     closeDropDown()
 });
