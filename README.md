@@ -59,7 +59,26 @@ QBCore.Commands.Add('removejob', 'Removes A Players Job (Admin Only)', { { name 
 end, 'admin')
 ```
 
-6. Restart your server fully to get the new commands working and also to get the phone fully working.
+6. If you use qb-cityhall then u have to Find ApplyJob in qb-cityhall/server/main.lua and replace with this one
+
+```lua
+RegisterNetEvent('qb-cityhall:server:ApplyJob', function(job, cityhallCoords)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
+    local ped = GetPlayerPed(src)
+    local pedCoords = GetEntityCoords(ped)
+    local JobInfo = QBCore.Shared.Jobs[job]
+    if #(pedCoords - cityhallCoords) >= 20.0 or not availableJobs[job] then
+        return DropPlayer(source, "Attempted exploit abuse")
+    end
+    Player.Functions.SetJob(job, 0)
+    exports['qb-phone']:hireUser(job, Player.PlayerData.citizenid, 0)
+TriggerClientEvent('QBCore:Notify', src, Lang:t('info.new_job', {job = JobInfo.label}))
+end)
+```
+
+7. Restart your server fully to get the new commands working and also to get the phone fully working.
 
 
 It should now look like this
