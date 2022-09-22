@@ -8,7 +8,7 @@ local function getMyJobs(cid)
     local jobs = {}
     local employees = {}
     for k, v in pairs(CachedJobs) do
-        if v.employees[cid] then
+        if v and v.employees and v.employees[cid] then
             if not jobs[k] then
                 jobs[k] = v.employees[cid]
             end
