@@ -304,7 +304,7 @@
     margin-top: 1px;
     overflow: hidden;
     display: none;
-    max-height: 420px;
+    max-height: 300px;
     overflow-y: auto;
     z-index: 9
 }
