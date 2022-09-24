@@ -2,9 +2,9 @@
 
 .gallery-app {
     display: none;
-    height: 100%;
+    height: 108%;
     width: 100%;
-    background: #212832;
+    background: #ffffff;
     overflow: hidden;
 }
 
@@ -14,7 +14,7 @@
     width: 100%;
     text-align: center;
     line-height: 12.5vh;
-    color: white;
+    color: black;
     font-size: 1.5vh;
 }
 
@@ -87,7 +87,7 @@
     margin: 2px;
     width: 100%;
     height: 5vh;
-    background-color: rgb(233, 233, 233);
+    background-color: rgb(0, 0, 0);
     border-radius: .3vh;
     transition: .05s linear;
     text-align: center;
@@ -96,7 +96,7 @@
 }
 
 .return-button > div:hover {
-    background-color: rgb(212, 212, 212);
+    background-color: rgb(0, 0, 0);
 }
 
 .make-post-button {
@@ -108,7 +108,7 @@
     margin: 2px;
     width: 40%;
     height: 5vh;
-    background-color: #8ee074;
+    background-color: #6cf842;
     border-radius: .3vh;
     transition: .05s linear;
     text-align: center;
@@ -117,14 +117,14 @@
 }
 
 .make-post-button > div:hover {
-    background-color: #6cac59;
+    background-color: #6ccc4e;
 }
 
 #delete-button {
     margin: 2px;
     width: 20%;
     height: 5vh;
-    background-color: #f5a15b;
+    background-color: #ff0000;
     border-radius: .3vh;
     transition: .05s linear;
     text-align: center;
@@ -132,14 +132,14 @@
     font-size: 1.4vh;
 }
 #delete-button:hover {
-    background-color: #c27e47;
+    background-color: #ff4848;
 }
 
 #gallery-coppy-button{
-    background: rgb(187, 187, 81);
+    background: rgb(93, 81, 187);
 }
 #gallery-coppy-button:hover{
-    background: rgb(145, 145, 63);
+    background: rgb(145, 136, 217);
 }
 
 .posts-button {
@@ -159,27 +159,27 @@
     text-align: center;
     line-height: 5vh;
     font-size: 1.4vh;
-    background-color: #08a0e9;
+    background-color: #5dccff;
 
 }
 #tweet-button:hover {
-    background-color: #0078a3;
+    background-color: #00b0f0;
 }
 
 #advert-button {
     margin: 2px;
     width: 50%;
     height: 5vh;
-    color: #fff;
+    color: rgb(0, 0, 0);
     border-radius: .3vh;
     transition: .2s linear;
     text-align: center;
     line-height: 5vh;
     font-size: 1.4vh;
-    background-color: #ff8f1a;
+    background-color: #ff391a;
 }
 #advert-button:hover {
-    background-color: #bd7528;
+    background-color: #ff6f59;
 }
 
 
@@ -192,8 +192,8 @@
     right: 0;
     background: none;
     outline: none;
-    border: .1vh solid #f5f5f5ad;
-    color: whitesmoke;
+    border: .1vh solid #2c2c2cad;
+    color: rgb(0, 0, 0);
     resize: none;
     transition: border-bottom 0.1s ease-in-out;
     padding: 0.87vh;

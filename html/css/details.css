@@ -2,15 +2,10 @@
 
 .details-app {
     display: none;
-    height: 100%;
+    height: 108%;
     width: 100%;
     overflow: hidden;
-    background: #242833;
-    -moz-user-select: -moz-text;
-    -khtml-user-select: text;
-    -webkit-user-select: text;
-    -o-user-select: text;
-    user-select: text;
+    background: #ffffff;
 }
 
 .details-header {
@@ -20,7 +15,7 @@
     top: 8%;
     left: 0;
     right: 0;
-    color: white;
+    color: black;
     font-size: 1.8vh;
     margin: 0 auto;
 }
@@ -37,7 +32,7 @@
     left: 9vh;
     font-size: 1.2vh;
     height: 2vh;
-    color: white;
+    color: black;
 }
 
 .details-list {
@@ -60,7 +55,7 @@
     display: inline-block;
     position: relative;
     width: 100%;
-    color: whitesmoke;
+    color: black;
     font-size: 1.8vh;
 }
 
@@ -90,7 +85,7 @@
     width: 100%;
     margin-left: 3%;
     margin-bottom: 2%;
-    color: whitesmoke;
+    color: black;
 }
 
 .details-license-icon-class{
@@ -105,6 +100,6 @@
 
 .details-text-license{
     width: 100%;
-    color: whitesmoke;
+    color: black;
     text-align: center;
 }

@@ -428,6 +428,21 @@ end) RegisterKeyMapping('+decline', 'Decline Phone Call', 'keyboard', 'J')
 
 -- NUI Callbacks
 
+RegisterNUICallback('UpdateVehicle', function(data, cb)
+    local info, class, perfRating, model, brand = exports['apex_performance']:getVehicleInfo(GetPlayersLastVehicle())
+    local data = {
+        brand = brand,
+        rating = class..''..perfRating,
+        accel = math.floor(info.accel*10)/10,
+        speed =  math.floor(info.speed*10)/10,
+        handling =  math.floor(info.handling*10)/10,
+        braking =  math.floor(info.braking*10)/10,
+        drivetrain = info.drivetrain,
+        model = model
+    }
+    cb(data)
+end)
+
 RegisterNUICallback('DissalowMoving', function()
     if not Config.AllowWalking then return end
     SetNuiFocusKeepInput(false)

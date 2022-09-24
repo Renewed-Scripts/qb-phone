@@ -64,12 +64,9 @@
                 <!-- Phone Header -->
                 <div class="phone-header">
                     <div id="phone-time">08:05</div>
-                    <div id="player-id">1</div>
                     <div id="phone-icons">
-                        <i class="fas fa-angle-down phone-tab-button" id="phone-arrow" data-toggle="tooltip" data-placement="left" title="Put Phone Away"></i>
-                        <i class="fas fa-sun" id="phone-sun" data-toggle="tooltip" data-placement="left" title="Weather Unavailable"></i>
-                        <i class="fas fa-unlock" id="phone-unlock" style="color: #9ed4a6;" data-toggle="tooltip" data-placement="left" title="Unlocked"></i>
-                        <i class="fas fa-signal" id="phone-signal" data-toggle="tooltip" data-placement="left" title="QBCore 5G"></i>
+                        <i class="fas fa-unlock" id="phone-unlock" style="color: #6fcc7d;" data-toggle="tooltip" data-placement="left" title="Unlocked"></i>
+                        <i class="fas fa-signal" id="phone-signal" data-toggle="tooltip" data-placement="left" title="5G"></i>
                     </div>
                 </div>
 
@@ -141,11 +138,16 @@
                 <!-- Home Applications -->
                 <div class="phone-applications">
 
+                    <div class="phone-footer-applications">
+                        <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="3"></div>
+                        <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="21"></div>
+                        <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="4"></div>
+                        <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="24"></div>
+                    </div>
+
                     <div class="phone-home-applications">
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="1"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="2"></div>
-                        <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="3"></div>
-                        <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="4"></div>
 
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="5"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="6"></div>
@@ -167,10 +169,8 @@
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="19"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="20"></div>
 
-                        <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="21"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="22"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="23"></div>
-                        <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="24"></div>
 
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="25"></div>
                         <div class="phone-application" data-toggle="tooltip" data-placement="bottom" title="" data-appslot="26"></div>
@@ -370,7 +370,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="gallery-app">
                         <div class="gallery-app-header">
                             My Gallery
@@ -695,8 +694,8 @@
                         <div class="phone-menu-body" id="jobcenter-box-new-dashboard">
                             <div class="phone-menu-main">
                                 <input class="phone-menu-text jobcenter-input-group-name" type="text" maxlength="15"><i class="fas fa-sticky-note" id="phone-menu-icon"></i><span class="phone-menu-title">Group Name</span>
-                                <input class="phone-menu-text jobcenter-input-password" type="password"><i class="fas fa-lock" id="phone-menu-icon"></i><span class="phone-menu-title">Group Password</span>
-                                <input class="phone-menu-text jobcenter-input-password2" type="password"><i class="fas fa-lock" id="phone-menu-icon"></i><span class="phone-menu-title">Confirm Password</span>
+                                <input class="phone-menu-text jobcenter-input-password" type="text"><i class="fas fa-lock" id="phone-menu-icon"></i><span class="phone-menu-title">Group Password</span>
+                                <input class="phone-menu-text jobcenter-input-password2" type="text"><i class="fas fa-lock" id="phone-menu-icon"></i><span class="phone-menu-title">Confirm Password</span>
                                 <p> </p>
                                 <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
                                 <div class="phone-menu-button phone-menu-accept" id="jobcenter-submit-create-group">Create</div>
@@ -1178,7 +1177,7 @@
                             <div class="whatsapp-openedchat-messages">
                             </div>
                             <div class="whatsapp-gallery">
-                                <div class="whatsapp-gallery-close">Close</div>
+                                <div class="whatsapp-gallery-close"></div>
                                 <div class="whatsapp-gallery-box"></div>
                             </div>
                             <div class="whatsapp-openedchat-input">
@@ -1241,9 +1240,9 @@
 
                         <div class="chat-members-view" style="display:none;">
                             <div class="members-list-actions">
-                                <div id="members-back-btn"><i class="fas fa-arrow-circle-left"></i> Back</div> 
-                                <div class="chat-room-join"><a href="#" id="join-room"><i class="fa fa-plus"></i> Join</a></div> 
-                                <div class="chat-room-leave"><a href="#" id="leave-room"><i class="fas fa-minus-circle"></i> Leave</a></div> 
+                                <div id="members-back-btn"><i class="fas fa-arrow-circle-left"></i> Back</div>
+                                <div class="chat-room-join"><a href="#" id="join-room"><i class="fa fa-plus"></i> Join</a></div>
+                                <div class="chat-room-leave"><a href="#" id="leave-room"><i class="fas fa-minus-circle"></i> Leave</a></div>
                             </div>
                             <h5 style="text-align: center;">Members</h5>
                             <div id="members-list">
@@ -1323,12 +1322,7 @@
                 <!-- Phone Home Button -->
                 <div class="phone-footer">
                     <div class="phone-home-container">
-                        <div data-toggle="tooltip" title="Silent Mode" class="phone-home-button-class phone-silent-button silent-mode-one"><i class="fas fa-bell"></i></div>
-                        <div data-toggle="tooltip" title="Silent Mode" class="phone-home-button-class phone-silent-button silent-mode-two" style="display: none;"><i class="fas fa-bell-slash"></i></div>
-                        <div data-toggle="tooltip" title="Camera" class="phone-home-button-class phone-take-camera-button"><i class="fas fa-camera"></i></div>
-                        <div data-toggle="tooltip" title="Home" class="phone-home-button-class phone-tab-button" style="font-size: 130%;margin-top: -1.1%;"><i class="far fa-circle"></i></div>
-                        <div data-toggle="tooltip" title="Orientation (disabled)" class="phone-home-button-class"><i class="fas fa-sync"></i></div>
-                        <div data-toggle="tooltip" title="Settings" class="phone-home-button-class settings-app-toggle"><i class="fas fa-cog"></i></div>
+                        <div data-toggle="tooltip" class="phone-home-button-class phone-tab-button"></i></div>
                     </div>
                 </div>
             </div>

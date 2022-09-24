@@ -2,9 +2,9 @@
 
 .twitter-app {
     display: none;
-    height: 100%;
+    height: 108%;
     width: 100%;
-    background: #212832;
+    background: #008cff;
     overflow: hidden;
 }
 
@@ -176,7 +176,7 @@
     position: relative;
     height: 4.5vh;
     width: 100%;
-    background-color: #212832;
+    background-color: #008cff;
 }
 
 .twitter-footer > p {

@@ -36,7 +36,7 @@ body {
     display: none;
     position: absolute;
     bottom: -70%;
-    right: -6.8vh;
+    right: -1.5vh;
 }
 
 .phone-currentcall-container {
@@ -144,9 +144,9 @@ body {
 
 .phone-background {
     height: 62.7vh;
-    width: 28.0vh;
+    width: 28.2vh;
     bottom: 1.65vh;
-    border-radius: 1vh;
+    border-radius: 2vh;
     right: 2.0vh;
     margin: 5vh;
     overflow: hidden;
@@ -169,7 +169,7 @@ body {
 #phone-time {
     font-family: 'Roboto', sans-serif;
     font-size: 1.1vh;
-    padding: 1.2vh 0 0 1.1vh;
+    padding: 1.0vh 0 0 2.0vh;
     float: left;
     color: white !important;
 }
@@ -178,14 +178,14 @@ body {
     font-family: 'Roboto', sans-serif;
     text-transform: uppercase;
     font-size: 1.1vh;
-    padding: 1.2vh 0 0 1vh;
+    padding: 1.0vh 0 0 1vh;
     float: left;
     color: white !important;
 }
 
 #phone-icons {
     font-size: 1.1vh;
-    padding: 1.2vh 1.1vh 0 0vh;
+    padding: 1.0vh 2.5vh 0 0vh;
     float: right;
     color: white !important;
 }
@@ -227,25 +227,29 @@ body {
     bottom: -0.5vh;
     height: 5vh;
     width: 100%;
-    background: #00000029;
+    background: transparent;
     z-index: 140;
-    border-top: 0.1vh solid #0000003b;
+    border-top: 0.1vh solid transparent;
 }
 
 .phone-home-container {
-    margin-top: 0.6vh;
+    margin-top: 1.4vh;
     position: relative;
 }
 
 .phone-home-button-class {
     position: relative;
-    height: 100%;
-    width: 20%;
-    text-align: center;
-    float: left;
-    font-family: 'Poppins', sans-serif;
-    color: white;
-    transition: .3s;
+    height: 0.5vh;
+    width: 10vh;
+    background-color: white;
+    border: 2px solid rgba(202, 192, 192, 0.8);
+    border-right: 2px solid rgba(202, 192, 192, 0.8);
+    border-bottom: 2px solid rgba(202, 192, 192, 0.8);
+    border-radius: 0.8vh;
+    top: 80%;
+    transform: translateY(-50%);
+    margin: 0px auto;
+    transition: all 0.1s ease 0s;
 }
 
 .phone-home-button-class:hover{
@@ -265,7 +269,7 @@ body {
 
 .phone-applications {
     position: relative;
-    height: 97%;
+    height: 98%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.05);
 }
@@ -291,13 +295,13 @@ body {
 .phone-footer-applications {
     position: absolute;
     width: 100%;
-    bottom: 7vh;
+    bottom: 4.5vh;
 }
 
 .phone-home-applications {
     position: absolute;
     width: 100%;
-    bottom: 13vh;
+    bottom: 16vh;
 }
 
 .phone-application > i {

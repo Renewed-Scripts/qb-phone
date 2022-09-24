@@ -3,9 +3,9 @@
 
 .houses-app {
     display: none;
-    height: 100%;
+    height: 108%;
     width: 100%;
-    background: #212832;
+    background: #ffffff;
     overflow: hidden;
 }
 
@@ -28,7 +28,7 @@
 
 .houses-app-header-tab > p {
     font-size: 1.5vh;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(36, 36, 36, 0.5);
     transition: .075s linear;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .houses-app-header-tab-selected > p {
-    color: #ffffff;
+    color: #000000;
 }
 
 .house-app-myhouses-container {
@@ -79,7 +79,7 @@
     width: 100%;
     transition: all 0.05s linear 0s;
     margin-bottom: 10px;
-    background: #2c465f;
+    background: #ffffff;
     border-radius: 0.15rem;
     box-shadow: 0rem 0rem 0.2rem 0.02rem #000000a6;
 }
@@ -98,7 +98,7 @@
 .myhouse-house-icon > i {
     text-align: center;
     line-height: 7.5vh;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 1.7vh;
 }
 
@@ -106,7 +106,7 @@
     position: absolute;
     left: 5.5vh;
     top: 1.7vh;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 1.2vh;
 }
 
@@ -114,7 +114,7 @@
     position: absolute;
     left: 5.5vh;
     bottom: 1.7vh;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 1.3vh;
 }
 
@@ -128,7 +128,7 @@
     top: 0;
     height: 100%;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(206, 206, 206, 0.5);
 }
 
 .myhouses-options {
@@ -138,7 +138,7 @@
     margin: 0 auto;
     left: 0vw;
     right: 0;
-    background-color: #212832;
+    background-color: #ffffff;
     border-radius: .5vh;
     box-shadow:
     inset 0 0 1vh .2vh rgba(0, 0, 0, 0.281),
@@ -150,7 +150,7 @@
     position: absolute;
     width: 100%;
     height: 5vh;
-    color: rgb(255 255 255);
+    color: rgb(0, 0, 0);
     text-align: center;
     line-height: 5vh;
     font-size: 1.8vh;
@@ -163,7 +163,7 @@
     margin-bottom: .8vh;
     width: 12vh;
     height: 5vh;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 1.5vh;
     border-radius: .3vh;
     top: 6vh;
@@ -213,7 +213,7 @@
     margin: 0 auto;
     left: 35vw;
     right: 0;
-    background-color: #212832;
+    background-color: #ffffff;
     border-radius: .5vh;
     box-shadow:
     inset 0 0 1vh .2vh rgba(0, 0, 0, 0.281),
@@ -228,7 +228,7 @@
     margin: 0 auto;
     left: 35vw;
     right: 0;
-    background-color: #212832;
+    background-color: #ffffff;
     border-radius: .5vh;
     box-shadow:
     inset 0 0 1vh .2vh rgba(0, 0, 0, 0.281),
@@ -240,7 +240,7 @@
     position: absolute;
     width: 100%;
     height: 5vh;
-    color: rgb(255 255 255);
+    color: rgb(0, 0, 0);
     text-align: center;
     line-height: 5vh;
     font-size: 1.8vh;
@@ -259,8 +259,8 @@
     outline: none;
     font-size: 1.8vh;
     text-indent: 1vh;
-    color: black;
-    background: rgb(255 255 255 / 63%);
+    color: rgb(255, 255, 255);
+    background: rgba(27, 27, 27, 0.63);
     border-bottom: .3vh solid #c0392b;
     transition: .05s linear;
 }
@@ -292,7 +292,7 @@
     right: 0;
     top: 2vh;
     overflow-y: scroll;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .keys-container::-webkit-scrollbar {
@@ -308,14 +308,14 @@
     position: absolute;
     padding: 1.2vh;
     font-size: 1.5vh;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .house-key {
     position: relative;
     width: 100%;
     height: 4.5vh;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.7);
     transition: .05s ease-in-out;
 }
 
@@ -325,12 +325,12 @@
     padding: 1.2vh;
     padding-right: 1.5vh;
     font-size: 1.5vh;
-    color: white;
+    color: rgb(0, 0, 0);
     transition: .05s ease-in-out;
 }
 
 .house-key:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .house-key-delete:hover {
@@ -369,20 +369,20 @@
     height: 7vh;
     margin-bottom: 10px;
     transition: 0.1s ease;
-    background: #2c465f;
+    background: #ffffff;
     border-radius: 0.15rem;
     box-shadow: 0rem 0rem 0.2rem 0.02rem #000000a6;
 }
 
 .mykeys-key:hover {
-    background-color: #0d1218c0;
+    background-color: #ffffffc0;
 }
 
 .mykeys-key-label {
     position: absolute;
     top: 0;
     left: 0;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 1.3vh;
     margin: 1vh;
 }
@@ -391,7 +391,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 1.2vh;
     margin: 1vh;
 }

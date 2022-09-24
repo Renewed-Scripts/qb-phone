@@ -4,9 +4,9 @@
 
 .advert-app {
     display: none;
-    height: 100%;
+    height: 108%;
     width: 100%;
-    background: #202731;
+    background: white;
     overflow: hidden;
 }
 
@@ -44,7 +44,7 @@
     height: auto;
     width: 80%;
     margin-bottom: 1.0vh;
-    background-color: #f7e95f;
+    background-color: #f4f4f4;
     left: 10.0%;
     color: rgb(0, 0, 0);
 }
@@ -117,7 +117,7 @@
     line-height: 4.2vh;
     font-size: 2.3vh;
     padding-right: 9%;
-    color: white;
+    color: black;
     /* background-color: rgb(36, 36, 36); */
 }
 
@@ -126,7 +126,7 @@
 }
 
 .create-advert:hover .test-icon {
-    color: #2c465f;
+    color: #dedede;
     transition: .1s ease-in-out;
     /* animation: Shake 1s infinite; */
 }
@@ -146,8 +146,8 @@
     top: 45vh;
     width: 22vh;
     border-radius: 7px;
-    color: white;
-    border: 2px solid rgb(255, 154, 46);
+    color: black;
+    border: 2px solid rgb(138, 138, 138);
 }
 
 /*Search Area */
@@ -172,14 +172,14 @@
     outline: none;
     text-indent: 2.5vh;
     z-index: 100;
-    color: whitesmoke;
+    color: black;
 }
 #advert-search-icon {
     position: absolute;
     top: 7.5vh;
     left: 3.5vh;
     font-size: 1.4vh;
-    color: #FFFFFF;
+    color: black;
 }
 
 #advert-new-url::-webkit-scrollbar {
@@ -196,7 +196,7 @@
     height: 11.5vh;
     bottom: 3.0vh;
     outline: 1.5px ridge rgb(0, 0, 0);
-    background-color: #f7e95f;
+    background-color: #e7e7e7;
 }
 
 .advert-eye {
@@ -231,7 +231,7 @@
     font-family: 'Arial', sans-serif;
     font-size: 1.7vh;
     font-weight: bold;
-    color: #FFFFFF;
+    color: black;
     line-height: 20vh;
 }
 
@@ -240,5 +240,5 @@
     top: 5.5%;
     left: 41.5%;
     font-size: 275%;
-    color: #FFFFFF;
+    color: black;
 }

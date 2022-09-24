@@ -2,9 +2,9 @@
 
 .bank-app {
     display: none;
-    height: 100%;
+    height: 108%;
     width: 100%;
-    background: #212832;
+    background: white;
     overflow: hidden;
 }
 
@@ -23,7 +23,7 @@
     text-align: center;
     line-height: 6vh;
     font-family: 'Poppins', sans-serif;
-    color: white;
+    color: black;
     transition: .08s;
 }
 
@@ -87,7 +87,7 @@
     position: absolute;
     top: 1vh;
     left: 2vh;
-    color: white;
+    color: black;
     font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
 }
@@ -95,7 +95,7 @@
     position: absolute;
     bottom: 1vh;
     left: 2vh;
-    color: rgba(255, 255, 255, 0.781);
+    color: rgba(0, 0, 0, 0.781);
     font-family: 'Poppins', sans-serif;
     font-size: 1.22vh;
 }
@@ -159,7 +159,7 @@
     left: 1vh;
     font-family: 'Poppins', sans-serif;
     letter-spacing: .1vh;
-    color: white;
+    color: black;
     font-size: 1.1vh;
 }
 .bank-app-account-number {
@@ -169,7 +169,7 @@
     font-family: 'Poppins', sans-serif;
     letter-spacing: .1vh;
     width: 100%;
-    color: white;
+    color: black;
     font-size: 1.1vh;
     background: transparent;
     outline: none;
@@ -179,7 +179,7 @@
     background: transparent;
     outline: none;
     border: none;
-    color: white;
+    color: black;
 }
 .bank-app-account-balance {
     position: absolute;
@@ -187,12 +187,12 @@
     left: 1vh;
     font-family: 'Poppins', sans-serif;
     letter-spacing: .1vh;
-    color: white;
+    color: black;
     font-size: 1.5vh;
 }
 .bank-app-account-actions {
     text-align: center;
-    color: white;
+    color: black;
     margin: 0px auto;
     bottom: 2.5vh;
     height: 5vh;
@@ -239,7 +239,7 @@
     top: 24vh;
     left: 9vh;
     font-size: 4.5vh;
-    color: white;
+    color: black;
     font-family: 'Poppins', sans-serif;
     z-index: 100;
     opacity: 0;
@@ -249,7 +249,7 @@
     position: absolute;
     top: 5.5vh;
     left: 6vh;
-    color: white;
+    color: black;
     font-family: 'Poppins', sans-serif;
     font-size: 2vh;
 }
@@ -261,14 +261,14 @@
     background: none;
     border: none;
     outline: none;
-    border-bottom: 2px solid #f5f6fa;
+    border-bottom: 2px solid #000000;
     font-family: 'Poppins', sans-serif;
     height: 3.5vh;
     width: 18vh;
     text-indent: .4vh;
     transition: .1s;
     font-size: 1.3vh;
-    color: white;
+    color: black;
 }
 #bank-transfer-iban::-webkit-inner-spin-button {
     display: none;
@@ -286,14 +286,14 @@
     background: none;
     border: none;
     outline: none;
-    border-bottom: 2px solid #f5f6fa;
+    border-bottom: 2px solid #000000;
     font-family: 'Poppins', sans-serif;
     height: 3.5vh;
     width: 18vh;
     text-indent: .4vh;
     transition: .1s;
     font-size: 1.3vh;
-    color: white;
+    color: black;
 }
 #bank-transfer-amount::-webkit-inner-spin-button {
     display: none;
@@ -311,21 +311,21 @@
     top: 13.5vh;
     left: 3.4vh;
     font-size: 2.1vh;
-    color: white
+    color: rgb(0, 0, 0)
 }
 .bank-transfer-amount-icon  {
     position: absolute;
     top: 19.2vh;
     left: 3.5vh;
     font-size: 2.4vh;
-    color: white
+    color: rgb(0, 0, 0)
 }
 .bank-transfer-mycontacts-icon  {
     position: absolute;
     top: 25.5vh;
     left: 3.5vh;
     font-size: 2.2vh;
-    color: white
+    color: rgb(0, 0, 0)
 }
 .bank-transfer-mycontacts-icon:hover {
     color: #fbc531;
@@ -344,7 +344,7 @@
     text-align: center;
     line-height: 4.5vh;
     font-family: 'Poppins', sans-serif;
-    color: white;
+    color: black;
     font-size: 1.4vh;
     transition: .1s;
 }
@@ -374,7 +374,7 @@
     padding: 5vh 0 0 8vh;
     font-family: 'Poppins', sans-serif;
     font-size: 2vh;
-    color: white;
+    color: black;
 }
 .bank-app-my-contacts-list {
     position: absolute;
@@ -399,7 +399,7 @@
     box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
 }
 .bank-app-my-contact:hover {
-    background-color: #727e94;
+    background-color: #dfdfdf;
 }
 .bank-app-my-contact-firstletter {
     position: absolute;
@@ -412,7 +412,7 @@
     line-height: 3.6vh;
     border-radius: 50%;
     font-family: 'Poppins', sans-serif;
-    color: white;
+    color: black;
 }
 .bank-app-my-contact-name {
     position: absolute;
@@ -420,7 +420,7 @@
     line-height: 4.5vh;
     font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
-    color: white;
+    color: black;
 }
 .bank-app-my-contacts-list-header {
     position: absolute;
@@ -436,7 +436,7 @@
     margin: 0px auto;
     left: 0px;
     right: 0px;
-    color: white;
+    color: black;
     opacity: 1;
     height: 2.5vh;
     border-radius: 1vh;
@@ -459,7 +459,7 @@
     text-align: center;
     line-height: 5vh;
     text-transform: uppercase;
-    color: white;
+    color: black;
     font-family: 'Poppins', sans-serif;
     font-size: 1.4vh;
     transition: .1s;

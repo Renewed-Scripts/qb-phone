@@ -2,7 +2,7 @@
 
 .tooltip-inner {
     font-size: 11px;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { 
@@ -14,5 +14,5 @@
 }
 
 .custom-control, .custom-switch, .custom-control-input {
-    color: white
+    color: rgb(0, 0, 0)
 }

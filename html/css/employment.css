@@ -2,9 +2,9 @@
 
 .employment-app {
     display: none;
-    height: 100%;
+    height: 108%;
     width: 100%;
-    background-color: #212832;
+    background-color: #e2e2e2;
     overflow: hidden;
 }
 
@@ -22,14 +22,14 @@
     left: 2vh;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2vh;
-    color: #FFFFFF;
+    color: #000000;
 }
 #employment-search-icon {
     position: absolute;
     top: 7.3vh;
     left: 2vh;
     font-size: 1.4vh;
-    color: #FFFFFF;
+    color: #000000;
 }
 #employment-search {
     display: block;
@@ -44,9 +44,9 @@
     right: 0;
     opacity: 1;
     height: 2.5vh;
-    border-bottom: .1vh solid #f5f5f5ad;
+    border-bottom: .1vh solid #202020ad;
     text-indent: 2.5vh;
-    color: whitesmoke;
+    color: rgb(0, 0, 0);
 }
 
 .employment-lists {
@@ -68,10 +68,10 @@
 .employment-list {
     position: relative;
     width: 100%;
-    color: white;
+    color: rgb(0, 0, 0);
     height: 6vh;
     margin-bottom: 8px;
-    background-color: rgb(44, 70, 95);
+    background-color: rgb(244, 244, 244);
     box-shadow: rgba(0, 0, 0, 0.557) 0rem 0rem 0.1rem 0.01rem;
     border-bottom: .1vh solid #fff;
 }
@@ -79,16 +79,16 @@
 .employment-job-list {
     position: relative;
     width: 100%;
-    color: white;
+    color: rgb(0, 0, 0);
     height: 6vh;
     margin-bottom: 8px;
-    background-color: rgb(44, 70, 95);
+    background-color: rgb(236, 236, 236);
     box-shadow: rgba(0, 0, 0, 0.557) 0rem 0rem 0.1rem 0.01rem;
     border-bottom: .1vh solid #fff;
 }
 
 .employment-job-list:hover {
-    background-color: #15222e;
+    background-color: #e2e2e2;
 }
 
 .employment-icon {
@@ -97,7 +97,7 @@
     margin-left: 1.0vh;
     text-align: center;
     line-height: 4.5vh;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 4.0vh;
 }
 
@@ -107,14 +107,14 @@
     margin-left: 1.5vh;
     text-align: center;
     line-height: 4.5vh;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 4.5vh;
 }
 
 .employment-label {
     position: absolute;
     left: 7.4vh;
-    color: white;
+    color: rgb(0, 0, 0);
     line-height: 2.7vh;
     font-size: 1.4vh;
     max-width: 65%;
@@ -126,7 +126,7 @@
 .employment-grade {
     position: absolute;
     left: 7.4vh;
-    color: white;
+    color: rgb(0, 0, 0);
     line-height: 8vh;
     font-size: 1.2vh;
     max-width: 65%;
@@ -143,7 +143,7 @@
     left: 5.5vh;
     font-family: 'Roboto', sans-serif;
     font-size: 1.2vh;
-    color: #FFFFFF;
+    color: #000000;
 }
 
 #employment-job-search-icon {
@@ -151,7 +151,7 @@
     top: 7.3vh;
     left: 5.5vh;
     font-size: 1.4vh;
-    color: #FFFFFF;
+    color: #000000;
 }
 
 #employment-job-back-icon {
@@ -159,7 +159,7 @@
     top: 6vh;
     left: 2.5vh;
     font-size: 2.1vh;
-    color: #FFFFFF;
+    color: #000000;
 }
 
 #employment-job-extras-icon {
@@ -167,7 +167,7 @@
     top: 4vh;
     right: 2.5vh;
     font-size: 2.1vh;
-    color: #FFFFFF;
+    color: #000000;
 }
 
 #employment-job-search {
@@ -184,7 +184,7 @@
     border-bottom: .1vh solid #f5f5f5ad;
     outline: none;
     text-indent: 2.5vh;
-    color: whitesmoke;
+    color: rgb(0, 0, 0);
 }
 
 /* DROP DOWN MENU */
@@ -200,14 +200,14 @@
 
 .list-content{
     position: relative;
-    color: white;
+    color: rgb(0, 0, 0);
     height: 35px;
     width: 180px;
     overflow: hidden;
     margin: auto;
     font-family: 'Robotto', sans-serif;
     font-size: 1.3vh;
-    background-color: #484444;
+    background-color: #dddddd;
 }
 .list-content >i{
     padding:  10px 10px 0px 10px;
@@ -215,7 +215,7 @@
 }
 
 .list-content:hover{
-    background-color: #585454;
+    background-color: #ffffff;
 }
 
 /* Action Buttons */
@@ -237,16 +237,16 @@
     left: 4vh;
     top: 2.1vh;
     font-size: 1.8vh;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     text-align: center;
 }
 
 .employment-action-buttons > i:hover {
-    color: #2c465f;
+    color: #ffffff;
 }
 
 .employment-job-list:hover .employment-action-buttons {
-    background: #0d1218c0;
+    background: #e3e3e3c0;
     visibility: visible;
 }
 
@@ -260,11 +260,11 @@
     line-height: 3.0vh;
     transition: all .5s ease;
     font-size: 14px;
-    color: #ffffff;
+    color: #000000;
     text-align: left;
-    background-color: rgb(44, 70, 95);
+    background-color: rgb(255, 255, 255);
     outline: none;
-    border-bottom: .1vh solid #fff;
+    border-bottom: .1vh solid rgb(0, 0, 0);
 }
 
 .grade-dropdown .select {
@@ -275,7 +275,7 @@
 
 .grade-dropdown .select > i {
     font-size: 13px;
-    color: white;
+    color: rgb(0, 0, 0);
     cursor: pointer;
     transition: all .3s ease-in-out;
     float: right;
@@ -283,12 +283,12 @@
 }
 
 .grade-dropdown:active {
-    background-color: #3F607D
+    background-color: #ffffff
 }
 
 .grade-dropdown.active:hover,
 .grade-dropdown.active {
-    background-color: #3F607D
+    background-color: #ffffff
 }
 
 .grade-dropdown.active .select > i {
@@ -297,8 +297,8 @@
 
 .grade-dropdown .grade-dropdown-menu {
     position: absolute;
-    background-color: #333943;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
     width: 100%;
     left: 0;
     margin-top: 1px;
@@ -321,9 +321,9 @@
 }
 
 .grade-dropdown .grade-dropdown-menu li:hover {
-    background-color: #505969
+    background-color: #ffffff
 }
 
 .grade-dropdown .grade-dropdown-menu li:active {
-    background-color: #505969
+    background-color: #fcfcfc
 }

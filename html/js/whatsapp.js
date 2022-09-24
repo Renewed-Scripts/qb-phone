@@ -2,21 +2,6 @@ var WhatsappSearchActive = false;
 var OpenedChatPicture = null;
 var ExtraButtonsOpen = false;
 
-$( "input[type=text], textarea, input[type=number]" ).focusin(function(e) {
-    e.preventDefault();
-    $.post('https://qb-phone/DissalowMoving');
-});
-$(".whatsapp-openedchat").focusin(function(e) {
-    e.preventDefault();
-    $.post('https://qb-phone/DissalowMoving');
-});
-
-$( "input[type=text], textarea, input[type=number]" ).focusout(function(e) {
-    e.preventDefault();
-    $.post('https://qb-phone/AllowMoving');
-});
-
-
 $(document).ready(function(){
     $("#whatsapp-contact-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
@@ -122,9 +107,9 @@ QB.Phone.Functions.GetLastMessage = function(messages) {
 
 GetCurrentDateKey = function() {
     var CurrentDate = new Date();
-    var CurrentMonth = CurrentDate.getMonth();
-    var CurrentDOM = CurrentDate.getDate();
-    var CurrentYear = CurrentDate.getFullYear();
+    var CurrentMonth = CurrentDate.getUTCMonth();
+    var CurrentDOM = CurrentDate.getUTCDate();
+    var CurrentYear = CurrentDate.getUTCFullYear();
     var CurDate = ""+CurrentDOM+"-"+CurrentMonth+"-"+CurrentYear+"";
 
     return CurDate;
@@ -171,10 +156,10 @@ FormatChatDate = function(date) {
     var TestDate = date.split("-");
     var NewDate = new Date((parseInt(TestDate[1]) + 1)+"-"+TestDate[0]+"-"+TestDate[2]);
 
-    var CurrentMonth = monthNames[NewDate.getMonth()];
-    var CurrentDOM = NewDate.getDate();
-    var CurrentYear = NewDate.getFullYear();
-    var CurDateee = CurrentDOM + "-" + NewDate.getMonth() + "-" + CurrentYear;
+    var CurrentMonth = monthNames[NewDate.getUTCMonth()];
+    var CurrentDOM = NewDate.getUTCDate();
+    var CurrentYear = NewDate.getUTCFullYear();
+    var CurDateee = CurrentDOM + "-" + NewDate.getUTCMonth() + "-" + CurrentYear;
     var ChatDate = CurrentDOM + " " + CurrentMonth + " " + CurrentYear;
     var CurrentDate = GetCurrentDateKey();
 
@@ -188,8 +173,8 @@ FormatChatDate = function(date) {
 
 FormatMessageTime = function() {
     var NewDate = new Date();
-    var NewHour = NewDate.getHours();
-    var NewMinute = NewDate.getMinutes();
+    var NewHour = NewDate.getUTCHours();
+    var NewMinute = NewDate.getUTCMinutes();
     var Minutessss = NewMinute;
     var Hourssssss = NewHour;
     if (NewMinute < 10) {
@@ -385,9 +370,9 @@ QB.Phone.Functions.SetupChatMessages = function(cData, NewChatData) {
         }
         $(".whatsapp-openedchat-messages").html("");
         var NewDate = new Date();
-        var NewDateMonth = NewDate.getMonth();
-        var NewDateDOM = NewDate.getDate();
-        var NewDateYear = NewDate.getFullYear();
+        var NewDateMonth = NewDate.getUTCMonth();
+        var NewDateDOM = NewDate.getUTCDate();
+        var NewDateYear = NewDate.getUTCFullYear();
         var DateString = ""+NewDateDOM+"-"+(NewDateMonth+1)+"-"+NewDateYear;
         var ChatDiv = '<div class="whatsapp-openedchat-messages-'+DateString+' unique-chat"><div class="whatsapp-openedchat-date">TODAY</div></div>';
 

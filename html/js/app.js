@@ -74,27 +74,49 @@ QB.Phone.Functions.SetupApplications = function(data) {
             if (app.app == "meos") {
                 icon = '<img src="./img/apps/politie.png" class="police-icon">';
             } else if (app.app == "garage"){
-                icon = '<img src="./img/apps/garage_img.png" class="garage-icon">';
+                icon = '<img src="./img/apps/garage_img.png" style="width: 100%;">';
             } else if (app.app == "advert"){
-                icon = '<img src="./img/apps/Advertisements.png" class="advert-icon">';
+                icon = '<img src="./img/apps/Advertisements.png" style="width: 100%;">';
             } else if (app.app == "calculator"){
-                icon = '<img src="./img/apps/calcilator.png" class="calc-icon">';
+                icon = '<img src="./img/apps/calcilator.png" style="width: 100%;">';
             } else if (app.app == "employment"){
-                icon = '<img src="./img/apps/employment.png" style="width: 87%;margin-top: 6%;margin-left: -2%;">';
+                icon = '<img src="./img/apps/employment.png" style="width: 100%;">';
             } else if (app.app == "debt"){
-                icon = '<img src="./img/apps/debt.png">';
+                icon = '<img src="./img/apps/debt.png" style="width: 100%;">';
             } else if (app.app == "wenmo"){
-                icon = '<img src="./img/apps/wenmo.png" class="calc-icon">';
+                icon = '<img src="./img/apps/wenmo.png" style="width: 100%;">';
             } else if (app.app == "jobcenter"){
-                icon = '<img src="./img/apps/jobcenter.png" class="calc-icon">';
+                icon = '<img src="./img/apps/jobcenter.png" style="width: 100%;">';
             } else if (app.app == "crypto"){
-                icon = '<img src="./img/apps/crypto.png" style="width: 85%;margin-top: 7%;">';
+                icon = '<img src="./img/apps/crypto.png" style="width: 100%;">';
             } else if (app.app == "taxi"){
-                icon = '<img src="./img/apps/taxiapp.png" style="width: 85%;margin-top: 7%;">';
+                icon = '<img src="./img/apps/taxiapp.png" style="width: 100%;">';
             } else if (app.app == "lsbn"){
-                icon = '<img src="./img/apps/lsbn.png" style="width: 85%;margin-top: 7%;">';
+                icon = '<img src="./img/apps/lsbn.png" style="width: 100%;">';
             } else if (app.app == "contacts"){
-                icon = '<img src="./img/apps/contacts.png" style="width: 85%;margin-top: 7%;">';
+                icon = '<img src="./img/apps/contacts.png" style="width: 100%;">';
+            } else if (app.app == "phone"){
+                icon = '<img src="./img/apps/phone.png" style="width: 100%;">';
+            } else if (app.app == "camera"){
+                icon = '<img src="./img/apps/camera.png" style="width: 100%;">';
+            }else if (app.app == "details"){
+                icon = '<img src="./img/apps/details.png" style="width: 100%;">';
+            }else if (app.app == "ping"){
+                icon = '<img src="./img/apps/ping.png" style="width: 100%;">';
+            }else if (app.app == "mail"){
+                icon = '<img src="./img/apps/mail.png" style="width: 100%;">';
+            }else if (app.app == "gallery"){
+                icon = '<img src="./img/apps/gallery.png" style="width: 100%;">';
+            }else if (app.app == "lawyers"){
+                icon = '<img src="./img/apps/services.png" style="width: 100%;">';
+            }else if (app.app == "racing"){
+                icon = '<img src="./img/apps/racing.png" style="width: 100%;">';
+            }else if (app.app == "tuner"){
+                icon = '<img src="./img/apps/tuner.png" style="width: 100%;">';
+            }else if (app.app == "bank"){
+                icon = '<img src="./img/apps/books.png" style="width: 100%;">';
+            }else if (app.app == "gopro"){
+                icon = '<img src="./img/apps/facetime.png" style="width: 100%;">';
             }
 
 
@@ -227,6 +249,12 @@ $(document).on('click', '.phone-application', function(e){
                         setUpGalleryData(data);
                     });
                 }
+                else if (PressedApplication == "camera") {
+                    $.post('https://qb-phone/TakePhoto', JSON.stringify({}),function(url){
+                        setUpCameraApp(url)
+                    })
+                    QB.Phone.Functions.Close();
+                }
                 else if (PressedApplication == "details") {
                     LoadPlayerMoneys();
                 }
@@ -286,14 +314,6 @@ $(document).on('click', '.mykeys-key', function(e){
     $.post('https://qb-phone/SetHouseLocation', JSON.stringify({
         HouseData: KeyData
     }))
-});
-
-$(document).on('click', '.phone-take-camera-button', function(event){
-    event.preventDefault();
-    $.post('https://qb-phone/TakePhoto', JSON.stringify({}),function(url){
-        // setUpCameraApp(url)
-    })
-    QB.Phone.Functions.Close();
 });
 
 $(document).on('click', '.phone-silent-button', function(event){
@@ -370,7 +390,7 @@ $(document).on('click', '.phone-tab-button', function(event){
 });
 
 QB.Phone.Functions.Open = function(data) {
-    QB.Phone.Animations.BottomSlideUp('.container', 500, -6.6);
+    QB.Phone.Animations.BottomSlideUp('.container', 500, -2);
     QB.Phone.Notifications.LoadTweets(data.Tweets);
     QB.Phone.Data.IsOpen = true;
 }

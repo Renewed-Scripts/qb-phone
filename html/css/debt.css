@@ -2,10 +2,10 @@
 
 .debt-app {
     display: none;
-    height: 100%;
+    height: 108%;
     width: 100%;
     overflow: hidden;
-    background: #212832;
+    background: #ffffff;
 }
 
 .debts-header {
@@ -13,7 +13,7 @@
     width: 100%;
     height: 12vh;
     top: 0;
-    color: white;
+    color: black;
     /* font-family: 'Poppins', sans-serif; */
     font-size: 1.8vh;
 }
@@ -36,9 +36,9 @@
 .debt-list {
     padding: 4px;
     width: 100%;
-    background-color: rgb(44, 70, 95);
+    background-color: rgb(51, 51, 51);
     border-radius: 4px 4px 0px 0px;
-    border-bottom: .1vh solid #fff;
+    border-bottom: .1vh solid rgb(12, 12, 12);
     margin-bottom: 3.5%;
 }
 
@@ -52,7 +52,7 @@
     padding-bottom: 1.1vh;
     padding-left: 1.3vh;
     padding-right: 2.6vh;
-    color: white;
+    color: black;
     font-size: 4.0vh;
     transition: .05s linear;
 }
@@ -60,7 +60,7 @@
 .debt-main-title {
     position: absolute;
     left: 6.8vh;
-    color: white;
+    color: black;
     line-height: 8.5vh;
     font-size: 1.2vh;
 }
@@ -68,7 +68,7 @@
 .debt-main-fee {
     position: absolute;
     left: 6.8vh;
-    color: white;
+    color: black;
     line-height: 3vh;
     font-size: 1.2vh;
 }
@@ -76,7 +76,7 @@
 .debt-remaining-payments {
     position: absolute;
     right: 1.0vh;
-    color: white;
+    color: black;
     line-height: 8.5vh;
     font-size: 1.3vh;
 }
@@ -88,7 +88,7 @@
     /*line-height: 5vh;*/
     display: none;
     overflow: hidden;
-    background-color: rgb(44, 70, 95);
+    background-color: rgb(45, 45, 45);
     margin-bottom: 1.4vh;
 }
 
@@ -96,46 +96,46 @@
     padding: 3px 18px;
     padding-top: 0.5vh;
     padding-left: 0vh;
-    color: white;
+    color: black;
     font-size: 1.3vh;
-    border-bottom: .1vh solid #fff;
+    border-bottom: .1vh solid rgb(0, 0, 0);
 }
 
 .debt-title > i {
     padding-right: 0.8vh;
     font-size: 1.3vh;
-    color: white;
+    color: black;
 }
 
 .debt-extrainfo {
     padding: 3px 18px;
     padding-top: 0.5vh;
     padding-left: 0vh;
-    color: white;
+    color: black;
     font-size: 1.3vh;
-    border-bottom: .1vh solid #fff;
+    border-bottom: .1vh solid rgb(0, 0, 0);
 }
 
 .debt-extrainfo > i {
     padding-right: 0.8vh;
     font-size: 1.3vh;
-    color: white;
+    color: black;
 }
 
 .debt-due {
     padding: 3px 18px;
     padding-top: 0.5vh;
     padding-left: 0vh;
-    color: white;
+    color: black;
     font-size: 1.3vh;
-    border-bottom: .1vh solid #fff;
+    border-bottom: .1vh solid rgb(0, 0, 0);
     margin-bottom: 7%;
 }
 
 .debt-due > i {
     padding-right: 0.8vh;
     font-size: 1.3vh;
-    color: white;
+    color: black;
 }
 
 .debt-box {
@@ -172,16 +172,16 @@
     right: 0;
     opacity: 1;
     height: 2.5vh;
-    border-bottom: .1vh solid #f5f5f5ad;
+    border-bottom: .1vh solid rgba(8, 8, 8, 0.678);
     outline: none;
     text-indent: 2.5vh;
     z-index: 100;
-    color: whitesmoke;
+    color: rgb(0, 0, 0);
 }
 #debt-search-icon {
     position: absolute;
     top: 7.5vh;
     left: 3.5vh;
     font-size: 1.4vh;
-    color: #FFFFFF;
+    color: #000000;
 }
