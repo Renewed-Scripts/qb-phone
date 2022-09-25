@@ -407,8 +407,14 @@ $(document).on('click', '#documents-save', function(e){
 
 $(document).on('click', '#documents-delete', function(e){
     e.preventDefault();
+    var date = new Date();
+    var Times = date.getDay()+" "+MonthFormatting[date.getMonth()]+" "+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
 
     $.post('https://qb-phone/documents_Save_Note_As', JSON.stringify({
+        Title: DocEndtitle,
+        Text: DocEndtext,
+        Time: Times,
+        CSN: DocEndcitizenid,
         ID: DocEndid,
         Type: "Delete",
     }));
