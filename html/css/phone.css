@@ -435,52 +435,6 @@
     border-bottom: 2px solid #6ab04c;
 }
 
-.phone-add-contact-iban {
-    position: absolute;
-    color: white;
-    top: 26vh;
-    left: 6vh;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    /* font-family: 'Poppins', sans-serif; */
-    height: 3.5vh;
-    width: 20vh;
-    text-indent: .4vh;
-    border-radius: .5vh .5vh 0 0;
-    transition: .1s;
-    font-size: 1.5vh;
-}
-
-.phone-add-contact-iban::-webkit-inner-spin-button {
-    display: none;
-}
-
-.phone-add-contact-iban:focus {
-    border-bottom: 2px solid #30336b;
-}
-
-.phone-add-contact-iban:valid {
-    border-bottom: 2px solid #6ab04c;
-}
-
-#phone-add-contact-number-icon {
-    position: absolute;
-    top: 9.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-    color: white;
-}
-
-#phone-add-contact-iban-icon {
-    position: absolute;
-    top: 27.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-    color: white;
-}
-
 .phone-add-contact-buttons {
     position: absolute;
     bottom: 40px;
@@ -597,46 +551,9 @@
     border-bottom: 2px solid #6ab04c;
 }
 
-.phone-edit-contact-iban {
-    position: absolute;
-    color: white;
-    top: 26vh;
-    left: 6vh;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.555);
-    height: 3.5vh;
-    width: 20vh;
-    text-indent: .4vh;
-    border-radius: .5vh .5vh 0 0;
-    transition: .1s;
-    font-size: 1.5vh;
-}
-
-.phone-edit-contact-iban::-webkit-inner-spin-button {
-    display: none;
-}
-
-.phone-edit-contact-iban:focus {
-    border-bottom: 2px solid #30336b;
-}
-
-.phone-edit-contact-iban:valid {
-    border-bottom: 2px solid #6ab04c;
-}
-
 #phone-edit-contact-number-icon {
     position: absolute;
     top: 20.1vh;
-    left: 2.1vh;
-    font-size: 2.4vh;
-    color: white;
-}
-
-#phone-edit-contact-iban-icon {
-    position: absolute;
-    top: 27.1vh;
     left: 2.1vh;
     font-size: 2.4vh;
     color: white;

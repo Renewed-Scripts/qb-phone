@@ -2,8 +2,6 @@ var ContactSearchActive = false;
 var CurrentFooterTab = "contacts";
 var CallData = {};
 var ClearNumberTimer = null;
-var SelectedSuggestion = null;
-var AmountOfSuggestions = 0;
 var keyPadHTML;
 
 $( "input[type=text], textarea, input[type=number]" ).focusin(function(e) {
@@ -322,13 +320,6 @@ $(document).on('click', '#edit-contact', function(e){
     $(".phone-edit-contact-header").text(ContactData.name+" Edit")
     $(".phone-number-call-name-edit").val(ContactData.name);
     $(".phone-number-call-number-edit").val(ContactData.number);
-    if (ContactData.iban != null && ContactData.iban != undefined) {
-        $(".phone-edit-contact-iban").val(ContactData.iban);
-        CurrentEditContactData.iban = ContactData.iban
-    } else {
-        $(".phone-edit-contact-iban").val("");
-        CurrentEditContactData.iban = "";
-    }
 
     $('#phone-contacts-edit-ui').fadeIn(350);
 });
@@ -353,7 +344,6 @@ $(document).on('click', '#phone-number-savecontact-edit', function(e){
     });
     if (ContactName == '') ContactName = 'Hmm, I shouldn\'t be able to do this...'
     var ContactNumber = $(".phone-number-call-number-edit").val();
-    var ContactIban = $(".phone-edit-contact-iban").val();
     var regExp = /[a-zA-Z]/g;
 
     if (ContactName != "" && ContactNumber != "" && !regExp.test(ContactNumber)) {
@@ -361,10 +351,8 @@ $(document).on('click', '#phone-number-savecontact-edit', function(e){
         $.post('https://qb-phone/EditContact', JSON.stringify({
             CurrentContactName: ContactName,
             CurrentContactNumber: ContactNumber,
-            CurrentContactIban: ContactIban,
             OldContactName: CurrentEditContactData.name,
             OldContactNumber: CurrentEditContactData.number,
-            OldContactIban: CurrentEditContactData.iban,
         }), function(PhoneContacts){
             QB.Phone.Functions.LoadContacts(PhoneContacts);
         });
@@ -387,12 +375,10 @@ $(document).on('click', '#delete-contact', function(e){
 
     var ContactName = ContactData.name;
     var ContactNumber = ContactData.number;
-    var ContactIban = ContactData.iban;
 
     $.post('https://qb-phone/DeleteContact', JSON.stringify({
         CurrentContactName: ContactName,
         CurrentContactNumber: ContactNumber,
-        CurrentContactIban: ContactIban,
     }), function(PhoneContacts){
         QB.Phone.Functions.LoadContacts(PhoneContacts);
     });
@@ -429,7 +415,6 @@ $(document).on('click', '#phone-number-savecontact', function(e){
     });
     if (ContactName == '') ContactName = 'Hmm, I shouldn\'t be able to do this...'
     var ContactNumber = $(".phone-number-call-number").val();
-    var ContactIban = $(".phone-add-contact-iban").val();
     var regExp = /[a-zA-Z]/g;
 
     if (ContactName != "" && ContactNumber != "" && !regExp.test(ContactNumber)) {
@@ -437,7 +422,6 @@ $(document).on('click', '#phone-number-savecontact', function(e){
         $.post('https://qb-phone/AddNewContact', JSON.stringify({
             ContactName: ContactName,
             ContactNumber: ContactNumber,
-            ContactIban: ContactIban,
         }), function(PhoneContacts){
             QB.Phone.Functions.LoadContacts(PhoneContacts);
         });
@@ -447,19 +431,6 @@ $(document).on('click', '#phone-number-savecontact', function(e){
             $(".phone-number-call-number").val("");
             $('#phone-contacts-new-ui').fadeOut(350);
         }, 250)
-
-        if (SelectedSuggestion !== null) {
-            $.post('https://qb-phone/RemoveSuggestion', JSON.stringify({
-                data: $(SelectedSuggestion).data('SuggestionData')
-            }));
-            $(SelectedSuggestion).remove();
-            SelectedSuggestion = null;
-            var amount = parseInt(AmountOfSuggestions);
-            if ((amount - 1) === 0) {
-                amount = 0
-            }
-            $(".amount-of-suggested-contacts").html(amount + " contacts");
-        }
     } else {
         QB.Phone.Notifications.Add("fas fa-exclamation-circle", "Add Contact", "Fill out all fields!");
     }

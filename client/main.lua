@@ -501,29 +501,25 @@ RegisterNUICallback('AddNewContact', function(data, cb)
     PhoneData.Contacts[#PhoneData.Contacts+1] = {
         name = data.ContactName,
         number = data.ContactNumber,
-        iban = data.ContactIban
     }
     Wait(100)
     cb(PhoneData.Contacts)
     if PhoneData.Chats[data.ContactNumber] and next(PhoneData.Chats[data.ContactNumber]) then
         PhoneData.Chats[data.ContactNumber].name = data.ContactName
     end
-    TriggerServerEvent('qb-phone:server:AddNewContact', data.ContactName, data.ContactNumber, data.ContactIban)
+    TriggerServerEvent('qb-phone:server:AddNewContact', data.ContactName, data.ContactNumber)
 end)
 
 RegisterNUICallback('EditContact', function(data, cb)
     local NewName = data.CurrentContactName
     local NewNumber = data.CurrentContactNumber
-    local NewIban = data.CurrentContactIban
     local OldName = data.OldContactName
     local OldNumber = data.OldContactNumber
-    local OldIban = data.OldContactIban
 
     for _, v in pairs(PhoneData.Contacts) do
         if v.name == OldName and v.number == OldNumber then
             v.name = NewName
             v.number = NewNumber
-            v.iban = NewIban
         end
     end
     if PhoneData.Chats[NewNumber] and next(PhoneData.Chats[NewNumber]) then
@@ -531,7 +527,7 @@ RegisterNUICallback('EditContact', function(data, cb)
     end
     Wait(100)
     cb(PhoneData.Contacts)
-    TriggerServerEvent('qb-phone:server:EditContact', NewName, NewNumber, NewIban, OldName, OldNumber, OldIban)
+    TriggerServerEvent('qb-phone:server:EditContact', NewName, NewNumber, OldName, OldNumber)
 end)
 
 RegisterNUICallback('UpdateProfilePicture', function(data, cb)
