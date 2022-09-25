@@ -233,10 +233,9 @@ RegisterNetEvent('qb-phone:server:GiveContactDetails', function(PlayerId)
     if not src then return end
 
     local Sender = QBCore.Functions.GetPlayer(src)
-    local Receiver = QBCore.Functions.GetPlayer(tonumber(PlayerId))
 
     local contactInfo = { 
-        name = Sender.PlayerData.charinfo.firstname..' '..Sender.PlayerData.charinfo.lastname,
+        name = Sender.PlayerData.charinfo.firstname.." "..Sender.PlayerData.charinfo.lastname,
         number = Sender.PlayerData.charinfo.phone,
         bank = Sender.PlayerData.charinfo.account,
     }
