@@ -217,10 +217,6 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/GetAvailableTaxiDrivers', JSON.stringify({}), function(data){
                         SetupTaxiDrivers(data);
                     });
-                } else if (PressedApplication == "store") {
-                    $.post('https://qb-phone/SetupStoreApps', JSON.stringify({}), function(data){
-                        SetupAppstore(data);
-                    });
                 }
                 else if (PressedApplication == "gallery") {
                     $.post('https://qb-phone/GetGalleryData', JSON.stringify({}), function(data){

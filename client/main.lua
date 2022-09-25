@@ -904,14 +904,6 @@ end)
 
 --- SHIT THAT IS GONE
 
-RegisterNUICallback('SetupStoreApps', function(_, cb)
-    local data = {
-        StoreApps = Config.StoreApps,
-        PhoneData = PlayerData.metadata["phonedata"]
-    }
-    cb(data)
-end)
-
 RegisterNUICallback('CanTransferMoney', function(data, cb)
     local amount = tonumber(data.amountOf)
     local iban = data.sendTo
@@ -990,31 +982,4 @@ RegisterNetEvent('qb-phone:client:updateContactInfo', function(contactInfo)
         action = "RefreshContacts",
         Contacts = PhoneData.Contacts
     })
-end)
-
-RegisterNUICallback('InstallApplication', function(data, cb)
-    local ApplicationData = Config.StoreApps[data.app]
-    local NewSlot = nil
-    --  local NewSlot = 17
-
-    if not CanDownloadApps then
-        return
-    end
-
-    if NewSlot <= Config.MaxSlots then
-        TriggerServerEvent('qb-phone:server:InstallApplication', {
-            app = data.app,
-        })
-        cb({
-            app = data.app,
-            data = ApplicationData
-        })
-    else
-        cb(false)
-    end
-end)
-
-RegisterNUICallback('RemoveApplication', function(data, cb)
-    TriggerServerEvent('qb-phone:server:RemoveInstallation', data.app)
-    cb("ok")
 end)
