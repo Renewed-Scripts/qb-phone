@@ -105,7 +105,7 @@ $(document).on('click', '#crypto-send-exchange', function(e){
     var stateid = $(".crypto-stateid-exchange").val();
     var CryptoType = QB.Phone.Data.PlayerData.metadata.crypto;
     if(amount != "" || stateid != ""){
-        if (CryptoType[crypto] - amount > 0){
+        if (CryptoType[crypto] - amount >= 0){
             setTimeout(function(){
                 ConfirmationFrame()
             }, 150);
