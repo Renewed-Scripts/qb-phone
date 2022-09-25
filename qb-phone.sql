@@ -63,7 +63,6 @@ CREATE TABLE IF NOT EXISTS `player_contacts` (
   `citizenid` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `number` varchar(50) DEFAULT NULL,
-  `iban` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
