@@ -14,12 +14,14 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
     local Player = QBCore.Functions.GetPlayer(src)
     local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
     local table = GetAdvertFromNumb(src)
+    if not url then url = "" else url = url:gsub("[%<>\"()\'$]","") end
+
     if table then
         Adverts[table] = {
             message = msg:gsub("[%<>\"()\'$]",""),
             name = name,
             number = Player.PlayerData.charinfo.phone,
-            url = url:gsub("[%<>\"()\'$]",""),
+            url = url,
             source = src,
         }
     else
@@ -27,7 +29,7 @@ RegisterNetEvent('qb-phone:server:AddAdvert', function(msg, url)
             message = msg:gsub("[%<>\"()\'$]",""),
             name = name,
             number = Player.PlayerData.charinfo.phone,
-            url = url:gsub("[%<>\"()\'$]",""),
+            url = url,
             source = src,
         }
     end
