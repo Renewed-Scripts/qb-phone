@@ -4,7 +4,6 @@ local QBCore = exports['qb-core']:GetCoreObject()
 PlayerData = QBCore.Functions.GetPlayerData()
 
 local frontCam = false
-local CanDownloadApps = false
 
 FullyLoaded = LocalPlayer.state.isLoggedIn
 

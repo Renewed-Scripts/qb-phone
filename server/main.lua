@@ -234,7 +234,7 @@ RegisterNetEvent('qb-phone:server:GiveContactDetails', function(PlayerId)
 
     local Sender = QBCore.Functions.GetPlayer(src)
 
-    local contactInfo = { 
+    local contactInfo = {
         name = Sender.PlayerData.charinfo.firstname.." "..Sender.PlayerData.charinfo.lastname,
         number = Sender.PlayerData.charinfo.phone,
         bank = Sender.PlayerData.charinfo.account,
