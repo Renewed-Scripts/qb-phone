@@ -62,7 +62,7 @@
     padding-bottom: 1.1vh;
     padding-left: 1.6vh;
     padding-right: 2.6vh;
-    color: black;
+    color: #0095ff;
     font-size: 4.0vh;
     transition: .05s linear;
 }
@@ -202,11 +202,11 @@
 }
 
 .box-track{
-    background:#72ff47;
+    background:#0095ff;
     padding: 4.0%;
 }
 
 .box-sellvehicle{
-    background:#ff4444;
+    background:#ed3e3b;
     padding: 4.0%;
 }

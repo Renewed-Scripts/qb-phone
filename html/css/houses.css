@@ -28,6 +28,7 @@
 
 .houses-app-header-tab > p {
     font-size: 1.5vh;
+    font-weight: bold;
     color: rgba(36, 36, 36, 0.5);
     transition: .075s linear;
 }

@@ -554,7 +554,7 @@ body {
     color: white;
     text-align: center;
     line-height: 2vh;
-    background: #d63031;
+    background: #ed3e3b;
     border-radius: 50%;
     font-family: 'Poppins', sans-serif;
     font-size: 1.1vh;
@@ -566,7 +566,7 @@ body {
     top: 10vh;
     width: 33vh;
     height: 20vh;
-    background-color: #004682;
+    background-color: #0095ff;
     border-radius: 1vh;
     overflow: hidden;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.199);
@@ -616,7 +616,7 @@ body {
     position: relative;
     max-height: 80%;
     min-height: 30%;
-    background-color: rgb(48, 71, 94);
+    background-color: #0095ff;
 }
 
 .content-frame {

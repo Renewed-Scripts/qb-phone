@@ -52,7 +52,7 @@
 
 .wenmo-send-money-btn{
     position: absolute;
-    color: rgb(0, 0, 0);
+    color: #0095ff;
     transition: all 0.2s ease 0s;
     display: inline;
     border-radius: 4px;
@@ -61,7 +61,7 @@
 }
 
 .wenmo-send-money-btn:hover{
-    color: rgb(17, 17, 17);
+    color: #41affe;
 }
 
 .wenmo-form-style-body{

@@ -12,7 +12,7 @@ function formatPhoneNumber(phoneNumberString) {
 SetupTaxiDrivers = function(data) {
     $(".taxis-list").html("");
     $.each(data, function(job, jobData) {
-        $(".taxis-list").append(`<h1 style="font-size:1.64vh; padding:1.02vh; color:#fff; margin-top:0; width:100%; display:block; background-color: #2c465f;">Available Drivers</h1>`);
+        $(".taxis-list").append(`<h1 style="font-size:1.64vh; padding:1.02vh; color:#000000; margin-top:0; width:100%; display:block; background-color: #ffffff;">Available Drivers</h1>`);
         $.each(jobData.Players, function(i, player) {
             $(".taxis-list").append(`<div class="taxi-list" id=${player.Phone}> <div class="taxi-list-fullname">${player.Name}</div> <div class="taxi-list-phone">${formatPhoneNumber(player.Phone)}</div> <div class="taxi-list-call"><i class="fas fa-phone"></i></div></div>`);
         });

@@ -45,6 +45,7 @@
     right: 0;
     top: 1.4vh;
     font-size: 1.25vh;
+    font-weight: bold;
 }
 
 .bank-app-accounts {
@@ -90,6 +91,7 @@
     color: black;
     font-family: 'Poppins', sans-serif;
     font-size: 1.3vh;
+    font-weight: bold;
 }
 .bank-app-invoice-amount {
     position: absolute;
@@ -98,6 +100,7 @@
     color: rgba(0, 0, 0, 0.781);
     font-family: 'Poppins', sans-serif;
     font-size: 1.22vh;
+    font-weight: bold;
 }
 .bank-app-invoice-buttons {
     position: absolute;
@@ -112,6 +115,7 @@
     margin-left: .5vh;
     margin-right: .5vh;
     font-size: 2vh;
+    font-weight: bold;
 }
 .pay-invoice {
     color: #4cd137;
@@ -161,6 +165,7 @@
     letter-spacing: .1vh;
     color: black;
     font-size: 1.1vh;
+    font-weight: bold;
 }
 .bank-app-account-number {
     position: absolute;
@@ -171,6 +176,7 @@
     width: 100%;
     color: black;
     font-size: 1.1vh;
+    font-weight: bold;
     background: transparent;
     outline: none;
     border: none;
@@ -189,6 +195,7 @@
     letter-spacing: .1vh;
     color: black;
     font-size: 1.5vh;
+    font-weight: bold;
 }
 .bank-app-account-actions {
     text-align: center;
@@ -201,6 +208,7 @@
     left: 0px;
     line-height: 5vh;
     font-size: 2.5vh;
+    font-weight: bold;
     position: absolute;
     transition: all 0.1s ease 0s;
     background: rgba(23, 23, 23, 90%);
@@ -239,6 +247,7 @@
     top: 24vh;
     left: 9vh;
     font-size: 4.5vh;
+    font-weight: bold;
     color: black;
     font-family: 'Poppins', sans-serif;
     z-index: 100;
@@ -252,6 +261,7 @@
     color: black;
     font-family: 'Poppins', sans-serif;
     font-size: 2vh;
+    font-weight: bold;
 }
 
 #bank-transfer-iban {
@@ -268,6 +278,7 @@
     text-indent: .4vh;
     transition: .1s;
     font-size: 1.3vh;
+    font-weight: bold;
     color: black;
 }
 #bank-transfer-iban::-webkit-inner-spin-button {
@@ -293,6 +304,7 @@
     text-indent: .4vh;
     transition: .1s;
     font-size: 1.3vh;
+    font-weight: bold;
     color: black;
 }
 #bank-transfer-amount::-webkit-inner-spin-button {

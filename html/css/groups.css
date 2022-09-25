@@ -72,14 +72,14 @@ input.jobcenter-input-password, input.jobcenter-input-password2 {
 
 .jobcenter-btn-create-group{
     display: inline;
-    background: #8ee074;
+    background: #0095ff;
     padding: 2% 4%;
     transition: 0.2s;
     border-radius: 4px;
     color: rgb(255, 255, 255);
 }
 .jobcenter-btn-create-group:hover{
-    background: #6cac59;
+    background: #41affe;
 }
 
 .jobcenter-div-active-stage{
@@ -105,7 +105,7 @@ input.jobcenter-input-password, input.jobcenter-input-password2 {
     padding-left: 5%;
     background-color: #ffffff;
     transition: 0.2s;
-    color: rgb(0, 0, 0);
+    color: #0095ff;
     border-bottom: 2px solid #585858ad;
     border-radius: 2px;
 }
@@ -134,24 +134,24 @@ input.jobcenter-input-password, input.jobcenter-input-password2 {
     font-size: 110%;
 }
 #jobcenter-join-grouped:hover{
-    color: #8ee074;
+    color: #41affe;
 }
 
 #jobcenter-leave-grouped{
     display: block;
     position: absolute;
     font-size: 110%;
-    color: #f5a15b;
+    color: #ed3e3b;
 }
 #jobcenter-leave-grouped:hover{
-    color: #c27e47;
+    color: #ff2824;
 }
 
 #jobcenter-block-grouped{
     display: block;
     position: absolute;
     font-size: 110%;
-    color: rgb(0, 0, 0);
+    color: #0095ff;
 }
 
 .jobcenter-option-class-body{
@@ -159,11 +159,11 @@ input.jobcenter-input-password, input.jobcenter-input-password2 {
 }
 
 #jobcenter-delete-group:hover{
-    color: #f5a15b;
+    color: #ed3e3b;
 }
 
 #jobcenter-list-group:hover{
-    color: #8ee074;
+    color: #41affe;
 }
 
 .jobcenter-Groupjob {
@@ -304,7 +304,7 @@ input.jobcenter-input-password, input.jobcenter-input-password2 {
 
 
 .jobcenter-playerlist-leave {
-    background: #95EF77;
+    background: #0095ff;
     margin-left: 36.5%;
     padding: 2.8% 5%;
     /* font-weight: 700; */
@@ -315,7 +315,7 @@ input.jobcenter-input-password, input.jobcenter-input-password2 {
 
 .jobcenter-group-delete {
     display: none;
-    background: #95EF77;
+    background: #0095ff;
     margin-left: 30%;
     padding: 3.0% 5%;
     /* font-weight: 700; */

@@ -217,14 +217,14 @@
     top: 3.2vh;
     left: 3.0vh;
     font-size: 1.4vh;
-    color: #000000;
+    color: #0095ff;
 }
 #phone-plus-icon {
     position: absolute;
     top: 0.7vh;
     right: 2.8vh;
     font-size: 1.8vh;
-    color: #000000;
+    color: #0095ff;
 }
 #phone-search-text {
     position: absolute;
@@ -235,7 +235,7 @@
     color: #000000;
 }
 #phone-plus-icon:hover{
-    color: rgb(0, 0, 0);
+    color: #41affe;
 }
 
 .phone-contact-list::-webkit-scrollbar {
@@ -312,12 +312,12 @@
     left: 2.0vh;
     top: 1.7vh;
     font-size: 1.7vh;
-    color: rgb(0, 0, 0);
+    color: #0095ff;
     text-align: center;
 }
 
 .phone-contact-action-buttons > i:hover {
-    color: #ffffff;
+    color: #41affe;
 }
 
 .phone-contact:hover .phone-contact-action-buttons {
@@ -399,7 +399,7 @@
 }
 
 .phone-add-contact-name:focus {
-    border-bottom: 2px solid #30336b;
+    border-bottom: 2px solid #505381;
 }
 
 .phone-add-contact-name:valid {
@@ -1013,21 +1013,21 @@
 }
 
 .phone-menu-cancel{
-    background:#f6a167;
+    background:#ed3e3b;
     margin-left: 15%;
     padding: 4.0%;
 }
 .phone-menu-cancel:hover{
-    background: #c27e47;
+    background: #ff2824;
 }
 
 .phone-menu-accept{
-    background:#90e278;
+    background:#0095ff;;
     margin-left: 15%;
     padding: 4.0%;
 }
 .phone-menu-accept:hover{
-    background: #6cac59;
+    background: #41affe;
 }
 
 .phone-new-box-main input::-webkit-inner-spin-button {
@@ -1035,7 +1035,7 @@
 }
 
 .phone-new-input-class:focus {
-    border-bottom: .1vh solid #8ee074;
+    border-bottom: .1vh solid #41affe;
 }
 
 #phone-recent-search {

@@ -38,7 +38,7 @@
 .mail {
     padding: 4px;
     width: 100%;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(245, 245, 245);
     border-bottom: .1vh solid rgb(0, 0, 0);
     margin-bottom: 3.5%;
 }
@@ -47,6 +47,7 @@
     padding-top: 1.8vh;
     padding-left: 0.5vh;
     font-size: 1.1vh;
+    font-weight: bold;
     color: rgb(0, 0, 0);
     left: 0.8vh;
 }
@@ -143,11 +144,11 @@
 }
 
 .mail-delete{
-    background:#f6a167;
+    background:#ed3e3b;
     padding: 2.0%;
 }
 
 .mail-accept{
-    background:#90e278;
+    background:#0095ff; 
     padding: 2.0%;
 }

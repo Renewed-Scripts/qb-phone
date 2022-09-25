@@ -67,7 +67,7 @@
 }
 
 .taxi-list-call {
-    color: rgb(0, 0, 0);
+    color: #0095ff;
     position: absolute;
     top: 25%;
     transform: rotate(0deg);
@@ -76,7 +76,7 @@
 }
 
 .taxi-list-call:hover i {
-    color: rgb(0, 0, 0);
+    color: #41affe;
 }
 
 .notaxidrivers {

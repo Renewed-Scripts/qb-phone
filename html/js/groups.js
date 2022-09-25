@@ -217,7 +217,7 @@ $(document).on('click', '#jobcenter-list-group', function(e){
            $('#jobcenter-box-new-player-name').fadeIn(350);
            $("#phone-new-box-main-playername").html("");
             for (const [k, v] of Object.entries(Data)) {
-                var AddOption = `<div style=" margin-top: 10px; height: 6vh; font-size: 2vh; border-bottom: 1px white solid; background: #2c465f;" class="casino-text-clear icon"><div style="position: absolute;"><i class="fas fa-user" style="font-size: 4.2vh; margin-left: 15px; margin-top: 10px;"></i></div class="jobcenter-playerlist-name" style="color: black;"><div class="jobcenter-playerlist-name">${v}</div></div>`
+                var AddOption = `<div style=" margin-top: 10px; height: 6vh; font-size: 2vh; border-bottom: 1px white solid; background: #0095ff;" class="casino-text-clear icon"><div style="position: absolute;"><i class="fas fa-user" style="font-size: 4.2vh; margin-left: 15px; margin-top: 10px;"></i></div class="jobcenter-playerlist-name" style="color: black;"><div class="jobcenter-playerlist-name">${v}</div></div>`
 
                 $('#phone-new-box-main-playername').append(AddOption);
             }

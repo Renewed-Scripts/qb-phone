@@ -70,7 +70,7 @@
 }
 
 .racing-button:hover {
-    color: #03AF7E;;
+    color: #0095ff;
 }
 
 #setup-race {
@@ -87,26 +87,26 @@
 }
 
 #setup-race:hover {
-    border-bottom: 2px solid #03AF7E;
+    border-bottom: 2px solid #0095ff;
 }
 
 #setup-race:focus {
-    border-bottom: 2px solid #03AF7E;
+    border-bottom: 2px solid #0095ff;
 }
 
 #leaderboards-race:hover {
-    border-bottom: 2px solid #03AF7E;
+    border-bottom: 2px solid #0095ff;
 }
 
 #create-race:hover {
-    border-bottom: 2px solid #03AF7E;
+    border-bottom: 2px solid #0095ff;
 }
 
 .racing-race {
     position: relative;
     width: 100%;
     height: 6.5vh;
-    background-color: #405B75;
+    background-color: #657685;
     color: white;
     transition: .1s linear;
     border-bottom: .2vh solid #667380;
@@ -114,7 +114,7 @@
 }
 
 .racing-race:hover {
-    background-color: #405B75;
+    background-color: #657685;
 }
 
 .race-name {
@@ -448,25 +448,25 @@ i {
 }
 
 #setup-race-accept {
-    background-color: #9CF880;
+    background-color: #0095ff;
     font-family: 'Open Sans', sans-serif;
     top: 14vh;
     float: left;
 }
 
 #setup-race-cancel {
-    background-color: #FFBC5E;
+    background-color: #ed3e3b;
     font-family: 'Open Sans', sans-serif;
     top: 14vh;
     float: right;
 }
 
 #setup-race-accept:hover {
-    background-color: #6CAC59;
+    background-color: #41affe;
 }
 
 #setup-race-cancel:hover {
-    background-color: #ba7b33;
+    background-color: #ff2824;
 }
 
 /* Create */
@@ -552,21 +552,21 @@ i {
 }
 
 #racing-create-accept {
-    background-color: #9CF880;
+    background-color: #0095ff;
     font-family: 'Open Sans', sans-serif;
 }
 
 #racing-create-cancel {
-    background-color: #FFBC5E;
+    background-color: #ed3e3b;
     font-family: 'Open Sans', sans-serif;
 }
 
 #racing-create-accept:hover {
-    background-color: #6CAC59;
+    background-color: #41affe;
 }
 
 #racing-create-cancel:hover {
-    background-color: #ba7b33;
+    background-color: #ff2824;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -611,7 +611,7 @@ i {
     margin-bottom: .2vh;
     width: 100%;
     height: 7vh;
-    background-color: #405B75;
+    background-color: #657685;
     transition: .1s linear;
     border-bottom: .2vh solid ;
     margin-bottom: .5vh;
@@ -657,7 +657,7 @@ i {
     right: 0;
     width: 80%;
     height: 60%;
-    background-color: #405B75;
+    background-color: #657685;
     color: white;
     top: 11vh;
 }
@@ -747,7 +747,7 @@ i {
     bottom: 1vh;
     width: fit-content;
     height: auto;
-    background-color: #e3b170;
+    background-color: #ed3e3b;
     margin: 0 auto;
     /* left: 0; */
     right: 20px;
@@ -762,5 +762,5 @@ i {
 }
 
 .racing-leaderboards-button:hover {
-    background-color: #FFC67C;
+    background-color: #ff2824;
 }
