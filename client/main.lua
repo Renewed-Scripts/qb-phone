@@ -962,7 +962,6 @@ RegisterNetEvent('qb-phone:client:RemoveBankMoney', function(amount)
     end
 end)
 
-
 RegisterNetEvent('qb-phone:client:GiveContactDetails', function()
     local player, distance = QBCore.Functions.GetClosestPlayer()
     if player ~= -1 and distance < 2.5 then
@@ -971,6 +970,25 @@ RegisterNetEvent('qb-phone:client:GiveContactDetails', function()
     else
         QBCore.Functions.Notify("No one nearby!", "error")
     end
+end)
+
+RegisterNetEvent("qb-phone:client:giveContactRequest", function(contactInfo)
+    local success = exports['qb-phone']:PhoneNotification("CONTACT REQUEST", contactInfo.name..' contact request', 'fas fa-phone', '#b3e0f2', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
+    if success then
+        TriggerServerEvent('qb-phone:server:acceptContactRequest', contactInfo)
+    end
+end)
+
+RegisterNetEvent('qb-phone:client:updateContactInfo', function(contactInfo)
+    PhoneData.Contacts[#PhoneData.Contacts+1] = {
+        name = contactInfo.name,
+        number = contactInfo.number,
+        iban = 0
+    }
+    SendNUIMessage({
+        action = "RefreshContacts",
+        Contacts = PhoneData.Contacts
+    })
 end)
 
 RegisterNUICallback('InstallApplication', function(data, cb)

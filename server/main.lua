@@ -227,6 +227,37 @@ RegisterNetEvent('qb-phone:server:AddRecentCall', function(type, data)
     }, label, "outgoing")
 end)
 
+RegisterNetEvent('qb-phone:server:GiveContactDetails', function(PlayerId)
+    if not PlayerId then return end
+    local src = source
+    if not src then return end
+
+    local Sender = QBCore.Functions.GetPlayer(src)
+    local Receiver = QBCore.Functions.GetPlayer(tonumber(PlayerId))
+
+    local contactInfo = { 
+        name = Sender.PlayerData.charinfo.firstname..' '..Sender.PlayerData.charinfo.lastname,
+        number = Sender.PlayerData.charinfo.phone,
+        bank = Sender.PlayerData.charinfo.account,
+    }
+
+    TriggerClientEvent('qb-phone:client:giveContactRequest', PlayerId, contactInfo)
+end)
+
+RegisterNetEvent('qb-phone:server:acceptContactRequest', function(contactInfo)
+    if not contactInfo then return end
+    local src = source
+    if not src then return end
+    local Player = QBCore.Functions.GetPlayer(src)
+    local cid = Player.PlayerData.citizenid
+
+    local result = MySQL.query.await("SELECT * FROM player_contacts WHERE citizenid = ? AND number = ?", {cid, contactInfo.number})
+    if result[1] then return TriggerClientEvent('QBCore:Notify', src, 'You already have this number added!', "error") end
+
+    exports.oxmysql:insert('INSERT INTO player_contacts (citizenid, name, number) VALUES (?, ?, ?)', {cid, tostring(contactInfo.name), contactInfo.number})
+    TriggerClientEvent('qb-phone:client:updateContactInfo', src, contactInfo)
+end)
+
 RegisterNetEvent('qb-phone:server:CancelCall', function(ContactData)
     local Ply = QBCore.Functions.GetPlayerByPhone(tostring(ContactData.TargetData.number))
     if not Ply then return end
