@@ -287,6 +287,7 @@ RegisterNetEvent('qb-phone:server:clockOnDuty', function(Job)
             notifyPlayer(src, "You have signed on duty")
             Player.Functions.SetJobDuty(true)
         end
+        TriggerClientEvent('qb-phone:client:clearAppAlerts', src)
     end
 end)
 

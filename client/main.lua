@@ -877,6 +877,11 @@ RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     })
 end)
 
+RegisterNetEvent('qb-phone:client:clearAppAlerts', function()
+    Config.PhoneApplications["phone"].Alerts = 0
+    SendNUIMessage({ action = "RefreshAppAlerts", AppData = Config.PhoneApplications })
+end)
+
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         PlayerData = QBCore.Functions.GetPlayerData()
