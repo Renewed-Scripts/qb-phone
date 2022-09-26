@@ -56,8 +56,6 @@ function MainMenu(){
 }
 
 function getDocuments(){
-    $(this).parents('.documents-dropdown').find('span').text($(this).text());
-    $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
     $(".documents-list").html(""); // Frown Face before loading any contents if any!
         var AddOption = '<div class="casino-text-clear">Nothing Here!</div>'+
         '<div class="casino-text-clear" style="font-size: 500%;color: #FFFFFF;"><i class="fas fa-frown"></i></div>'
@@ -138,6 +136,8 @@ function SendDocument(title, text){
 // Clicks
 
 $(document).on('click', '#documents-docs', function(e) {
+    $(this).parents('.documents-dropdown').find('span').text($(this).text());
+    $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
     getDocuments();
 });
 
