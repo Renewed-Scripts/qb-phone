@@ -1,7 +1,58 @@
 QB.Phone.Settings = {};
 QB.Phone.Settings.Background = "default-QBCore";
+QB.Phone.Settings.OpenedTab = null;
+QB.Phone.Settings.Backgrounds = {
+    'default-QBCore': {
+        label: "Standard QBCore"
+    }
+};
 
-// Functions
+var PressedBackground = null;
+var PressedBackgroundObject = null;
+var OldBackground = null;
+var IsChecked = null;
+
+$(document).on('click', '.settings-app-tab', function(e){
+    e.preventDefault();
+    var PressedTab = $(this).data("settingstab");
+
+    if (PressedTab == "background") {
+        QB.Phone.Animations.TopSlideDown(".settings-"+PressedTab+"-tab", 200, 0);
+        QB.Phone.Settings.OpenedTab = PressedTab;
+    } else if (PressedTab == "profilepicture") {
+        QB.Phone.Animations.TopSlideDown(".settings-"+PressedTab+"-tab", 200, 0);
+        QB.Phone.Settings.OpenedTab = PressedTab;
+    } else if (PressedTab == "numberrecognition") {
+        var checkBoxes = $(".numberrec-box");
+        QB.Phone.Data.AnonymousCall = !checkBoxes.prop("checked");
+        checkBoxes.prop("checked", QB.Phone.Data.AnonymousCall);
+
+        if (!QB.Phone.Data.AnonymousCall) {
+            $("#numberrecognition > p").html('Off');
+        } else {
+            $("#numberrecognition > p").html('On');
+        }
+    }
+});
+
+$(document).on('click', '#accept-background', function(e){
+    e.preventDefault();
+    var hasCustomBackground = QB.Phone.Functions.IsBackgroundCustom();
+
+    if (hasCustomBackground === false) {
+        QB.Phone.Notifications.Add("fas fa-paint-brush", "Settings", QB.Phone.Settings.Backgrounds[QB.Phone.Settings.Background].label+" is set!")
+        QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
+        $(".phone-background").css({"background-image":"url('/html/img/backgrounds/"+QB.Phone.Settings.Background+".png')"})
+    } else {
+        QB.Phone.Notifications.Add("fas fa-paint-brush", "Settings", "Personal background set!")
+        QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
+        $(".phone-background").css({"background-image":"url('"+QB.Phone.Settings.Background+"')"});
+    }
+
+    $.post('https://qb-phone/SetBackground', JSON.stringify({
+        background: QB.Phone.Settings.Background,
+    }))
+});
 
 QB.Phone.Functions.LoadMetaData = function(MetaData) {
     if (MetaData.background !== null && MetaData.background !== undefined) {
@@ -17,46 +68,126 @@ QB.Phone.Functions.LoadMetaData = function(MetaData) {
     } else {
         $(".phone-background").css({"background-image":"url('"+QB.Phone.Settings.Background+"')"});
     }
+
+    if (MetaData.profilepicture == "default") {
+        $("[data-settingstab='profilepicture']").find('.settings-tab-icon').html('<img src="./img/default.png">');
+    } else {
+        $("[data-settingstab='profilepicture']").find('.settings-tab-icon').html('<img src="'+MetaData.profilepicture+'">');
+    }
 }
+
+$(document).on('click', '#cancel-background', function(e){
+    e.preventDefault();
+    QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
+});
+
 QB.Phone.Functions.IsBackgroundCustom = function() {
     var retval = true;
-    if (QB.Phone.Settings.Background == 'default-QBCore'){
-        retval = false;
-    }
+    $.each(QB.Phone.Settings.Backgrounds, function(i, background){
+        if (QB.Phone.Settings.Background == i) {
+            retval = false;
+        }
+    });
     return retval
 }
 
-// Clicks
+$(document).on('click', '.background-option', function(e){
+    e.preventDefault();
+    PressedBackground = $(this).data('background');
+    PressedBackgroundObject = this;
+    OldBackground = $(this).parent().find('.background-option-current');
+    IsChecked = $(this).find('.background-option-current');
 
-$(document).on("click", ".settings-app-toggle", function(){
-    ClearInputNew()
-    $('#settings-app-menu').fadeIn(350);
-})
+    if (IsChecked.length === 0) {
+        if (PressedBackground != "custom-background") {
+            QB.Phone.Settings.Background = PressedBackground;
+            $(OldBackground).fadeOut(50, function(){
+                $(OldBackground).remove();
+            });
+            $(PressedBackgroundObject).append('<div class="background-option-current"><i class="fas fa-check-circle"></i></div>');
+        } else {
+            QB.Phone.Animations.TopSlideDown(".background-custom", 200, 13);
+        }
+    }
+});
 
-$(document).on('click', '#settings-app-submit', function(e){
+$(document).on('click', '#accept-custom-background', function(e){
     e.preventDefault();
 
-    var checkbox = document.getElementById("checkbox").checked;
-    var customurl = $('.settings-customurl').val()
+    QB.Phone.Settings.Background = $(".custom-background-input").val();
+    $(OldBackground).fadeOut(50, function(){
+        $(OldBackground).remove();
+    });
+    $(PressedBackgroundObject).append('<div class="background-option-current"><i class="fas fa-check-circle"></i></div>');
+    QB.Phone.Animations.TopSlideUp(".background-custom", 200, -23);
+});
 
-    if (checkbox != false && customurl != ''){
-        QB.Phone.Notifications.Add("fas fa-cog", "SETTINGS", "You can only pick one option!")
-        return
-    }
+$(document).on('click', '#cancel-custom-background', function(e){
+    e.preventDefault();
 
-    if (checkbox){
-        QB.Phone.Notifications.Add("fas fa-paint-brush", "SETTINGS", "Default background set!")
-        $(".phone-background").css({"background-image":"url('/html/img/backgrounds/default-qbcore.png')"})
-        $.post('https://qb-phone/SetBackground', JSON.stringify({
-            background: '/html/img/backgrounds/default-qbcore.png',
-        }))
-    }else if (customurl){
-        QB.Phone.Notifications.Add("fas fa-paint-brush", "SETTINGS", "Personal background set!")
-        $(".phone-background").css({"background-image":"url('"+customurl+"')"});
-        $.post('https://qb-phone/SetBackground', JSON.stringify({
-            background: customurl,
-        }))
+    QB.Phone.Animations.TopSlideUp(".background-custom", 200, -23);
+});
+
+// Profile Picture
+
+var PressedProfilePicture = null;
+var PressedProfilePictureObject = null;
+var OldProfilePicture = null;
+var ProfilePictureIsChecked = null;
+
+$(document).on('click', '#accept-profilepicture', function(e){
+    e.preventDefault();
+    var ProfilePicture = QB.Phone.Data.MetaData.profilepicture;
+    if (ProfilePicture === "default") {
+        QB.Phone.Notifications.Add("fas fa-paint-brush", "Settings", "Standard avatar set!")
+        QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
+        $("[data-settingstab='profilepicture']").find('.settings-tab-icon').html('<img src="./img/default.png">');
+    } else {
+        QB.Phone.Notifications.Add("fas fa-paint-brush", "Settings", "Personal avatar set!")
+        QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
+        $("[data-settingstab='profilepicture']").find('.settings-tab-icon').html('<img src="'+ProfilePicture+'">');
     }
-    $('.settings-customurl').val("")
-    $('#settings-app-menu').fadeOut(350);
+    $.post('https://qb-phone/UpdateProfilePicture', JSON.stringify({
+        profilepicture: ProfilePicture,
+    }));
+});
+
+$(document).on('click', '#accept-custom-profilepicture', function(e){
+    e.preventDefault();
+    QB.Phone.Data.MetaData.profilepicture = $(".custom-profilepicture-input").val();
+    $(OldProfilePicture).fadeOut(50, function(){
+        $(OldProfilePicture).remove();
+    });
+    $(PressedProfilePictureObject).append('<div class="profilepicture-option-current"><i class="fas fa-check-circle"></i></div>');
+    QB.Phone.Animations.TopSlideUp(".profilepicture-custom", 200, -23);
+});
+
+$(document).on('click', '.profilepicture-option', function(e){
+    e.preventDefault();
+    PressedProfilePicture = $(this).data('profilepicture');
+    PressedProfilePictureObject = this;
+    OldProfilePicture = $(this).parent().find('.profilepicture-option-current');
+    ProfilePictureIsChecked = $(this).find('.profilepicture-option-current');
+    if (ProfilePictureIsChecked.length === 0) {
+        if (PressedProfilePicture != "custom-profilepicture") {
+            QB.Phone.Data.MetaData.profilepicture = PressedProfilePicture
+            $(OldProfilePicture).fadeOut(50, function(){
+                $(OldProfilePicture).remove();
+            });
+            $(PressedProfilePictureObject).append('<div class="profilepicture-option-current"><i class="fas fa-check-circle"></i></div>');
+        } else {
+            QB.Phone.Animations.TopSlideDown(".profilepicture-custom", 200, 13);
+        }
+    }
+});
+
+$(document).on('click', '#cancel-profilepicture', function(e){
+    e.preventDefault();
+    QB.Phone.Animations.TopSlideUp(".settings-"+QB.Phone.Settings.OpenedTab+"-tab", 200, -100);
+});
+
+
+$(document).on('click', '#cancel-custom-profilepicture', function(e){
+    e.preventDefault();
+    QB.Phone.Animations.TopSlideUp(".profilepicture-custom", 200, -23);
 });

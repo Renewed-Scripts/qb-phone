@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="stylesheet" href="./css/tooltip.css">
+    <link rel="stylesheet" href="./css/settings.css">
     <link rel="stylesheet" href="./css/phone.css">
     <link rel="stylesheet" href="./css/twitter.css">
     <link rel="stylesheet" href="./css/bank.css">
@@ -85,17 +86,6 @@
                     <div class="notification-time-new"></div>
                     <div class="notification-accept"></div>
                     <div class="notification-deny"></div>
-                </div>
-
-                <!-- Settings Container -->
-                <div class="phone-menu-body" id="settings-app-menu">
-                    <div class="phone-menu-main">
-                        <input class="phone-menu-checkbox settings-checkbox" id="checkbox" type="checkbox"><i class="fas fa-address-card" id="phone-menu-icon"></i><span class="phone-menu-checkbox-title">Default Phone Background</span>
-                        <input class="phone-menu-text settings-customurl" type="text"><i class="fas fa-image" id="phone-menu-icon"></i><span class="phone-menu-title">URL (JPG/PNG)</span>
-                        <p> </p>
-                        <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
-                        <div class="phone-menu-button phone-menu-accept" id="settings-app-submit">Submit</div>
-                    </div>
                 </div>
 
                 <!-- Spinning Confirmation Frame-->
@@ -181,6 +171,105 @@
 
                 <!-- Container for all application's -->
                 <div class="phone-application-container">
+                    <div class="settings-app">
+                        <div class="settings-app-header"><i class="fas fa-cog"></i></div>
+
+                        <div class="settings-app-tab-appereance">
+                            <div class="settings-app-tab" data-settingstab="background">
+                                <div class="settings-tab-icon"><i class="fas fa-palette" style="color: #ff00c8;"></i></div>
+                                <div class="settings-tab-title"><p>Background</p></div>
+                                <div class="settings-tab-description"><p>Default</p></div>
+                            </div>
+                            <div class="settings-app-tab" data-settingstab="profilepicture">
+                                <div class="settings-tab-icon"></div>
+                                <div class="settings-tab-title"><p>Avatar</p></div>
+                                <div class="settings-tab-description"><p>Default</p></div>
+                            </div>
+                        </div>
+
+
+                        <div class="settings-app-tab-information">
+                            <div class="settings-app-tab secondTab" data-settingstab="serialNumber">
+                                <div class="settings-tab-icon"><i class="fas fa-phone-alt" style="color: #0095ff;"></i></div>
+                                <div class="settings-tab-title"><p>Serial Number</p></div>
+                                <div class="settings-tab-description" id="mySerial"><p>0612345678</p></div>
+                            </div>
+                        </div>
+
+                        <div class="settings-background-tab">
+                            <div class="settings-app-header"><p>Background</p></div>
+
+                            <div class="background-options">
+                                <div class="background-option" data-background="default-QBCore">
+                                    <div class="background-option-icon"> <i class="fas fa-paint-brush"></i> </div>
+                                    <div class="background-option-title"> Default </div>
+                                    <div class="background-option-description">Default Background</div>
+                                    <div class="background-option-current"><i class="fas fa-check-circle"></i></div>
+                                </div>
+                                <div class="background-option" data-background="custom-background">
+                                    <div class="background-option-icon"><i class="fas fa-paint-brush"></i></div>
+                                    <div class="background-option-title">Custom</div>
+                                    <div class="background-option-description">Personalize your Background</div>
+                                </div>
+                            </div>
+
+                            <div class="background-buttons">
+                                <div class="background-button" id="accept-background">
+                                    <p>Confirm</p>
+                                </div>
+                                <div class="background-button" id="cancel-background">
+                                    <p>Cancelar</p>
+                                </div>
+                            </div>
+
+                            <div class="background-custom">
+                                <div class="background-custom-title">Personalized Background</div>
+                                <input type="text" class="custom-background-input" placeholder="URL (.jpg/.png)" spellcheck="false">
+
+                                <div class="background-custom-buttons">
+                                    <div class="custom-background-button" id="accept-custom-background"><p>Confirm</p></div>
+                                    <div class="custom-background-button" id="cancel-custom-background"><p>Cancelar</p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-profilepicture-tab">
+                            <div class="settings-app-header"><p>Avatar</p></div>
+
+                            <div class="profilepicture-options">
+                                <div class="profilepicture-option" data-profilepicture="default">
+                                    <div class="profilepicture-option-icon"> <i class="fas fa-paint-brush"></i> </div>
+                                    <div class="profilepicture-option-title"> Default </div>
+                                    <div class="profilepicture-option-description">Default avatar</div>
+                                    <div class="profilepicture-option-current"><i class="fas fa-check-circle"></i></div>
+                                </div>
+                                <div class="profilepicture-option" data-profilepicture="custom-profilepicture">
+                                    <div class="profilepicture-option-icon"><i class="fas fa-paint-brush"></i></div>
+                                    <div class="profilepicture-option-title">Custom</div>
+                                    <div class="profilepicture-option-description">Personalize your avatar</div>
+                                </div>
+                            </div>
+
+                            <div class="profilepicture-buttons">
+                                <div class="profilepicture-button" id="accept-profilepicture">
+                                    <p>Confirm</p>
+                                </div>
+                                <div class="profilepicture-button" id="cancel-profilepicture">
+                                    <p>Cancel</p>
+                                </div>
+                            </div>
+
+                            <div class="profilepicture-custom">
+                                <div class="profilepicture-custom-title">Personalized Avatar</div>
+                                <input type="text" class="custom-profilepicture-input" placeholder="URL (.jpg/.png)" spellcheck="false">
+
+                                <div class="profilepicture-custom-buttons">
+                                    <div class="custom-profilepicture-button" id="accept-custom-profilepicture"><p>Confirm</p></div>
+                                    <div class="custom-profilepicture-button" id="cancel-custom-profilepicture"><p>Cancel</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="phone-call-app">
                         <div class="phone-call-incoming">

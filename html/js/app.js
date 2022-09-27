@@ -117,6 +117,8 @@ QB.Phone.Functions.SetupApplications = function(data) {
                 icon = '<img src="./img/apps/books.png" style="width: 100%;">';
             }else if (app.app == "gopro"){
                 icon = '<img src="./img/apps/facetime.png" style="width: 100%;">';
+            }else if (app.app == "settings"){
+                icon = '<img src="./img/apps/settings.png" style="width: 100%;">';
             }
 
 
@@ -180,6 +182,8 @@ $(document).on('click', '.phone-application', function(e){
                             QB.Phone.Notifications.LoadTweets(Tweets);
                         });
                     }
+                } else if (PressedApplication == "settings") {
+                    $("#mySerialNumber").text("qb-" + QB.Phone.Data.PlayerData.metadata["phonedata"].SerialNumber);
                 } else if (PressedApplication == "bank") {
                     QB.Phone.Functions.DoBankOpen();
                     $('.bank-app-header-button').click();
