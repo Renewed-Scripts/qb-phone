@@ -102,7 +102,7 @@ RegisterNetEvent('qb-phone:server:documents_Save_Note_As', function(data, Receiv
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not data or not Player then return end
-    if not data.Type == 'Delete' then
+    if data.Type ~= 'Delete' then
         if not data.Title or not data.Text or not data.Time then return end
     end
 
