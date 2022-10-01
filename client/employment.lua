@@ -168,3 +168,8 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         end
     end)
 end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function() -- Reset all variables
+    myJobs = {}
+    cachedEmployees = {}
+end)
