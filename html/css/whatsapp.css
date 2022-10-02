@@ -344,7 +344,7 @@
 
 .whatsapp-openedchat-messages { /* the whole fucking message app */
     position: absolute;
-    height: 63%;
+    height: 55%;
     width: 90%;
     top: 17vh;
     margin: 0 auto;
@@ -413,12 +413,12 @@
 
 #whatsapp-openedchat-send {
     position: relative;
-    top: 8%;
+    top: 3%;
     left: 88.5%;
     color: rgb(0, 0, 0);
     text-align: center;
     line-height: 3.0vh;
-    background: #ffffff;
+    background: #0095ff;
     font-size: 1.5vh;
     width: 3.0vh;
     height: 3.0vh;
@@ -428,7 +428,7 @@
 }
 
 #whatsapp-openedchat-send:hover {
-    background: #ffffff;
+    background: #41affe;
 }
 
 .whatsapp-openedchat-messages::-webkit-scrollbar {

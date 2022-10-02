@@ -139,7 +139,7 @@ RegisterNetEvent('qb-phone:server:fireUser', function(Job, sCID)
     if not Player then return end
 
     if Player.PlayerData.job.name == Job then
-        Player.Functions.SetJob("unemployed")
+        Player.Functions.SetJob("unemployed", 0)
     end
 
     if Player.PlayerData.source then
@@ -307,7 +307,7 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb
 
     ---- If you were fired while being offline it will remove the job --
     if not CachedPlayers[CID][job] then
-        Player.Functions.SetJob("unemployed")
+        Player.Functions.SetJob("unemployed", 0)
     end
 
 
@@ -363,7 +363,7 @@ local function fireUser(Job, CID)
     if not Player then return end
 
     if Player.PlayerData.job.name == Job then
-        Player.Functions.SetJob("unemployed")
+        Player.Functions.SetJob("unemployed", 0)
     end
 
     if Player.PlayerData.source then
