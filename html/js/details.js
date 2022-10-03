@@ -1,3 +1,7 @@
+function numberWithCommas(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+ }
+
 function LoadPlayerMoneys(){
     var PlayerPhoneNumber = QB.Phone.Data.PlayerData.charinfo.phone;
     var PlayerBankAcc = QB.Phone.Data.PlayerData.charinfo.account;
@@ -7,8 +11,8 @@ function LoadPlayerMoneys(){
 
     $(".details-phone").html(PlayerPhoneNumber)
     $(".details-bankserial").html(PlayerBankAcc)
-    $(".details-bankmoney").html("$"+PlayerBankMoney)
-    $(".details-cashmoney").html("$"+PlayerCashMoney)
+    $(".details-bankmoney").html("$"+numberWithCommas(PlayerBankMoney))
+    $(".details-cashmoney").html("$"+numberWithCommas(PlayerCashMoney))
     $(".details-stateid").html(PlayerStateID)
 
     var PlayerLicenses = QB.Phone.Data.PlayerData.metadata.licences;
