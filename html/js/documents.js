@@ -197,10 +197,11 @@ $(document).on('click', '#documents-licenses', function(e) {
                 var firstLetter = k.substring(0, 1);  
                 var Fulltext = firstLetter.toUpperCase()+k.replace(firstLetter,'')+" License"
         
-                var AddOption = '<div class="documents-test">' + 
-                    '<div class="documents-title-title">'+Fulltext+'</div>' +
-                    '<div class="documents-title-icon-registration" data-title="'+Fulltext+'" data-text="<b><u>Issued To</u></b><p><p><b>Name: </b>'+FirstName+' '+LastName+'</p></p></b><p><b>ID: </b>'+StateId+'</p></b><p><b>Sex: </b>'+label+'</p></b><p><b><u>Issued By</u></b></p><p><b>Name: </b>State Account</p><p><b><center>Official Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
-                '</div>';
+                var AddOption = `
+                <div class="documents-test">
+                    <div class="documents-title-title">${Fulltext}</div>
+                    <div class="documents-title-icon-registration" data-title=${Fulltext} data-text="<b><u>Issued To</u></b><p><p><b>Name: </b>${FirstName} ${LastName}</p></p></b><p><b>ID: </b>${StateId}</p></b><p><b>Sex: </b>${label}</p></b><p><b><u>Issued By</u></b></p><p><b>Name: </b>State Account</p><p><b><center>Official Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>
+                </div>`
         
                 $('.documents-list').append(AddOption);
             }
@@ -284,9 +285,9 @@ $(document).on('click', '.documents-title-icon-registration', function(e){
     <div class="document-body-class-body-main">
         <div class="documents-extras-button-registration"><i class="fas fa-ellipsis-v"></i></div>
         <div class="documents-input-title-list">Title</div>
-        <div class="documents-input-title-name">${DocEndtitle}</div>'+
-        <div class="documents-input-tags"><i class="fas fa-tags"></i></div>'+
-        <div class="documents-input-back"><i class="fas fa-chevron-left"></i></div>'+
+        <div class="documents-input-title-name">${DocEndtitle}</div>
+        <div class="documents-input-tags"><i class="fas fa-tags"></i></div>
+        <div class="documents-input-back"><i class="fas fa-chevron-left"></i></div>
     </div>`;
 
     $('.documents-list').append(AddOption);
