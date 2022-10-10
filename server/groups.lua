@@ -90,7 +90,7 @@ local function DestroyGroup(groupID)
             end
         end
     end
-    
+
     exports['qb-phone']:resetJobStatus(groupID)
     TriggerEvent("qb-phone:server:GroupDeleted", groupID, members)
 
@@ -172,7 +172,6 @@ local function resetJobStatus(groupID)
         end
     end
 end exports('resetJobStatus', resetJobStatus)
-
 
 AddEventHandler('playerDropped', function()
 	local src = source
