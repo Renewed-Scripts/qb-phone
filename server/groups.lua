@@ -87,10 +87,12 @@ local function DestroyGroup(groupID)
         for i = 1, #members do
             if members[i] then
                 Players[members[i]] = false
-                exports['qb-phone']:resetJobStatus(groupID)
             end
         end
     end
+    
+    exports['qb-phone']:resetJobStatus(groupID)
+    TriggerEvent("qb-phone:server:GroupDeleted", groupID, members)
 
     EmploymentGroup[groupID] = nil
     TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
@@ -152,6 +154,11 @@ local function setJobStatus(groupID, status, stages)
     end
 end exports('setJobStatus', setJobStatus)
 
+local function getJobStatus(groupID)
+    if not groupID then return print("getJobStatus was sent an invalid groupID :"..groupID) end
+    return EmploymentGroup[groupID].status
+end exports('getJobStatus', getJobStatus)
+
 local function resetJobStatus(groupID)
     if not groupID then return print("setJobStatus was sent an invalid groupID :"..groupID) end
     EmploymentGroup[groupID].status = "WAITING"
@@ -166,10 +173,6 @@ local function resetJobStatus(groupID)
     end
 end exports('resetJobStatus', resetJobStatus)
 
-local function getJobStatus(groupID)
-    if not groupID then return print("getJobStatus was sent an invalid groupID :"..groupID) end
-    return EmploymentGroup[groupID].status
-end exports('getJobStatus', getJobStatus)
 
 AddEventHandler('playerDropped', function()
 	local src = source
