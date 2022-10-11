@@ -306,6 +306,7 @@ local function CreateGroup(src, name, password)
     Players[src] = true
     local id = #EmploymentGroup+1
     EmploymentGroup[id] = {
+	id = id,
         status = "WAITING",
         GName = name,
         GPass = password or QBCore.Shared.RandomInt(7),
