@@ -543,18 +543,7 @@
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-    width: 70%;
-    height: auto;
-    box-shadow: 1px 1px 15px rgba(5, 5, 5, 0.83);
-    z-index: 1002;
-}
-
-.popupclass2 {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    width: 100%;
+    width: auto;
     height: auto;
     box-shadow: 1px 1px 15px rgba(5, 5, 5, 0.83);
     z-index: 1002;
