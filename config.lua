@@ -212,8 +212,8 @@ Config.PhoneApplications = {
         slot = 14,
         Alerts = 0,
     },
-    ["jobcenter"] = {
-        app = "jobcenter",
+    ["job"] = {
+        app = "job",
         color = "#151515",
         color2 = "#161616",
         icon = "fas fa-id-badge",
@@ -224,6 +224,18 @@ Config.PhoneApplications = {
         slot = 15,
         Alerts = 0,
     },
+    ["jobcenter"] = {
+        app = "jobcenter",
+        color = "#151515",
+        color2 = "#161616",
+        icon = "fas fa-id-badge",
+        tooltipText = "Group",
+        style = "color: #78bdfd; font-size: 2.7vh";
+        job = false,
+        blockedjobs = {},
+        slot = 16,
+        Alerts = 0,
+    },
     ["employment"] = {
         app = "employment",
         color = "#151515",
@@ -232,7 +244,7 @@ Config.PhoneApplications = {
         tooltipText = "Employment",
         job = false,
         blockedjobs = {},
-        slot = 16,
+        slot = 17,
         Alerts = 0,
     },
     ["lsbn"] = {
@@ -243,7 +255,7 @@ Config.PhoneApplications = {
         tooltipText = "LSBN",
         job = false,
         blockedjobs = {},
-        slot = 17,
+        slot = 18,
         Alerts = 0,
     },
     ["taxi"] = {
@@ -256,7 +268,7 @@ Config.PhoneApplications = {
         style = "font-size: 3vh";
         job = false,
         blockedjobs = {},
-        slot = 18,
+        slot = 19,
         Alerts = 0,
     },
     ["casino"] = {
@@ -269,7 +281,7 @@ Config.PhoneApplications = {
         style = "font-size: 2.7vh";
         job = false,
         blockedjobs = {},
-        slot = 19,
+        slot = 20,
         Alerts = 0,
     },
     ["calculator"] = {
@@ -282,7 +294,7 @@ Config.PhoneApplications = {
         style = "font-size: 2.5vh";
         job = false,
         blockedjobs = {},
-        slot = 20,
+        slot = 21,
         Alerts = 0,
     },
     ["gallery"] = {
@@ -295,7 +307,7 @@ Config.PhoneApplications = {
         style = "font-size: 2.7vh";
         job = false,
         blockedjobs = {},
-        slot = 21,
+        slot = 22,
         Alerts = 0,
     },
     ["racing"] = {
@@ -307,7 +319,7 @@ Config.PhoneApplications = {
         style = "font-size: 3vh";
         job = false,
         blockedjobs = {},
-        slot = 22,
+        slot = 23,
         Alerts = 0,
     },
     ["bank"] = {
@@ -319,7 +331,7 @@ Config.PhoneApplications = {
         style = "font-size: 2.7vh";
         job = false,
         blockedjobs = {},
-        slot = 23,
+        slot = 24,
         Alerts = 0,
     },
     ["gopro"] = {
@@ -332,7 +344,7 @@ Config.PhoneApplications = {
         style = "padding-right: .08vh; font-size: 3.3vh";
         job = false,
         blockedjobs = {},
-        slot = 24,
+        slot = 25,
         Alerts = 0,
     },
     ["group-chats"] = {
@@ -345,7 +357,7 @@ Config.PhoneApplications = {
         style = "padding-right: .08vh; font-size: 3.3vh";
         job = false,
         blockedjobs = {},
-        slot = 25,
+        slot = 26,
         Alerts = 0,
     },
     ["meos"] = {
@@ -356,7 +368,7 @@ Config.PhoneApplications = {
         tooltipText = "MDT",
         job = "police",
         blockedjobs = {},
-        slot = 26,
+        slot = 27,
         Alerts = 0,
     },
 }
@@ -365,29 +377,24 @@ Config.MaxSlots = 28
 
 Config.JobCenter = {
     [1] = {
-        job = "unemployed",
-        label = "Unemployment",
-        Coords = {},
+        vpn = false,
+        label = "Towing",
+        event = "qb-phone:jobcenter:tow",
     },
     [2] = {
-        job = "garbage",
-        label = "Garbage",
-        Coords = {-344.76, -1564.34},
+        vpn = false,
+        label = "Taxi",
+        event = "qb-phone:jobcenter:taxi",
     },
     [3] = {
-        job = "taxi",
-        label = "Taxi Driver",
-        Coords = {909.11, -174.59},
+        vpn = true,
+        label = "House Robbery",
+        event = "sn-houserobbery:client:chiduong",
     },
     [4] = {
-        job = "amazon",
-        label = "Amazon Driver",
-        Coords = {-1071.08, -2004.0},
-    },
-    [5] = {
-        job = "trucker",
-        label = "Truck Driver",
-        Coords = {925.83, -1560.23},
+        vpn = true,
+        label = "Oxy Run",
+        event = "sn-oxyrun:client:chiduong",
     },
 }
 

@@ -61,7 +61,6 @@ QB.Phone.Functions.SetupApplications = function(data) {
         $(applicationSlot).removeData('app');
         $(applicationSlot).removeData('placement')
     }
-
     $.each(data.applications, function(i, app){
         var applicationSlot = $(".phone-applications").find('[data-appslot="'+app.slot+'"]');
         var blockedapp = IsAppJobBlocked(app.blockedjobs, QB.Phone.Data.PlayerJob.name)
@@ -85,6 +84,8 @@ QB.Phone.Functions.SetupApplications = function(data) {
                 icon = '<img src="./img/apps/debt.png">';
             } else if (app.app == "wenmo"){
                 icon = '<img src="./img/apps/wenmo.png" class="calc-icon">';
+            }else if (app.app == "job"){
+                icon = '<img src="./img/apps/jobcenter.png" class="calc-icon">'; 
             } else if (app.app == "jobcenter"){
                 icon = '<img src="./img/apps/jobcenter.png" class="calc-icon">';
             } else if (app.app == "crypto"){
@@ -228,6 +229,9 @@ $(document).on('click', '.phone-application', function(e){
                 }
                 else if (PressedApplication == "casino") {
                     LoadCasinoJob();
+                }
+                else if (PressedApplication == "job") {
+                    LoadJobCenter();
                 }
                 else if (PressedApplication == "jobcenter") {
                     LoadJobCenterApp();

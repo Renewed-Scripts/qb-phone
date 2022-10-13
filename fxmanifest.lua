@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'FjamZoo#0001 & MannyOnBrazzers#6826 & Q4D#7967'
-description 'A No Pixel inspired edit of QBCore\'s Phone. Released By RenewedScripts'
+description 'A No Pixel inspired edit of QBCore\'s Phone. Released By   .'
 version 'Release'
 
 ui_page 'html/index.html'
