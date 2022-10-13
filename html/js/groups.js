@@ -24,10 +24,6 @@ $(document).on('click', '#jobcenter-submit-create-group', function(e){
                 name: Name,
                 pass: pass,
             }));
-
-
-
-
             $('#jobcenter-box-new-dashboard').fadeOut(350);
         }else{
             QB.Phone.Notifications.Add("fas fa-exclamation-circle", "System", "The password entered is incorrect")
@@ -138,6 +134,7 @@ function AddDIV(data){
 
 function AddGroupJobs(data){
     var AddOption;
+
     $(".jobcenter-Groupjob").html("");
     $(".jobcenter-Groupjob").css({"margin-top": "23%"});
     $(".jobcenter-list").html("");
@@ -148,14 +145,20 @@ function AddGroupJobs(data){
     clearInterval(Interval);
     Interval = setInterval(startTimer, 10);
     if(data) {
-
-
         for (const [k, v] of Object.entries(data)) {
+            let max = 1;
+            let count = 0;
+            if (v.max) {
+                max = v.max
+            } 
+            if (v.count) {
+                count = v.count
+            }
             if (v.isDone) {
                 AddOption =
                 `
                 <div class="jobcenter-div-active-stagee isDone">
-                    <p class="jobcenter-job-value"> 1 / 1</p>
+                    <p class="jobcenter-job-value"> ${max} / ${max}</p>
                     <i style="margin-bottom:15px; class="jobcenter-div-active-stage${v.id}">${v.name}</i>
                 </div>
                 `
@@ -163,7 +166,7 @@ function AddGroupJobs(data){
                 AddOption =
                 `
                 <div class="jobcenter-div-active-stagee">
-                    <p class="jobcenter-job-value"> 0 / 1 </p>
+                    <p class="jobcenter-job-value"> ${count} / ${max} </p>
                     <i style="margin-bottom:15px;" class="jobcenter-div-active-stage${v.id}">${v.name}</i>
                 </div>
                 `
