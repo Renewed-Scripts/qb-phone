@@ -214,7 +214,7 @@ Config.PhoneApplications = {
     },
     ["job"] = {
         app = "job",
-        color = "#151515",
+              color = "#151515",
         color2 = "#161616",
         icon = "fas fa-id-badge",
         tooltipText = "Job Center",
