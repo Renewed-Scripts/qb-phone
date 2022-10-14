@@ -296,6 +296,24 @@ body {
     position: absolute;
     width: 100%;
     bottom: 4.5vh;
+    z-index:2;
+}
+
+.phone-footer-bar {
+    position: absolute;
+    background: linear-gradient(to bottom, #ffffff30, rgba(107, 107, 107, 0.733) 80%, #ffffff30);
+    border-radius: 2vh;
+    width: 92%;
+    right: 50%;
+    transform: translate(50%, 0px);
+    padding-bottom: 3.8vh;
+    padding-top: 3.4vh;
+    margin-top: 43.3vh;
+    margin-right: 0.20vh;
+    box-shadow: 1px -1px 84px 10px rgba(0,0,0,0.39);
+    -webkit-box-shadow: 1px -1px 84px 10px rgba(0,0,0,0.39);
+    -moz-box-shadow: 1px -1px 84px 10px rgba(0,0,0,0.39);
+    z-index:1;
 }
 
 .phone-home-applications {
