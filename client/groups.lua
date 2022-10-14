@@ -1,6 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local isGroupLeader = false
 local inJob = false
+local GroupID = 0
 local GroupBlips = {}
 
 local function FindBlipByName(name)
@@ -101,9 +102,16 @@ RegisterNetEvent('qb-phone:client:AddGroupStage', function(_, stage)
     })
 end)
 
+RegisterNetEvent('qb-phone:client:UpdateGroupId', function(id)
+    GroupID = id
+    if id == 0 then
+        isGroupLeader = false
+    end
+end)
 
 RegisterNUICallback('jobcenter_CreateJobGroup', function(data, cb) --employment
     TriggerServerEvent('qb-phone:server:jobcenter_CreateJobGroup', data)
+    isGroupLeader = true
     cb("ok")
 end)
 
@@ -116,13 +124,18 @@ RegisterNUICallback('jobcenter_leave_grouped', function(data, cb) --employment
     if not data then return end
     local success = exports['qb-phone']:PhoneNotification("Job Center", 'Are you sure you want to leave the group?', 'fas fa-users', '#FFBF00', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
     if success then
+        isGroupLeader = false
         TriggerServerEvent('qb-phone:server:jobcenter_leave_grouped', data)
     end
     cb("ok")
 end)
 
 RegisterNUICallback('jobcenter_DeleteGroup', function(data, cb) --employment
-    TriggerServerEvent('qb-phone:server:jobcenter_DeleteGroup', data)
+    local success = exports['qb-phone']:PhoneNotification("Job Center", 'Are you sure you want to delete the group?', 'fas fa-users', '#FFBF00', "NONE", 'fas fa-check-circle', 'fas fa-times-circle')
+    if success then
+        isGroupLeader = false
+        TriggerServerEvent('qb-phone:server:jobcenter_DeleteGroup', data)
+    end
     cb("ok")
 end)
 
@@ -131,4 +144,16 @@ RegisterNUICallback('jobcenter_CheckPlayerNames', function(data, cb) --employmen
     QBCore.Functions.TriggerCallback('qb-phone:server:jobcenter_CheckPlayerNames', function(HasName)
         cb(HasName)
     end, data.id)
+end)
+
+RegisterNUICallback('jobcenter_GroupBusy', function(data, cb) --employment
+    TriggerEvent('qb-phone:client:CustomNotification', "Job Center", "Group is busy!", "fas fa-users", "#FFBF00", 7500)
+end)
+
+exports("IsGroupLeader", function()
+    return isGroupLeader
+end)
+
+exports("GetGroupID", function()
+    return GroupID
 end)

@@ -33,7 +33,6 @@ end exports("pNotifyGroup", pNotifyGroup)
 
 local function CreateBlipForGroup(groupID, name, data)
     if not groupID then return print("CreateBlipForGroup was sent an invalid groupID :"..groupID) end
-
     for i=1, #EmploymentGroup[groupID].members do
         TriggerClientEvent("groups:createBlip", EmploymentGroup[groupID].members[i].Player, name, data)
     end
@@ -49,6 +48,7 @@ end exports('RemoveBlipForGroup', RemoveBlipForGroup)
 
 
 -- All group functions to get members leaders and size.
+-- Lấy ID Group
 local function GetGroupByMembers(src)
     if not Players[src] then return nil end
     for group, _ in pairs(EmploymentGroup) do
@@ -58,7 +58,9 @@ local function GetGroupByMembers(src)
             end
         end
     end
-end exports("GetGroupByMembers", GetGroupByMembers)
+end
+
+exports("GetGroupByMembers", GetGroupByMembers)
 
 local function getGroupMembers(groupID)
     if not groupID then return print("getGroupMembers was sent an invalid groupID :"..groupID) end
@@ -73,12 +75,14 @@ local function getGroupSize(groupID)
     if not groupID then return print("getGroupSize was sent an invalid groupID :"..groupID) end
     if not EmploymentGroup[groupID] then return print("getGroupSize was sent an invalid groupID :"..groupID) end
     return #EmploymentGroup[groupID].members
-end exports('getGroupSize', getGroupSize)
+end
+exports('getGroupSize', getGroupSize)
 
 local function GetGroupLeader(groupID)
     if not groupID then return print("GetGroupLeader was sent an invalid groupID :"..groupID) end
     return EmploymentGroup[groupID].leader
-end exports("GetGroupLeader", GetGroupLeader)
+end
+exports("GetGroupLeader", GetGroupLeader)
 
 local function DestroyGroup(groupID)
     if not EmploymentGroup[groupID] then return print("DestroyGroup was sent an invalid groupID :"..groupID) end
@@ -86,14 +90,13 @@ local function DestroyGroup(groupID)
     if members and #members > 0 then
         for i = 1, #members do
             if members[i] then
+                TriggerClientEvent('qb-phone:client:UpdateGroupId', members[i], 0)
                 Players[members[i]] = false
             end
         end
     end
-
     exports['qb-phone']:resetJobStatus(groupID)
     TriggerEvent("qb-phone:server:GroupDeleted", groupID, members)
-
     EmploymentGroup[groupID] = nil
     TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
 
@@ -107,6 +110,7 @@ local function RemovePlayerFromGroup(src, groupID)
             EmploymentGroup[groupID].members[k] = nil
             EmploymentGroup[groupID].Users -= 1
             Players[src] = false
+            TriggerClientEvent('qb-phone:client:UpdateGroupId', src, 0)
             pNotifyGroup(groupID, "Job Center", v.name.." Has left the group", "fas fa-users", "#FFBF00", 7500)
             TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
             TriggerClientEvent("QBCore:Notify", src, "You have left the group", "primary")
@@ -152,7 +156,8 @@ local function setJobStatus(groupID, status, stages)
             TriggerClientEvent("qb-phone:client:AddGroupStage", m[i], status, stages)
         end
     end
-end exports('setJobStatus', setJobStatus)
+end
+exports('setJobStatus', setJobStatus)
 
 local function getJobStatus(groupID)
     if not groupID then return print("getJobStatus was sent an invalid groupID :"..groupID) end
@@ -176,6 +181,7 @@ end exports('resetJobStatus', resetJobStatus)
 AddEventHandler('playerDropped', function()
 	local src = source
     local groupID = GetGroupByMembers(src)
+    print('out')
     if groupID ~= 0 then
         if isGroupLeader(src, groupID) then
             if ChangeGroupLeader(groupID) then
@@ -189,6 +195,7 @@ AddEventHandler('playerDropped', function()
         end
     end
 end)
+
 
 
 RegisterNetEvent("qb-phone:server:employment_checkJobStauts", function ()
@@ -220,19 +227,8 @@ RegisterNetEvent("qb-phone:server:jobcenter_CreateJobGroup", function(data)
         },
         stage = {},
     }
-
     TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
-end)
-
-RegisterNetEvent("TestGroups", function()
-    local src = source
-    local TestTable = {
-        {name = "Pick Up Truck", isDone = true, id = 1},
-        {name = "Pick up garbage", isDone = false , id = 2},
-        {name = "Drop off garbage", isDone = false , id = 3},
-    }
-
-    setJobStatus((GetGroupByMembers(src)), "garbage", TestTable)
+    TriggerClientEvent('qb-phone:client:UpdateGroupId', src, ID)
 end)
 
 RegisterNetEvent('qb-phone:server:jobcenter_DeleteGroup', function(data)
@@ -256,10 +252,11 @@ RegisterNetEvent('qb-phone:server:jobcenter_JoinTheGroup', function(data)
     if Players[src] then return TriggerClientEvent('QBCore:Notify', src, "You are already a part of a group!", "success") end
 
     local name = GetPlayerCharName(src)
-    pNotifyGroup(data.id, "Job Center", name.." Has left the group", "fas fa-users", "#FFBF00", 7500)
+    pNotifyGroup(data.id, "Job Center", name.." Has join the group", "fas fa-users", "#FFBF00", 7500)
     EmploymentGroup[data.id].members[#EmploymentGroup[data.id].members+1] = {name = name, CID = player.PlayerData.citizenid, Player = src}
     EmploymentGroup[data.id].Users += 1
     Players[src] = true
+    TriggerClientEvent('qb-phone:client:UpdateGroupId', src, data.id)
     TriggerClientEvent('QBCore:Notify', src, "You joined the group", "success")
     TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
 end)
@@ -271,7 +268,6 @@ end exports('GetGroupStages', GetGroupStages)
 
 QBCore.Functions.CreateCallback('qb-phone:server:getAllGroups', function(source, cb)
     local src = source
-
     if Players[src] then
         cb(EmploymentGroup, true, getJobStatus(GetGroupByMembers(src)), GetGroupStages(GetGroupByMembers(src)))
     else
@@ -297,8 +293,9 @@ end)
 local function isGroupTemp(groupID)
     if not groupID or not EmploymentGroup[groupID] then return print("isGroupTemp was sent an invalid groupID :"..groupID) end
     return EmploymentGroup[groupID].ScriptCreated or false
-end exports('isGroupTemp', isGroupTemp)
+end
 
+exports('isGroupTemp', isGroupTemp)
 
 local function CreateGroup(src, name, password)
     if not src or not name then return end
@@ -317,7 +314,9 @@ local function CreateGroup(src, name, password)
         stage = {},
         ScriptCreated = true,
     }
-
+    TriggerClientEvent('qb-phone:client:UpdateGroupId', src, id)
     TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
     return id
-end exports('CreateGroup', CreateGroup)
+end
+
+exports('CreateGroup', CreateGroup)

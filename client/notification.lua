@@ -17,6 +17,20 @@ RegisterNUICallback('DenyNotification', function()
     return Result
 end)
 
+RegisterCommand('noti1', function ()
+    print('1')
+    TriggerEvent('qb-phone:client:CustomNotification', "Job Center", "Không tắt đâu", "fas fa-users", "#FFBF00", "NONE")
+ end)
+
+ RegisterCommand('noti2', function ()
+    print('2')
+    TriggerEvent('qb-phone:client:CustomNotification', "Job Center", "Chuẩn bị tắt này", "fas fa-users", "#FFBF00", 100000)
+ end)
+
+ RegisterCommand('noti3', function ()
+    print('3')
+    TriggerEvent('qb-phone:client:CustomNotification', "Job Center", "Noti3", "fas fa-users", "#FFBF00", 5000)
+ end)
 -- Events
 
 RegisterNetEvent("qb-phone:client:CustomNotification", function(title, text, icon, color, timeout) -- Send a PhoneNotification to the phone from anywhere

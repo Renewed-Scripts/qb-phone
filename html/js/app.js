@@ -534,19 +534,21 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                 $(".notification-title").html(title);
                 $(".notification-text").html(text);
                 $(".notification-time").html("just now");
-                if (QB.Phone.Notifications.Timeout !== undefined || QB.Phone.Notifications.Timeout !== null) {
-                    clearTimeout(QB.Phone.Notifications.Timeout);
-                }
-                QB.Phone.Notifications.Timeout = setTimeout(function(){
-                    QB.Phone.Animations.TopSlideUp(".phone-notification-container", 600, -8);
-
-                    QB.Phone.Notifications.Timeout = setTimeout(function(){
-                    if (!QB.Phone.Data.IsOpen == true) {
-                    QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
+                if (timeout != "NONE"){
+                    if (QB.Phone.Notifications.Timeout !== undefined || QB.Phone.Notifications.Timeout !== null) {
+                        clearTimeout(QB.Phone.Notifications.Timeout);
                     }
-                }, 500)
-                    QB.Phone.Notifications.Timeout = null;
-                }, timeout);
+                    QB.Phone.Notifications.Timeout = setTimeout(function(){
+                        QB.Phone.Animations.TopSlideUp(".phone-notification-container", 600, -8);
+
+                        QB.Phone.Notifications.Timeout = setTimeout(function(){
+                        if (!QB.Phone.Data.IsOpen == true) {
+                        QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
+                        }
+                    }, 500)
+                        QB.Phone.Notifications.Timeout = null;
+                    }, timeout);
+                }
             } else {
                 if (color != null || color != undefined) {
                     $(".notification-icon").css({"color":color});
@@ -562,18 +564,20 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                 $(".notification-title").html(title);
                 $(".notification-text").html(text);
                 $(".notification-time").html("just now");
-                if (QB.Phone.Notifications.Timeout !== undefined || QB.Phone.Notifications.Timeout !== null) {
-                    clearTimeout(QB.Phone.Notifications.Timeout);
-                }
-                QB.Phone.Notifications.Timeout = setTimeout(function(){
-                    QB.Phone.Animations.TopSlideUp(".phone-notification-container", 150, -8);
+                if (timeout != "NONE"){
+                    if (QB.Phone.Notifications.Timeout !== undefined || QB.Phone.Notifications.Timeout !== null) {
+                        clearTimeout(QB.Phone.Notifications.Timeout);
+                    }
                     QB.Phone.Notifications.Timeout = setTimeout(function(){
-                        if (!QB.Phone.Data.IsOpen == true) {
-                        QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
-                        }
-                    }, 500)
-                    QB.Phone.Notifications.Timeout = null;
-                }, timeout);
+                        QB.Phone.Animations.TopSlideUp(".phone-notification-container", 150, -8);
+                        QB.Phone.Notifications.Timeout = setTimeout(function(){
+                            if (!QB.Phone.Data.IsOpen == true) {
+                            QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
+                            }
+                        }, 500)
+                        QB.Phone.Notifications.Timeout = null;
+                    }, timeout);
+                }
             }
         }
     });

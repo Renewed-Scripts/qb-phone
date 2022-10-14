@@ -1,5 +1,6 @@
 var JoinPass = null;
 var JoinID = null;
+var Status = null;
 
 function LoadJobCenterApp(){
     $.post('https://qb-phone/GetGroupsApp', JSON.stringify({}), function(data){
@@ -99,7 +100,7 @@ function AddDIV(data){
                 <div class="jobcenter-div-job-group">
                 <div class="jobcenter-div-job-group-image">
                 <i class="fas fa-users"></i></div>
-                <div class="jobcenter-div-job-group-body-main">${data[element].GName}<i id="jobcenter-join-grouped" data-id="${data[element].id}" data-pass="${data[element].GPass}" class="fas fa-sign-in-alt">
+                <div class="jobcenter-div-job-group-body-main">${data[element].GName}<i id="jobcenter-join-grouped" data-id="${data[element].id}" data-status="${data[element].status}" data-pass="${data[element].GPass}" class="fas fa-sign-in-alt">
                 </i><div class="jobcenter-option-class-body">
                 <i style="padding-left: 5%;padding-right: 5%;" class="fas fa-user-friends">${data[element].Users}</i>
                 </div></div></div>
@@ -113,6 +114,7 @@ function AddDIV(data){
                         </div><div class="jobcenter-div-job-group-body-main">
                         ${data[element].GName}<i id="jobcenter-leave-grouped"
                         data-id="${data[element].id}" 
+                        data-status="${data[element].status}"
                         data-pass="${data[element].GPass}" 
                         class="fas fa-sign-out-alt" style="transform: rotate(180deg);">
                         </i>
@@ -192,8 +194,13 @@ $(document).on('click', '#jobcenter-join-grouped', function(e){
     e.preventDefault();
     JoinPass = $(this).data('pass')
     JoinID = $(this).data('id')
-    ClearInputNew()
-    $('#jobcenter-box-new-join').fadeIn(350);
+    Status = $(this).data('status')
+    ClearInputNew(JoinPass)
+    if (Status == 'WAITING') {
+        $('#jobcenter-box-new-join').fadeIn(350);
+    } else {
+        $.post('https://qb-phone/jobcenter_GroupBusy', JSON.stringify({}));
+    }
 });
 
 $(document).on('click', '#jobcenter-submit-join-group', function(e){
