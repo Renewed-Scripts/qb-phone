@@ -169,7 +169,7 @@ body {
 #phone-time {
     font-family: 'Roboto', sans-serif;
     font-size: 1.1vh;
-    padding: 1.0vh 0 0 2.0vh;
+    padding: 1.4vh 0 0 3.5vh;
     float: left;
     color: white !important;
 }
@@ -185,7 +185,7 @@ body {
 
 #phone-icons {
     font-size: 1.1vh;
-    padding: 1.0vh 2.5vh 0 0vh;
+    padding: 1.4vh 3.5vh 0 0vh;
     float: right;
     color: white !important;
 }
