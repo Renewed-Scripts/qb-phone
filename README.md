@@ -1,3 +1,9 @@
+## Screenshots
+![Home](https://i.gyazo.com/901a967b4137354a7912f8016e682424.png)
+![Details](https://i.gyazo.com/671111eb2482be1be8ac8eca64558d5a.png)
+![Garage](https://i.gyazo.com/92485d5f98a956e570da659064a658fc.png)
+![Messages](https://i.gyazo.com/fefcd96614a38e2d951e6941aee04af5.png)
+![Twitter]](https://i.gyazo.com/e5d7090b5f0c937109a40b3ed63dc73c.png)
 # Installation steps
 
 ## General Setup
