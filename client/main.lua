@@ -31,9 +31,6 @@ PhoneData = {
     ChatRooms = {},
 }
 
-
-
-
 -- Localized Variables --
 local CallVolume = 0.2
 
@@ -46,7 +43,6 @@ local function IsNumberInContacts(num)
             return v.name
         end
     end
-
     return "Unknown"
 end
 

@@ -1,4 +1,5 @@
 
+
 DROP TABLE IF EXISTS `phone_gallery`;
 CREATE TABLE IF NOT EXISTS `phone_gallery` (
   `citizenid` varchar(255) NOT NULL,

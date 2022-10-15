@@ -47,6 +47,7 @@ local function RemoveBlipForGroup(groupID, name)
 end exports('RemoveBlipForGroup', RemoveBlipForGroup)
 
 
+
 -- All group functions to get members leaders and size.
 -- Lấy ID Group
 local function GetGroupByMembers(src)
@@ -69,7 +70,10 @@ local function getGroupMembers(groupID)
         temp[#temp+1] = v.Player
     end
     return temp
-end exports('getGroupMembers', getGroupMembers)
+end
+exports('getGroupMembers', getGroupMembers)
+
+
 
 local function getGroupSize(groupID)
     if not groupID then return print("getGroupSize was sent an invalid groupID :"..groupID) end
@@ -84,6 +88,25 @@ local function GetGroupLeader(groupID)
 end
 exports("GetGroupLeader", GetGroupLeader)
 
+-- Triggers event for each member of a group. Args are optional.
+function GroupEvent(groupID, event, args)
+    if not groupID then return print("GroupEvent was sent an invalid groupID :"..groupID) end
+    if not event then return print("no valid event was passed to GroupEvent") end
+    local members = getGroupMembers(groupID)
+    if members and #members > 0 then
+        for i = 1, #members do
+            if members[i] then
+                if args ~= nil then
+                    TriggerClientEvent(event, members[i], table.unpack(args))
+                else 
+                    TriggerClientEvent(event, members[i])
+                end
+            end
+        end
+    end
+end
+
+exports("GroupEvent", GroupEvent)
 local function DestroyGroup(groupID)
     if not EmploymentGroup[groupID] then return print("DestroyGroup was sent an invalid groupID :"..groupID) end
     local members = getGroupMembers(groupID)
@@ -141,7 +164,8 @@ local function isGroupLeader(src, groupID)
     if not groupID then return end
     local grouplead = GetGroupLeader(groupID)
     return grouplead == src or false
-end exports('isGroupLeader', isGroupLeader)
+end
+exports('isGroupLeader', isGroupLeader)
 
 ---- All the job functions for the groups
 
@@ -181,7 +205,6 @@ end exports('resetJobStatus', resetJobStatus)
 AddEventHandler('playerDropped', function()
 	local src = source
     local groupID = GetGroupByMembers(src)
-    print('out')
     if groupID ~= 0 then
         if isGroupLeader(src, groupID) then
             if ChangeGroupLeader(groupID) then

@@ -78,16 +78,16 @@ QB.Phone.Functions.SetupApplications = function(data) {
                 icon = '<img src="./img/apps/Advertisements.png" class="advert-icon">';
             } else if (app.app == "calculator"){
                 icon = '<img src="./img/apps/calcilator.png" class="calc-icon">';
-            } else if (app.app == "employment"){
+            } /* else if (app.app == "employment"){
                 icon = '<img src="./img/apps/employment.png" style="width: 87%;margin-top: 6%;margin-left: -2%;">';
-            } else if (app.app == "debt"){
+            } */ else if (app.app == "debt"){
                 icon = '<img src="./img/apps/debt.png">';
             } else if (app.app == "wenmo"){
                 icon = '<img src="./img/apps/wenmo.png" class="calc-icon">';
             }else if (app.app == "job"){
                 icon = '<img src="./img/apps/jobcenter.png" class="calc-icon">'; 
             } else if (app.app == "jobcenter"){
-                icon = '<img src="./img/apps/jobcenter.png" class="calc-icon">';
+                icon = '<img src="./img/apps/employment.png" class="calc-icon">';
             } else if (app.app == "crypto"){
                 icon = '<img src="./img/apps/crypto.png" style="width: 85%;margin-top: 7%;">';
             } else if (app.app == "taxi"){
@@ -543,7 +543,7 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
 
                         QB.Phone.Notifications.Timeout = setTimeout(function(){
                         if (!QB.Phone.Data.IsOpen == true) {
-                        QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
+                            QB.Phone.Animations.BottomSlideUp('.container', 450, -70);
                         }
                     }, 500)
                         QB.Phone.Notifications.Timeout = null;

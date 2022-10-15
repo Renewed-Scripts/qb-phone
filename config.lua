@@ -214,7 +214,7 @@ Config.PhoneApplications = {
     },
     ["job"] = {
         app = "job",
-              color = "#151515",
+        color = "#151515",
         color2 = "#161616",
         icon = "fas fa-id-badge",
         tooltipText = "Job Center",
@@ -238,9 +238,9 @@ Config.PhoneApplications = {
     },
     ["employment"] = {
         app = "employment",
-        color = "#151515",
-        color2 = "#161616",
-        icon = "fas fa-ad",
+        color = "#009ee5",
+        color2 = "#87d9e7",
+        icon = "fas fa-briefcase",
         tooltipText = "Employment",
         job = false,
         blockedjobs = {},

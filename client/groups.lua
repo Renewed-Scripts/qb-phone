@@ -93,7 +93,6 @@ RegisterNetEvent('qb-phone:client:RefreshGroupsApp', function(Groups, finish)
     })
 end)
 
-
 RegisterNetEvent('qb-phone:client:AddGroupStage', function(_, stage)
     inJob = true
     SendNUIMessage({

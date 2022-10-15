@@ -143,7 +143,6 @@ function AddGroupJobs(data){
     $(".jobcenter-list").css({"display": "none"});
     $(".jobcenter-btn-create-group").css({"display": "none"});
     $(".jobcenter-text-header").css({"display": "none"});
-    $(".jobcenter-groupjob-timer").css({"display": "block"});
     clearInterval(Interval);
     Interval = setInterval(startTimer, 10);
     if(data) {
@@ -176,9 +175,10 @@ function AddGroupJobs(data){
             $('.jobcenter-Groupjob').append(AddOption);
         }
     } else {
-        $(".jobcenter-list").css({"display": "block"});
-        $(".jobcenter-btn-create-group").css({"display": "block"});
+        $(".jobcenter-list").css({"display": "inline"});
+        $(".jobcenter-btn-create-group").css({"display": "inline"});
         $(".jobcenter-text-header").css({"display": "block"});
+        $(".jobcenter-Groupjob").css({"margin-top": "47%"});
     }
 }
 
