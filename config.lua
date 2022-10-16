@@ -396,6 +396,16 @@ Config.JobCenter = {
         label = "Oxy Run",
         event = "sn-oxyrun:client:chiduong",
     },
+    [5] = {
+        vpn = false,
+        label = "PostOp Worker",
+        event = "qb-phone:jobcenter:postop",
+    },
+    [6] = {
+        vpn = false,
+        label = "Sanitaion Worker",
+        event = "qb-phone:jobcenter:sanitation",
+    },
 }
 
 Config.TaxiJob = {

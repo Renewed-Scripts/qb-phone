@@ -28,3 +28,11 @@ end)
 RegisterNetEvent('qb-phone:jobcenter:taxi', function()
     SetNewWaypoint(909.51, -177.36)
 end)
+
+RegisterNetEvent('qb-phone:jobcenter:postop', function()
+    SetNewWaypoint(-432.51, -2787.98)
+end)
+
+RegisterNetEvent('qb-phone:jobcenter:sanitation', function()
+    SetNewWaypoint(-351.44, -1566.37)
+end)
