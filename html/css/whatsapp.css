@@ -470,6 +470,7 @@
     float: right;
     right: 1.6vh;
     z-index: 1;
+    user-select: all;
 }
 
 .whatsapp-openedchat-message-other {
@@ -478,6 +479,7 @@
     border-radius: 15px;
     left: 1.5vh;
     z-index: 1;
+    user-select: all;
 }
 
 .whatsapp-openedchat-message-time {
