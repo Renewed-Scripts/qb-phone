@@ -233,8 +233,12 @@ $(document).on('click', '#whatsapp-openedchat-send', function(e){
     var urlDetect = detectURLs(Message)
 
     if (urlDetect != null){
-        var NewMessage = Message.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
-        ConfirmationFrame()
+        if (/(jpg|jpeg|gif|png)$/i.test(urlDetect)) {
+            var NewMessage = Message.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+            ConfirmationFrame()
+        }else{
+            var NewMessage = $("#whatsapp-openedchat-message").val();
+        }
     } else {
         var NewMessage = $("#whatsapp-openedchat-message").val();
     }
@@ -250,14 +254,16 @@ $(document).on('click', '#whatsapp-openedchat-send', function(e){
     }
 
     if (urlDetect != null){
-        $.post('https://qb-phone/SendMessage', JSON.stringify({
-            ChatNumber: OpenedChatData.number,
-            ChatDate: GetCurrentDateKey(),
-            ChatMessage: null,
-            ChatTime: FormatMessageTime(),
-            ChatType: "picture",
-            url : urlDetect
-        }));
+        if (/(jpg|jpeg|gif|png)$/i.test(urlDetect)) {
+            $.post('https://qb-phone/SendMessage', JSON.stringify({
+                ChatNumber: OpenedChatData.number,
+                ChatDate: GetCurrentDateKey(),
+                ChatMessage: null,
+                ChatTime: FormatMessageTime(),
+                ChatType: "picture",
+                url : urlDetect
+            }));
+        }
     }
     $(".emojionearea-editor").html("");
     $("#whatsapp-openedchat-message").val("");
