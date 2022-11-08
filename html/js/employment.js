@@ -196,6 +196,15 @@ $(document).on('click', '#hire-worker-submit', function(e){
             grade: grade,
             job: job,
         }));
+    } else if(grade === 0){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/HireFucker', JSON.stringify({
+            stateid: stateid,
+            grade: grade,
+            job: job,
+        }));
     }
     ClearInputNew()
     $('#hire-worker-menu').fadeOut(350);
@@ -282,6 +291,15 @@ $(document).on('click', '#employment-changerole', function(e){
 $(document).on('click', '#employment-changerole-submit', function(e){
     var grade = gradeLevel
     if(grade != ""){
+        setTimeout(function(){
+            ConfirmationFrame()
+        }, 150);
+        $.post('https://qb-phone/ChangeRole', JSON.stringify({
+            cid: cid,
+            grade: grade,
+            job: job
+        }));
+    } else if(grade === 0){
         setTimeout(function(){
             ConfirmationFrame()
         }, 150);
