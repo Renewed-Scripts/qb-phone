@@ -6,7 +6,7 @@
     src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
 }
 
-input.jobcenter-input-password, input.jobcenter-input-password2 {
+input.jobcenter-input-password, input.jobcenter-input-password2, input.jobcenter-input-join-password, input.room-input-code {
     font-family: 'password';
 }
 
