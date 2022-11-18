@@ -1,10 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
 local CachedJobs = {}
 local CachedPlayers = {}
 
-
-local function getMyJobs(cid)
+local function getJobs(cid)
     local jobs = {}
     local employees = {}
     for k, v in pairs(CachedJobs) do
@@ -20,7 +18,7 @@ local function getMyJobs(cid)
     end
 
     return jobs, employees
-end
+end exports('getJobs', getJobs)
 
 local FirstStart = false
 
@@ -86,7 +84,6 @@ CreateThread(function()
     end
 end)
 
-
 local function notifyPlayer(src, message)
     if not src or not message then return end
 
@@ -99,7 +96,6 @@ local function notifyPlayer(src, message)
     )
 
 end
-
 
 -- ** Fire someone in the business the player firing someone MUST be boss ** --
 RegisterNetEvent('qb-phone:server:fireUser', function(Job, sCID)
@@ -147,10 +143,6 @@ RegisterNetEvent('qb-phone:server:fireUser', function(Job, sCID)
     end
 end)
 
-
-
-
-
 ---- ** Can give any employee x amount of money out of the bank account, must be boss ** ----
 RegisterNetEvent('qb-phone:server:SendEmploymentPayment', function(Job, CID, amount)
     local src = source
@@ -189,9 +181,6 @@ RegisterNetEvent('qb-phone:server:SendEmploymentPayment', function(Job, CID, amo
     Player.Functions.AddMoney('bank', amt)
 end)
 
-
-
-
 ---- ** Player can hire someone aslong as they are boss within the group
 RegisterNetEvent('qb-phone:server:hireUser', function(Job, id, grade)
     local src = source
@@ -200,9 +189,7 @@ RegisterNetEvent('qb-phone:server:hireUser', function(Job, id, grade)
 
     local pCID = Player.PlayerData.citizenid
     local CID = hiredPlayer.PlayerData.citizenid
-
     if not hiredPlayer then return notifyPlayer(src, "Citizen not found...") end
-
     if not Job or not CID or not CachedJobs[Job] or Job == "unemployed" then return end
 
     if CachedJobs[Job].employees[CID] then return notifyPlayer(src, "Citizen Already Hired...") end
@@ -227,8 +214,6 @@ RegisterNetEvent('qb-phone:server:hireUser', function(Job, id, grade)
         TriggerClientEvent('qb-phone:client:MyJobsHandler', hiredPlayer.PlayerData.source, Job, CachedPlayers[CID][Job], CachedJobs[Job].employees)
     end
 end)
-
-
 
 ---- ** Handles the changing of someone grade within the job ** ----
 
@@ -291,7 +276,6 @@ RegisterNetEvent('qb-phone:server:clockOnDuty', function(Job)
     end
 end)
 
-
 ---- Gets the client side cache for players ----
 QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb)
     if FirstStart then return end
@@ -303,7 +287,7 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb
 
     local CID = Player.PlayerData.citizenid
     local employees
-    CachedPlayers[CID], employees = getMyJobs(CID)
+    CachedPlayers[CID], employees = getJobs(CID)
 
     ---- If you were fired while being offline it will remove the job --
     if not CachedPlayers[CID][job] then
@@ -314,10 +298,7 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb
     cb(employees, CachedPlayers[CID])
 end)
 
-
-
 ---- Functions and Exports people can use across script to hire and fire people to sync ----
-
 
 ---- Use this to hire anyone through scripts DO NOT use this through exploitable events since its meant to not be the securest ----
 local function hireUser(Job, CID, grade)
@@ -343,7 +324,6 @@ local function hireUser(Job, CID, grade)
 
     TriggerClientEvent("qb-phone:client:JobsHandler", -1, Job, CachedJobs[Job].employees)
 end exports("hireUser", hireUser)
-
 
 ---- Use this to fire anyone through scripts DO NOT use this through exploitable events since its meant to not be the securest ----
 local function fireUser(Job, CID)
@@ -371,14 +351,6 @@ local function fireUser(Job, CID)
     end
 end exports("fireUser", fireUser)
 
-
-
-
-
-
-
-
-
 local bills = {}
 
 ---- ** Invoices // Charging People ** ----
@@ -388,7 +360,6 @@ RegisterNetEvent('qb-phone:server:ChargeCustomer', function(id, amount, notes, j
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
     if not CachedJobs[job].employees[Player.PlayerData.citizenid] then return notifyPlayer(src, "You're not an employee at this business...") end
-
 
     local note = notes or ""
     local amt = tonumber(amount)
