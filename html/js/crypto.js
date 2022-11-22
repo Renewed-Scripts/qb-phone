@@ -142,3 +142,33 @@ $(document).on('click', '#crypto-send-exchange', function(e){
     ClearInputNew()
     $('#crypto-exchange-tab').fadeOut(350);
 });
+
+$(document).on('click', '.box-sell', function(e){
+    e.preventDefault();
+    ClearInputNew()
+    CryptoMeta = $(this).data('cryptometa')
+    CryptoName = $(this).data('label')
+    $('#crypto-sell-tab').fadeIn(350);
+});
+
+$(document).on('click', '#crypto-send-sell', function(e){
+    e.preventDefault();
+    var crypto = CryptoMeta;
+    var amount = $(".crypto-amount-sell").val();
+    var CryptoType = QB.Phone.Data.PlayerData.metadata.crypto;
+    if(amount != ""){
+        if (CryptoType[crypto] - amount >= 0){
+            setTimeout(function(){
+                ConfirmationFrame()
+            }, 150);
+            $.post('https://qb-phone/SellCrypto', JSON.stringify({
+                metadata: crypto,
+                amount: amount,
+            }));
+        }else{
+            QB.Phone.Notifications.Add("fas fa-chart-line", "WALLET", "You don\'t have that much crypto", "#D3B300");
+        }
+    }
+    ClearInputNew()
+    $('#crypto-sell-tab').fadeOut(350);
+});
