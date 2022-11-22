@@ -112,8 +112,10 @@ RegisterNetEvent('qb-phone:server:SellCrypto', function(type, amount)
     local cryptoAmount = tonumber(amount) * v.value
 
     if not v.sell then return end -- Only modders should be only to do this so no need to send a message to client
+    
+    local txt = "Purchased " .. amount .. "x " .. v.abbrev
 
-        Player.Functions.AddMoney('bank', cryptoAmount)
+        Player.Functions.AddMoney('bank', cryptoAmount, txt)
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
             "WALLET",
             "You Sold "..amount.." "..type.."!",
