@@ -404,7 +404,7 @@ Config.CryptoCoins = {
         icon = 'fas fa-caret-square-up', -- icon
         metadata = 'shung', -- meta data name
         value = 50, -- price of coin
-        purchase, = true -- TRUE ( crypto is purchaseable in the phone) FALSE ( crypto is not purchaseable and only exchangeable )
+        purchase = true, -- TRUE ( crypto is purchaseable in the phone) FALSE ( crypto is not purchaseable and only exchangeable )
         sell = true -- TRUE ( crypto is sellable in the phone) FALSE ( crypto is not sellable )
     },
     {
