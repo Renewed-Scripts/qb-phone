@@ -181,10 +181,10 @@
 
 .crypto-box {
     transition: 0.25s;
-    border-radius: 5px;
+    border-radius: 4px;
     color: black;
     font-family: 'Roboto', sans-serif;
-    font-size: 1.1vh;
+    font-size: 0.85vh;
     margin-bottom: 4%;
 }
 
@@ -195,5 +195,10 @@
 
 .box-purchase{
     background:#90e278;
+    padding: 4.0%;
+}
+
+.box-sell{
+    background:#f6a167;
     padding: 4.0%;
 }

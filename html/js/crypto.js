@@ -23,14 +23,35 @@ function LoadCryptoCoins(){
             var CryptoType = QB.Phone.Data.PlayerData.metadata.crypto;
             var Crypto = v.metadata;
 
-            if (v.purchase){
+            if (v.sell && v.purchase){
                 var AddOption = '<div class="crypto-list" id="crypto-id"><span class="crypto-icon"><i class="'+v.icon+'"></i></span> <span class="crypto-label">'+v.label+'</span> <span class="crypto-value">'+CryptoType[Crypto]+'</span>' +
                 '<div class="crypto-block">' +
                     '<div class="crypto-abbrev"><i class="fas fa-id-card"></i>'+v.abbrev+' ('+k+')</div>' +
                     '<div class="crypto-extralabel"><i class="fas fa-tag"></i>'+v.label+'</div>' +
                     '<div class="crypto-current"><i class="fas fa-money-check-alt"></i>'+CryptoType[Crypto]+'</div>' +
                     '<div class="crypto-cost"><i class="fas fa-chart-bar"></i>'+formatter.format(v.value)+'</div>' +
-                    '<div class="crypto-box"><span class="crypto-box box-purchase" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style="margin-left: 0.5vh;">PURCHASE</span><span class="crypto-box box-exchange" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style = "margin-left: 1.1vh;">EXCHANGE</span></div>' +
+                    '<div class="crypto-box"><span class="crypto-box box-purchase" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style="margin-left: 0.3vh;">PURCHASE</span><span class="crypto-box box-exchange" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style = "margin-left: 0.9vh;">EXCHANGE</span><span class="crypto-box box-sell" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style = "margin-left: 0.8vh;">SELL</span></div>' +
+                    '</div>' +
+                '</div>';
+            }
+            else if (v.purchase){
+                var AddOption = '<div class="crypto-list" id="crypto-id"><span class="crypto-icon"><i class="'+v.icon+'"></i></span> <span class="crypto-label">'+v.label+'</span> <span class="crypto-value">'+CryptoType[Crypto]+'</span>' +
+                '<div class="crypto-block">' +
+                    '<div class="crypto-abbrev"><i class="fas fa-id-card"></i>'+v.abbrev+' ('+k+')</div>' +
+                    '<div class="crypto-extralabel"><i class="fas fa-tag"></i>'+v.label+'</div>' +
+                    '<div class="crypto-current"><i class="fas fa-money-check-alt"></i>'+CryptoType[Crypto]+'</div>' +
+                    '<div class="crypto-cost"><i class="fas fa-chart-bar"></i>'+formatter.format(v.value)+'</div>' +
+                    '<div class="crypto-box"><span class="crypto-box box-purchase" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style="margin-left: 1.9vh;">PURCHASE</span><span class="crypto-box box-exchange" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style = "margin-left: 1.1vh;">EXCHANGE</span></div>' +
+                    '</div>' +
+                '</div>';
+            }else if (v.sell){
+                var AddOption = '<div class="crypto-list" id="crypto-id"><span class="crypto-icon"><i class="'+v.icon+'"></i></span> <span class="crypto-label">'+v.label+'</span> <span class="crypto-value">'+CryptoType[Crypto]+'</span>' +
+                '<div class="crypto-block">' +
+                    '<div class="crypto-abbrev"><i class="fas fa-id-card"></i>'+v.abbrev+' ('+k+')</div>' +
+                    '<div class="crypto-extralabel"><i class="fas fa-tag"></i>'+v.label+'</div>' +
+                    '<div class="crypto-current"><i class="fas fa-money-check-alt"></i>'+CryptoType[Crypto]+'</div>' +
+                    '<div class="crypto-cost"><i class="fas fa-chart-bar"></i>'+formatter.format(v.value)+'</div>' +
+                    '<div class="crypto-box"><span class="crypto-box box-exchange" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style = "margin-left: 3.5vh;">EXCHANGE</span><span class="crypto-box box-sell" data-cryptometa="'+v.metadata+'" data-label="'+v.label+'" style = "margin-left: 0.9vh;">SELL</span></div>' +
                     '</div>' +
                 '</div>';
             }else{

@@ -104,6 +104,33 @@ RegisterNetEvent('qb-phone:server:PurchaseCrypto', function(type, amount)
     end
 end)
 
+RegisterNetEvent('qb-phone:server:SellCrypto', function(type, amount)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player or not Player.PlayerData.metadata.crypto[type] then return end -- if the crypto dosnt exist
+    local v = Config.CryptoCoins[GetConfig(type)]
+    local cryptoAmount = tonumber(amount) * v.value
+
+    if not v.sell then return end -- Only modders should be only to do this so no need to send a message to client
+
+        Player.Functions.AddMoney('bank', cryptoAmount)
+        TriggerClientEvent('qb-phone:client:CustomNotification', src,
+            "WALLET",
+            "You Sold "..amount.." "..type.."!",
+            "fas fa-chart-line",
+            "#D3B300",
+            7500
+        )
+
+        if Config.RenewedBanking then
+            local cid = Player.PlayerData.citizenid
+            local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
+            exports['Renewed-Banking']:handleTransaction(cid, "Sold Crypto", cryptoAmount, txt, "Los Santos Crypto", name, "deposit")
+        end
+
+        RemoveCrypto(src, type, amount)
+end)
+
 RegisterNetEvent('qb-phone:server:ExchangeCrypto', function(type, amount, stateid)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
