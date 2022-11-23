@@ -324,7 +324,7 @@ local function CreateGroup(src, name, password)
     if not src or not name then return end
     local Player = QBCore.Functions.GetPlayer(src)
     Players[src] = true
-    local id = #EmploymentGroup+1
+    local id = #EmploymentGroup + 1
     EmploymentGroup[id] = {
         id = id,
         status = "WAITING",

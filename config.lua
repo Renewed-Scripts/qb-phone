@@ -397,11 +397,16 @@ Config.JobCenter = {
         event = "sn-oxyrun:client:chiduong",
     },
     [5] = {
+        vpn = true,
+        label = "Chop Shop",
+        event = "sn-chopshop:client:chiduong",
+    },
+    [6] = {
         vpn = false,
         label = "PostOp Worker",
         event = "qb-phone:jobcenter:postop",
     },
-    [6] = {
+    [7] = {
         vpn = false,
         label = "Sanitaion Worker",
         event = "qb-phone:jobcenter:sanitation",
