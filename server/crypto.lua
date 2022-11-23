@@ -114,6 +114,8 @@ RegisterNetEvent('qb-phone:server:SellCrypto', function(type, amount)
     if not v.sell then return end -- Only modders should be only to do this so no need to send a message to client
     
     local txt = "Sold " .. amount .. "x " .. v.abbrev
+    
+    if not RemoveCrypto(src, type, amount) then return end
 
         Player.Functions.AddMoney('bank', cryptoAmount, txt)
         TriggerClientEvent('qb-phone:client:CustomNotification', src,
@@ -129,8 +131,6 @@ RegisterNetEvent('qb-phone:server:SellCrypto', function(type, amount)
             local name = ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)
             exports['Renewed-Banking']:handleTransaction(cid, "Sold Crypto", cryptoAmount, txt, "Los Santos Crypto", name, "deposit")
         end
-
-        RemoveCrypto(src, type, amount)
 end)
 
 RegisterNetEvent('qb-phone:server:ExchangeCrypto', function(type, amount, stateid)
