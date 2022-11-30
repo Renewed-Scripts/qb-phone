@@ -177,7 +177,7 @@ end exports('resetJobStatus', resetJobStatus)
 AddEventHandler('playerDropped', function()
     local src = source
     local groupID = GetGroupByMembers(src)
-    if groupID ~= 0 then
+    if groupID then
         if isGroupLeader(src, groupID) then
             if ChangeGroupLeader(groupID) then
                 RemovePlayerFromGroup(src, groupID, true)
