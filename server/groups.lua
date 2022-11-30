@@ -125,8 +125,8 @@ local function ChangeGroupLeader(groupID)
     local l = GetGroupLeader(groupID)
     if #m > 1 then
         for i=1, #m do
-            if m[i] ~= l then
-                EmploymentGroup[groupID].leader = m[i]
+            if m[i].Player ~= l then
+                EmploymentGroup[groupID].leader = m[i].Player
                 return true
             end
         end
