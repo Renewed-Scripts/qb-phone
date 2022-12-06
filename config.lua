@@ -411,6 +411,11 @@ Config.JobCenter = {
         label = "Sanitaion Worker",
         event = "qb-phone:jobcenter:sanitation",
     },
+    [8] = {
+        vpn = true,
+        label = "Taco Shop",
+        event = "sn-weed:client:chiduong",
+    },
 }
 
 Config.TaxiJob = {
