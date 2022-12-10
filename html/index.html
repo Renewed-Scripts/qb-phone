@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="./css/lsbn.css">
     <link rel="stylesheet" href="./css/publicphone.css">
     <link rel="stylesheet" href="./css/group-chats.css">
+    <link rel="stylesheet" href="./css/gang.css">
 
     <!-- CDN's -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <!-- JQuery -->
@@ -507,6 +508,48 @@
 
                         <div class="casino-list">
                         </div>
+                    </div>
+
+                    <div class="gang-app">
+                        <div class="gang-header">
+                        </div>
+                        <div class="gang-lists"></div>
+
+                        <div class="phone-dropdown-menu" id="gang-dropdown"></div>
+
+                        <div class="phone-menu-body" id="hire-gang-menu">
+                            <div class="phone-menu-main">
+                                <input class="phone-menu-text hire-gang-stateid" type="text"><i class="fas fa-id-card" id="phone-menu-icon"></i><span class="phone-menu-title">State ID</span>
+                                <div class="gang-grade-dropdown">
+                                    <div class="select">
+                                      <span>Grade</span>
+                                      <i class="fa fa-chevron-left"></i>
+                                    </div>
+                                    <input type="hidden" name="gender">
+                                    <ul class="gang-grade-dropdown-menu"></ul>
+                                </div>
+                                <p> </p>
+                                <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
+                                <div class="phone-menu-button phone-menu-accept" id="hire-gang-submit">Hire</div>
+                            </div>
+                        </div>
+
+                        <div class="phone-menu-body" id="gang-changerole-menu">
+                            <div class="phone-menu-main">
+                                <div class="gang-grade-dropdown">
+                                    <div class="select">
+                                      <span>Grade</span>
+                                      <i class="fa fa-chevron-left"></i>
+                                    </div>
+                                    <input type="hidden" name="gender">
+                                    <ul class="gang-grade-dropdown-menu"></ul>
+                                </div>
+                                <p> </p>
+                                <div class="phone-menu-button phone-menu-cancel" id="box-new-cancel">Cancel</div>
+                                <div class="phone-menu-button phone-menu-accept" id="gang-changerole-submit">Submit</div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="employment-app">
@@ -1356,6 +1399,7 @@
         <script src="./js/lsbn.js"></script>
         <script src="./js/publicphone.js"></script>
         <script src="./js/group-chats.js"></script>
+        <script src="./js/gang.js"></script>
         <script type="text/javascript">$('#whatsapp-openedchat-message').emojioneArea({inline: true, searchPosition: "bottom", shortnames: true})</script>
     </body>
 </html>

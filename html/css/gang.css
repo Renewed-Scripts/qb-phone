@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+.gang-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background-color: #212832;
+    overflow: hidden;
+}
+
+.gang-header {
+    position: absolute;
+    width: 100%;
+    height: 9.5vh;
+    top: 0.7vh;
+    text-align: center;
+}
+
+#gang-search-text {
+    position: absolute;
+    top: 4.7vh;
+    left: 2vh;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2vh;
+    color: #FFFFFF;
+}
+
+.gang-lists {
+    position: absolute;
+    width: 87.0%;
+    height: 46.5vh;
+    top: 11.8vh;
+    margin: auto;
+    left: 0;
+    right: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.gang-lists::-webkit-scrollbar {
+    display: none;
+}
+
+.gang-list {
+    position: relative;
+    width: 100%;
+    color: white;
+    height: 6vh;
+    margin-bottom: 8px;
+    background-color: rgb(44, 70, 95);
+    box-shadow: rgba(0, 0, 0, 0.557) 0rem 0rem 0.1rem 0.01rem;
+    border-bottom: .1vh solid #fff;
+}
+
+.gang-job-list {
+    position: relative;
+    width: 100%;
+    color: white;
+    height: 6vh;
+    margin-bottom: 8px;
+    background-color: rgb(44, 70, 95);
+    box-shadow: rgba(0, 0, 0, 0.557) 0rem 0rem 0.1rem 0.01rem;
+    border-bottom: .1vh solid #fff;
+}
+
+.gang-job-list:hover {
+    background-color: #15222e;
+}
+
+.gang-job-icon {
+    position: absolute;
+    margin: .7vh;
+    margin-left: 1.5vh;
+    text-align: center;
+    line-height: 4.5vh;
+    color: white;
+    font-size: 4.5vh;
+}
+
+.gang-label {
+    position: absolute;
+    left: 7.4vh;
+    color: white;
+    line-height: 2.7vh;
+    font-size: 1.4vh;
+    max-width: 65%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.gang-grade {
+    position: absolute;
+    left: 7.4vh;
+    color: white;
+    line-height: 8vh;
+    font-size: 1.2vh;
+    max-width: 65%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+/* NEW HEADER SHIT */
+.gang-header-text {
+    position: absolute;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.2vh;
+    color: #FFFFFF;
+    top: 3.5vh;
+    right: 9.5vh;
+    text-align: center;
+}
+#gang-job-extras-icon {
+    position: absolute;
+    top: 4vh;
+    right: 2.5vh;
+    font-size: 2.1vh;
+    color: #FFFFFF;
+}
+
+/* DROP DOWN MENU */
+
+.phone-dropdown-menu{
+    display: none;
+    position: absolute;
+    padding-left: 9.5vh;
+    padding-top: 4vh;
+    width: 80px;
+    height: 100px;
+}
+
+.list-content{
+    position: relative;
+    color: white;
+    height: 35px;
+    width: 180px;
+    overflow: hidden;
+    margin: auto;
+    font-family: 'Robotto', sans-serif;
+    font-size: 1.3vh;
+    background-color: #484444;
+}
+.list-content >i{
+    padding:  10px 10px 0px 10px;
+
+}
+
+.list-content:hover{
+    background-color: #585454;
+}
+
+/* Action Buttons */
+
+.gang-action-buttons {
+    visibility: hidden;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding-bottom: 5.1vh;
+    left: 0;
+    right: 0;
+}
+
+.gang-action-buttons > i {
+    position: relative;
+    float: left;
+    margin-left: 2.6vh;
+    left: 4vh;
+    top: 2.1vh;
+    font-size: 1.8vh;
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+
+.gang-action-buttons > i:hover {
+    color: #2c465f;
+}
+
+.gang-job-list:hover .gang-action-buttons {
+    background: #0d1218c0;
+    visibility: visible;
+}
+
+/* Grade Dropdown Shit */
+
+.gang-grade-dropdown {
+    position: relative;
+    margin-left: 10%;
+    margin-bottom: 10%;
+    width: 80%;
+    line-height: 3.0vh;
+    transition: all .5s ease;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: left;
+    background-color: rgb(44, 70, 95);
+    outline: none;
+    border-bottom: .1vh solid #fff;
+}
+
+.gang-grade-dropdown .select {
+    cursor: pointer;
+    display: block;
+    padding: 10px
+}
+
+.gang-grade-dropdown .select > i {
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    line-height: 34px
+}
+
+.gang-grade-dropdown:active {
+    background-color: #3F607D
+}
+
+.gang-grade-dropdown.active:hover,
+.gang-grade-dropdown.active {
+    background-color: #3F607D
+}
+
+.gang-grade-dropdown.active .select > i {
+    transform: rotate(-90deg)
+}
+
+.gang-grade-dropdown .gang-grade-dropdown-menu {
+    position: absolute;
+    background-color: #333943;
+    color: white;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    overflow: hidden;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 9
+}
+
+.gang-grade-dropdown .gang-grade-dropdown-menu li {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    cursor: pointer
+}
+
+.gang-grade-dropdown .gang-grade-dropdown-menu {
+    padding: 0;
+    list-style: none
+}
+
+.gang-grade-dropdown .gang-grade-dropdown-menu li:hover {
+    background-color: #505969
+}
+
+.gang-grade-dropdown .gang-grade-dropdown-menu li:active {
+    background-color: #505969
+}

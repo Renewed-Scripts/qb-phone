@@ -359,6 +359,19 @@ Config.PhoneApplications = {
         slot = 26,
         Alerts = 0,
     },
+    ["gang"] = {
+        app = "gang",
+        color = "#54544e",
+        color2 = "#262418",
+        icon = "fas fa-user-secret",
+        tooltipText = "gang",
+        tooltipPos = "bottom",
+        style = "font-size: 3vh";
+        job = false,
+        blockedjobs = {},
+        slot = 27,
+        Alerts = 0,
+    },
 }
 
 Config.MaxSlots = 28
