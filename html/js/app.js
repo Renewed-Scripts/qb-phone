@@ -239,6 +239,22 @@ $(document).on('click', '.phone-application', function(e){
                     $.post('https://qb-phone/GetJobs', JSON.stringify({}), function(data){
                         LoadEmploymentApp(data)
                     });
+                }
+                else if (PressedApplication == "gang") {
+                        if (QB.Phone.Data.gang.name != ("none")) {
+                            LoadGangApp(data)
+                        }else{
+                            QB.Phone.Animations.TopSlideUp('.phone-application-container', 400, -160);
+                            QB.Phone.Animations.TopSlideUp('.'+QB.Phone.Data.currentApplication+"-app", 400, -160);
+                            CanOpenApp = false;
+                            setTimeout(function(){
+                                QB.Phone.Functions.ToggleApp(QB.Phone.Data.currentApplication, "none");
+                                CanOpenApp = true;
+                            }, 400)
+                            QB.Phone.Functions.HeaderTextColor("white", 300);
+                            QB.Phone.Data.currentApplication = null;
+                            QB.Phone.Notifications.Add("fas fa-exclamation-circle", "System", "Your not in a gang!")
+                        }
                 } else if (PressedApplication == "debt") {
                     $.post('https://qb-phone/GetPlayersDebt', JSON.stringify({}), function(data){
                         LoadDebtJob(data);
