@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local PlayerGang = {}
 --- Global Variables ---
 PlayerData = QBCore.Functions.GetPlayerData()
 
@@ -194,6 +194,7 @@ local function LoadPhone()
             PlayerData = PlayerData,
             PlayerJob = PlayerData,
             PhoneJobs = QBCore.Shared.Jobs,
+            PhoneGangs = QBCore.Shared.Gangs,
             applications = Config.PhoneApplications,
             PlayerId = GetPlayerServerId(PlayerId())
         })
@@ -225,7 +226,7 @@ local function OpenPhone()
     if hasPhone() then
         PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
-        
+
         SendNUIMessage({
             action = "open",
             Tweets = PhoneData.Tweets,

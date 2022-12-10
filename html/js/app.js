@@ -625,8 +625,10 @@ $(document).on('click', ".notification-deny", function() {
 QB.Phone.Functions.LoadPhoneData = function(data) {
     QB.Phone.Data.PlayerData = data.PlayerData;
     QB.Phone.Data.PlayerJob = data.PlayerJob;
+    QB.Phone.Data.gang = data.PlayerData.gang;
     QB.Phone.Data.MetaData = data.PhoneData.MetaData;
-    QB.Phone.Data.PhoneJobs = data.PhoneJobs
+    QB.Phone.Data.PhoneJobs = data.PhoneJobs;
+    QB.Phone.Data.PhoneGangs = data.PhoneGangs;
     QB.Phone.Functions.LoadMetaData(data.PhoneData.MetaData);
     QB.Phone.Functions.LoadContacts(data.PhoneData.Contacts);
     QB.Phone.Functions.SetupApplications(data);
