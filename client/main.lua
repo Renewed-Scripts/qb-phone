@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local PlayerGang = {}
+
 --- Global Variables ---
 PlayerData = QBCore.Functions.GetPlayerData()
 
