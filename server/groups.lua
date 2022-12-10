@@ -125,19 +125,18 @@ local function DestroyGroup(groupID)
 
 end exports("DestroyGroup", DestroyGroup)
 
-local function RemovePlayerFromGroup(src, groupID)
+local function RemovePlayerFromGroup(src, groupID, disconnected)
     if not Players[src] or not EmploymentGroup[groupID] then return print("RemovePlayerFromGroup was sent an invalid groupID :"..groupID) end
     local g = EmploymentGroup[groupID].members
     for k,v in pairs(g) do
         if v.Player == src then
-            EmploymentGroup[groupID].members[k] = nil
+            table.remove(EmploymentGroup[groupID].members, k)
             EmploymentGroup[groupID].Users -= 1
             Players[src] = false
             TriggerClientEvent('qb-phone:client:UpdateGroupId', src, 0)
             pNotifyGroup(groupID, "Job Center", v.name.." Has left the group", "fas fa-users", "#FFBF00", 7500)
             TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
-            TriggerClientEvent("QBCore:Notify", src, "You have left the group", "primary")
-
+            if not disconnected then TriggerClientEvent("QBCore:Notify", src, "You have left the group", "primary") end
             if EmploymentGroup[groupID].Users <= 0 then
                 DestroyGroup(groupID)
             end
@@ -152,12 +151,13 @@ local function ChangeGroupLeader(groupID)
     local l = GetGroupLeader(groupID)
     if #m > 1 then
         for i=1, #m do
-            if m[i] ~= l then
-                EmploymentGroup[groupID].leader = m[i]
-                break
+            if m[i].Player ~= l then
+                EmploymentGroup[groupID].leader = m[i].Player
+                return true
             end
         end
     end
+    return false
 end
 
 local function isGroupLeader(src, groupID)
@@ -205,16 +205,15 @@ end exports('resetJobStatus', resetJobStatus)
 AddEventHandler('playerDropped', function()
 	local src = source
     local groupID = GetGroupByMembers(src)
-    if groupID ~= 0 then
+    if groupID then
         if isGroupLeader(src, groupID) then
             if ChangeGroupLeader(groupID) then
-                TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
+                RemovePlayerFromGroup(src, groupID, true)
             else
                 DestroyGroup(groupID)
-                TriggerClientEvent('qb-phone:client:RefreshGroupsApp', -1, EmploymentGroup)
             end
         else
-            RemovePlayerFromGroup(groupID, src)
+            RemovePlayerFromGroup(src, groupID, true)
         end
     end
 end)
@@ -260,7 +259,7 @@ RegisterNetEvent('qb-phone:server:jobcenter_DeleteGroup', function(data)
     if GetGroupLeader(data.delete) == src then
         DestroyGroup(data.delete)
     else
-        RemovePlayerFromGroup(data.delete, src)
+        RemovePlayerFromGroup(src, data.delete)
     end
 end)
 
