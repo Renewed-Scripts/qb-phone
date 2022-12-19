@@ -27,9 +27,17 @@ RegisterNUICallback('PostNewTweet', function(data, cb)
         URL = ""
     end
 
+    local firstName = PhoneData.PlayerData.charinfo.firstname
+    local lastName = PhoneData.PlayerData.charinfo.lastname
+
+    if (data.anonymous) then
+        firstName = "Anonymous"
+        lastName = ""
+    end
+
     local TweetMessage = {
-        firstName = PhoneData.PlayerData.charinfo.firstname,
-        lastName = PhoneData.PlayerData.charinfo.lastname,
+        firstName = firstName,
+        lastName = lastName,
         citizenid = PhoneData.PlayerData.citizenid,
         message = escape_str(data.Message):gsub("[%<>\"()\'$]",""),
         time = data.Date,

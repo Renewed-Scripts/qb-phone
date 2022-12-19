@@ -122,7 +122,8 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){ // Submit Button F
     e.preventDefault();
 
     var TweetMessage = $(".twt-box-textt-input").val();
-    var imageURL = $('.twt-box-image-input').val()
+    var imageURL = $('.twt-box-image-input').val();
+    let anonymousTweet = document.getElementById('anonymous-tweet').checked;
     if (TweetMessage != "" || imageURL !== "") {
         var CurrentDate = new Date();
         if (imageURL != ""){
@@ -134,7 +135,8 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){ // Submit Button F
             Message: TweetMessage,
             Date: CurrentDate,
             url: imageURL,
-            type: 'tweet'
+            type: 'tweet',
+            anonymous: anonymousTweet,
         }), function(){
             ClearInputNew();
             $('#twt-box-textt').fadeOut(350);
