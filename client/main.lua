@@ -226,12 +226,15 @@ local function OpenPhone()
         PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
         
+        local hasVPN = QBCore.Functions.HasItem(Config.VPNItem)
+
         SendNUIMessage({
             action = "open",
             Tweets = PhoneData.Tweets,
             AppData = Config.PhoneApplications,
             CallData = PhoneData.CallData,
             PlayerData = PhoneData.PlayerData,
+            hasVPN = hasVPN,
         })
         PhoneData.isOpen = true
         if Config.AllowWalking then

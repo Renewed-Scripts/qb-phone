@@ -35,8 +35,15 @@ function CopyMentionTag(elem) {
     $temp.remove();
 }
 
-QB.Phone.Notifications.LoadTweets = function(Tweets) {
+QB.Phone.Notifications.LoadTweets = function(Tweets, hasVPN=false) {
     Tweets = Tweets.reverse();
+
+    if (hasVPN) {
+        $(".tweet-anonymous").css("display", "block");
+    } else {
+        $(".tweet-anonymous").css("display", "none");
+    }
+
     if (Tweets !== null && Tweets !== undefined && Tweets !== "" && Tweets.length > 0) {
         $(".twitter-home-tab").html("");
         $.each(Tweets, function(i, Tweet){

@@ -289,3 +289,7 @@
     line-height: 3.0vh;
     font-size: 1.45vh;
 }
+
+.tweet-anonymous-container {
+    display: none;
+}
