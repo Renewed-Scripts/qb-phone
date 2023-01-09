@@ -26,6 +26,14 @@ end)
 
 RegisterNetEvent('qb-phone:server:UpdateTweets', function(TweetData)
     local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local HasVPN = Player.Functions.GetItemByName(Config.VPNItem)
+
+    if (TweetData.showAnonymous and HasVPN) then
+        TweetData.firstName = "Anonymous"
+        TweetData.lastName = ""
+    end
+    
     print(json.encode(TweetData.url))
     MySQL.insert('INSERT INTO phone_tweets (citizenid, firstName, lastName, message, url, tweetid, type) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         TweetData.citizenid,

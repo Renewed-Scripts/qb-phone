@@ -276,3 +276,20 @@
     text-align: center;
     font-family: 'Roboto', sans-serif;
 }
+
+.tweet-anonymous {
+    color: rgb(255, 255, 255);
+    margin-left: 10%;
+    margin-bottom: 5%;
+    width: 80%;
+    border: none;
+    background: none;
+    outline: none;
+    text-align: left;
+    line-height: 3.0vh;
+    font-size: 1.45vh;
+}
+
+.tweet-anonymous-container {
+    display: none;
+}

@@ -35,8 +35,15 @@ function CopyMentionTag(elem) {
     $temp.remove();
 }
 
-QB.Phone.Notifications.LoadTweets = function(Tweets) {
+QB.Phone.Notifications.LoadTweets = function(Tweets, hasVPN=false) {
     Tweets = Tweets.reverse();
+
+    if (hasVPN) {
+        $(".tweet-anonymous").css("display", "block");
+    } else {
+        $(".tweet-anonymous").css("display", "none");
+    }
+
     if (Tweets !== null && Tweets !== undefined && Tweets !== "" && Tweets.length > 0) {
         $(".twitter-home-tab").html("");
         $.each(Tweets, function(i, Tweet){
@@ -122,7 +129,8 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){ // Submit Button F
     e.preventDefault();
 
     var TweetMessage = $(".twt-box-textt-input").val();
-    var imageURL = $('.twt-box-image-input').val()
+    var imageURL = $('.twt-box-image-input').val();
+    let anonymousTweet = document.getElementById('anonymous-tweet').checked;
     if (TweetMessage != "" || imageURL !== "") {
         var CurrentDate = new Date();
         if (imageURL != ""){
@@ -134,7 +142,8 @@ $(document).on('click', '#twt-sendmessage-chat', function(e){ // Submit Button F
             Message: TweetMessage,
             Date: CurrentDate,
             url: imageURL,
-            type: 'tweet'
+            type: 'tweet',
+            anonymous: anonymousTweet,
         }), function(){
             ClearInputNew();
             $('#twt-box-textt').fadeOut(350);
