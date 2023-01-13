@@ -11,6 +11,11 @@ RegisterNUICallback('BuyCrypto', function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback('SellCrypto', function(data, cb)
+    TriggerServerEvent('qb-phone:server:SellCrypto', data.metadata, data.amount)
+    cb("ok")
+end)
+
 RegisterNUICallback('ExchangeCrypto', function(data, cb)
     TriggerServerEvent('qb-phone:server:ExchangeCrypto', data.metadata, data.amount, data.stateid)
 
