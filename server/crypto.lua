@@ -10,8 +10,8 @@ local function RemoveCrypto(src, type, amount)
     local Crypto = Player.PlayerData.metadata.crypto
     if not Crypto then return end
     amount =  tonumber(amount)
-    if amount < 1 then return false end 
-    
+    if amount < 1 then return false end
+
     if (Crypto[type] - amount) >= 0 then
         Crypto[type] -= amount
         Player.Functions.SetMetaData("crypto", Crypto)
