@@ -985,3 +985,13 @@ RegisterNetEvent('qb-phone:client:updateContactInfo', function(contactInfo)
         Contacts = PhoneData.Contacts
     })
 end)
+
+RegisterNetEvent('qb-phone:RefreshPhone', function()
+    LoadPhone()
+    SetTimeout(250, function()
+        SendNUIMessage({
+            action = "RefreshAlerts",
+            AppData = Config.PhoneApplications,
+        })
+    end)
+end)
