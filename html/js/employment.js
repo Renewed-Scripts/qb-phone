@@ -124,7 +124,7 @@ $(document).on('click', '#employment-job-back-icon', function(e){
     changePage()
 });
 
-$(document).on('click', '#employment-job-extras-icon', function(e){
+$(document).on('click', '#employment-job-extras-icon', function(e) {
     e.preventDefault();
     $('#employment-dropdown').html('')
     dropdownOpen = true
@@ -138,23 +138,27 @@ $(document).on('click', '#employment-job-extras-icon', function(e){
         }
     });
 
-    if (QB.Phone.Data.PhoneJobs[job].grades[grade].isboss){
+    if (QB.Phone.Data.PhoneJobs[job].grades[grade].isboss) {
         if (onDuty && currentJob == job) {
             var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go Off Duty</div>
             <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
-            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>
+            <div class="list-content" id='Leave-Job'><i class="fas fa-user-minus"></i>Leave Job</div>`
         } else {
             var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
             <div class="list-content" id='hire-fucker' ><i class="fas fa-user-plus"></i>Hire</div>
-            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>
+            <div class="list-content" id='Leave-Job'><i class="fas fa-user-minus"></i>Leave Job</div>`
         }
-    }else{
+    } else {
         if (onDuty && currentJob == job) {
             var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go Off Duty</div>
-            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>
+            <div class="list-content" id='Leave-Job'><i class="fas fa-user-minus"></i>Leave Job</div>`
         } else {
             var AddOption = `<div class="list-content" id='clock-in' ><i class="fas fa-clock"></i>Go On Duty</div>
-            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>`
+            <div class="list-content" id='charge-mf'><i class="fas fa-credit-card"></i>Charge Customer</div>
+            <div class="list-content" id='Leave-Job'><i class="fas fa-user-minus"></i>Leave Job</div>`
         }
     }
     $('#employment-dropdown').append(AddOption);
@@ -183,6 +187,19 @@ $(document).on('click', '#hire-fucker', function(e){
     $('#hire-worker-menu').fadeIn(350);
     closeDropDown()
 });
+
+$(document).on('click', '#Leave-Job', function(e) {
+    e.preventDefault();
+    $.post('https://qb-phone/LeaveJob', JSON.stringify({
+        job: job
+    }));
+    ConfirmationFrame()
+    closeDropDown()
+    setTimeout(function() {
+        changePage()
+    }, 150);
+});
+
 
 $(document).on('click', '#hire-worker-submit', function(e){
     var stateid = $(".hire-worker-stateid").val();

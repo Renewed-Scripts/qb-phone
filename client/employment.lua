@@ -91,6 +91,12 @@ RegisterNetEvent('qb-phone:client:JobsHandler', function(job, employees)
     end
 end)
 
+RegisterNUICallback('LeaveJob', function(data, cb)
+    if not data or not data.job then return end
+
+    TriggerServerEvent('qb-phone:server:LeaveJob', data.job)
+    cb("ok")
+end)
 
 RegisterNetEvent('qb-phone:client:MyJobsHandler', function(job, jobTable, employees)
     if not QBCore.Shared.Jobs[job] then return end

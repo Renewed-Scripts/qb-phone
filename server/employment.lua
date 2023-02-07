@@ -276,6 +276,31 @@ RegisterNetEvent('qb-phone:server:clockOnDuty', function(Job)
     end
 end)
 
+-- Player Option Leave Job --
+RegisterNetEvent('qb-phone:server:LeaveJob',function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local Job = Player.PlayerData.job.name
+    local CID = Player.PlayerData.citizenid 
+
+    if not Job or not CID or not CachedJobs[Job] then return end
+
+    if not CachedJobs[Job].employees[CID] then return notifyPlayer(src, "You are not employed at the job...") end
+
+    CachedJobs[Job].employees[CID] = nil
+
+    MySQL.update('UPDATE player_jobs SET employees = ? WHERE jobname = ?',{json.encode(CachedJobs[Job].employees), Job})
+
+    TriggerClientEvent("qb-phone:client:JobsHandler", -1, Job, CachedJobs[Job].employees)
+
+    if Player and CachedPlayers[CID] then
+        CachedPlayers[CID][Job] = nil
+        TriggerClientEvent('qb-phone:client:MyJobsHandler', Player.PlayerData.source, Job, nil, nil)
+    end
+
+    -- Lol it works --
+end)
+
 ---- Gets the client side cache for players ----
 QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb)
     if FirstStart then return end
