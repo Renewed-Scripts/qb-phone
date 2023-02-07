@@ -298,6 +298,7 @@ RegisterNetEvent('qb-phone:server:LeaveJob',function()
         TriggerClientEvent('qb-phone:client:MyJobsHandler', Player.PlayerData.source, Job, nil, nil)
     end
 
+    Player.Functions.SetJob("unemployed", 0)
     -- Lol it works --
 end)
 
