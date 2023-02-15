@@ -1,8 +1,8 @@
 function numberWithCommas(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
- }
+}
 
-function LoadPlayerMoneys(){
+function LoadPlayerMoneys() {
     var PlayerPhoneNumber = QB.Phone.Data.PlayerData.charinfo.phone;
     var PlayerBankAcc = QB.Phone.Data.PlayerData.charinfo.account;
     var PlayerBankMoney = QB.Phone.Data.PlayerData.money.bank;
@@ -11,8 +11,8 @@ function LoadPlayerMoneys(){
 
     $(".details-phone").html(PlayerPhoneNumber)
     $(".details-bankserial").html(PlayerBankAcc)
-    $(".details-bankmoney").html("$"+numberWithCommas(PlayerBankMoney))
-    $(".details-cashmoney").html("$"+numberWithCommas(PlayerCashMoney))
+    $(".details-bankmoney").html("$" + numberWithCommas(PlayerBankMoney))
+    $(".details-cashmoney").html("$" + numberWithCommas(PlayerCashMoney))
     $(".details-stateid").html(PlayerStateID)
 
     var PlayerLicenses = QB.Phone.Data.PlayerData.metadata.licences;
@@ -21,15 +21,26 @@ function LoadPlayerMoneys(){
     var AddOption0 = '<div class="details-text-license">Licenses</div>'
     $('.details-list').append(AddOption0);
     for (const [k, v] of Object.entries(PlayerLicenses)) {
-        if (v){
-            var firstLetter = k.substring(0, 1);  
-            var Fulltext = firstLetter.toUpperCase()+k.replace(firstLetter,'')+" License"
+        if (v) {
+            var firstLetter = k.substring(0, 1);
+            var Fulltext = firstLetter.toUpperCase() + k.replace(firstLetter, '') + " License"
 
-            var AddOption = '<div class="details-license-body-main">'+
-                                '<div class="details-license-text-class">'+Fulltext+'</div>'+
-                                '<div class="details-license-icon-class"><i style="color: #b1d18e;" class="fas fa-check-circle"></i></div>'+
-                            '</div>'
+            var AddOption = '<div class="details-license-body-main">' +
+                '<div class="details-license-text-class">' + Fulltext + '</div>' +
+                '<div class="details-license-icon-class"><i style="color: #b1d18e;" class="fas fa-check-circle"></i></div>' +
+                '</div>'
             $('.details-list').append(AddOption);
+        } else {
+            var firstLetter = k.substring(0, 1);
+            var Fulltext = firstLetter.toUpperCase() + k.replace(firstLetter, '') + " License"
+
+            var AddOption = '<div class="details-license-body-main">' +
+                '<div class="details-license-text-class">' + Fulltext + '</div>' +
+                '<div class="details-license-icon-class"><i style="color: #d18e8e;" class="fas fa-times-circle"></i></div>' +
+                '</div>'
+            $('.details-list').append(AddOption);
+
+
         }
     }
 }
