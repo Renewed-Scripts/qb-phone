@@ -173,7 +173,7 @@ local function getJobStatus(groupID)
     return EmploymentGroup[groupID].status
 end exports('getJobStatus', getJobStatus)
 
-local function getJobStage(groupID, status)
+local function getJobStage(groupID)
     local currentStage = 0
     local lastCheckedStage = 0
     if not groupID then return print("getJobStage was sent an invalid groupID :"..groupID) end
