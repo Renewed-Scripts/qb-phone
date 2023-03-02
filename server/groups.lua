@@ -195,7 +195,6 @@ local function resetJobStatus(groupID)
     for i=1, #m do
         if m[i] then
             TriggerClientEvent("qb-phone:client:AddGroupStage", m[i], EmploymentGroup[groupID].status, EmploymentGroup[groupID].stage)
-            TriggerClientEvent('qb-phone:client:RefreshGroupsApp', m[i], EmploymentGroup, true)
         end
     end
 end exports('resetJobStatus', resetJobStatus)
