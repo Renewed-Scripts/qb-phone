@@ -187,7 +187,7 @@ $(document).on('click', '#hire-fucker', function(e){
 $(document).on('click', '#hire-worker-submit', function(e){
     var stateid = $(".hire-worker-stateid").val();
     var grade = gradeLevel
-    if(stateid != "" && grade != ""){
+    if(stateid !== "" && grade !== ""){
         setTimeout(function(){
             ConfirmationFrame()
         }, 150);
