@@ -54,8 +54,8 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetGarageVehicles', function(so
             local enginePercent = round(v.engine / 10, 0)
             local bodyPercent = round(v.body / 10, 0)
             if v.garage then
-                if config.Garages[v.garage] then
-                    VehicleGarage = config.Garages[v.garage]["label"]
+                if Config.Garages[v.garage] then
+                    VehicleGarage = Config.Garages[v.garage]["label"]
                 else
                     VehicleGarage = v.garage
                 end
