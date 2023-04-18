@@ -27,9 +27,6 @@ files {
     'html/js/*.js',
     'html/img/*.png',
     'html/css/*.css',
-    'html/fonts/*.ttf',
-    'html/fonts/*.otf',
-    'html/fonts/*.woff',
     'html/img/backgrounds/*.png',
     'html/img/apps/*.png',
 }
