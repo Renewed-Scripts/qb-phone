@@ -138,6 +138,8 @@ function SendDocument(title, text){
 // Clicks
 
 $(document).on('click', '#documents-docs', function(e) {
+    $(this).parents('.documents-dropdown').find('span').text($(this).text());
+    $(this).parents('.documents-dropdown').find('input').attr('value', $(this).attr('id'));
     getDocuments();
 });
 
