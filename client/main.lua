@@ -91,16 +91,14 @@ local PublicPhoneobject = {
     -1559354806
 }
 
-exports["qb-target"]:AddTargetModel(PublicPhoneobject, {
-    options = {
+exports.ox_target:addModel(PublicPhoneobject, {
         {
             type = "client",
             event = "qb-phone:client:publocphoneopen",
             icon = "fas fa-phone-alt",
             label = "Public Phone",
+            distance = 1.0
         },
-    },
-    distance = 1.0
 })
 
 
