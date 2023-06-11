@@ -1,6 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
-QBCore.Functions.CreateCallback('qb-phone:server:GetAvailableTaxiDrivers', function(_, cb)
+lib.callback.register('qb-phone:server:GetAvailableTaxiDrivers', function(_)
     local TaxiDrivers = {}
 
     for i = 1, #Config.TaxiJob do
@@ -21,5 +19,5 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetAvailableTaxiDrivers', funct
             end
         end
     end
-    cb(TaxiDrivers)
+    return TaxiDrivers
 end)

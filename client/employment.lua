@@ -1,6 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
-
 -- Use This Callback Whenever You Need To Get A the information --
 local cachedEmployees = {}
 local myJobs = {}
@@ -117,7 +114,7 @@ end)
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         Wait(300)
-        QBCore.Functions.TriggerCallback('qb-phone:server:GetMyJobs', function(employees, myShit)
+        lib.callback('qb-phone:server:GetMyJobs', false, function(employees, myShit)
             for k, _ in pairs(employees) do
                 for _, v in pairs(employees[k]) do
                     if not cachedEmployees[k] then cachedEmployees[k] = {} end
@@ -145,7 +142,7 @@ end)
 
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetMyJobs', function(employees, myShit)
+    lib.callback('qb-phone:server:GetMyJobs', false, function(employees, myShit)
         for k, _ in pairs(employees) do
             for _, v in pairs(employees[k]) do
                 if not cachedEmployees[k] then cachedEmployees[k] = {} end

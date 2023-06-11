@@ -1,7 +1,5 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 RegisterNUICallback('GetAvailableTaxiDrivers', function(_, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetAvailableTaxiDrivers', function(drivers)
-        cb(drivers)
+    lib.callback('qb-phone:server:GetAvailableTaxiDrivers', false, function(drivers)
+        return cb(drivers)
     end)
 end)
