@@ -92,18 +92,19 @@ local PublicPhoneobject = {
 }
 
 exports.ox_target:addModel(PublicPhoneobject, {
-        {
-            type = "client",
-            event = "qb-phone:client:publocphoneopen",
-            icon = "fas fa-phone-alt",
-            label = "Public Phone",
-            distance = 1.0
-        },
+    {
+        icon = "fas fa-phone-alt",
+        label = "Public Phone",
+        onSelect = function()
+            TriggerEvent("qb-phone:client:publocphoneopen")
+        end,
+        distance = 1.0
+    },
 })
 
 
 local function LoadPhone()
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetPhoneData', function(pData)
+    lib.callback('qb-phone:server:GetPhoneData', false, function(pData)
 
         -- Should fix errors with phone not loading correctly --
         while pData == nil do Wait(25) end
@@ -193,9 +194,9 @@ local function LoadPhone()
             applications = Config.PhoneApplications,
             PlayerId = GetPlayerServerId(PlayerId())
         })
-
     end)
 end
+
 local function DisableDisplayControlActions()
     DisableControlAction(0, 1, true) -- disable mouse look
     DisableControlAction(0, 2, true) -- disable mouse look
@@ -221,7 +222,7 @@ local function OpenPhone()
     if hasPhone() then
         PhoneData.PlayerData = PlayerData
         SetNuiFocus(true, true)
-        
+
         local hasVPN = QBCore.Functions.HasItem(Config.VPNItem)
 
         SendNUIMessage({
@@ -402,7 +403,7 @@ RegisterCommand('phone', function()
             QBCore.Functions.Notify("Action not available at the moment..", "error")
         end
     end
-end) RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
+end, false) RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
 
 RegisterCommand("+answer", function()
     if (PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing" and not PhoneData.CallData.CallType == "ongoing") then
@@ -412,7 +413,7 @@ RegisterCommand("+answer", function()
             QBCore.Functions.Notify("Action not available at the moment..", "error")
         end
     end
-end) RegisterKeyMapping('+answer', 'Answer Phone Call', 'keyboard', 'Y')
+end, false) RegisterKeyMapping('+answer', 'Answer Phone Call', 'keyboard', 'Y')
 
 RegisterCommand("+decline", function()
     if (PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing" or PhoneData.CallData.CallType == "ongoing") then
@@ -422,7 +423,7 @@ RegisterCommand("+decline", function()
             QBCore.Functions.Notify("Action not available at the moment..", "error")
         end
     end
-end) RegisterKeyMapping('+decline', 'Decline Phone Call', 'keyboard', 'J')
+end, false) RegisterKeyMapping('+decline', 'Decline Phone Call', 'keyboard', 'J')
 
 -- NUI Callbacks
 
@@ -536,7 +537,7 @@ RegisterNUICallback('UpdateProfilePicture', function(data, cb)
 end)
 
 RegisterNUICallback('FetchSearchResults', function(data, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:FetchResult', function(result)
+    lib.callback('qb-phone:server:FetchResult', false, function(result)
         cb(result)
     end, data.input)
 end)
@@ -581,7 +582,7 @@ RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
 end)
 
 RegisterNUICallback('CallContact', function(data, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetCallState', function(CanCall, IsOnline)
+    lib.callback('qb-phone:server:GetCallState', false, function(CanCall, IsOnline)
         local status = {
             CanCall = CanCall,
             IsOnline = IsOnline,
@@ -609,7 +610,7 @@ RegisterNUICallback("TakePhoto", function(_, cb)
             OpenPhone()
             break
         elseif IsControlJustPressed(1, 176) then
-            QBCore.Functions.TriggerCallback("qb-phone:server:GetWebhook",function(hook)
+            lib.callback("qb-phone:server:GetWebhook", false, function(hook)
                 QBCore.Functions.Notify('Touching up photo...', 'primary')
                 exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function(uploadData)
                     local image = json.decode(uploadData)
@@ -924,7 +925,7 @@ RegisterNUICallback('CanTransferMoney', function(data, cb)
     local amount = tonumber(data.amountOf)
     local iban = data.sendTo
     if (PlayerData.money.bank - amount) >= 0 then
-        QBCore.Functions.TriggerCallback('qb-phone:server:CanTransferMoney', function(Transferd)
+        lib.callback('qb-phone:server:CanTransferMoney', function(Transferd)
             if Transferd then
                 cb({TransferedMoney = true, NewBalance = (PlayerData.money.bank - amount)})
             else
