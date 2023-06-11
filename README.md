@@ -90,7 +90,9 @@ TriggerClientEvent('QBCore:Notify', src, Lang:t('info.new_job', {job = JobInfo.l
 end)
 ```
 
-7. Restart your server fully to get the new commands working and also to get the phone fully working.
+7. Throw the `dialing.ogg` into your interact-sound/client/html/sounds file, if you don't already have it
+
+8. Restart your server fully to get the new commands working and also to get the phone fully working.
 
 
 It should now look like this
@@ -255,8 +257,19 @@ This is pretty much everything to do with setting up the phone. If you encounter
         </p>
 </details>
 
+#### Other Other Other Contributers
 
-#### Other Other Other Contributors
+<details>
+    <summary><b>xViperAG</b></summary>
+        <p>
+            <a href="https://github.com/xViperAG">
+                <img alt="GitHub" src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png"
+                width="150" height="70">
+            </a>
+        </p>
+</details>
+
+##### Other Other Other Other Contributors
 
 <details>
     <summary><b>QBCore</b></summary>
