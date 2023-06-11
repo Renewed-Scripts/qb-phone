@@ -65,3 +65,37 @@ RegisterNetEvent('qb-phone:server:sendNewMail', function(mailData, citizenID)
         end
     end
 end)
+
+function sendNewMailToOffline(citizenid, mailData)
+    local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
+    if Player then
+        local src = Player.PlayerData.source
+        if mailData.button == nil then
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+            TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
+        else
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {Player.PlayerData.citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+            TriggerClientEvent('qb-phone:client:NewMailNotify', src, mailData)
+        end
+        SetTimeout(200, function()
+            local mails = MySQL.query.await(
+                'SELECT * FROM player_mails WHERE citizenid = ? ORDER BY `date` ASC', {Player.PlayerData.citizenid})
+            if mails[1] ~= nil then
+                for k, _ in pairs(mails) do
+                    if mails[k].button ~= nil then
+                        mails[k].button = json.decode(mails[k].button)
+                    end
+                end
+            end
+
+            TriggerClientEvent('qb-phone:client:UpdateMails', src, mails)
+        end)
+    else
+        if mailData.button == nil then
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`) VALUES (?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0})
+        else
+            MySQL.insert('INSERT INTO player_mails (`citizenid`, `sender`, `subject`, `message`, `mailid`, `read`, `button`) VALUES (?, ?, ?, ?, ?, ?, ?)', {citizenid, mailData.sender, mailData.subject, mailData.message, GenerateMailId(), 0, json.encode(mailData.button)})
+        end
+    end
+end
+exports("sendNewMailToOffline",sendNewMailToOffline)
