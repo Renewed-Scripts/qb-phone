@@ -4,7 +4,10 @@ Config = Config or {}
 
 Config.RenewedBanking = true -- Either put this to true or false if you use Renewed Banking or not
 Config.RenewedFinances = false -- Either put this to true or false if you use Renewed Finances or not
-Config.RenewedCameras = false -- Either put this to true or false if you use Renewed Cameras or not
+
+-- Configs for GoPro Script
+Config.BrazzersCameras = false -- Either put this to true or false if you use Renewed Cameras or not
+
 
 Config.BillingCommissions = { -- This is a percentage (0.10) == 10%
     mechanic = 0.10
