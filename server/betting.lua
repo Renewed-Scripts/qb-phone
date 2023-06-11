@@ -1,7 +1,6 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 local CasinoTable = {}
 local BetNumber = 0
+
 RegisterNetEvent('qb-phone:server:CasinoAddBet', function(data)
     BetNumber += 1
     CasinoTable[BetNumber] = {['Name'] = data.name, ['chanse'] = data.chanse, ['id'] = BetNumber}

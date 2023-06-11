@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- NUI Callback
 
 RegisterNUICallback('FetchVehicleResults', function(data, cb)

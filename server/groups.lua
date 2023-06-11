@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 ---- EMPLOYMENT (GROUP APPS)
 
 local Players = {} -- Don't Touch

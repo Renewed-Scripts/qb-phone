@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 local inJob = false
 local GroupBlips = {}
 

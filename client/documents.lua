@@ -1,7 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- NUI Callback
-
 
 RegisterNUICallback('documents_Save_Note_As', function(data, cb)
     TriggerServerEvent('qb-phone:server:documents_Save_Note_As', data)

@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
 local WebHook = Config.Webhook

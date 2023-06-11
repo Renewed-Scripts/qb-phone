@@ -1,6 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
-
 -- exports['qb-phone']:RemoveCrypto(Player, type, amount)
 local function RemoveCrypto(src, type, amount)
     if not src then return end

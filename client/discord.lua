@@ -1,6 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
-
 -- Find a room loaded in memory by room id or by room code.
 -- @params int id
 -- @params string code

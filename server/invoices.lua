@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- Events
 
 RegisterNetEvent('qb-phone:server:InvoiceHandler')

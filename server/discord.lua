@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 ChatRooms = {}
 
 -- Generates a random letter
