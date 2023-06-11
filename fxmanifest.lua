@@ -9,8 +9,10 @@ ui_page 'html/index.html'
 
 shared_scripts {
     'config.lua',
+    'shared/shared.lua',
     '@qb-apartments/config.lua',
     '@qb-garages/config.lua',
+    '@ox_lib/init.lua'
 }
 
 client_scripts {

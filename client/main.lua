@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 --- Global Variables ---
 PlayerData = QBCore.Functions.GetPlayerData()
 
@@ -298,7 +296,7 @@ local function CancelCall()
 
     TriggerEvent('qb-phone:client:CustomNotification',
         "PHONE CALL",
-        "Disconnected...",
+        "Disconnected!",
         "fas fa-phone-square",
         "#e84118",
         5000
@@ -689,7 +687,7 @@ RegisterNetEvent('qb-phone:client:CancelCall', function()
 
     TriggerEvent('qb-phone:client:CustomNotification',
         "PHONE CALL",
-        "Disconnected...",
+        "Disconnected!",
         "fas fa-phone-square",
         "#e84118",
         5000
@@ -738,7 +736,7 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
                 if RepeatCount + 1 ~= Config.CallRepeats + 1 then
                     if PhoneData.CallData.InCall then
                         RepeatCount = RepeatCount + 1
-                        TriggerServerEvent("InteractSound_SV:PlayOnSource", "ringing", CallVolume)
+                        TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 2.5, "ringing", CallVolume)
 
                         if not PhoneData.isOpen then
                             SendNUIMessage({
@@ -895,8 +893,26 @@ end)
 -- Public Phone Shit
 
 RegisterNetEvent('qb-phone:client:publocphoneopen',function()
-    SetNuiFocus(true, true)
-    SendNUIMessage({type = 'publicphoneopen'})
+    TriggerServerEvent('InteractSound_SV:PlayOnSource', 'payphonestart', 0.4)
+    if lib.progressBar({
+        duration = 10500,
+        label = "Using Payphone..",
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = true,
+            car = true,
+            combat = true,
+        },
+        anim = {
+            dict = "anim_casino_a@amb@casino@games@arcadecabinet@maleright",
+            clip = "insert_coins",
+            flag = 49,
+        }
+    }) then
+        SetNuiFocus(true, true)
+        SendNUIMessage({type = 'publicphoneopen'})
+    end
 end)
 
 RegisterNUICallback('publicphoneclose', function(_, cb)
