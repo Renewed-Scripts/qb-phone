@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local Hashtags = {} -- Located in the Twitter File as well ??
 local Calls = {}
 local WebHook = Config.Webhook
@@ -22,27 +21,27 @@ end
 
 -- Callbacks
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetCallState', function(source, cb, ContactData)
+lib.callback.register('qb-phone:server:GetCallState', function(source, ContactData)
     local number = tostring(ContactData.number)
     local Target = QBCore.Functions.GetPlayerByPhone(number)
     local Player = QBCore.Functions.GetPlayer(source)
 
-    if not Target then return cb(false, false) end
+    if not Target then return false, false end
 
-    if Target.PlayerData.citizenid == Player.PlayerData.citizenid then return cb(false, false) end
+    if Target.PlayerData.citizenid == Player.PlayerData.citizenid then return false, false end
 
     if Calls[Target.PlayerData.citizenid] then
         if Calls[Target.PlayerData.citizenid].inCall then
-            cb(false, true)
+            return false, true
         else
-            cb(true, true)
+            return true, true
         end
     else
-        cb(true, true)
+        return true, true
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source, cb)
+lib.callback.register('qb-phone:server:GetPhoneData', function(source)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player or not src then return end
@@ -102,12 +101,12 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPhoneData', function(source,
         PhoneData.ChatRooms = chat_rooms
         ChatRooms = chat_rooms
     end
-    cb(PhoneData)
+    return PhoneData
 end)
 
 
 -- Can't even wrap my head around this lol diffently needs a good old rewrite
-QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(_, cb, input)
+lib.callback.register('qb-phone:server:FetchResult', function(_, input)
     local search = escape_sqli(input)
     local searchData = {}
     local ApaData = {}
@@ -147,15 +146,15 @@ QBCore.Functions.CreateCallback('qb-phone:server:FetchResult', function(_, cb, i
                 appartmentdata = appiepappie
             }
         end
-        cb(searchData)
+        return searchData
     else
-        cb(nil)
+        return nil
     end
 end)
 
 -- Webhook needs to get fixed, right now anyone can grab this and use it to spam dick pics in Discord servers
-QBCore.Functions.CreateCallback("qb-phone:server:GetWebhook",function(_, cb)
-	cb(WebHook)
+lib.callback.register("qb-phone:server:GetWebhook",function(_)
+	return WebHook
 end)
 
 -- Events

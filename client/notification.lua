@@ -48,7 +48,6 @@ RegisterNetEvent("qb-phone:client:CustomNotification2", function(title, text, ic
         },
     })
 end)
-
 -- Functions
 
 local function PhoneNotification(title, text, icon, color, timeout, accept, deny)

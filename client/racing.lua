@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- NUI Callback
 
 RegisterNUICallback('GetAvailableRaces', function(_, cb)
@@ -44,7 +42,19 @@ RegisterNUICallback('GetTrackData', function(data, cb)
 end)
 
 RegisterNUICallback('SetupRace', function(data, cb)
+    local hasDongle = exports.ox_inventory:Search('count', 'phone_dongle')
     TriggerServerEvent('qb-lapraces:server:SetupRace', data.RaceId, tonumber(data.AmountOfLaps))
+    if hasDongle >= 1 then
+        SendNUIMessage({
+            action = "PhoneNotification",
+            PhoneNotify = {
+                title = "FROM THE PM",
+                text = "New Race Has Started!",
+                icon = "fas fa-flag-checkered",
+                color = "#167869"
+            },
+        })
+    end
     cb("ok")
 end)
 
@@ -83,8 +93,7 @@ end)
 
 RegisterNUICallback('RaceDistanceCheck', function(data, cb)
     QBCore.Functions.TriggerCallback('qb-lapraces:server:GetRacingData', function(RaceData)
-        local ped = PlayerPedId()
-        local coords = GetEntityCoords(ped)
+        local coords = GetEntityCoords(cache.ped)
         local checkpointcoords = RaceData.Checkpoints[1].coords
         local dist = #(coords - vector3(checkpointcoords.x, checkpointcoords.y, checkpointcoords.z))
         if dist <= 115.0 then

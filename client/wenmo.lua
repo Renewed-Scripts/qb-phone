@@ -4,9 +4,9 @@ RegisterNUICallback('wenmo_givemoney_toID', function(data)
     TriggerServerEvent('qb-phone:server:wenmo_givemoney_toID', data)
 end)
 
-RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus, reason)
+RegisterNetEvent('QBCore:Client:OnMoneyChange', function(type, amount, changeType, reason)
     if type == "bank" then
-        if isMinus then
+        if changeType == 'remove' then
             SendNUIMessage({
                 action = "ChangeMoney_Wenmo",
                 Color = "#f5a15b",

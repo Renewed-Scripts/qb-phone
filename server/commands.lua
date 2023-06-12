@@ -1,6 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
-
 QBCore.Commands.Add("setmetadata", "Set Player Metadata (God Only)", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     if args[1] then

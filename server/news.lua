@@ -1,7 +1,6 @@
 local LSBNTable = {}
 local LSBNTableID = 0
 
-
 RegisterNetEvent('qb-phone:server:Send_lsbn_ToChat', function(data)
     LSBNTableID = LSBNTableID + 1
     if data.Type == "Text" then

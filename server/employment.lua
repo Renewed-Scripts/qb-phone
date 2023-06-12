@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local CachedJobs = {}
 local CachedPlayers = {}
 
@@ -178,7 +177,7 @@ RegisterNetEvent('qb-phone:server:SendEmploymentPayment', function(Job, CID, amo
     else
         if not exports['qb-management']:RemoveMoney(Job, amt) then return notifyPlayer(src, "Insufficient Funds...") end
     end
-    Player.Functions.AddMoney('bank', amt)
+    Player.Functions.AddMoney('bank', amt, 'Employment Payment')
 end)
 
 ---- ** Player can hire someone aslong as they are boss within the group
@@ -277,7 +276,7 @@ RegisterNetEvent('qb-phone:server:clockOnDuty', function(Job)
 end)
 
 ---- Gets the client side cache for players ----
-QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb)
+lib.callback.register("qb-phone:server:GetMyJobs", function(source)
     if FirstStart then return end
     local Player = QBCore.Functions.GetPlayer(source)
 
@@ -295,7 +294,7 @@ QBCore.Functions.CreateCallback("qb-phone:server:GetMyJobs", function(source, cb
     end
 
 
-    cb(employees, CachedPlayers[CID])
+    return employees, CachedPlayers[CID]
 end)
 
 ---- Functions and Exports people can use across script to hire and fire people to sync ----

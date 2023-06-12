@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 RegisterNetEvent("qb-phone:server:sendDocument", function(data)
     local src = source
     local Ply = QBCore.Functions.GetPlayer(src)

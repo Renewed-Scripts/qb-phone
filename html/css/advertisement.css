@@ -197,6 +197,7 @@
     bottom: 3.0vh;
     outline: 1.5px ridge rgb(0, 0, 0);
     background-color: #f7e95f;
+    cursor: pointer;
 }
 
 .advert-eye {

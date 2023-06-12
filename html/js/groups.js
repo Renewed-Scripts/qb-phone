@@ -24,10 +24,6 @@ $(document).on('click', '#jobcenter-submit-create-group', function(e){
                 name: Name,
                 pass: pass,
             }));
-
-
-
-
             $('#jobcenter-box-new-dashboard').fadeOut(350);
         }else{
             QB.Phone.Notifications.Add("fas fa-exclamation-circle", "System", "The password entered is incorrect")
@@ -148,8 +144,6 @@ function AddGroupJobs(data){
     clearInterval(Interval);
     Interval = setInterval(startTimer, 10);
     if(data) {
-
-
         for (const [k, v] of Object.entries(data)) {
             if (v.isDone) {
                 AddOption =

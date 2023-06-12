@@ -1,7 +1,13 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- NUI Callback
 
+-- WORK IN PROGRESS
+--[[
+RegisterNUICallback('SetupHousingDocuments', function(_, cb)
+    QBCore.Functions.TriggerCallback('qb-phone:server:GetHousingLocations', function(houses)
+        cb(houses)
+    end)
+end)
+]]
 
 RegisterNUICallback('documents_Save_Note_As', function(data, cb)
     TriggerServerEvent('qb-phone:server:documents_Save_Note_As', data)

@@ -181,10 +181,10 @@
 
 .crypto-box {
     transition: 0.25s;
-    border-radius: 4px;
+    border-radius: 5px;
     color: black;
     font-family: 'Roboto', sans-serif;
-    font-size: 0.85vh;
+    font-size: 1.1vh;
     margin-bottom: 4%;
 }
 

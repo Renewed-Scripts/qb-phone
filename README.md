@@ -90,13 +90,30 @@ TriggerClientEvent('QBCore:Notify', src, Lang:t('info.new_job', {job = JobInfo.l
 end)
 ```
 
-7. Restart your server fully to get the new commands working and also to get the phone fully working.
+7. Throw the `dialing.ogg` into your interact-sound/client/html/sounds file, if you don't already have it
+
+8. Restart your server fully to get the new commands working and also to get the phone fully working.
 
 
 It should now look like this
 
 ![QBCore Commands](https://i.gyazo.com/beb2bd18c02088c184e5e381a9f4962a.png)
 
+
+## Casino Setup
+
+1. Head over to your qb-core/config.lua
+2. Replace the following code with below code
+```lua
+-- Old
+QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+QBConfig.Money.DontAllowMinus = { 'cash', 'crypto' } -- Money that is not allowed going in minus
+```
+```lua
+-- NEW
+QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, casino = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+QBConfig.Money.DontAllowMinus = { 'cash', 'casino' } -- Money that is not allowed going in minus
+```
 
 ## Crypto Setup
 
@@ -255,8 +272,19 @@ This is pretty much everything to do with setting up the phone. If you encounter
         </p>
 </details>
 
+#### Other Other Other Contributers
 
-#### Other Other Other Contributors
+<details>
+    <summary><b>xViperAG</b></summary>
+        <p>
+            <a href="https://github.com/xViperAG">
+                <img alt="GitHub" src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png"
+                width="150" height="70">
+            </a>
+        </p>
+</details>
+
+##### Other Other Other Other Contributors
 
 <details>
     <summary><b>QBCore</b></summary>

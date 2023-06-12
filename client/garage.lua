@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 -- Functions
 
 local function findVehFromPlateAndLocate(plate)
@@ -19,24 +17,37 @@ end
 -- NUI Callback
 
 RegisterNUICallback('SetupGarageVehicles', function(_, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:GetGarageVehicles', function(vehicles)
+    lib.callback('qb-phone:server:GetGarageVehicles', false, function(vehicles)
         cb(vehicles)
     end)
 end)
 
 RegisterNUICallback('gps-vehicle-garage', function(data, cb)
     local veh = data.veh
-    if veh.state == 'In' then
-        if veh.parkingspot then
-            SetNewWaypoint(veh.parkingspot.x, veh.parkingspot.y)
+    if Config.Garage == 'jdev' then
+        exports['qb-garages']:TrackVehicleByPlate(veh.plate)
+        TriggerEvent('qb-phone:client:CustomNotification',
+            "GARAGE",
+            "GPS Marker Set!",
+            "fas fa-car",
+            "#e84118",
+            5000
+        )
+        cb("ok")
+    elseif Config.Garage == 'qbcore' then
+        --Deprecated
+        if veh.state == 'In' then
+            if veh.parkingspot then
+                SetNewWaypoint(veh.parkingspot.x, veh.parkingspot.y)
+                QBCore.Functions.Notify("Your vehicle has been marked", "success")
+            end
+        elseif veh.state == 'Out' and findVehFromPlateAndLocate(veh.plate) then
             QBCore.Functions.Notify("Your vehicle has been marked", "success")
+        else
+            QBCore.Functions.Notify("This vehicle cannot be located", "error")
         end
-    elseif veh.state == 'Out' and findVehFromPlateAndLocate(veh.plate) then
-        QBCore.Functions.Notify("Your vehicle has been marked", "success")
-    else
-        QBCore.Functions.Notify("This vehicle cannot be located", "error")
+        cb("ok")
     end
-    cb("ok")
 end)
 
 RegisterNUICallback('sellVehicle', function(data, cb)

@@ -1,10 +1,9 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 RegisterNetEvent('qb-phone:server:addImageToGallery', function(image)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:insert('INSERT INTO phone_gallery (`citizenid`, `image`) VALUES (?, ?)',{Player.PlayerData.citizenid,image})
 end)
+
 RegisterNetEvent('qb-phone:server:getImageFromGallery', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)

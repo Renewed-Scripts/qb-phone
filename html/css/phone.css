@@ -892,6 +892,23 @@
     transition: 0.25s;
 }
 
+.phone-menu-label{
+    position: relative;
+    margin-left: 10%;
+    margin-bottom: -10%;
+    width: 80%;
+    border: none;
+    background: none;
+    outline: none;
+    text-indent: 3vh;
+    text-align: left;
+    line-height: 3.0vh;
+    font-size: 1.75vh;
+    overflow: hidden;
+    color: white;
+    transition: 0.25s;
+}
+
 #phone-menu-icon{
     position: relative;
     top: 0.2vh;
