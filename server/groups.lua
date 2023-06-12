@@ -243,8 +243,8 @@ RegisterNetEvent('qb-phone:server:jobcenter_DeleteGroup', function(data)
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetGroupsApp', function(_, cb)
-    cb(EmploymentGroup)
+lib.callback.register('qb-phone:server:GetGroupsApp', function(_)
+    return EmploymentGroup
 end)
 
 RegisterNetEvent('qb-phone:server:jobcenter_JoinTheGroup', function(data)
@@ -267,24 +267,23 @@ local function GetGroupStages(groupID)
     return EmploymentGroup[groupID].stage
 end exports('GetGroupStages', GetGroupStages)
 
-QBCore.Functions.CreateCallback('qb-phone:server:getAllGroups', function(source, cb)
+lib.callback.register('qb-phone:server:getAllGroups', function(source)
     local src = source
 
     if Players[src] then
-        cb(EmploymentGroup, true, getJobStatus(GetGroupByMembers(src)), GetGroupStages(GetGroupByMembers(src)))
+        return EmploymentGroup, true, getJobStatus(GetGroupByMembers(src)), GetGroupStages(GetGroupByMembers(src))
     else
-        cb(EmploymentGroup, false)
+        return EmploymentGroup, false
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:jobcenter_CheckPlayerNames', function(_, cb, csn)
+lib.callback.register('qb-phone:server:jobcenter_CheckPlayerNames', function(_, csn)
     local Names = {}
     for _, v in pairs(EmploymentGroup[csn].members) do
         Names[#Names+1] = v.name
     end
-    cb(Names)
+    return Names
 end)
-
 
 RegisterNetEvent('qb-phone:server:jobcenter_leave_grouped', function(data)
     local src = source
@@ -296,7 +295,6 @@ local function isGroupTemp(groupID)
     if not groupID or not EmploymentGroup[groupID] then return print("isGroupTemp was sent an invalid groupID :"..groupID) end
     return EmploymentGroup[groupID].ScriptCreated or false
 end exports('isGroupTemp', isGroupTemp)
-
 
 local function CreateGroup(src, name, password)
     if not src or not name then return end

@@ -76,7 +76,7 @@ RegisterNetEvent("groups:createBlip", function(name, data)
 end)
 
 RegisterNUICallback('GetGroupsApp', function (_, cb)
-    QBCore.Functions.TriggerCallback('qb-phone:server:getAllGroups', function (getGroups)
+    lib.callback('qb-phone:server:getAllGroups', false, function (getGroups)
         cb(getGroups)
     end)
 end)
@@ -126,7 +126,7 @@ end)
 
 
 RegisterNUICallback('jobcenter_CheckPlayerNames', function(data, cb) --employment
-    QBCore.Functions.TriggerCallback('qb-phone:server:jobcenter_CheckPlayerNames', function(HasName)
+    lib.callback('qb-phone:server:jobcenter_CheckPlayerNames', false, function(HasName)
         cb(HasName)
     end, data.id)
 end)
