@@ -88,16 +88,16 @@ AddEventHandler('onResourceStart', function(resource)
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetGroupChatMessages', function(_, cb, roomID)
+lib.callback.register('qb-phone:server:GetGroupChatMessages', function(_, roomID)
     local messages = MySQL.query.await("SELECT * FROM phone_chatroom_messages WHERE room_id=@roomID ORDER BY created DESC LIMIT 40", {['@roomID'] = roomID})
     if messages[1] then
-        cb(messages)
+        return messages
     else
-        cb(false)
+        return false
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:SearchGroupChatMessages', function(source, cb, roomID, searchTerm)
+lib.callback.register('qb-phone:server:SearchGroupChatMessages', function(source, roomID, searchTerm)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local search = escape_sqli(searchTerm)
@@ -109,13 +109,13 @@ QBCore.Functions.CreateCallback('qb-phone:server:SearchGroupChatMessages', funct
         })
 
         if messages[1] then
-            cb(messages)
+            return messages
         else
-            cb(false)
+            return false
         end
     else
         TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to search.')
-        cb(false)
+        return false
     end
 end)
 
