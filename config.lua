@@ -8,7 +8,6 @@ Config.RenewedFinances = false -- Either put this to true or false if you use Re
 -- Configs for GoPro Script
 Config.BrazzersCameras = false -- Either put this to true or false if you use Renewed Cameras or not
 
-
 Config.BillingCommissions = { -- This is a percentage (0.10) == 10%
     mechanic = 0.10
 }
@@ -21,6 +20,10 @@ Config.VPNItem = 'vpn'
 
 -- The garage the vehicle goes to when you sell a car to a player
 Config.SellGarage = 'altastreet'
+
+-- NEW --
+Config.Garage = 'jdev'  -- Use 'jdev' if using JDev's QB Garage Script
+                        -- Use 'qbcore' if using base QBCore Garage Script
 
 -- How Long Does The Player Have To Accept The Ping - This Is In Seconds
 Config.Timeout = 30
