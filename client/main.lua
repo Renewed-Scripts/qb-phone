@@ -58,6 +58,10 @@ local function hasPhone()
     end
 end exports('hasPhone', hasPhone)
 
+local function IsPhoneOpen()
+    return PhoneData.isOpen
+end exports("IsPhoneOpen", IsPhoneOpen)
+
 local function CalculateTimeToDisplay()
 	local hour = GetClockHours()
     local minute = GetClockMinutes()
@@ -93,13 +97,21 @@ local PublicPhoneobject = {
 
 exports.ox_target:addModel(PublicPhoneobject, {
     {
-        icon = "fas fa-phone-alt",
-        label = "Public Phone",
+        icon = "fas fa-phone-volume",
+        label = "Make Call",
         onSelect = function()
-            TriggerEvent("qb-phone:client:publocphoneopen")
+            TriggerEvent("qb-phone:client:publicphoneopen")
         end,
         distance = 1.0
     },
+    {
+        icon = 'fas fa-clipboard',
+        label = 'View Taxis',
+        onSelect = function()
+            TriggerEvent('qb-phone:OpenAvailableTaxi')
+        end,
+        distance = 1.0
+    }
 })
 
 
@@ -340,6 +352,7 @@ local function CallContact(CallData, AnonymousCall)
         end
     end
 end
+exports('CallContact', CallContact)
 
 local function AnswerCall()
     if (PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing") and PhoneData.CallData.InCall and not PhoneData.CallData.AnsweredCall then
@@ -891,32 +904,24 @@ end)
 
 -- Public Phone Shit
 
-RegisterNetEvent('qb-phone:client:publocphoneopen',function()
-    TriggerServerEvent('InteractSound_SV:PlayOnSource', 'payphonestart', 0.4)
-    if lib.progressBar({
-        duration = 10500,
-        label = "Using Payphone..",
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = true,
-            car = true,
-            combat = true,
-        },
-        anim = {
-            dict = "anim_casino_a@amb@casino@games@arcadecabinet@maleright",
-            clip = "insert_coins",
-            flag = 49,
+RegisterNetEvent('qb-phone:client:publicphoneopen',function()
+    local input = lib.inputDialog("", {
+        {
+            type = 'number',
+            label = 'Phone Number',
+            icon = 'fas fa-phone-volume'
         }
-    }) then
-        SetNuiFocus(true, true)
-        SendNUIMessage({type = 'publicphoneopen'})
-    end
-end)
+    }, {
+        allowCancel = false
+    })
+    if not input or not next(input) then return end
 
-RegisterNUICallback('publicphoneclose', function(_, cb)
-    SetNuiFocus(false, false)
-    cb('ok')
+    local calldata = {
+        number = input[1],
+        name = input[1]
+    }
+
+    CallContact(calldata, true)
 end)
 
 --- SHIT THAT IS GONE

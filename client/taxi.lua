@@ -3,3 +3,16 @@ RegisterNUICallback('GetAvailableTaxiDrivers', function(_, cb)
         cb(drivers)
     end)
 end)
+
+RegisterNetEvent('qb-phone:OpenAvailableTaxi', function()
+    local taxiMenu = {}
+
+    -- TO BE WRITTEN
+
+    lib.registerContext({
+        id = 'taxi_call_menu',
+        title = 'Available Taxis',
+        options = taxiMenu
+    })
+    lib.showContext('taxi_call_menu')
+end)
