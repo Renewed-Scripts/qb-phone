@@ -75,8 +75,7 @@ AddEventHandler('onResourceStart', function(resource)
                 if Player then
                     if Player.PlayerData.money.bank >= price then
                         Player.Functions.RemoveMoney('bank', price)
-                        TriggerEvent('qb-phone:server:sendNewEventMail', room.room_owner_id, {
-                            room.room_owner_id,
+                        sendNewMailToOffline(room.room_owner_id, {
                             sender = "Discord Rooms",
                             subject = "Paid Subscription for (" .. room.room_name .. ") $" .. price,
                             message = "You have been billed for your ownership of the chat channel " .. room.room_name .. " for the amount of $" .. price .. ". If you no longer wish to continue paying, please deactivate the room in your phone app."
@@ -119,7 +118,7 @@ lib.callback.register('qb-phone:server:SearchGroupChatMessages', function(source
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:GetPinnedMessages', function(source, cb, roomID)
+lib.callback.register('qb-phone:server:GetPinnedMessages', function(source, roomID)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
@@ -127,30 +126,30 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPinnedMessages', function(so
         local messages = MySQL.query.await("SELECT * FROM phone_chatroom_messages WHERE room_id=? AND is_pinned=1", {roomID})
 
         if messages[1] then
-            cb(messages)
+            return messages
         else
-            cb(false)
+            return false
         end
     else
         TriggerClientEvent('qb-phone:client:notification', src, 'Discord', 'You must be a member or room owner to fetch that.')
-        cb(false)
+        return false
     end
 end)
 
 
-QBCore.Functions.CreateCallback('qb-phone:server:TryPinCode', function(_, cb, pinCode, roomID)
+lib.callback.register('qb-phone:server:TryPinCode', function(_, pinCode, roomID)
     local room = MySQL.scalar.await("SELECT 1 FROM phone_chatrooms WHERE id=@roomID AND room_pin=@roomPin", {['@roomID'] = roomID, ['roomPin'] = pinCode})
-    cb(room)
+    return room
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:IsRoomOwner', function(source, cb, roomID)
+lib.callback.register('qb-phone:server:IsRoomOwner', function(source, roomID)
     local Player = QBCore.Functions.GetPlayer(source)
     local room = MySQL.scalar.await("SELECT 1 FROM phone_chatrooms WHERE id=@roomID AND room_owner_id=@owner", {['@roomID'] = roomID, ['owner'] = Player.PlayerData.citizenid})
 
     if room then
-        cb(true)
+        return true
     else
-        cb(false)
+        return false
     end
 end)
 
@@ -185,7 +184,7 @@ RegisterNetEvent('qb-phone:server:SendGroupChatMessage', function(messageData, s
     end
 end)
 
-QBCore.Functions.CreateCallback('qb-phone:server:JoinGroupChat', function(source, cb, updatedRooms, roomID)
+lib.callback.register('qb-phone:server:JoinGroupChat', function(source, updatedRooms, roomID)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not isMemberOfRoom(Player.PlayerData.citizenid, roomID) then
@@ -204,7 +203,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:JoinGroupChat', function(source
             })
         end
         TriggerClientEvent('qb-phone:client:RefreshChatRooms', -1, ChatRooms)
-        cb(true)
+        return true
     end
 end)
 
@@ -264,7 +263,7 @@ RegisterNetEvent('qb-phone:server:DeactivateRoom', function(updatedRooms, roomID
 end)
 
 
-QBCore.Functions.CreateCallback('qb-phone:server:PurchaseRoom', function(source, cb, price, roomData)
+lib.callback.register('qb-phone:server:PurchaseRoom', function(source, price, roomData)
 	local Player = QBCore.Functions.GetPlayer(source)
     if Player.PlayerData.money.bank >= price then
         Player.Functions.RemoveMoney('bank', price, 'Discord Channel Purchase')
@@ -303,9 +302,9 @@ QBCore.Functions.CreateCallback('qb-phone:server:PurchaseRoom', function(source,
 
         TriggerClientEvent('qb-phone:client:RefreshChatRooms', -1, ChatRooms)
         TriggerEvent("qb-log:server:CreateLog", "discord", "Channel Created:  ".. roomData.room_name .."(id: ".. roomID.. ", by: "..Player.PlayerData.citizenid..")", "blue")
-		cb(true)
+		return true
 	else
-		cb(false)
+		return false
 	end
 end)
 

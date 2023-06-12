@@ -85,11 +85,11 @@ QB.Phone.Notifications.LoadTweets = function(Tweets, hasVPN=false) {
                             '<div class="tweet-message"><p>'+TwtMessage+'</p></div>' +
                             '<div class="tweet-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
                             '<div class="tweet-time">' + TimeAgo + '</div>' +
-                            '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                            '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 80%; position:relative; z-index: 1; left: 0.4vw; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 3.5vh;">' +
                             '<div class="tweet-block">' +
                                 '<div class="tweet-eye"><i class="fas fa-eye"></i></div>'+
                                 '<div class="tweet-image-text">Click to View</div>'+
-                                '<div class="tweet-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
+                                '<div class="tweet-image-text-other">Only reveal images from those you<p>know are not total pricks</p></div>'+
                             '</div>'+
                         '</div>';
                     $(".twitter-home-tab").append(TweetElement);
@@ -102,11 +102,11 @@ QB.Phone.Notifications.LoadTweets = function(Tweets, hasVPN=false) {
                     '<div class="tweet-message"><p>'+TwtMessage+'</p></div>' +
                     '<div class="tweet-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
                     '<div class="tweet-time">' + TimeAgo + '</div>' +
-                    '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                    '<img class="image" src= ' + Tweet.url + ' style = " display: none; border-radius:4px; width: 80%; position:relative; z-index: 1; left: 0.4vw; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 3.5vh;">' +
                     '<div class="tweet-block">' +
                         '<div class="tweet-eye"><i class="fas fa-eye"></i></div>'+
                         '<div class="tweet-image-text">Click to View</div>'+
-                        '<div class="tweet-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
+                        '<div class="tweet-image-text-other">Only reveal images from those you<p>know are not total pricks</p></div>'+
                     '</div>'+
                 '</div>';
             $(".twitter-home-tab").append(TweetElement);

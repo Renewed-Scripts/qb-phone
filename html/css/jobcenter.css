@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.job-app {
+    display: none;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: #242833;
+}
+
+.job-header {
+    position: absolute;
+    width: 90%;
+    height: 10%;
+    /* top: 8%; */
+    left: 0;
+    right: 0;
+    color: white;
+    /* font-family: 'Roboto', sans-serif; */
+    font-size: 1.5vh;
+    /* margin: 0 auto; */
+}
+
+.job-header > p {
+    text-align: center;
+    line-height: 12vh;
+    text-indent: 2vh;
+  /*   margin: 0 0 0 9vh; */
+}
+
+.job-header > span {
+    position: absolute;
+    top: 8vh;
+    left: 5vh;
+    font-size: 1.2vh;
+    height: 2vh;
+    color: white;
+}
+
+.job-list {
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: 3%;
+    border-radius: .5vh;
+    overflow-y: scroll;
+}
+
+.job-list::-webkit-scrollbar {
+    display: none;
+}
+
+.job-class-body-job{
+    color: whitesmoke;
+    background: #2c465f;
+    transition: 0.2s;
+    width: 95%;
+    padding: 2%;
+    margin-left: 2%;
+    margin-bottom: 2%;
+    border-radius: 4px;
+    /* box-shadow: 0rem 0rem 0.2rem 0.02rem #000000a6; */
+}
+.job-class-body-job:hover{
+    background: #0d1218c0;
+}
+
+.job-showitems-other{
+    margin-left: 35%;
+    position: absolute;
+    display: initial;
+    visibility: hidden;
+}
+
+.job-title {
+    font-size: 14px;
+}
+
+#job-icon-class2{
+    margin-left: 30%;
+    font-size: 275%;
+}
+
+#job-icon-class{
+    padding-left: 1.3vh;
+    font-size: 140%;
+}
+
+.job-class-body-job:hover .job-showitems-other{
+    visibility: visible;
+}
+
+#job-icon-class:hover{
+    color: #8ee074;
+}

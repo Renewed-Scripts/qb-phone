@@ -7,12 +7,14 @@ function LoadPlayerMoneys(){
     var PlayerBankAcc = QB.Phone.Data.PlayerData.charinfo.account;
     var PlayerBankMoney = QB.Phone.Data.PlayerData.money.bank;
     var PlayerCashMoney = QB.Phone.Data.PlayerData.money.cash;
+    var PlayerCasinoMoney = QB.Phone.Data.PlayerData.money.casino;
     var PlayerStateID = QB.Phone.Data.PlayerData.citizenid;
 
     $(".details-phone").html(PlayerPhoneNumber)
     $(".details-bankserial").html(PlayerBankAcc)
     $(".details-bankmoney").html("$"+numberWithCommas(PlayerBankMoney))
     $(".details-cashmoney").html("$"+numberWithCommas(PlayerCashMoney))
+    $(".details-casinomoney").html("$"+numberWithCommas(PlayerCasinoMoney))
     $(".details-stateid").html(PlayerStateID)
 
     var PlayerLicenses = QB.Phone.Data.PlayerData.metadata.licences;

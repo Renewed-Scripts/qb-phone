@@ -44,11 +44,11 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
                     '<div class="advert-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
                     '<div class="advert-flag"><i class="fas fa-flag"></i></div>'+
                     '<div class="advert-trash"><i class="fas fa-trash"></i></div>'+
-                    '<img class="image" src= ' + advert.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                    '<img class="image" src= ' + advert.url + ' style = " display: none; border-radius:4px; width: 80%; position:relative; z-index: 1; left:0.4vw; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 3.5vh;">' +
                         '<div class="advert-block">' +
                             '<div class="advert-eye"><i class="fas fa-eye"></i></div>'+
                             '<div class="advert-image-text">Click to View</div>'+
-                            '<div class="advert-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
+                            '<div class="advert-image-text-other">Only reveal images from those you<p>know are not total pricks</p></div>'+
                         '</div>'+
                     '</div>';
                 }else{
@@ -57,11 +57,11 @@ QB.Phone.Functions.RefreshAdverts = function(Adverts) {
                     '<div class="advert-contact-info">'+ advert.name + ' ┃ ' + formatPhoneNumber(advert.number) + '</span></div>'+
                     '<div class="advert-image-attached">Images Attached: 1<p><u>Hide (click image to copy URL)</u></p></div>'+
                     '<div class="advert-flag" id="adv-delete"><i class="fas fa-flag"></i></div>'+
-                    '<img class="image" src= ' + advert.url + ' style = " display: none; border-radius:4px; width: 70%; position:relative; z-index: 1; left:25px; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 20px;">' +
+                    '<img class="image" src= ' + advert.url + ' style = " display: none; border-radius:4px; width: 80%; position:relative; z-index: 1; left:0.4vwpx; margin:.6rem .5rem .6rem 1rem;height: auto; bottom: 3.5vh;">' +
                         '<div class="advert-block">' +
                             '<div class="advert-eye"><i class="fas fa-eye"></i></div>'+
                             '<div class="advert-image-text">Click to View</div>'+
-                            '<div class="advert-image-text-other">Only revel images from those you<p>know are not dick heads</p></div>'+
+                            '<div class="advert-image-text-other">Only reveal images from those you<p>know are not total pricks</p></div>'+
                         '</div>'+
                     '</div>';
                 }
@@ -173,6 +173,7 @@ $(document).on('click','.advert-contact-info',function(e){
                     QB.Phone.Notifications.Add("fas fa-phone", "Phone", "You can't call yourself!");
                 }
             });
+            $.post('https://qb-phone/Close');
         } 
     }
 })

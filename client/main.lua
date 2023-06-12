@@ -930,7 +930,7 @@ RegisterNUICallback('CanTransferMoney', function(data, cb)
     local amount = tonumber(data.amountOf)
     local iban = data.sendTo
     if (PlayerData.money.bank - amount) >= 0 then
-        lib.callback('qb-phone:server:CanTransferMoney', function(Transferd)
+        lib.callback('qb-phone:server:CanTransferMoney', false, function(Transferd)
             if Transferd then
                 cb({TransferedMoney = true, NewBalance = (PlayerData.money.bank - amount)})
             else

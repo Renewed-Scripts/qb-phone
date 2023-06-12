@@ -28,7 +28,7 @@ function newPhoneProp()
 	while not HasModelLoaded(phoneModel) do
 		Wait(1)
 	end
-	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, 1, 1, 0)
+	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, true, true, false)
 	local bone = GetPedBoneIndex(cache.ped, 28422)
 	if phoneModel == joaat("prop_cs_phone_01") then
 		AttachEntityToEntity(phoneProp, cache.ped, bone, 0.0, 0.0, 0.0, 50.0, 320.0, 50.0, true, true, false, false, 2, true)

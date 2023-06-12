@@ -100,6 +100,21 @@ It should now look like this
 ![QBCore Commands](https://i.gyazo.com/beb2bd18c02088c184e5e381a9f4962a.png)
 
 
+## Casino Setup
+
+1. Head over to your qb-core/config.lua
+2. Replace the following code with below code
+```lua
+-- Old
+QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+QBConfig.Money.DontAllowMinus = { 'cash', 'crypto' } -- Money that is not allowed going in minus
+```
+```lua
+-- NEW
+QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, casino = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+QBConfig.Money.DontAllowMinus = { 'cash', 'casino' } -- Money that is not allowed going in minus
+```
+
 ## Crypto Setup
 
 1. Head over to your qb-core/server/Player.lua

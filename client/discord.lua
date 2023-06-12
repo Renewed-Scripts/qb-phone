@@ -142,7 +142,7 @@ RegisterNUICallback('SearchGroupChatMessages', function(data, cb)
             if next(memberList) then
                 for _, memberData in pairs(memberList) do
                     if Player == memberData.cid or Player == room.room_owner_id then
-                        QBCore.Functions.TriggerCallback('qb-phone:server:SearchGroupChatMessages', function(messages)
+                        lib.callback('qb-phone:server:SearchGroupChatMessages', false, function(messages)
                             cb(messages)
                         end, Room, SearchTerm)
                         break

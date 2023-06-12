@@ -30,13 +30,13 @@
     <link rel="stylesheet" href="./css/casino.css">
     <link rel="stylesheet" href="./css/ping.css">
     <link rel="stylesheet" href="./css/calculator.css">
+    <link rel="stylesheet" href="./css/jobcenter.css">
     <link rel="stylesheet" href="./css/groups.css">
     <link rel="stylesheet" href="./css/employment.css">
     <link rel="stylesheet" href="./css/debt.css">
     <link rel="stylesheet" href="./css/wenmo.css">
     <link rel="stylesheet" href="./css/documents.css">
     <link rel="stylesheet" href="./css/lsbn.css">
-    <link rel="stylesheet" href="./css/publicphone.css">
     <link rel="stylesheet" href="./css/group-chats.css">
 
     <!-- CDN's -->
@@ -67,7 +67,7 @@
                         <i class="fas fa-angle-down phone-tab-button" id="phone-arrow" data-toggle="tooltip" data-placement="left" title="Put Phone Away"></i>
                         <i class="fas fa-sun" id="phone-sun" data-toggle="tooltip" data-placement="left" title="Weather Unavailable"></i>
                         <i class="fas fa-unlock" id="phone-unlock" style="color: #9ed4a6;" data-toggle="tooltip" data-placement="left" title="Unlocked"></i>
-                        <i class="fas fa-signal" id="phone-signal" data-toggle="tooltip" data-placement="left" title="QBCore 5G"></i>
+                        <i class="fas fa-signal" id="phone-signal" data-toggle="tooltip" data-placement="left" title="Renewed 5G"></i>
                     </div>
                 </div>
 
@@ -438,25 +438,29 @@
                         <div class="details-header">
                             <!-- <p>Services</p> -->
                             <div class="details-money-types">
-                                <div class="details-moneys-body-main" data-toggle="tooltip" title="Cash Balance">
-                                    <div class="details-icon-class"><i style="color: #b1d18e;"  class="fas fa-wallet"></i></div>
-                                    <div class="details-text-class details-cashmoney">$0901</div>
-                                </div>
-                                <div class="details-moneys-body-main" data-toggle="tooltip" title="Bank Balance">
-                                    <div class="details-icon-class"><i style="color: #b3b3b3;" class="fas fa-piggy-bank"></i></div>
-                                    <div class="details-text-class details-bankmoney">$0901</div>
-                                </div>
-                                <div class="details-moneys-body-main" data-toggle="tooltip" title="State ID Number">
-                                    <div class="details-icon-class"><i style="color: #e0d361;" class="fas fa-id-card"></i></div>
+                                <div class="details-moneys-body-main" data-toggle="tooltip" title="State ID">
+                                    <div class="details-icon-class"><i style="color: #ffffff;" class="fas fa-id-card"></i></div>
                                     <div class="details-text-class details-stateid" >CLM21795</div>
                                 </div>
+                                <div class="details-moneys-body-main" data-toggle="tooltip" title="Bank Account ID">
+                                    <div class="details-icon-class"><i style="color: #ffffff;" class="fas fa-university"></i></div>
+                                    <div class="details-text-class details-bankserial" >10285920</div>
+                                </div>
                                 <div class="details-moneys-body-main" data-toggle="tooltip" title="Phone Number">
-                                    <div class="details-icon-class"><i style="color: #9b5c83;" class="fas fa-mobile-alt"></i></div>
+                                    <div class="details-icon-class"><i style="color: #ffffff;" class="fas fa-mobile-alt"></i></div>
                                     <div class="details-text-class details-phone" >0901</div>
                                 </div>
-                                <div class="details-moneys-body-main" data-toggle="tooltip" title="Discord Link">
-                                    <div class="details-icon-class"><i style="color: #738ADB;" class="fab fa-discord"></i></div>
-                                    <div class="details-text-class discordhere">discord.gg/yourdiscord</div>
+                                <div class="details-moneys-body-main" data-toggle="tooltip" title="Wallet">
+                                    <div class="details-icon-class"><i style="color: #b3d78c;"  class="fas fa-wallet"></i></div>
+                                    <div class="details-text-class details-cashmoney">$0901</div>
+                                </div>
+                                <div class="details-moneys-body-main" data-toggle="tooltip" title="Personal Bank Balance">
+                                    <div class="details-icon-class"><i style="color: #52d3e1;" class="fas fa-piggy-bank"></i></div>
+                                    <div class="details-text-class details-bankmoney">$0901</div>
+                                </div>
+                                <div class="details-moneys-body-main" data-toggle="tooltip" title="Casino Balance">
+                                    <div class="details-icon-class"><i style="color: #fa4783;" class="fas fa-dice-three"></i></div>
+                                    <div class="details-text-class details-casinomoney">$0901</div>
                                 </div>
                             </div>
                         </div>
@@ -688,6 +692,13 @@
                         </div>
                     </div>
 
+                    <div class="job-app">
+                        <div class="job-header">
+                            <p>Job Center</p>
+                        </div>
+                        <div class="job-list">
+                        </div>
+                    </div>
 
                     <div class="jobcenter-app">
                         <div class="phone-menu-body" id="jobcenter-box-new-dashboard">
@@ -1239,23 +1250,6 @@
             <div class="call-notifications-content"><p>You have an incoming call from Test</p></div>
         </div>
 
-        <div class="publicphonebase">
-            <div class="publicphonebody">
-                <div class="publicphonechannelnumpad">
-                    <input id="publicphonechannelnumpad" name="publicphonechannelnumpad" type="number" placeholder="Phone Number">
-                </div>
-
-                <div class="publicphonebasebtn">
-                    <div class="publicphonecallbtn">
-                        Call
-                    </div>
-                    <div class="publicphoneclosebtn">
-                        Close
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- JavaScript File's -->
         <script src="./js/config.js"></script>
         <script src="./js/app.js"></script>
@@ -1278,6 +1272,7 @@
         <script src="./js/casino.js"></script>
         <script src="./js/ping.js"></script>
         <script src="./js/calculator.js"></script>
+        <script src="./js/jobcenter.js"></script>
         <script src="./js/groups.js"></script>
         <script src="./js/employment.js"></script>
         <script src="./js/debt.js"></script>
