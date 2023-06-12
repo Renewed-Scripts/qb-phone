@@ -71,9 +71,7 @@ QB.Phone.Functions.SetupApplications = function(data) {
 
 
             var icon = '<i class="ApplicationIcon '+app.icon+'" style="'+app.style+'"></i>';
-            if (app.app == "meos") {
-                icon = '<img src="./img/apps/politie.png" class="police-icon">';
-            } else if (app.app == "garage"){
+            if (app.app == "garage"){
                 icon = '<img src="./img/apps/garage_img.png" class="garage-icon">';
             } else if (app.app == "advert"){
                 icon = '<img src="./img/apps/Advertisements.png" class="advert-icon">';
@@ -211,8 +209,6 @@ $(document).on('click', '.phone-application', function(e){
                             });
                         }
                     });
-                } else if (PressedApplication == "meos") {
-                    SetupMeosHome();
                 } else if (PressedApplication == "taxi") {
                     $.post('https://qb-phone/GetAvailableTaxiDrivers', JSON.stringify({}), function(data){
                         SetupTaxiDrivers(data);
@@ -353,12 +349,6 @@ $(document).on('click', '.phone-tab-button', function(event){
                     CurrentTab = "accounts";
                 }, 400)
             }
-        } else if (QB.Phone.Data.currentApplication == "meos") {
-            $(".meos-alert-new").remove();
-            setTimeout(function(){
-                $(".meos-recent-alert").removeClass("noodknop");
-                $(".meos-recent-alert").css({"background-color":"#004682"});
-            }, 400)
         }
 
         QB.Phone.Data.currentApplication = null;
@@ -400,10 +390,6 @@ QB.Phone.Functions.Close = function() {
             OpenedChatPicture = null;
             QB.Phone.Data.currentApplication = null;
         }, 500)
-    } else if (QB.Phone.Data.currentApplication == "meos") {
-        $(".meos-alert-new").remove();
-        $(".meos-recent-alert").removeClass("noodknop");
-        $(".meos-recent-alert").css({"background-color":"#004682"});
     }
     $('.publicphonebase').css('display', 'none')
     QB.Phone.Animations.BottomSlideDown('.container', 500, -70);
@@ -688,7 +674,7 @@ QB.Screen.popUp = function(source){
     if(!up){
         $('#popup').fadeIn('slow');
         $('.popupclass').fadeIn('slow');
-        $('<img class="popupclass2" src='+source+'>').appendTo('.popupclass')
+        $('<img src='+source+' style="width:343px;">').appendTo('.popupclass')
         up = true
     }
 }

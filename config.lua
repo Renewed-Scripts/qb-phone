@@ -354,17 +354,6 @@ Config.PhoneApplications = {
         slot = 25,
         Alerts = 0,
     },
-    ["meos"] = {
-        app = "meos",
-        color = "#004682",
-        color2 = "#00325c",
-        icon = "fas fa-ad",
-        tooltipText = "MDT",
-        job = "police",
-        blockedjobs = {},
-        slot = 26,
-        Alerts = 0,
-    },
 }
 
 Config.MaxSlots = 28
