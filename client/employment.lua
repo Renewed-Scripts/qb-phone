@@ -138,28 +138,27 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    lib.callback('qb-phone:server:GetMyJobs', false, function(employees, myShit)
-        for k, _ in pairs(employees) do
-            for _, v in pairs(employees[k]) do
-                if not cachedEmployees[k] then cachedEmployees[k] = {} end
-                cachedEmployees[k][#cachedEmployees[k]+1] = {
-                    cid = v.cid,
-                    name = v.name,
-                    grade = tonumber(v.grade),
-                }
-            end
-            table.sort(cachedEmployees[k], function(a, b)
-                return a.grade > b.grade
-            end)
+    local employees, myShit = lib.callback.await('qb-phone:server:GetMyJobs', false)
+    for k, _ in pairs(employees) do
+        for _, v in pairs(employees[k]) do
+            if not cachedEmployees[k] then cachedEmployees[k] = {} end
+            cachedEmployees[k][#cachedEmployees[k]+1] = {
+                cid = v.cid,
+                name = v.name,
+                grade = tonumber(v.grade),
+            }
         end
+        table.sort(cachedEmployees[k], function(a, b)
+            return a.grade > b.grade
+        end)
+    end
 
 
-        if myShit then
-            for k, v in pairs(myShit) do
-                if QBCore.Shared.Jobs[k] and not myJobs[k] then myJobs[k] = v end
-            end
+    if myShit then
+        for k, v in pairs(myShit) do
+            if QBCore.Shared.Jobs[k] and not myJobs[k] then myJobs[k] = v end
         end
-    end)
+    end
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function() -- Reset all variables
