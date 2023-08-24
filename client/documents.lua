@@ -16,7 +16,7 @@ end)
 
 RegisterNUICallback('document_Send_Note', function(data, cb)
     if data.Type == 'LocalSend' then
-        local pID, playerPed, coords = lib.getClosestPlayer(GetEntityCoords(cache.ped), 2.5, false)
+        local pID, playerPed, coords = lib.getClosestPlayer(GetEntityCoords(cache.ped), 2.5)
         if pID ~= -1 then
             local PlayerId = GetPlayerServerId(pID)
             TriggerServerEvent("qb-phone:server:sendDocumentLocal", data, PlayerId)
