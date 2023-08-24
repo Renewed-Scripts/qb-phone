@@ -34,8 +34,6 @@ end)
 RegisterNUICallback('RemoveEmployee', function(data, cb)
     if not data or not data.job or not data.cid then return end
 
-
-
     TriggerServerEvent('qb-phone:server:fireUser', data.job, data.cid)
 
     cb("ok")
@@ -60,7 +58,6 @@ RegisterNUICallback('HireFucker', function(data, cb)
     if not data.job or not data.stateid or not data.grade then return end
 
     TriggerServerEvent('qb-phone:server:hireUser', data.job, data.stateid, data.grade)
-
     cb("ok")
 end)
 
@@ -114,32 +111,31 @@ end)
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         Wait(300)
-        lib.callback('qb-phone:server:GetMyJobs', false, function(employees, myShit)
-            for k, _ in pairs(employees) do
-                for _, v in pairs(employees[k]) do
-                    if not cachedEmployees[k] then cachedEmployees[k] = {} end
-                    cachedEmployees[k][#cachedEmployees[k]+1] = {
-                        cid = v.cid,
-                        name = v.name,
-                        grade = tonumber(v.grade),
-                    }
-                end
-                table.sort(cachedEmployees[k], function(a, b)
-                    return a.grade > b.grade
-                end)
-            end
 
+        local employees, myShit = lib.callback.await('qb-phone:server:GetMyJobs', false)
+        if not employees then print('qb-phone first start might be enabled on the server, disable it!') return end
 
-            if myShit then
-                for k, v in pairs(myShit) do
-                    if QBCore.Shared.Jobs[k] and not myJobs[k] then myJobs[k] = v end
-                end
+        for k, _ in pairs(employees) do
+            for _, v in pairs(employees[k]) do
+                if not cachedEmployees[k] then cachedEmployees[k] = {} end
+                cachedEmployees[k][#cachedEmployees[k]+1] = {
+                    cid = v.cid,
+                    name = v.name,
+                    grade = tonumber(v.grade),
+                }
             end
-        end)
+            table.sort(cachedEmployees[k], function(a, b)
+                return a.grade > b.grade
+            end)
+        end
+
+        if myShit then
+            for k, v in pairs(myShit) do
+                if QBCore.Shared.Jobs[k] and not myJobs[k] then myJobs[k] = v end
+            end
+        end
     end
 end)
-
-
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     lib.callback('qb-phone:server:GetMyJobs', false, function(employees, myShit)
