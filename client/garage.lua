@@ -17,9 +17,8 @@ end
 -- NUI Callback
 
 RegisterNUICallback('SetupGarageVehicles', function(_, cb)
-    lib.callback('qb-phone:server:GetGarageVehicles', false, function(vehicles)
-        cb(vehicles)
-    end)
+    local vehicles = lib.callback.await('qb-phone:server:GetGarageVehicles', false)
+    cb(vehicles)
 end)
 
 RegisterNUICallback('gps-vehicle-garage', function(data, cb)

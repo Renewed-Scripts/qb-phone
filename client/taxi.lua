@@ -1,7 +1,6 @@
 RegisterNUICallback('GetAvailableTaxiDrivers', function(_, cb)
-    lib.callback('qb-phone:server:GetAvailableTaxiDrivers', false, function(drivers)
-        cb(drivers)
-    end)
+    local drivers = lib.callback.await('qb-phone:server:GetAvailableTaxiDrivers', false)
+    cb(drivers)
 end)
 
 RegisterNetEvent('qb-phone:OpenAvailableTaxi', function()

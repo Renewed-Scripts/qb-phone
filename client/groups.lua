@@ -76,9 +76,8 @@ RegisterNetEvent("groups:createBlip", function(name, data)
 end)
 
 RegisterNUICallback('GetGroupsApp', function (_, cb)
-    lib.callback('qb-phone:server:getAllGroups', false, function (getGroups)
-        cb(getGroups)
-    end)
+    local getGroups = lib.callback.await('qb-phone:server:getAllGroups', false)
+    cb(getGroups)
 end)
 
 RegisterNetEvent('qb-phone:client:RefreshGroupsApp', function(Groups, finish)
@@ -126,7 +125,6 @@ end)
 
 
 RegisterNUICallback('jobcenter_CheckPlayerNames', function(data, cb) --employment
-    lib.callback('qb-phone:server:jobcenter_CheckPlayerNames', false, function(HasName)
-        cb(HasName)
-    end, data.id)
+    local HasName = lib.callback.await('qb-phone:server:jobcenter_CheckPlayerNames', false, data.id)
+    cb(HasName)
 end)
