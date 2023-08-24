@@ -70,7 +70,7 @@ RegisterNetEvent('qb-phone:client:UpdateAdverts', function(Adverts, LastAd, src)
     })
 
     if not LastAd or not src then return end
-    if GetPlayerServerId(PlayerId()) == src then return end
+    if GetPlayerServerId(cache.ped) == src then return end
 
     TriggerEvent('qb-phone:client:CustomNotification',
         "Advertisement",
