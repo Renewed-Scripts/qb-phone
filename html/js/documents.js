@@ -79,10 +79,10 @@ function AddDocuments(data){
     DocEndcitizenid = null
 
     for (const [k, v] of Object.entries(data)) {
-        var firstLetter = v.title.substring(0, 1);  
+        var firstLetter = v.title.substring(0, 1);
         var Fulltext = firstLetter.toUpperCase()+(v.title).replace(firstLetter,'')
-        
-        var AddOption = '<div class="documents-test">' + 
+
+        var AddOption = '<div class="documents-test">' +
             '<div class="documents-title-title">'+Fulltext+'</div>' +
             '<div class="documents-title-icon" data-title="'+v.title+'" data-text="'+v.text+'" data-id="'+v.id+'" data-csn="'+v.citizenid+'"><i class="fas fa-eye"></i></div>'+
         '</div>';
@@ -122,7 +122,7 @@ function SendDocument(title, text){
     DocEndcitizenid = $(this).data('csn')
 
     var AddOption = `
-    <div class="document-body-class-body-main">'+
+    <div class="document-body-class-body-main">
         <div id="documents-textarea-new" spellcheck="false" required placeholder="Text" maxlength="4000">${DocEndtext}</div>
     </div>`;
 
@@ -186,17 +186,17 @@ $(document).on('click', '#documents-vehicle', function(e) {
                         DocEndtext = null
                         DocEndid = null
                         DocEndcitizenid = null
-        
-                        var firstLetter = vehicle.fullname.substring(0, 1);  
+
+                        var firstLetter = vehicle.fullname.substring(0, 1);
                         var Fulltext = firstLetter.toUpperCase()+(vehicle.fullname).replace(firstLetter,'')
                         var FirstName = QB.Phone.Data.PlayerData.charinfo.firstname;
                         var LastName = QB.Phone.Data.PlayerData.charinfo.lastname;
-                
-                        var AddOption = '<div class="documents-test">' + 
+
+                        var AddOption = '<div class="documents-test">' +
                             '<div class="documents-title-title">'+Fulltext+'</div>' +
                             '<div class="documents-title-icon-registration" data-title="'+vehicle.fullname+'" data-text="<b><center><u>San Andreas DMV</u></b></center><p><p><b>Name: </b>'+vehicle.brand+'</p></p><p><b>Model: </b>'+vehicle.model+'</p><p><b>Plate: </b>'+vehicle.plate+'</p><p><b>Owner: </b>'+FirstName+' '+LastName+'</p><p><b><center>Official State Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>'+
                         '</div>';
-                
+
                         $('.documents-list').append(AddOption);
                     }
             });
@@ -227,15 +227,15 @@ $(document).on('click', '#documents-licenses', function(e) {
     if (PlayerLicenses){
         for (const [k, v] of Object.entries(PlayerLicenses)) {
             if (v){
-                var firstLetter = k.substring(0, 1);  
+                var firstLetter = k.substring(0, 1);
                 var Fulltext = firstLetter.toUpperCase()+k.replace(firstLetter,'')+" License"
-        
+
                 var AddOption = `
                 <div class="documents-test">
                     <div class="documents-title-title">${Fulltext}</div>
                     <div class="documents-title-icon-registration" data-title=${Fulltext} data-text="<b><u>Issued To</u></b><p><p><b>Name: </b>${FirstName} ${LastName}</p></p></b><p><b>ID: </b>${StateId}</p></b><p><b>Sex: </b>${label}</p></b><p><b><u>Issued By</u></b></p><p><b>Name: </b>State Account</p><p><b><center>Official Document Of San Andreas</p></b></center>"><i class="fas fa-eye"></i></div>
                 </div>`
-        
+
                 $('.documents-list').append(AddOption);
             }
         }
