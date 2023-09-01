@@ -621,6 +621,7 @@ RegisterNUICallback("TakePhoto", function(_, cb)
             break
         elseif IsControlJustPressed(1, 176) then
             local hook = lib.callback.await('qb-phone:server:GetWebhook', false)
+            if not hook then print('you are missing the webhook in the config, images will not save. report to a developer asap') return end
             QBCore.Functions.Notify('Touching up photo...', 'primary')
             exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function(uploadData)
                 local image = json.decode(uploadData)
