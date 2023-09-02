@@ -284,6 +284,16 @@ This is pretty much everything to do with setting up the phone. If you encounter
         </p>
 </details>
 
+<details>
+    <summary><b>xThrasherrr</b></summary>
+        <p>
+            <a href="https://github.com/xThrasherrr">
+                <img alt="GitHub" src="https://logos-world.net/wp-content/uploads/2020/11/GitHub-Emblem.png"
+                width="150" height="70">
+            </a>
+        </p>
+</details>
+
 ##### Other Other Other Other Contributors
 
 <details>
