@@ -23,9 +23,8 @@ RegisterNUICallback('CasinoDeleteTable', function(_, cb)
 end)
 
 RegisterNUICallback('CheckHasBetTable', function(_, cb)
-    lib.callback('qb-phone:server:CheckHasBetTable', false, function(HasTable)
-        cb(HasTable)
-    end)
+    local HasTable = lib.callback.await('qb-phone:server:CheckHasBetTable', false)
+    cb(HasTable)
 end)
 
 RegisterNUICallback('casino_status', function(_, cb)
@@ -34,9 +33,8 @@ RegisterNUICallback('casino_status', function(_, cb)
 end)
 
 RegisterNUICallback('CheckHasBetStatus', function(_, cb)
-    lib.callback('qb-phone:server:CheckHasBetStatus', false, function(HasStatus)
-        cb(HasStatus)
-    end)
+    local HasStatus = lib.callback.await('qb-phone:server:CheckHasBetStatus', false)
+    cb(HasStatus)
 end)
 
 RegisterNUICallback('WineridCasino', function(data, cb)

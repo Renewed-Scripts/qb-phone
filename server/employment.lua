@@ -25,11 +25,14 @@ CreateThread(function()
     ---- Convertion Tool I guess LOL ----
     if not FirstStart then return end
     while not QBCore do Wait(25) end
+
     for k, _ in pairs(QBCore.Shared.Jobs) do
         if k ~= 'unemployed' then
             if not CachedJobs[k] then CachedJobs[k] = {} end
 
+            local jobCheck = MySQL.query.await('SELECT * FROM player_jobs WHERE jobname = ?', { k })
             local players = MySQL.query.await("SELECT * FROM `players` WHERE `job` LIKE '%".. k .."%'", {})
+
             if players[1] then
                 for _, v in pairs(players) do
                     if v.job then
@@ -40,7 +43,6 @@ CreateThread(function()
                         if grade and QBCore.Shared.Jobs[k].grades and QBCore.Shared.Jobs[k].grades[tostring(grade)] and v.citizenid and v.charinfo and FirstName and LastName then
                             if not CachedJobs[k].employees then CachedJobs[k].employees = {} end
                             if not CachedJobs[k].employees[v.citizenid] then
-
                                 CachedJobs[k].employees[v.citizenid] = {
                                     cid = v.citizenid,
                                     grade = json.decode(v.job).grade.level,
@@ -51,15 +53,24 @@ CreateThread(function()
                     end
                 end
 
-                MySQL.insert('INSERT INTO player_jobs (`jobname`, `employees`) VALUES (?, ?)', {
-                    k,
-                    json.encode(CachedJobs[k].employees)
-                })
+                if not jobCheck[1] then -- Create job w/ employees if non-existent
+                    MySQL.insert('INSERT INTO player_jobs (`jobname`, `employees`) VALUES (?, ?)', {
+                        k,
+                        json.encode(CachedJobs[k].employees)
+                    })
+                else -- Update employees if job exist
+                    MySQL.update('UPDATE player_jobs SET employees = ? WHERE jobname = ?', {
+                        json.encode(CachedJobs[k].employees),
+                        k
+                    })
+                end
             else
-                MySQL.insert('INSERT INTO player_jobs (`jobname`, `employees`) VALUES (?, ?)', {
-                    k,
-                    json.encode({})
-                })
+                if not jobCheck[1] then -- Create job w/o employees if it does not exist
+                    MySQL.insert('INSERT INTO player_jobs (`jobname`, `employees`) VALUES (?, ?)', {
+                        k,
+                        json.encode({})
+                    })
+                end
             end
             Wait(10)
         end
@@ -280,10 +291,9 @@ lib.callback.register("qb-phone:server:GetMyJobs", function(source)
     if FirstStart then return end
     local Player = QBCore.Functions.GetPlayer(source)
 
-    if not Player then return cb(nil, nil) end
+    if not Player then return end
 
     local job = Player.PlayerData.job.name
-
     local CID = Player.PlayerData.citizenid
     local employees
     CachedPlayers[CID], employees = getJobs(CID)
@@ -292,7 +302,6 @@ lib.callback.register("qb-phone:server:GetMyJobs", function(source)
     if not CachedPlayers[CID][job] then
         Player.Functions.SetJob("unemployed", 0)
     end
-
 
     return employees, CachedPlayers[CID]
 end)

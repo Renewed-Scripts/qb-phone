@@ -116,97 +116,96 @@ exports.ox_target:addModel(PublicPhoneobject, {
 
 
 local function LoadPhone()
-    lib.callback('qb-phone:server:GetPhoneData', false, function(pData)
-
-        -- Should fix errors with phone not loading correctly --
-        while pData == nil do Wait(25) end
-
-        PhoneData.PlayerData = PlayerData
-        local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
-        PhoneData.MetaData = PhoneMeta
-
-        PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture or "default"
-
-        if pData.PlayerContacts and next(pData.PlayerContacts) then
-            PhoneData.Contacts = pData.PlayerContacts
-        end
-
-        if pData.Chats and next(pData.Chats) then
-            local Chats = {}
-            for _, v in pairs(pData.Chats) do
-                Chats[v.number] = {
-                    name = IsNumberInContacts(v.number),
-                    number = v.number,
-                    messages = json.decode(v.messages)
-                }
-            end
-
-            PhoneData.Chats = Chats
-        end
-
-        if pData.Hashtags and next(pData.Hashtags) then
-            PhoneData.Hashtags = pData.Hashtags
-        end
-
-        if pData.Invoices and next(pData.Invoices) then
-            for _, v in pairs(pData.Invoices) do
-                PhoneData.Invoices[#PhoneData.Invoices+1] = {
-                    id = v.id,
-                    citizenid = QBCore.Functions.GetPlayerData().citizenid,
-                    sender = v.name,
-                    society = v.job,
-                    sendercitizenid = v.senderCID,
-                    amount = v.amount
-                }
-            end
-        end
-
-        if pData.Tweets and next(pData.Tweets) then
-            PhoneData.Tweets = pData.Tweets
-        end
-
-        if pData.Documents and next(pData.Documents) then
-            PhoneData.Documents = pData.Documents
-        end
-
-        if pData.Mails and next(pData.Mails) then
-            for _, v in pairs(pData.Mails) do
-                PhoneData.Mails[#PhoneData.Mails+1] = {
-                    citizenid = v.citizenid,
-                    sender = v.sender,
-                    subject = v.subject,
-                    message = v.message,
-                    read = v.read,
-                    mailid = v.mailId,
-                    date = v.date,
-                    button = type(v.button) == "string" and json.decode(v.button) or v.button
-                }
-            end
-        end
-
-        if pData.Adverts and next(pData.Adverts) then
-            PhoneData.Adverts = pData.Adverts
-        end
-
-
-        if pData.Images and next(pData.Images) then
-            PhoneData.Images = pData.Images
-        end
-
-        if pData.ChatRooms ~= nil and next(pData.ChatRooms) ~= nil then
-            PhoneData.ChatRooms = pData.ChatRooms
-        end
-
-        SendNUIMessage({
-            action = "LoadPhoneData",
-            PhoneData = PhoneData,
-            PlayerData = PlayerData,
-            PlayerJob = PlayerData,
-            PhoneJobs = QBCore.Shared.Jobs,
-            applications = Config.PhoneApplications,
-            PlayerId = GetPlayerServerId(PlayerId())
-        })
+    -- Should fix errors with phone not loading correctly --
+    local pData = lib.waitFor(function()
+        return lib.callback.await('qb-phone:server:GetPhoneData', false)
     end)
+
+    PhoneData.PlayerData = PlayerData
+    local PhoneMeta = PhoneData.PlayerData.metadata["phone"]
+    PhoneData.MetaData = PhoneMeta
+
+    PhoneData.MetaData.profilepicture = PhoneMeta.profilepicture or "default"
+
+    if pData.PlayerContacts and next(pData.PlayerContacts) then
+        PhoneData.Contacts = pData.PlayerContacts
+    end
+
+    if pData.Chats and next(pData.Chats) then
+        local Chats = {}
+        for _, v in pairs(pData.Chats) do
+            Chats[v.number] = {
+                name = IsNumberInContacts(v.number),
+                number = v.number,
+                messages = json.decode(v.messages)
+            }
+        end
+
+        PhoneData.Chats = Chats
+    end
+
+    if pData.Hashtags and next(pData.Hashtags) then
+        PhoneData.Hashtags = pData.Hashtags
+    end
+
+    if pData.Invoices and next(pData.Invoices) then
+        for _, v in pairs(pData.Invoices) do
+            PhoneData.Invoices[#PhoneData.Invoices+1] = {
+                id = v.id,
+                citizenid = QBCore.Functions.GetPlayerData().citizenid,
+                sender = v.name,
+                society = v.job,
+                sendercitizenid = v.senderCID,
+                amount = v.amount
+            }
+        end
+    end
+
+    if pData.Tweets and next(pData.Tweets) then
+        PhoneData.Tweets = pData.Tweets
+    end
+
+    if pData.Documents and next(pData.Documents) then
+        PhoneData.Documents = pData.Documents
+    end
+
+    if pData.Mails and next(pData.Mails) then
+        for _, v in pairs(pData.Mails) do
+            PhoneData.Mails[#PhoneData.Mails+1] = {
+                citizenid = v.citizenid,
+                sender = v.sender,
+                subject = v.subject,
+                message = v.message,
+                read = v.read,
+                mailid = v.mailId,
+                date = v.date,
+                button = type(v.button) == "string" and json.decode(v.button) or v.button
+            }
+        end
+    end
+
+    if pData.Adverts and next(pData.Adverts) then
+        PhoneData.Adverts = pData.Adverts
+    end
+
+
+    if pData.Images and next(pData.Images) then
+        PhoneData.Images = pData.Images
+    end
+
+    if pData.ChatRooms ~= nil and next(pData.ChatRooms) ~= nil then
+        PhoneData.ChatRooms = pData.ChatRooms
+    end
+
+    SendNUIMessage({
+        action = "LoadPhoneData",
+        PhoneData = PhoneData,
+        PlayerData = PlayerData,
+        PlayerJob = PlayerData,
+        PhoneJobs = QBCore.Shared.Jobs,
+        applications = Config.PhoneApplications,
+        PlayerId = GetPlayerServerId(PlayerId())
+    })
 end
 
 local function DisableDisplayControlActions()
@@ -550,9 +549,8 @@ RegisterNUICallback('UpdateProfilePicture', function(data, cb)
 end)
 
 RegisterNUICallback('FetchSearchResults', function(data, cb)
-    lib.callback('qb-phone:server:FetchResult', false, function(result)
-        cb(result)
-    end, data.input)
+    local result = lib.callback.await('qb-phone:server:FetchResult', false, data.input)
+    cb(result)
 end)
 
 RegisterNUICallback('DeleteContact', function(data, cb)
@@ -595,17 +593,16 @@ RegisterNUICallback('ClearGeneralAlerts', function(data, cb)
 end)
 
 RegisterNUICallback('CallContact', function(data, cb)
-    lib.callback('qb-phone:server:GetCallState', false, function(CanCall, IsOnline)
-        local status = {
-            CanCall = CanCall,
-            IsOnline = IsOnline,
-            InCall = PhoneData.CallData.InCall,
-        }
-        cb(status)
-        if CanCall and not status.InCall then
-            CallContact(data.ContactData, data.Anonymous)
-        end
-    end, data.ContactData)
+    local CanCall, IsOnline = lib.callback.await('qb-phone:server:GetCallState', false, data.ContactData)
+    local status = {
+        CanCall = CanCall,
+        IsOnline = IsOnline,
+        InCall = PhoneData.CallData.InCall,
+    }
+    cb(status)
+    if CanCall and not status.InCall then
+        CallContact(data.ContactData, data.Anonymous)
+    end
 end)
 
 RegisterNUICallback("TakePhoto", function(_, cb)
@@ -623,19 +620,19 @@ RegisterNUICallback("TakePhoto", function(_, cb)
             OpenPhone()
             break
         elseif IsControlJustPressed(1, 176) then
-            lib.callback("qb-phone:server:GetWebhook", false, function(hook)
-                QBCore.Functions.Notify('Touching up photo...', 'primary')
-                exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function(uploadData)
-                    local image = json.decode(uploadData)
-                    DestroyMobilePhone()
-                    CellCamActivate(false, false)
-                    TriggerServerEvent('qb-phone:server:addImageToGallery', image.attachments[1].proxy_url)
-                    Wait(400)
-                    TriggerServerEvent('qb-phone:server:getImageFromGallery')
-                    cb(json.encode(image.attachments[1].proxy_url))
-                    QBCore.Functions.Notify('Photo saved!', "success")
-                    OpenPhone()
-                end)
+            local hook = lib.callback.await('qb-phone:server:GetWebhook', false)
+            if not hook then print('you are missing the webhook in the config, images will not save. report to a developer asap') return end
+            QBCore.Functions.Notify('Touching up photo...', 'primary')
+            exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), "files[]", function(uploadData)
+                local image = json.decode(uploadData)
+                DestroyMobilePhone()
+                CellCamActivate(false, false)
+                TriggerServerEvent('qb-phone:server:addImageToGallery', image.attachments[1].proxy_url)
+                Wait(400)
+                TriggerServerEvent('qb-phone:server:getImageFromGallery')
+                cb(json.encode(image.attachments[1].proxy_url))
+                QBCore.Functions.Notify('Photo saved!', "success")
+                OpenPhone()
             end)
             break
         end
@@ -930,14 +927,13 @@ RegisterNUICallback('CanTransferMoney', function(data, cb)
     local amount = tonumber(data.amountOf)
     local iban = data.sendTo
     if (PlayerData.money.bank - amount) >= 0 then
-        lib.callback('qb-phone:server:CanTransferMoney', false, function(Transferd)
-            if Transferd then
-                cb({TransferedMoney = true, NewBalance = (PlayerData.money.bank - amount)})
-            else
-		SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { timeout=3000, title = "Bank", text = "Account does not exist!", icon = "fas fa-university", color = "#ff0000", }, })
-                cb({TransferedMoney = false})
-            end
-        end, amount, iban)
+        local Transferd = lib.callback.await('qb-phone:server:CanTransferMoney', false, amount, iban)
+        if Transferd then
+            cb({TransferedMoney = true, NewBalance = (PlayerData.money.bank - amount)})
+        else
+            SendNUIMessage({ action = "PhoneNotification", PhoneNotify = { timeout=3000, title = "Bank", text = "Account does not exist!", icon = "fas fa-university", color = "#ff0000", }, })
+            cb({TransferedMoney = false})
+        end
     else
         cb({TransferedMoney = false})
     end
@@ -978,9 +974,9 @@ RegisterNetEvent('qb-phone:client:RemoveBankMoney', function(amount)
 end)
 
 RegisterNetEvent('qb-phone:client:GiveContactDetails', function()
-    local player, distance = QBCore.Functions.GetClosestPlayer()
-    if player ~= -1 and distance < 2.5 then
-        local PlayerId = GetPlayerServerId(player)
+    local pID, playerPed, coords = lib.getClosestPlayer(GetEntityCoords(cache.ped), 2.5)
+    if pID ~= -1 then
+        local PlayerId = GetPlayerServerId(pID)
         TriggerServerEvent('qb-phone:server:GiveContactDetails', PlayerId)
     else
         QBCore.Functions.Notify("No one nearby!", "error")

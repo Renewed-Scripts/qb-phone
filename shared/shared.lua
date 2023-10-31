@@ -3,18 +3,11 @@ QBCore = exports['qb-core']:GetCoreObject()
 local phoneProp = 0
 local phoneModel = joaat("prop_npc_phone_02")
 
-function LoadAnimation(dict)
-	RequestAnimDict(dict)
-	while not HasAnimDictLoaded(dict) do
-		Wait(1)
-	end
-end
-
 function CheckAnimLoop()
     CreateThread(function()
         while PhoneData.AnimationData.lib and PhoneData.AnimationData.anim do
             if not IsEntityPlayingAnim(cache.ped, PhoneData.AnimationData.lib, PhoneData.AnimationData.anim, 3) then
-                LoadAnimation(PhoneData.AnimationData.lib)
+				lib.requestAnimDict(PhoneData.AnimationData.lib)
                 TaskPlayAnim(cache.ped, PhoneData.AnimationData.lib, PhoneData.AnimationData.anim, 3.0, 3.0, -1, 50, 0, false, false, false)
             end
             Wait(500)
@@ -24,10 +17,7 @@ end
 
 function newPhoneProp()
 	deletePhone()
-	RequestModel(phoneModel)
-	while not HasModelLoaded(phoneModel) do
-		Wait(1)
-	end
+	lib.requestModel(phoneModel)
 	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, true, true, false)
 	local bone = GetPedBoneIndex(cache.ped, 28422)
 	if phoneModel == joaat("prop_cs_phone_01") then
@@ -50,7 +40,7 @@ function DoPhoneAnimation(anim)
     if cache.vehicle then
         AnimationLib = 'anim@cellphone@in_car@ps'
     end
-    LoadAnimation(AnimationLib)
+	lib.requestAnimDict(AnimationLib)
     TaskPlayAnim(cache.ped, AnimationLib, AnimationStatus, 3.0, 3.0, -1, 50, 0, false, false, false)
     PhoneData.AnimationData.lib = AnimationLib
     PhoneData.AnimationData.anim = AnimationStatus
