@@ -409,7 +409,7 @@ RegisterCommand('phone', function()
 end) RegisterKeyMapping('phone', 'Open Phone', 'keyboard', 'M')
 
 RegisterCommand("+answer", function()
-    if ((PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing") and not (PhoneData.CallData.CallType == "ongoing")) then
+    if (PhoneData.CallData.CallType == "incoming" or PhoneData.CallData.CallType == "outgoing") and PhoneData.CallData.CallType ~= "ongoing" then
         if not PlayerData.metadata['ishandcuffed'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['isdead'] and not IsPauseMenuActive() and hasPhone() then
             AnswerCall()
         else
