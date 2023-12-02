@@ -116,8 +116,8 @@ RegisterNetEvent('qb-phone:server:fireUser', function(Job, sCID)
 
     local grade = tostring(CachedJobs[Job].employees[srcCID].grade)
     if not QBCore.Shared.Jobs[Job].grades[grade].isboss then return end
-
-    if CachedJobs[Job].employees[srcCID].grade < CachedJobs[Job].employees[CID].grade then return end
+    -- for some reason the line next doesnt like being compared to each other even tho they are both numbers so i had to use tonumber
+    if CachedJobs[Job].employees[srcCID].grade < tonumber(CachedJobs[Job].employees[CID].grade) then return end
 
 
     CachedJobs[Job].employees[CID] = nil
