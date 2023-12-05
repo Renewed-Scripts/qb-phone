@@ -738,7 +738,7 @@ RegisterNetEvent('qb-phone:client:GetCalled', function(CallerNumber, CallId, Ano
                 if RepeatCount + 1 ~= Config.CallRepeats + 1 then
                     if PhoneData.CallData.InCall then
                         RepeatCount = RepeatCount + 1
-                        TriggerServerEvent("InteractSound_SV:PlayOnSource", "ringing", CallVolume)
+                        TriggerServerEvent("qb-phone:server:BroadcastRing", GetEntityCoords(PlayerPedId()), CallVolume)
 
                         if not PhoneData.isOpen then
                             SendNUIMessage({
