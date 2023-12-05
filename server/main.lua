@@ -277,3 +277,18 @@ RegisterNetEvent('qb-phone:server:SaveMetaData', function(MData)
 
     Player.Functions.SetMetaData("phone", MData)
 end)
+
+RegisterServerEvent('qb-phone:server:BroadcastRing')
+AddEventHandler('qb-phone:server:BroadcastRing', function(coords, maxVolume)
+    local src = source
+    local players = QBCore.Functions.GetPlayers()
+    local maxDistance = 20.0
+
+    for _, player in ipairs(players) do
+        local dist = #(GetEntityCoords(GetPlayerPed(player)) - vector3(coords.x, coords.y, coords.z))
+        if dist <= maxDistance then
+            local volume = maxVolume * ((maxDistance - dist) / maxDistance)
+            TriggerClientEvent("InteractSound_CL:PlayOnOne", player, "ringing", volume)
+        end
+    end
+end)
