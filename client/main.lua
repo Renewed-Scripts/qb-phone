@@ -144,9 +144,9 @@ local function LoadPhone()
                 PhoneData.Invoices[#PhoneData.Invoices+1] = {
                     id = v.id,
                     citizenid = QBCore.Functions.GetPlayerData().citizenid,
-                    sender = v.name,
-                    society = v.job,
-                    sendercitizenid = v.senderCID,
+                    sender = v.sender,
+                    society = v.society,
+                    sendercitizenid = v.sendercitizenid,
                     amount = v.amount
                 }
             end
